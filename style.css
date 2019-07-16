@@ -1,0 +1,101 @@
+body {
+    background-color: #875d33;
+}
+
+div.head {
+    height: 100px;
+    margin-bottom: 20px;
+    background-image: url(images/11Q20.png);
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-color: antiquewhite;
+}
+
+.head::before {
+    content: "Hexapla";
+    font-size: 2em;
+    display: block;
+    font-weight: bold;
+    font-family: 'Droid Serif',serif;
+    padding: 15px;
+}
+
+div.wrap {
+    width: 800px;
+    position: relative;
+    margin: auto;
+}
+
+div.adminwrap {
+    width: 100%;
+    background-color: #f9f3eb;
+    padding: 10px;
+}
+
+.adminwrap form, .adminwrap table {
+    width: 100%;
+}
+
+.textin {
+    width: 150px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 200px;
+}
+
+.navbar, .subnav {
+    background-color: #eddcc4;
+}
+
+.navbar {
+    width: 100%;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.topnav, .subnav {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar li {
+    padding: 5px;
+}
+
+.navbar li:hover {
+    background-color: #f3e7d8;
+}
+
+.navbar a {
+    text-decoration: none !important;
+    color: #000;
+}
+
+.topnav > li {
+    display: inline-block;
+    height: 18px;
+    margin: auto;
+}
+
+.subnav > li {
+    display: block;
+    clear: both;
+    padding: 5px;
+    position: relative;
+}
+
+.subnav {
+    display: none;
+    z-index: 1;
+    position: absolute;
+    top: 28px;
+    margin-left: -5px;
+}
+
+.show {
+    display: block;
+}
