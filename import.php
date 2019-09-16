@@ -13,7 +13,7 @@ function importText($csvFile, $method, $version) {
             // needs interpretation
             $cmd = escapeshellcmd('hexapla/strong_interpreter.py ' . $version . ' ' . $csvFile);
             $output = shell_exec($cmd);
-            return importText($output. 1, $version);
+            return importText($output, 1, $version);
     }
 }
 
@@ -43,7 +43,7 @@ function importPyStyle($csvFile) {
         }
 
         $sql = "INSERT INTO `` VALUES($text, $version, $division, $chapter, $verse, $placement, $strong, $value)";
-        $db->query($sql);
+        pg_query($db, $sql);
     }
 
     fclose($handle);

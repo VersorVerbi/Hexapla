@@ -1,37 +1,30 @@
 <?php
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
 include "dbconnect.php";
 
 $db = getDbConnection();
 
-$q = $db->query("Call GetSectionsAndSubsections();");
-$ss = $q->fetch_all(MYSQLI_NUM);
-do {} while ($db->next_result());
+$q = pg_query($db, "Call GetSectionsAndSubsections();");
+$ss = pg_fetch_all($q, PGSQL_NUM);
 
-$q = $db->query("Call DocGroupList();");
-$dg = $q->fetch_all(MYSQLI_NUM);
-do {} while ($db->next_result());
+$q = pg_query($db, "Call DocGroupList();");
+$dg = pg_fetch_all($q, PGSQL_NUM);
 
-$q = $db->query("Call DocGroupDetails();");
-$dd = $q->fetch_all(MYSQLI_NUM);
-do {} while ($db->next_result());
+$q = pg_query($db, "Call DocGroupDetails();");
+$dd = pg_fetch_all($q, PGSQL_NUM);
 
-$q = $db->query("Call DocList();");
-$dl = $q->fetch_all(MYSQLI_NUM);
-do {} while ($db->next_result());
+$q = pg_query($db, "Call DocList();");
+$dl = pg_fetch_all($q, PGSQL_NUM);
 
-$q = $db->query("Call AllTranslations();");
-$ts = $q->fetch_all(MYSQLI_NUM);
-do {} while ($db->next_result());
+$q = pg_query($db, "Call AllTranslations();");
+$ts = pg_fetch_all($q, PGSQL_NUM);
 
 ?>
 
-<HTML>
+<HTML lang="en">
     <HEAD>
         <TITLE>Advanced Search</TITLE>
-        <link type="text/css" rel="stylesheet" href="mainstyle.css" />
+        <link type="text/css" rel="stylesheet" href="style/mainstyle.css" />
     </HEAD>
     <BODY>
         <?php include "menu.php"; ?>
@@ -42,7 +35,7 @@ do {} while ($db->next_result());
                     <!-- quicksearch option? -->
                     
                     <!-- book filter/sorter -->
-                    <input type="radio" name="docOpt" id="allDocs" checked="true" onclick="getBooks();" /><label for="allDocs">All documents</label>
+                    <input type="radio" name="docOpt" id="allDocs" checked="checked" onclick="getBooks();" /><label for="allDocs">All documents</label>
                     <input type="radio" name="docOpt" id="group" onclick="getBooks();" />
                     <label for="group">
                         Documents by group:
@@ -92,40 +85,40 @@ do {} while ($db->next_result());
         </DIV>
         <!-- javascript -->
         <script type="text/javascript">
-            var ss = new Array();
+            let ss = [];
             <?php foreach ($ss as $i => $s) { ?>
-                ss[<?php echo $i; ?>] = new Array();
+                ss[<?php echo $i; ?>] = [];
                 ss[<?php echo $i; ?>].push(<?php echo $s[0]; ?>);
                 ss[<?php echo $i; ?>].push(<?php echo $s[1]; ?>);
                 ss[<?php echo $i; ?>].push(<?php echo $s[2]; ?>);
             <?php } ?>
             
-            var dg = new Array();
+            let dg = [];
             <?php foreach ($dg as $i => $g) { ?>
-                dg[<?php echo $i; ?>] = new Array();
+                dg[<?php echo $i; ?>] = [];
                 dg[<?php echo $i; ?>].push(<?php echo $g[0]; ?>);
                 dg[<?php echo $i; ?>].push("<?php echo $g[1]; ?>");
             <?php } ?>
             
-            var dd = new Array();
+            let dd = [];
             <?php foreach ($dd as $i => $e) { ?>
-                dd[<?php echo $i; ?>] = new Array();
+                dd[<?php echo $i; ?>] = [];
                 dd[<?php echo $i; ?>].push(<?php echo $e[0]; ?>);
                 dd[<?php echo $i; ?>].push(<?php echo $e[1]; ?>);
                 dd[<?php echo $i; ?>].push(<?php echo $e[2]; ?>);
             <?php } ?>
             
-            var dl = new Array();
+            let dl = [];
             <?php foreach ($dl as $i => $d) { ?>
-                dl[<?php echo $i; ?>] = new Array();
+                dl[<?php echo $i; ?>] = [];
                 dl[<?php echo $i; ?>].push(<?php echo $d[0]; ?>);
                 dl[<?php echo $i; ?>].push("<?php echo $d[1]; ?>");
                 dl[<?php echo $i; ?>].push(<?php echo $d[2]; ?>);
             <?php } ?>
             
-            var ts = new Array();
+            let ts = [];
             <?php foreach ($ts as $i => $t) { ?>
-                ts[<?php echo $i; ?>] = new Array();
+                ts[<?php echo $i; ?>] = [];
                 ts[<?php echo $i; ?>].push(<?php echo $t[0]; ?>);
                 ts[<?php echo $i; ?>].push("<?php echo $t[1]; ?>");
                 ts[<?php echo $i; ?>].push(<?php echo $t[2]; ?>);
@@ -133,14 +126,14 @@ do {} while ($db->next_result());
                 ts[<?php echo $i; ?>].push(new Date("<?php echo $t[4]; ?>"));
             <?php } ?>
             
-            var book;
-            var section;
-            var sectionCount;
-            var subCount;
-            var startSub;
+            let book;
+            let section;
+            let sectionCount;
+            let subCount;
+            let startSub;
             
             function getIndexOf(haystack, needle, startIndex) {
-                for (var i = startIndex; i < haystack.length; i++) {
+                for (let i = startIndex; i < haystack.length; i++) {
                     if (haystack[i][0] == needle) {
                         return i;
                     }
@@ -149,8 +142,8 @@ do {} while ($db->next_result());
             }
             
             function getLastIndexOf(haystack, needle, startIndex) {
-                var found = false;
-                for (var i = startIndex; i < haystack.length; i++) {
+                let found = false;
+                for (let i = startIndex; i < haystack.length; i++) {
                     if (!found) {
                         if (haystack[i][0] == needle) {
                             found = true;
@@ -170,9 +163,9 @@ do {} while ($db->next_result());
             }
             
             function getSubIndexOf(haystack, needle1, needle2, startIndex) {
-                for (var i = startIndex; i < haystack.length; i++) {
+                for (let i = startIndex; i < haystack.length; i++) {
                     if (haystack[i][0] == needle1) {
-                        var j = i;
+                        let j = i;
                         do {
                             if (haystack[j][1] == needle2) {
                                 return j;
@@ -189,63 +182,63 @@ do {} while ($db->next_result());
             }
             
             function getSections() {
-                var lastSection = getLastIndexOf(ss, book, 0);
+                let lastSection = getLastIndexOf(ss, book, 0);
                 sectionCount = ss[lastSection][1];
-                var sectionSelector = document.getElementById("section");
+                let sectionSelector = document.getElementById("section");
                 
-                var blank = document.createElement("option");
+                let blank = document.createElement("option");
                 blank.value = -1;
                 sectionSelector.appendChild(blank);
                 
-                for (var i = 1; i <= sectionCount; i++) {
-                    var opt = document.createElement("option");
+                for (let i = 1; i <= sectionCount; i++) {
+                    let opt = document.createElement("option");
                     opt.value = i;
-                    opt.innerHTML = i;
+                    opt.innerHTML = i.toString();
                     sectionSelector.appendChild(opt);
                 }
             }
             
             function getSubs(closeOnly) {
-                var subIndex = getSubIndexOf(ss, book, section, 0);
+                let subIndex = getSubIndexOf(ss, book, section, 0);
                 subCount = ss[subIndex][2];
-                var subSelector1 = document.getElementById("opensub");
-                var subSelector2 = document.getElementById("closesub");
+                let subSelector1 = document.getElementById("opensub");
+                let subSelector2 = document.getElementById("closesub");
                 
-                for (var i = 1; i <= subCount; i++) {
-                    var opt = document.createElement("option");
+                for (let i = 1; i <= subCount; i++) {
+                    let opt = document.createElement("option");
                     opt.value = i;
                     opt.innerHTML = i;
                     if (!closeOnly) subSelector1.appendChild(opt);
-                    var opt2 = opt.cloneNode(true);
+                    let opt2 = opt.cloneNode(true);
                     subSelector2.appendChild(opt2);
                 }
             }
             
             function getTranslations() {
-                var i;
-                var bookIndex = getIndexOf(dl, book, 0);
-                var origLang = dl[bookIndex][2];
+                let i;
+                let bookIndex = getIndexOf(dl, book, 0);
+                let origLang = dl[bookIndex][2];
                 
-                var origOnly = document.getElementById("origOnly").checked;
-                var byPub = document.getElementById("pub").checked;
+                let origOnly = document.getElementById("origOnly").checked;
+                let byPub = document.getElementById("pub").checked;
                 
-                var translations = document.getElementById("translation");
+                let translations = document.getElementById("translation");
                 if (translations.options.length > 0) {
-                    var trValue = translations.options[translations.selectedIndex].value;
+                    let trValue = translations.options[translations.selectedIndex].value;
                     while (translations.options.length > 0) {
                         translations.options[0] = null;
                     }
                 }
                 
-                var blank = document.createElement("option");
+                let blank = document.createElement("option");
                 blank.value = -1;
                 translations.appendChild(blank);
                 
-                var useTranslation;
-                var comparisonSelector = document.getElementById("pubCp");
-                var comparison = parseInt(comparisonSelector.options[comparisonSelector.selectedIndex].value);
-                var val1 = parseInt(document.getElementById("year").value);
-                var val2 = parseInt(document.getElementById("year2").value);
+                let useTranslation;
+                let comparisonSelector = document.getElementById("pubCp");
+                let comparison = parseInt(comparisonSelector.options[comparisonSelector.selectedIndex].value);
+                let val1 = parseInt(document.getElementById("year").value);
+                let val2 = parseInt(document.getElementById("year2").value);
                 
                 for (i = 0; i < ts.length; i++) {
                     useTranslation = 0;
@@ -257,7 +250,7 @@ do {} while ($db->next_result());
                                 val1 = 1;
                                 comparison = -1;
                             }
-                            var checkVal = getYear(ts[i][4]);
+                            let checkVal = getYear(ts[i][4]);
                             switch(comparison) {
                                 case -2:
                                     useTranslation = checkVal < val1;
@@ -283,7 +276,7 @@ do {} while ($db->next_result());
                         }
                         
                         if (useTranslation) {
-                            var opt = document.createElement("option");
+                            let opt = document.createElement("option");
                             opt.value = ts[i][0];
                             opt.innerHTML = ts[i][1];
                             translations.appendChild(opt);
@@ -304,7 +297,7 @@ do {} while ($db->next_result());
             }
             
             function updateBook() {
-                var bookSelector = document.getElementById("book");
+                let bookSelector = document.getElementById("book");
                 book = bookSelector.options[bookSelector.selectedIndex].value;
                 
                 getSections();
@@ -312,24 +305,24 @@ do {} while ($db->next_result());
             }
             
             function updateSection() {
-                var sectionSelector = document.getElementById("section");
+                let sectionSelector = document.getElementById("section");
                 section = sectionSelector.options[sectionSelector.selectedIndex].value;
                 
                 getSubs(0);
             }
             
             function updateSub() {
-                var i;
-                var closeSelector = document.getElementById("closesub");
-                var closeValue = closeSelector.options[closeSelector.selectedIndex].value;
+                let i;
+                let closeSelector = document.getElementById("closesub");
+                let closeValue = closeSelector.options[closeSelector.selectedIndex].value;
                 while (closeSelector.options.length > 0) {
                     closeSelector.options[0] = null;
                 }
                 
                 getSubs(1);
                 
-                var openSelector = document.getElementById("opensub");
-                var openValue = openSelector.options[openSelector.selectedIndex].value;
+                let openSelector = document.getElementById("opensub");
+                let openValue = openSelector.options[openSelector.selectedIndex].value;
                 for (i = 1; i < openValue; i++) {
                     closeSelector.options[0] = null;
                 }
@@ -342,7 +335,7 @@ do {} while ($db->next_result());
             }
             
             function cpChange(el) {
-                var bwO = document.getElementById("betweenOnly");
+                let bwO = document.getElementById("betweenOnly");
                 if (el.options[el.selectedIndex].value == 3) {
                     bwO.classList.remove("hidden");
                 } else {
@@ -351,8 +344,8 @@ do {} while ($db->next_result());
                 }
                 document.getElementById("pub").checked = true;
                 
-                var year1 = document.getElementById("year");
-                var year2 = document.getElementById("year2");
+                let year1 = document.getElementById("year");
+                let year2 = document.getElementById("year2");
                 if (year1 != "" && el.options[el.selectedIndex].value != 3)
                     getTranslations();
                 else if (year1 != "" && year2 != "" && el.options[el.selectedIndex].value == 3)
@@ -360,13 +353,13 @@ do {} while ($db->next_result());
             }
             
             function yearUpdate() {
-                var year1 = document.getElementById("year");
-                var year2 = document.getElementById("year2");
+                let year1 = document.getElementById("year");
+                let year2 = document.getElementById("year2");
                 
                 if (parseInt(year1.value) != NaN) {
                     year2.min = year1.value;
                     document.getElementById("pub").checked = true;
-                    var cp = document.getElementById("pubCp");
+                    let cp = document.getElementById("pubCp");
                     if (cp.options[cp.selectedIndex].value == 3 && year2.value == "") {
                         // do nothing
                     } else {

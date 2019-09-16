@@ -9,6 +9,7 @@ body {
     background-position: top left;
     background-color: #976d43;
     min-height: 100%;
+    font-family: 'Droid Serif', serif;
 }
 
 #wrap {
@@ -66,12 +67,15 @@ h4 {
 /* -------------------- */
 /* --- MENU CLASSES --- */
 /* -------------------- */
-.active #menu, .active #menu-btn-wrap {
-    transform: translate3d(-200px, 0, 0);
+.active .sidebar, .active .menu-tab {
+    transform: translate3d(-300px, 0, 0);
 }
 
-#menu-button {
-    background-image: url("images/menubutton.svg");
+.menu-tab.activator {
+    border-right-color: darkgray;
+}
+
+.tab-button {
     width: 20px;
     height: 20px;
     position: absolute;
@@ -81,11 +85,22 @@ h4 {
     margin: auto;
 }
 
-#menu-btn-wrap {
+#menu-button {
+    background-image: url("../images/menubutton.svg");
+}
+
+#dict-button {
+    background-image: url("../images/dictbutton.svg");
+}
+
+#ref-button {
+    background-image: url("../images/crossref.svg");
+}
+
+.menu-tab {
     position: fixed;
     z-index: 98;
     right: -1px;
-    top: 8px;
     width: 41px;
     height: 40px;
     transition: transform 1s;
@@ -95,28 +110,46 @@ h4 {
     border-bottom: 1px solid #333;
     border-left: 1px solid #333;
     border-top: 1px solid #333;
-    border-right: 1px solid darkgray;
+    border-right: 1px solid #333;
 }
 
-#menu {
+#menu-btn-wrap {
+    top: 8px;
+}
+
+#dict-btn-wrap {
+    top: 54px;
+}
+
+#crossref-btn-wrap {
+    top: 100px;
+}
+
+.sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 100%;
-    z-index: 97;
+    z-index: 96;
     transition: transform 1s;
-    width: 200px;
+    width: 300px;
     background-color: darkgray;
     color: ghostwhite;
     border-left: 1px solid #333;
+    padding-top: 1em;
+}
+
+.sidebar.activated {
+    z-index: 97;
 }
 
 #menu ul {
     list-style-type: none;
-    width: 180px;
+    width: 280px;
     right: 0;
     padding: 0;
     position: absolute;
+    margin-top: 0;
 }
 
 #menu ul li {
@@ -125,7 +158,7 @@ h4 {
     padding-top: 2px;
     padding-bottom: 2px;
     margin-top: 5px;
-    transition: background 0.5s ease-in;
+    transition: background 0.25s ease-in;
     background-color: darkgray;
     right: 0;
 }
@@ -134,7 +167,7 @@ h4 {
     background-color: dimgray;
 }
 
-#menu a {
+.sidebar a {
     vertical-align: middle;
     display: inline-block;
     width: 100%;
@@ -148,16 +181,24 @@ h4 {
     position: relative;
 }
 
-#menu a:active, #menu a:hover, #menu a:visited {
+.sidebar a:active, .sidebar a:hover, .sidebar a:visited {
     color: ghostwhite;
     text-decoration: none;
 }
 
+#dictionary, #crossref {
+    margin-bottom: 50px;
+    padding-left: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 #menubottom {
-    position: absolute;
+    top: unset;
     bottom: 20px;
+    height: 30px;
     text-align: center;
-    width: 100%;
+    z-index: 98;
 }
 
 /* -------------------- */
@@ -220,7 +261,7 @@ h4 {
 
 #addtl {
     /*right: 85px;*/
-    background-image: url("images/grey_plus_icon.png");
+    background-image: url("../images/grey_plus_icon.png");
     background-repeat: no-repeat;
     padding-right: 5px;
     border-right: 1px solid black;
@@ -231,7 +272,7 @@ h4 {
 
 #prevPsg {
     /*right: 45px;*/
-    background-image: url("images/grey_left_icon.png"); /* change to correct icon */
+    background-image: url("../images/grey_left_icon.png"); /* change to correct icon */
     margin-left: 5px;
     margin-right: 5px;
     width: 30px;
@@ -240,21 +281,21 @@ h4 {
 
 #nextPsg {
     /*right: 15px;*/
-    background-image: url("images/grey_right_icon.png"); /* change to correct icon */
+    background-image: url("../images/grey_right_icon.png"); /* change to correct icon */
     width: 30px;
     height: 30px;
 }
 
 div.del {
     right: 10px;
-    background-image: url("images/grey_minus_icon.png");
+    background-image: url("../images/grey_minus_icon.png");
     width: 30px;
     height: 30px;
 }
 
 div.promote {
     right: 43px;
-    background-image: url("images/grey_up_icon.png");
+    background-image: url("../images/grey_up_icon.png");
     width: 30px;
     height: 30px;
 }
@@ -591,25 +632,25 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 /* -------------------- */
 @media screen and (min-width: 2000px) {
     body {
-        background-image: url("images/bg_verylarge.png");
+        background-image: url("../images/bg_verylarge.png");
     }
 }
 
 @media screen and (max-width: 2000px) {
     body {
-        background-image: url("images/bg_2000.png");
+        background-image: url("../images/bg_2000.png");
     }
 }
 
 @media screen and (max-width: 1300px) {
     body {
-        background-image: url("images/bg_1300.png");
+        background-image: url("../images/bg_1300.png");
     }
 }
 
 @media screen and (max-width: 1064px) {
     body {
-        background-image: url("images/bg_1064.png");
+        background-image: url("../images/bg_1064.png");
     }
 }
 
@@ -631,7 +672,7 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 @media screen and (max-width: 800px) {
     body {
-        background-image: url("images/bg_800.png");
+        background-image: url("../images/bg_800.png");
     }
 }
 
@@ -697,7 +738,7 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 @media screen and (max-width: 600px) {
     body {
-        background-image: url("images/bg_600.png");
+        background-image: url("../images/bg_600.png");
     }
 }
 
@@ -736,6 +777,6 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 @media screen and (max-width: 400px) {
     body {
-        background-image: url("images/bg_400.png");
+        background-image: url("../images/bg_400.png");
     }
 }

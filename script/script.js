@@ -1,8 +1,8 @@
 function generalDiff(el) {
-    var curPage = window.location.href;
-    var diffLoc = curPage.indexOf("diff");
-    var elNum = el.name.match(/\d/g).join("");
-    var outPage = "";
+    let curPage = window.location.href;
+    let diffLoc = curPage.indexOf("diff");
+    let elNum = el.name.match(/\d/g).join("");
+    let outPage = "";
     if (curPage.endsWith("#")) {
         curPage = curPage.substr(0, curPage.length - 1);
     }
@@ -13,7 +13,7 @@ function generalDiff(el) {
             outPage = curPage + elNum;
         }
     } else {
-        var diffEnd = curPage.substr(diffLoc);
+        let diffEnd = curPage.substr(diffLoc);
         diffEnd = diffEnd.replace(new RegExp(elNum, 'g'), "");
         outPage = curPage.substr(0, diffLoc) + diffEnd;
     }
@@ -22,11 +22,11 @@ function generalDiff(el) {
 
 function scrollMatch(el) {
     // check the scroll cookie
-    var scrollValue = getCookieValue(scrollCookieName);
+    let scrollValue = getCookieValue(scrollCookieName);
     if (parseInt(scrollValue)) {
-        var target = el.scrollTop;
-        var scrollboxes = document.getElementsByClassName("scrollbox");
-        for (var i = 0; i < scrollboxes.length; i++) {
+        let target = el.scrollTop;
+        let scrollboxes = document.getElementsByClassName("scrollbox");
+        for (let i = 0; i < scrollboxes.length; i++) {
             if (scrollboxes[i] != el) {
                 scrollboxes[i].scrollTop = target;
             }
@@ -35,9 +35,9 @@ function scrollMatch(el) {
 }
 
 function getPassage() {
-    var url = window.location.href;
-    var psgIndex = url.indexOf("search=");
-    var psg;
+    let url = window.location.href;
+    let psgIndex = url.indexOf("search=");
+    let psg;
     if (url.indexOf("&", psgIndex) != -1) {
         psg = url.substr(psgIndex + 7, url.indexOf("&", psgIndex) - (psgIndex + 7));
     } else {
@@ -47,9 +47,9 @@ function getPassage() {
 }
 
 function getTranslations() {
-    var url = window.location.href;
-    var trIndex = url.indexOf("tr=");
-    var transls;
+    let url = window.location.href;
+    let trIndex = url.indexOf("tr=");
+    let transls;
     if (url.indexOf("&", trIndex) != -1) {
         transls = url.substr(trIndex + 3, url.indexOf("&",trIndex)-(trIndex+3));
     } else {
@@ -59,12 +59,12 @@ function getTranslations() {
 }
 
 function getDiffs() {
-    var url = window.location.href;
-    var dfIndex = url.indexOf("diff=");
+    let url = window.location.href;
+    let dfIndex = url.indexOf("diff=");
     if (dfIndex == -1) {
         return null;
     }
-    var diffs;
+    let diffs;
     if (url.indexOf("&", dfIndex) != -1) {
         diffs = url.substr(dfIndex + 5, url.indexOf("&", dfIndex)-(dfIndex+5));
     } else {
@@ -77,8 +77,8 @@ function getDiffs() {
 }
 
 function deleteTransl(btn) {
-    var translBox = btn.parentElement.parentElement;
-    var i = -1;
+    let translBox = btn.parentElement.parentElement;
+    let i = -1;
     switch(translBox.id) {
         case "first":
             i = 0;
@@ -99,16 +99,16 @@ function deleteTransl(btn) {
             i = 5;
             break;
     }
-    var curTrs = getTranslations();
-    var trsArr = curTrs.split("+");
+    let curTrs = getTranslations();
+    let trsArr = curTrs.split("+");
     trsArr.splice(i, 1);
-    var outTrs = trsArr.join("+");
-    var outHref = replaceGetVar("tr", outTrs);
+    let outTrs = trsArr.join("+");
+    let outHref = replaceGetVar("tr", outTrs);
     
-    var diffs = getDiffs();
+    let diffs = getDiffs();
     if (diffs != null) {
-        var diffArr = diffs.split("");
-        for (var j = 0; j < diffArr.length; j++) {
+        let diffArr = diffs.split("");
+        for (let j = 0; j < diffArr.length; j++) {
             if (parseInt(diffArr[j]) > trsArr.length) {
                 diffArr.splice(j, 1);
                 j--;
@@ -118,16 +118,16 @@ function deleteTransl(btn) {
         outHref = replaceGetVar("diff", diffs, outHref);
     }
     
-    var translationCookieName = "hexaTlCookie";
+    let translationCookieName = "hexaTlCookie";
     document.cookie = translationCookieName + "=" + trsArr.join("");
     window.location = outHref;
     return 0;
 }
 
 function promoteTransl(btn) {
-    var translBox = btn.parentElement.parentElement;
-    var curTrs = getTranslations();
-    var i = 0;
+    let translBox = btn.parentElement.parentElement;
+    let curTrs = getTranslations();
+    let i = 0;
     switch(translBox.id) {
         case "second":
             i = 1;
@@ -147,32 +147,32 @@ function promoteTransl(btn) {
         default:
             return -1;
     }
-    var trsArr = curTrs.split("+");
-    var tmpTrs = trsArr[0];
+    let trsArr = curTrs.split("+");
+    let tmpTrs = trsArr[0];
     trsArr[0] = trsArr[i];
-    for (var j = i; j > 1; j--) {
+    for (let j = i; j > 1; j--) {
         trsArr[j] = trsArr[j - 1];
     }
     trsArr[1] = tmpTrs;
-    var outTrs = trsArr.join("+");
-    var outHref = replaceGetVar("tr", outTrs);
-    var translationCookieName = "hexaTlCookie";
+    let outTrs = trsArr.join("+");
+    let outHref = replaceGetVar("tr", outTrs);
+    let translationCookieName = "hexaTlCookie";
     document.cookie = translationCookieName + "=" + trsArr.join("");
     window.location = outHref;
     return 0;
 }
 
-var scrollboxes = document.getElementsByClassName("scrollbox");
-for (var j = 0; j < scrollboxes.length; j++) {
+let scrollboxes = document.getElementsByClassName("scrollbox");
+for (let j = 0; j < scrollboxes.length; j++) {
     scrollboxes[j].addEventListener("scroll", function() {
         scrollMatch(this);
     }, false);
 }
 
-var els = new Array(document.getElementById('first'), document.getElementById('second'),
+let els = new Array(document.getElementById('first'), document.getElementById('second'),
                     document.getElementById('third'), document.getElementById('fourth'),
                     document.getElementById('fifth'), document.getElementById('sixth'));
-for (var i = 0; i < translCount; i++) {
+for (let i = 0; i < translCount; i++) {
     els[i].classList.add('of' + translCount);
 }
 for (i = translCount; i < els.length; i++) {
@@ -186,24 +186,24 @@ document.getElementById("addtl").addEventListener("click", function() {
 });
 document.getElementById("addTlSubmit").addEventListener("click", function() {
     // hide translation selector
-    var elSelect = document.getElementById("translSelect");
-    var addition = elSelect.options[elSelect.selectedIndex].value;
+    let elSelect = document.getElementById("translSelect");
+    let addition = elSelect.options[elSelect.selectedIndex].value;
     document.getElementById("translModal").classList.add("hidden");
     // add selection to URL
-    var curTrs = getTranslations();
-    var trsArr = curTrs.split("+");
+    let curTrs = getTranslations();
+    let trsArr = curTrs.split("+");
     trsArr.push(addition);
-    var outTrs = trsArr.join("+");
-    var outHref = replaceGetVar("tr", outTrs);
-    var translationCookieName = "hexaTlCookie";
+    let outTrs = trsArr.join("+");
+    let outHref = replaceGetVar("tr", outTrs);
+    let translationCookieName = "hexaTlCookie";
     document.cookie = translationCookieName + "=" + outTrs;
     window.location = outHref;
 });
 document.getElementById("cancelAdd").addEventListener("click", function() {
     document.getElementById("translModal").classList.add("hidden");
 });
-var deletes = document.getElementsByClassName("del");
-var promotes = document.getElementsByClassName("promote");
+let deletes = document.getElementsByClassName("del");
+let promotes = document.getElementsByClassName("promote");
 for (i = 0; i < deletes.length; i++) {
     deletes[i].addEventListener("click", function() {
         deleteTransl(this);
@@ -216,12 +216,12 @@ for (i = 0; i < promotes.length; i++) {
 }
 
 document.getElementById("prevPsg").addEventListener("click", function() {
-    var href = window.location.href;
+    let href = window.location.href;
     if (href.indexOf("#") != -1) href = href.replace("#","");
     window.location = href + "&decr=1"
 });
 document.getElementById("nextPsg").addEventListener("click", function() {
-    var href = window.location.href;
+    let href = window.location.href;
     if (href.indexOf("#") != -1) href = href.replace("#","");
     window.location = href + "&incr=1"
 });

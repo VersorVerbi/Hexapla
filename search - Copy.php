@@ -1,7 +1,5 @@
 <?php
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
 include "dbconnect.php";
 include "diff.php";
 
@@ -37,13 +35,10 @@ if (count($sctnCtnt) > 1) {
     $contentEnd = 200;
 }
 
-$sql = "SELECT document.id,document.name,documentalias.isPrimary FROM `document`,`documentalias` WHERE documentalias.alias LIKE ? AND documentalias.docId = document.id;";
-$stmt = $db->prepare($sql);
-$stmt->bind_param("s",$book);
-$stmt->execute();
-$bookResults = $stmt->get_result();
-$stmt->close();
-$bookArray = $bookResults->fetch_all(MYSQLI_ASSOC);
+$sql = "SELECT document.id,document.name,documentalias.isPrimary FROM document,documentalias WHERE documentalias.alias LIKE $1 AND documentalias.docId = document.id;";
+$stmt = pg_prepare($db, "", $sql);
+$bookResults = pg_execute($db, "", [$book]);
+$bookArray = pg_fetch_all($bookResults,PGSQL_ASSOC);
 $alts = [];
 
 foreach ($bookArray as $book) {
@@ -63,14 +58,11 @@ if (!$bookresult) {
 
 $translates = 1;
 
-$sql = "SELECT COUNT(*) FROM `translates` WHERE translates.translId = ? AND translates.docId = ?;";
+$sql = "SELECT COUNT(*) FROM translates WHERE translates.translId = $1 AND translates.docId = $2;";
 for ($r = 0; $r < count($translations); $r++) {
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("ii",$translations[$r],$bookresult);
-    $stmt->execute();
-    $stmt->bind_result($tCheck);
-    $stmt->fetch();
-    $stmt->close();
+    $stmt = pg_prepare($db, "", $sql);
+    $result = pg_execute($db, "", [$translations[$r], $bookresult]);
+    $tCheck = pg_fetch_result($result, 0, 0);
     $translates = $translates && $tCheck;
 }
 
@@ -80,14 +72,13 @@ if (!$translates) {
     exit;
 }
 
-$sql = "SELECT translation.name,alias,language.id FROM `translation`,`language` WHERE translation.id = ? AND translation.langId = language.id;";
+$sql = "SELECT translation.name,alias,language.id FROM translation,language WHERE translation.id = ? AND translation.langId = language.id;";
 for ($r = 0; $r < count($translations); $r++) {
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("s",$translations[$r]);
-    $stmt->execute();
-    $stmt->bind_result($tName, $tAlias, $tLang);
-    $stmt->fetch();
-    $stmt->close();
+    $stmt = pg_prepare($db, "", $sql);
+    $result = pg_execute($db, "", [$translations[$r]]);
+    $tName = pg_fetch_result($result, 0, 0);
+    $tAlias = pg_fetch_result($result, 0, 1);
+    $tLang = pg_fetch_result($result, 0, 2);
     $tAbbr[$r] = $tAlias;
     $tNames[$r] = $tName;
     $tLangs[$r] = $tLang;
@@ -97,23 +88,18 @@ for ($r = 0; $r < count($translations); $r++) {
 
 $sql = "SELECT contentStartId,contentEndId,content FROM text WHERE docId = ? AND sectionId = ? AND contentStartId <= ? AND contentEndId >= ? AND translId = ?;";
 for ($r = 0; $r < count($translations); $r++) {
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("iiiii",$bookresult,$section,$contentEnd,$contentStart,$translations[$r]);
-    $stmt->execute();
-    $contentResult = $stmt->get_result();
-    $stmt->close();
-    $allPassages[$r] = $contentResult->fetch_all(MYSQLI_ASSOC);
+    $stmt = pg_prepare($db, "", $sql);
+    $contentResult = pg_execute($db, "", [$bookresult, $section, $contentEnd, $contentStart, $translations[$r]]);
+    $allPassages[$r] = pg_fetch_all($contentResult, PGSQL_ASSOC);
 }
 
 // TODO: quit with error when passage(s) doesn't exist
 
 // Get ALL translations (for translation drop-down)
-$sql = "SELECT translation.id, translation.name, alias, language.name FROM `translation`, `language` WHERE translation.langId = language.id ORDER BY language.name, translation.name;";
-$stmt = $db->prepare($sql);
-$stmt->execute();
-$translResult = $stmt->get_result();
-$stmt->close();
-$allTranslations = $translResult->fetch_all(MYSQLI_NUM);
+$sql = "SELECT translation.id, translation.name, alias, language.name FROM translation, language WHERE translation.langId = language.id ORDER BY language.name, translation.name;";
+$stmt = pg_prepare($db, "", $sql);
+$translResult = pg_execute($db, "", []);
+$allTranslations = pg_fetch_all($translResult, PGSQL_NUM);
 
 $title = "$bookname $section:$contentStart" . ($contentStart != $contentEnd ? "-$contentEnd" : "") . " (" . implode(', ',$tAbbr) . ")";
 
@@ -151,10 +137,10 @@ function printPassage($passageGroup) {
 
 ?>
 
-<HTML>
+<HTML lang="en">
     <HEAD>
         <TITLE><?php echo $title; ?></TITLE>
-        <link type="text/css" rel="stylesheet" href="mainstyle.css" />
+        <link type="text/css" rel="stylesheet" href="style/mainstyle.css" />
     </HEAD>
     <BODY>
         <?php include "menu.html"; ?>
@@ -250,9 +236,9 @@ function printPassage($passageGroup) {
             </DIV>
         </DIV>
         <script type="text/javascript">
-            var translCount = <?php echo count($allPassages); ?>;
+            let translCount = <?php echo count($allPassages); ?>;
         </script>
-        <script type="text/javascript" src="basescript.js"></script>
-        <script type="text/javascript" src="script.js"></script>
+        <script type="text/javascript" src="script/basescript.js"></script>
+        <script type="text/javascript" src="script/script.js"></script>
     </BODY>
 </HTML>

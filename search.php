@@ -1,7 +1,5 @@
 <?php
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
 include "dbconnect.php";
 include "diff.php";
 
@@ -43,13 +41,11 @@ $translations = array_values(array_unique(explode(' ',$_GET['tr']), SORT_NUMERIC
 $primaryTranslation = $translations[0];
 
 if (isset($_GET['incr']) || isset($_GET['decr'])) {
-    $q = $db->query("CALL ContentInSection($bookresult, $section);");
-    $nContentInSection = $q->fetch_all(MYSQLI_NUM)[0][0];
-    do {} while ($db->next_result());
-    
-    $q = $db->query("CALL SectionsInDocument($bookresult);");
-    $nSectionInDocument = $q->fetch_all(MYSQLI_NUM)[0][0];
-    do {} while ($db->next_result());
+    $q = pg_query($db,"CALL ContentInSection($bookresult, $section);");
+    $nContentInSection = pg_fetch_all($q,PGSQL_NUM)[0][0];
+
+    $q = pg_query($db, "CALL SectionsInDocument($bookresult);");
+    $nSectionInDocument = pg_fetch_all($q, PGSQL_NUM)[0][0];
     
     if (isset($_GET['incr'])) {
         if (($contentEnd == 200) || (($contentStart + $numContents) > $nContentInSection)) {
@@ -58,7 +54,7 @@ if (isset($_GET['incr']) || isset($_GET['decr'])) {
                 /* USE documentgroup AND isingroup to fix this
                 $bookresult++;
                 $sql = "SELECT name FROM `document` WHERE id = ?;";
-                $stmt = $db->prepare($sql);
+                $stmt = pg_prepare($db, $sql);
                 $stmt->bind_param("i", $bookresult);
                 $stmt->execute();
                 $stmt->bind_result($sBook);
@@ -92,9 +88,8 @@ if (isset($_GET['incr']) || isset($_GET['decr'])) {
     exit;
 }
 
-$q = $db->query("CALL BookSearch('$book');");
-$bookArray = $q->fetch_all(MYSQLI_ASSOC);
-do {} while ($db->next_result());
+$q = pg_query($db, "CALL BookSearch('$book');");
+$bookArray = pg_fetch_all($q,PGSQL_ASSOC);
 
 $alts = [];
 
@@ -115,9 +110,8 @@ if (!$bookresult) {
 
 //print_r($translations);
 $trl_sql_in = implode(",", $translations);
-$q = $db->query("CALL AtLeastOneTranslates('$trl_sql_in', $bookresult);");
-$translates = $q->fetch_all(MYSQLI_NUM)[0][0];
-do {} while ($db->next_result());
+$q = pg_query($db, "CALL AtLeastOneTranslates('$trl_sql_in', $bookresult);");
+$translates = pg_fetch_all($q, PGSQL_NUM)[0][0];
 
 if (!$translates) {
     // quit with error about NONE of the translations including that book
@@ -125,9 +119,8 @@ if (!$translates) {
     exit;
 }
 
-$q = $db->query("CALL TranslationList('$trl_sql_in');");
-$tOut = $q->fetch_all(MYSQLI_NUM);
-do {} while ($db->next_result());
+$q = pg_query($db, "CALL TranslationList('$trl_sql_in');");
+$tOut = pg_fetch_all($q, PGSQL_NUM);
 
 for ($r = 0; $r < count($tOut); $r++) {
     foreach ($tOut as $t) {
@@ -141,8 +134,8 @@ for ($r = 0; $r < count($tOut); $r++) {
 
 //echo "Book ID: $bookresult<BR>Section: $section<BR>Start: $contentStart<BR>End: $contentEnd<BR>Translation IDs: " . implode('+',$translations) . "<BR><BR>";
 
-$q = $db->query("CALL GetPassages($bookresult, $section, $contentEnd, $contentStart, '$trl_sql_in');");
-$assocArray = $q->fetch_all(MYSQLI_ASSOC);
+$q = pg_query($db, "CALL GetPassages($bookresult, $section, $contentEnd, $contentStart, '$trl_sql_in');");
+$assocArray = pg_fetch_all($q, PGSQL_ASSOC);
 //echo "<PRE>";
 //print_r($assocArray);
 //echo "</PRE>";
@@ -153,14 +146,12 @@ for ($r = 0; $r < count($translations); $r++) {
         }
     }
 }
-do {} while ($db->next_result());
 
 // TODO: quit with error when passage(s) doesn't exist
 
 // Get ALL translations (for translation drop-down)
-$q = $db->query("CALL AllTranslationsForDoc($bookresult);");
-$allTranslations = $q->fetch_all(MYSQLI_NUM);
-do {} while ($db->next_result());
+$q = pg_query($db, "CALL AllTranslationsForDoc($bookresult);");
+$allTranslations = pg_fetch_all($q, PGSQL_NUM);
 
 $title = "$bookname $section:$contentStart" . ($contentStart != $contentEnd ? "-$contentEnd" : "") . " (" . implode(', ',$tAbbr) . ")";
 
@@ -273,7 +264,7 @@ Undiffed:   printPassage($allPassages[$n], null);
 <HTML>
     <HEAD>
         <TITLE><?php echo $title; ?></TITLE>
-        <link type="text/css" rel="stylesheet" href="mainstyle.css" />
+        <link type="text/css" rel="stylesheet" href="style/mainstyle.css" />
     </HEAD>
     <BODY>
         <?php include "menu.php"; ?>
@@ -287,9 +278,9 @@ Undiffed:   printPassage($allPassages[$n], null);
             </DIV>
         </DIV>
         <script type="text/javascript">
-            var translCount = <?php echo count($translations); ?>;
+            let translCount = <?php echo count($translations); ?>;
         </script>
-        <script type="text/javascript" src="basescript.js"></script>
-        <script type="text/javascript" src="script.js"></script>
+        <script type="text/javascript" src="script/basescript.js"></script>
+        <script type="text/javascript" src="script/script.js"></script>
     </BODY>
 </HTML>

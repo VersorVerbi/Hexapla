@@ -3,7 +3,7 @@
 <HTML>
     <HEAD>
         <TITLE>Modern Hexapla: Copyright Information</TITLE>
-        <link type="text/css" rel="stylesheet" href="mainstyle.css" />
+        <link type="text/css" rel="stylesheet" href="style/mainstyle.css" />
     </HEAD>
     <BODY>
         <?php include "menu.php"; ?>
@@ -13,6 +13,6 @@
                 To the best of our knowledge, all translations are in the public domain or are used by permission. For details, select a translation from the drop-down menu:<BR /><BR />I'm a dropdown menu!
             </DIV>
         </DIV>
-        <script type="text/javascript" src="basescript.js"></script>
+        <script type="text/javascript" src="script/basescript.js"></script>
     </BODY>
 </HTML>

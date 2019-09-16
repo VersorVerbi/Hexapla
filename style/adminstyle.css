@@ -1,0 +1,38 @@
+.editspace {
+    width: 400px;
+    height: 200px;
+    left: 5px;
+    top: 5px;
+    position: absolute;
+}
+
+#cv {
+    border: 1px solid lightgray;
+}
+
+#bigbox {
+    padding: 5px;
+    z-index: 1;
+}
+
+#bigbox a {
+    display: inline-block;
+    padding: 4px;
+    margin: 2px;
+    background-color: #ffaaaa;
+    border: 1px solid #ff9090;
+    text-decoration: none;
+    color: #000;
+}
+
+#bigbox a.selected {
+    background-color: #aaaaff;
+    border-color: #9090ff;
+}
+
+#bigbox .punc {
+    background-color: #aaffaa;
+    border-color: #90ff90;
+    margin-left: -2px;
+    margin-right: 4px;
+}

@@ -1,8 +1,8 @@
 function setDoc() {
-    var elDoc = document.getElementById('doc');
-    var docId = elDoc.options[elDoc.selectedIndex].value;
+    let elDoc = document.getElementById('doc');
+    let docId = elDoc.options[elDoc.selectedIndex].value;
     
-    var elTransl = document.getElementById('transl');
+    let elTransl = document.getElementById('transl');
     
     if (elTransl != null) {
         removeNonBlanks(elTransl);
@@ -12,8 +12,8 @@ function setDoc() {
 }
 
 function removeNonBlanks(elSel) {
-    for (var i = 0; i < elSel.children.length; i++) {
-        var opt = elSel.children[i];
+    for (let i = 0; i < elSel.children.length; i++) {
+        let opt = elSel.children[i];
         if (opt.value != "") {
             elSel.removeChild(opt);
             i--;
@@ -22,11 +22,11 @@ function removeNonBlanks(elSel) {
 }
 
 function addOptions(elSel, arr, docId) {
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         if (arr[i][2] == docId) {
-            var newOpt = document.createElement('option');
+            let newOpt = document.createElement('option');
             newOpt.value = arr[i][0];
-            var newText = document.createTextNode(arr[i][1]);
+            let newText = document.createTextNode(arr[i][1]);
             newOpt.appendChild(newText);
             elSel.appendChild(newOpt);
         }

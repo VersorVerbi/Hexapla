@@ -35,22 +35,22 @@ $transls = FALSE;
 
 if ($type == 4 || $type == 6) {
     $sql = "SELECT id, name FROM Document ORDER BY id;";
-    $docs = $db->query($sql);
+    $docs = pg_query($db, $sql);
 }
 
 if ($type == 1) {
     $sql = "SELECT id, name FROM Author ORDER BY name;";
-    $authors = $db->query($sql);
+    $authors = pg_query($db, $sql);
 }
 
 if ($type == 1 || $type == 2 || $type == 4) {
     $sql = "SELECT id, name FROM language ORDER BY name;";
-    $langs = $db->query($sql);
+    $langs = pg_query($db, $sql);
 }
 
 if ($type == 6) {
     $sql = "SELECT id, name, docId FROM Translation, Translates WHERE Translates.translId = Translation.id ORDER BY name;";
-    $transls = $db->query($sql);
+    $transls = pg_query($db, $sql);
 }
 
 function printOptionRow($row) {
@@ -61,13 +61,13 @@ function printOptionRow($row) {
 <html>
 <head>
     <title>Load a<?php echo $typeName ?> into Hexapla</title>
-    <script type="text/javascript" src="loadInput.js"></script>
+    <script type="text/javascript" src="script/loadInput.js"></script>
     <script type="text/javascript">
         <?php if ($transls !== FALSE) { ?>
-            var translations = <?php echo json_encode(mysqli_fetch_all($transls, MYSQLI_NUM)); ?>;
+            let translations = <?php echo json_encode(pg_fetch_all($transls, PGSQL_NUM)); ?>;
         <?php } ?>
     </script>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style/style.css" />
 </head>
 
 <body>
@@ -103,7 +103,7 @@ function printOptionRow($row) {
                     <?php if ($type != 4) { ?>
                     <option selected value=""></option>
                     <?php }
-                    while ($row = mysqli_fetch_assoc($docs)) {
+                    while ($row = pg_fetch_assoc($docs)) {
                         printOptionRow($row);
                     }
                     ?>
@@ -138,7 +138,7 @@ function printOptionRow($row) {
                 <select class="textin" name="author" id="author">
                     <option selected value=""></option>
                     <?php
-                    while ($row = mysqli_fetch_assoc($authors)) {
+                    while ($row = pg_fetch_assoc($authors)) {
                         printOptionRow($row);
                     }
                     ?>
@@ -157,7 +157,7 @@ function printOptionRow($row) {
                     <?php if ($type != 2) { ?>
                     <option selected value=""></option>
                     <?php }
-                    while ($row = mysqli_fetch_assoc($langs)) {
+                    while ($row = pg_fetch_assoc($langs)) {
                         printOptionRow($row);
                     }
                     ?>
