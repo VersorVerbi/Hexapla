@@ -47,10 +47,10 @@ if ($parsedXml !== false) {
 				$texts = $corpus->osisText;
 				foreach ($texts as $text) {
 					$attr = $text->attributes();
-					addToData("translAbbrs",$attr->osisIDWork,$wholeText);
+					addToData("translAbbrs", $attr->osisIDWork,$wholeText);
 					$bookId = $attr->osisID; // if has value...?
 					// if canonical... (i.e., if actual text)
-					// if not canonicall... (commentary, etc.) --> $attr->annotateRef is appropriate here
+					// if not canonical... (commentary, etc.) --> $attr->annotateRef is appropriate here
 					$textHeader = $text->header; // handle only if none for corpus
 					$textTitlePage = $text->titlePage; // do we need this?
 					$divs = $text->div;
@@ -120,7 +120,7 @@ else {
 }
 
 
-function addToData(dataKey, dataPiece, &$data) {
+function addToData($dataKey, $dataPiece, &$data) {
 	// if dataPiece is null, ignore
 	// if wholeText[dataKey] is list and doesn't have dataPiece, add dataPiece
 	// if wholeText[dataKey] is not list and isn't populated, set value
