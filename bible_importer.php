@@ -43,7 +43,6 @@ if ($parsedXml !== false) {
 		if ($corpores->count() > 0) {
 			foreach ($corpores as $corpus) {
 				$header = $corpus->header;
-				$titlePage = $corpus->titlePage; // do we need this?
 				$texts = $corpus->osisText;
 				foreach ($texts as $text) {
 					$attr = $text->attributes();
@@ -52,7 +51,6 @@ if ($parsedXml !== false) {
 					// if canonical... (i.e., if actual text)
 					// if not canonical... (commentary, etc.) --> $attr->annotateRef is appropriate here
 					$textHeader = $text->header; // handle only if none for corpus
-					$textTitlePage = $text->titlePage; // do we need this?
 					$divs = $text->div;
 					foreach ($divs as $div) {
 						$attr = $div->attributes();
@@ -125,4 +123,55 @@ function addToData($dataKey, $dataPiece, &$data) {
 	// if wholeText[dataKey] is list and doesn't have dataPiece, add dataPiece
 	// if wholeText[dataKey] is not list and isn't populated, set value
 	// otherwise, ignore
+}
+
+function osisGetDivision($currentGroup) {
+    $next = null;
+    switch(strtoupper($currentGroup->getName())) {
+        case "OSIS":
+            $next = ($currentGroup->osisCorpus ? $currentGroup->osisCorpus : $currentGroup->osisText);
+            break;
+        case "OSISCORPUS":
+            $next = $currentGroup->osisText;
+            break;
+        case "DIV":
+            $next = ($currentGroup->div ? $currentGroup->div :
+                        ($currentGroup->chapter ? $currentGroup->chapter : $currentGroup->verse));
+            break;
+        case "CHAPTER":
+            $next = $currentGroup->verse;
+            break;
+        default: // including osisText elements
+            $next = $currentGroup->div;
+            break;
+    }
+    return $next;
+}
+
+function osisGetHeader($corpusOrText) {
+    if ($corpusOrText->getName() === "osisCorpus" || $corpusOrText->getName() === "osisText") {
+        return $corpusOrText->header;
+    } else {
+        return null;
+    }
+}
+
+function osisGetAllVerses($element, &$verseCollection) {
+    $oneLevelDown = osisGetDivision($element);
+    if (!$oneLevelDown || $oneLevelDown->count() === 0) {
+        if (osisIsCanonical($element)) {
+            $verseCollection[] = $element;
+        }
+    } else {
+        foreach ($oneLevelDown as $el) {
+            osisGetAllVerses($el, $verseCollection);
+        }
+    }
+    return;
+}
+
+function osisIsCanonical($element) {
+    $attr = $element->attributes();
+    $canonicalValue = (isset($attr->canonical) ? $attr->canonical : "true");
+    return ($canonicalValue === "true");
 }
