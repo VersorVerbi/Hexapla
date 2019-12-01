@@ -1,5 +1,7 @@
 <?php
 
+include "osis_importer.php";
+
 /****** OUR DATA STRUCTURE FOR SAVING TO SQL ******/
 /**
 wholeText									= []
@@ -31,147 +33,77 @@ wholeText									= []
 **/
 
 /****** XML ******/
-libxml_use_internal_errors(true);
-$sourceFile = ""; // file path
-$parsedXml = simplexml_load_file($sourceFile);
-if ($parsedXml !== false) {
-	$mainElementName = strtoupper($parsedXml->getName());
+$memlimit = ini_get('memory_limit');
+ini_set('memory_limit', '1200M');
 
-	// Open Scripture Information Standard (OSIS) --> http://crosswire.org/osis/OSIS%202.1.1%20User%20Manual%2006March2006.pdf
-	if ($mainElementName == "OSIS") {
-		$corpores = $parsedXml->osisCorpus;
-		if ($corpores->count() > 0) {
-			foreach ($corpores as $corpus) {
-				$header = $corpus->header;
-				$texts = $corpus->osisText;
-				foreach ($texts as $text) {
-					$attr = $text->attributes();
-					addToData("translAbbrs", $attr->osisIDWork,$wholeText);
-					$bookId = $attr->osisID; // if has value...?
-					// if canonical... (i.e., if actual text)
-					// if not canonical... (commentary, etc.) --> $attr->annotateRef is appropriate here
-					$textHeader = $text->header; // handle only if none for corpus
-					$divs = $text->div;
-					foreach ($divs as $div) {
-						$attr = $div->attributes();
-						$type = $attr->type;
-						$divHead = $div->head; // element with title, probably
-						// bookGroup
-							// book
-								// majorSection
-									// section
-										// subSection
-											// from here, get ->verse elements, I guess?
-						
-						// other potential types:
-						// acknowledgement, afterword, annotant, appendix, article, back, bibliography
-						// body, bridge, chapter, colophon, commentary, concordance, coverPage
-						// dedication, devotional, entry, front, gazetteer, glossary, imprimatur, index
-						// introduction, map, outline, paragraph, part, preface, publicationData
-						// summary, tableofContents, titlePage, custom types starting with "x-"
-					}
-					// separately handle (rare?) case of ->chapter elements -- OSIS documentation says to avoid, but uses in examples, so...?
-				}
-			}
-		} else {
-			$texts = $parsedXml->osisText;
-			// refactor above and call that from here
-		}
-	}
+$allVerses = [];
+$allNotes = [];
+$metadata = [];
+$hexaData = [];
 
-	// Theological Markup Language (ThML) --> https://www.ccel.org/ThML/
-	else if ($mainElementName == "THML") {
-		
-	}
-
-	// Zefania --> http://bgfdb.de/zefaniaxml/bml/
-	else if ($mainElementName == "XMLBIBLE" || $mainElementName == "X") {
-		
-	}
-
-	// Unified Scripture Format XML (USFX) --> https://ebible.org/usfx/usfx.htm
-	else if ($mainElementName == "USFX") {
-		
-	}
-
-	// XML Scripture Encoding Model (XSEM) --> https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=XSEM
-	else if ($mainElementName == "SCRIPTURE") {
-		
-	}
-
-	// Unified Scripture XML (USX) --> https://ubsicap.github.io/usx/
-	else if ($mainElementName == "USX") {
-		
-	}
+$sourceFile = "xml/eng-rv_osis.xml"; // file path to upload?
+$xmlParser = xml_parser_create();
+xml_parse_into_struct($xmlParser, implode("", file($sourceFile)), $values, $indices);
+switch($values[0]['tag']) {
+    // Open Scripture Information Standard (OSIS) --> http://crosswire.org/osis/OSIS%202.1.1%20User%20Manual%2006March2006.pdf
+    case 'OSIS':
+        osisImport($values, $indices);
+        osis2hexa();
+        break;
+    // Theological Markup Language (ThML) --> https://www.ccel.org/ThML/
+    case 'THML':
+        thmlImport($values, $indices);
+        break;
+    // Zefania --> http://bgfdb.de/zefaniaxml/bml/
+    case 'XMLBIBLE':
+    case 'X':
+        zefaniaImport($values, $indices);
+        break;
+    // Unified Scripture Format XML (USFX) --> https://ebible.org/usfx/usfx.htm
+    case 'USFX':
+        usfxImport($values, $indices);
+        break;
+    // XML Scripture Encoding Model (XSEM) --> https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=XSEM
+    case 'SCRIPTURE':
+        xsemImport($values, $indices);
+        break;
+    // Unified Scripture XML (USX) --> https://ubsicap.github.io/usx/
+    case 'USX':
+        usxImport($values, $indices);
+        break;
+    default:
+        echo "Error! Not an accepted file format.";
 }
+// do stuff
+//print_r($allVerses);
+print_r($hexaData);
+
+// load hexaData into the database
+
+ini_set('memory_limit', $memlimit);
+
 
 // apparently some TEI Bibles exist... do we want to deal with those?
 
 /****** NON-XML ******/
-else {
 	// check errors using foreach (libxml_get_errors() as $error) $error->message
 	
 	// General Bible Format (GBF) --> https://ebible.org/bible/gbf.htm
 	
 	// Unified Standard Format Markers (USFM) --> https://ubsicap.github.io/usfm/about/index.html
-	
-}
 
 
-function addToData($dataKey, $dataPiece, &$data) {
-	// if dataPiece is null, ignore
-	// if wholeText[dataKey] is list and doesn't have dataPiece, add dataPiece
-	// if wholeText[dataKey] is not list and isn't populated, set value
-	// otherwise, ignore
-}
-
-function osisGetDivision($currentGroup) {
-    $next = null;
-    switch(strtoupper($currentGroup->getName())) {
-        case "OSIS":
-            $next = ($currentGroup->osisCorpus ? $currentGroup->osisCorpus : $currentGroup->osisText);
-            break;
-        case "OSISCORPUS":
-            $next = $currentGroup->osisText;
-            break;
-        case "DIV":
-            $next = ($currentGroup->div ? $currentGroup->div :
-                        ($currentGroup->chapter ? $currentGroup->chapter : $currentGroup->verse));
-            break;
-        case "CHAPTER":
-            $next = $currentGroup->verse;
-            break;
-        default: // including osisText elements
-            $next = $currentGroup->div;
-            break;
-    }
-    return $next;
-}
-
-function osisGetHeader($corpusOrText) {
-    if ($corpusOrText->getName() === "osisCorpus" || $corpusOrText->getName() === "osisText") {
-        return $corpusOrText->header;
+function xml_get_value($xmlArray, $indices, &$ret) {
+    if (!array_key_exists($indices[0], $xmlArray)) {
+        return 1;
+    } elseif (count($indices) > 1) {
+        return xml_get_value($xmlArray[$indices[0]], array_slice($indices, 1), $ret);
     } else {
-        return null;
+        $ret = $xmlArray[$indices[0]];
+        return 0;
     }
 }
 
-function osisGetAllVerses($element, &$verseCollection) {
-    $oneLevelDown = osisGetDivision($element);
-    if (!$oneLevelDown || $oneLevelDown->count() === 0) {
-        if (osisIsCanonical($element)) {
-            $verseCollection[] = $element;
-        }
-    } else {
-        foreach ($oneLevelDown as $el) {
-            osisGetAllVerses($el, $verseCollection);
-        }
-    }
-    return;
-}
-
-function osisIsCanonical($element) {
-    $attr = $element->attributes();
-    $canonicalValue = (isset($attr->canonical) ? $attr->canonical : "true");
-    return ($canonicalValue === "true");
+function reduceSpaces($string, $allOfThem = false) {
+    return preg_replace(($allOfThem ? '/\s+/' : '/\s\s+/'), ' ', $string);
 }

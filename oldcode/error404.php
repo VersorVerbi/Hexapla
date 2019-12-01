@@ -20,7 +20,7 @@ switch($errType) {
         break;
     default:
         $errTitle = "";
-        $errStr = "The page you're looking for could not be found. Return <a href=\"index.php\">home</a> or open the menu and try searching for a passage.";
+        $errStr = ">home</a> or open the menu and try searching for a passage.";
         break;
 }
 
