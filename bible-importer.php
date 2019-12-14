@@ -1,9 +1,14 @@
 <?php
 
-include "osis_importer.php";
+include_once "osis-importer.php";
+include_once "thml-importer.php";
+include_once "usfx-importer.php";
+include_once "usx-importer.php";
+include_once "zefania-importer.php";
+include_once "import-functions.php";
 
-/****** OUR DATA STRUCTURE FOR SAVING TO SQL ******/
-/**
+/* ***** OUR DATA STRUCTURE FOR SAVING TO SQL ***** */
+/*
 wholeText									= []
 	...["translation"] 						= Full name of translation
 	...["translAbbrs"] 						= [list of abbreviation(s) of translation]
@@ -30,9 +35,9 @@ wholeText									= []
 						...["uniqueId"]		= the associated unique identification number, if not Strong's
 						...["is_bef_punc"]	= whether or not the "word" is precedent punctuation (e.g., quote before word)
 						...["is_aft_punc"]	= whether or not the "word" is subsequent punctuation (e.g., comma)
-**/
+*/
 
-/****** XML ******/
+/* ***** XML ***** */
 $memlimit = ini_get('memory_limit');
 ini_set('memory_limit', '1200M');
 
@@ -85,25 +90,9 @@ ini_set('memory_limit', $memlimit);
 
 // apparently some TEI Bibles exist... do we want to deal with those?
 
-/****** NON-XML ******/
+/* ***** NON-XML ***** */
 	// check errors using foreach (libxml_get_errors() as $error) $error->message
 	
 	// General Bible Format (GBF) --> https://ebible.org/bible/gbf.htm
 	
 	// Unified Standard Format Markers (USFM) --> https://ubsicap.github.io/usfm/about/index.html
-
-
-function xml_get_value($xmlArray, $indices, &$ret) {
-    if (!array_key_exists($indices[0], $xmlArray)) {
-        return 1;
-    } elseif (count($indices) > 1) {
-        return xml_get_value($xmlArray[$indices[0]], array_slice($indices, 1), $ret);
-    } else {
-        $ret = $xmlArray[$indices[0]];
-        return 0;
-    }
-}
-
-function reduceSpaces($string, $allOfThem = false) {
-    return preg_replace(($allOfThem ? '/\s+/' : '/\s\s+/'), ' ', $string);
-}

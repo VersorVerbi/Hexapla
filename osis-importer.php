@@ -1,4 +1,18 @@
 <?php
+/**
+ * Based on the OSIS XML standard, uses given XML data to add metadata, verses, and notes to the global variables
+ * $metadata, $allVerses, and $allNotes. After import is complete, global variables will have the following structure:
+ * $metadata:
+ *      one or more of the following indices
+ *      TITLE, CREATOR, DESCRIPTION, PUBLISHER, LANGUAGE, RIGHTS, REFSYSTEM
+ * $allVerses:
+ *      [OSIS-type Bible reference] = text of verse
+ * $allNotes:
+ *      [OSIS-type Bible reference]
+ *          [#] = text of note
+ * @param array $values Value array from xml_parse_into_struct; source XML assumed to meet OSIS standard
+ * @param array $indices Index array from xml_parse_into_struct; source XML assumed to meet OSIS standard
+ */
 function osisImport($values, $indices) {
     global $allVerses, $allNotes, $metadata;
 
@@ -78,6 +92,10 @@ function osisImport($values, $indices) {
     }
 }
 
+/**
+ * Converts OSIS-specific global structure into standard $hexaData structure. Expects $metadata, $allVerses, and
+ * $allNotes to match output described with osisImport() function. Expects $hexaData to exist and to be empty.
+ */
 function osis2hexa() {
     global $allVerses, $allNotes, $metadata, $hexaData;
     $hexaData['title'] = $metadata['TITLE'][0];
