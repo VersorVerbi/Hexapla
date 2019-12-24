@@ -1,6 +1,7 @@
 <?php
 
 include_once "unicode-ranges.php";
+include_once "general-functions.php";
 
 /**
  * Takes a string of betacode and converts it to UTF-8 Unicode.
@@ -84,12 +85,8 @@ function resetBeta(&$checks, $char, $curOutStr, &$betaOut) {
  * @return string Betacode string that represents the given unicode string
  */
 function uniString2Betacode($str) {
-    $uniArray = [];
-    $next = 0;
     $outString = "";
-    do {
-        $uniArray[] = grapheme_extract($str, 1, GRAPHEME_EXTR_MAXCHARS, $next, $next);
-    } while ($next < strlen($str)); // grapheme_strlen counts the graphemes, but strlen counts the bytes, which is what $next refers to
+    $uniArray = ustr_split($str);
     foreach($uniArray as $uniChar) {
         $outString .= uni2betacode($uniChar);
     }
