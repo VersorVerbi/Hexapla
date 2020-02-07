@@ -3,3 +3,8 @@ dbconnect.php
 infoprinter.php
 .idea/encodings.xml
 .idea/codeStyles/codeStyleConfig.xml
+developer-functions.php
+strongs-greek-spellings.dic
+strongs-hebrew-spellings.dic
+greekStrongs.csv
+number-system-identifier.php

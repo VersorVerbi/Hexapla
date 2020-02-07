@@ -3,6 +3,7 @@
 /**
  * Using an XML values array (output of xml_parse_into_struct), returns a specific value set as defined by
  * a given indices array.
+ * @uses array_key_exists(), xml_get_value(), array_slice()
  * @param array $xmlArray Values output from xml_parse_into_struct or some sub-array thereof
  * @param array $indices List of indices to reach lower levels of the values array in the order they occur, e.g.,
  *                       if you want to reach $xmlArray[3]['attributes']['TYPE'], the $indices array should be:
@@ -24,6 +25,7 @@ function xml_get_value($xmlArray, $indices, &$ret) {
 /**
  * Using a subnode of an XML values array (output of xml_parse_into_struct), returns a specific attribute from that
  * node's attributes.
+ * @uses array_key_exists(), xml_get_value()
  * @param array $xmlArray A node of an XML array that has or should have attributes
  * @param string $attr The name of the attribute we want to retrieve
  * @param string $ret The value of the requested attribute
@@ -40,6 +42,7 @@ function xml_get_attribute($xmlArray, $attr, &$ret) {
 /**
  * Using a subnode of an XML values array (output of xml_parse_into_struct), returns an array of attribute values from
  * that node's attributes.
+ * @uses xml_get_attribute(), count()
  * @param array $xmlArray A node of an XML array that has or should have attributes
  * @param array $attrList An array of attribute names to retrieve
  * @param array $arrayRet An array of attribute values in the format $array['attrName']=attrValue
@@ -73,6 +76,12 @@ function nonwordRegexPattern() {
     return '(?:\p{P}|\p{N}+|\p{S})';
 }
 
+/**
+ * Given a string, determines whether that string is a properly formatted Strong's Number
+ * @uses preg_match(), intval(), mb_substr()
+ * @param string $strNum The string to check
+ * @return bool True if the given string is a Strong's Number; false otherwise
+ */
 function isStrongsNumber($strNum) {
     $matchesPattern = preg_match('/(H|G)\d{1,4}/u', $strNum) !== false;
     if (!$matchesPattern) {

@@ -10,6 +10,9 @@
  * $allNotes:
  *      [OSIS-type Bible reference]
  *          [#] = text of note
+ * @uses osisMetadataOptions, mb_regex_set_options(), osisGetMetadata(), osisWorkAnalyzer, count(), xml_get_value()
+ * @uses hexaWord, explode(), mb_strlen(), hexaNote, osisHandleWord(), preg_split(), noWordSeparatorWritingSystems()
+ * @uses utf8_split(), getLastIndex(), createHexaWords()
  * @param array $values Value array from xml_parse_into_struct; source XML assumed to meet OSIS standard
  * @param array $indices Index array from xml_parse_into_struct; source XML assumed to meet OSIS standard
  * @param hexaText $hexaData
@@ -112,7 +115,7 @@ function osisImport($values, $indices, &$hexaData): void {
                     } else {
                         $split = preg_split('/\s/u', $ret);
                         if ((count($split) == 1) && (preg_match(noWordSeparatorWritingSystems(), $ret) === 1)) {
-                            $split = ustr_split($ret);
+                            $split = utf8_split($ret);
                         }
                         foreach ($split as $word) {
                             $key = getLastIndex($verseWords) + 1;
@@ -128,6 +131,7 @@ function osisImport($values, $indices, &$hexaData): void {
 
 /**
  * Given a substring of a verse (split by spaces), creates both punctuation and regular word objects for it.
+ * @uses nonwordRegexPattern(), preg_match(), hexaPunctuation, hexaWord, mb_strlen(), preg_replace()
  * @param string $word
  * @param string $verseId
  * @param int $key
@@ -161,6 +165,7 @@ function createHexaWords(string $word, string $verseId, int $key, array &$verseW
 
 /**
  * Given a word (W or WORD element value), retrieves relevant metadata from that element.
+ * @uses explode(), getLastIndex(), createHexaWords(), osisWorkAnalyzer
  * @param string $wordValue Word value returned from the XML values array
  * @param string $verseId String ID of the current verse
  * @param int $valIdx Current index of the XML $values array
@@ -179,6 +184,8 @@ function osisHandleWord(string $wordValue, string $verseId, int $valIdx, array &
 
 /**
  * Retrieves specified metadata from XML arrays and saves to our formatted array
+ * @uses hexaText, hexaCopyright, osisMetadataOptions, array_key_exists(), xml_get_value(), count(), substr()
+ * @uses mb_strlen(), hexaName
  * @param array $values Value array output of xml_parse_into_struct
  * @param array $indices Index array output of xml_parse_into_struct
  * @param hexaText $hexaData Output object
@@ -341,6 +348,8 @@ class osisWorkAnalyzer {
     }
 
     /**
+     * Given a word node, retrieves the Strong's Number based on the works and workPrefixes we know about
+     * @uses count(), xml_get_attribute_set(), mb_strpos(), explode, isStrongsNumber(), mb_strlen(), implode()
      * @param array $wNode
      * @return string The Strong's Number(s), comma-delimited if multiple, associated with this word node
      */

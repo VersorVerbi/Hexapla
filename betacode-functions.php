@@ -1,7 +1,7 @@
 <?php
 
 include_once "unicode-ranges.php";
-include_once "general-functions.php";
+include_once "lib/portable-utf8.php";
 
 /**
  * Takes a string of betacode and converts it to UTF-8 Unicode.
@@ -41,7 +41,7 @@ function betaString2Unicode($str) {
                 $curOutStr = resetBeta($checks, $char, $curOutStr, $betaOut);
                 $checks['accent'] = true;
             }
-        } elseif (preg_match('/\|\+/', $char) === 1) { // iota subscript, diaeresis
+        } elseif (preg_match('/\||\+|_/', $char) === 1) { // iota subscript, diaeresis
             if (strpos($curOutStr, $char) === false) {
                 $curOutStr .= $char;
             } else {
@@ -52,10 +52,14 @@ function betaString2Unicode($str) {
             $curOutStr = resetBeta($checks, "", $curOutStr, $betaOut); // make sure this piece is by itself
         }
     }
+    resetBeta($checks, $char, $curOutStr, $betaOut);
     $finalOutStr = "";
     foreach ($betaOut as $betaChunk) {
         $finalOutStr .= beta2unicode($betaChunk);
     }
+    $sigma = utf8_chr(963);
+    $terminalSigma = utf8_chr(962);
+    $finalOutStr = preg_replace("/$sigma(?=\W|$)/u", $terminalSigma, $finalOutStr);
     return $finalOutStr;
 }
 
@@ -86,7 +90,7 @@ function resetBeta(&$checks, $char, $curOutStr, &$betaOut) {
  */
 function uniString2Betacode($str) {
     $outString = "";
-    $uniArray = ustr_split($str);
+    $uniArray = utf8_split($str);
     foreach($uniArray as $uniChar) {
         $outString .= uni2betacode($uniChar);
     }
@@ -96,12 +100,12 @@ function uniString2Betacode($str) {
 /**
  * Given a single UTF-8 grapheme, returns the betacode representation. If there is no betacode representation, the
  * grapheme itself is returned.
- * @uses uniord(), numInRange(), strlen()
+ * @uses utf8_ord(), numInRange(), strlen()
  * @param $unicodeChar string UTF-8 Greek character
  * @return string The betacode chunk that represents the given character
  */
 function uni2betacode($unicodeChar): string {
-    $charCode = uniord($unicodeChar);
+    $charCode = utf8_ord($unicodeChar);
     $output = "";
     if ($charCode == 962) {
         return "J";
@@ -146,20 +150,6 @@ function uni2betacode($unicodeChar): string {
         $output .= "|";
     }
     return (strlen($output) > 0 ? $output : $unicodeChar);
-}
-
-/**
- * Given a unicode (UTF-8) character, returns its character code value. Code by M. Ahmad Zafar at
- * https://stackoverflow.com/a/12989734
- * @uses mb_convert_encoding(), ord(), substr()
- * @param $u string UTF-8 unicode character
- * @return int The Unicode value of the given character
- */
-function uniord($u) {
-    $k = mb_convert_encoding($u, 'UCS-2LE', 'UTF-8');
-    $k1 = ord(substr($k, 0, 1));
-    $k2 = ord(substr($k, 1, 1));
-    return $k2 * 256 + $k1;
 }
 
 /**
@@ -221,7 +211,7 @@ function alphaOnly($str) {
 
 /**
  * Converts a given unit of betacode into the UTF-8 grapheme equivalent from Greek.
- * @uses strpos(), strlen(), count(), dechex(), findRangeCommonality(), ord()
+ * @uses strpos(), strlen(), count(), findRangeCommonality(), ord(), utf8_chr()
  * @param $betaChunk string A cohesive unit of betacode
  * @return string The UTF-8 Greek equivalent of the given betacode
  */
@@ -240,15 +230,15 @@ function beta2unicode($betaChunk) {
         }
     }
     if (count($rangesForCommonality) > 0) {
-        $unicode = dechex(findRangeCommonality($rangesForCommonality, $betaChunk));
+        $unicode = findRangeCommonality($rangesForCommonality, $betaChunk);
     } elseif ($betaChunk == '?') {
-        $unicode = dechex(894);
+        $unicode = 894;
     } elseif ($betaChunk == ':') {
-        $unicode = dechex(908);
+        $unicode = 908;
     } else {
-        $unicode = dechex(ord($betaChunk));
+        $unicode = ord($betaChunk);
     }
-    return "<meta charset=\"UTF-8\">&#x$unicode</meta>"; // TODO: figure another way to do this? header(charset...) does the same thing at the document level
+    return utf8_chr($unicode);
 }
 
 /**
@@ -256,7 +246,7 @@ function beta2unicode($betaChunk) {
  * ranges, finds the one character they have in common; if more than one, excludes options from unincluded ranges. Given
  * just one range, reduces to a single unique value. Given zero ranges, returns the source string. If more than one
  * integer remains despite all best efforts, returns the first one (which may or may not be effectively random).
- * @uses getValuesFromRanges(), count(), array_intersect(), array_diff(), strpos(), array_values(), uniord()
+ * @uses getValuesFromRanges(), count(), array_intersect(), array_diff(), strpos(), array_values(), utf8_ord()
  * @param $rangeSet array An array of integer range strings
  * @param $sourceStr string The source betacode string (assumed to be one character if it gets used)
  * @return int The UTF-8 Unicode character value of the given source
@@ -298,5 +288,5 @@ function findRangeCommonality($rangeSet, $sourceStr): int {
     } else {
         $intersect = [];
     }
-    return (count($intersect) > 0 ? array_values($intersect)[0] : uniord($sourceStr));
+    return (count($intersect) > 0 ? array_values($intersect)[0] : utf8_ord($sourceStr));
 }
