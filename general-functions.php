@@ -92,11 +92,16 @@ function getVerseId(&$db, $chapterId, $verse): int {
 
 /**
  * @param resource|null $db
- * @param string $reference
+ * @param string $reference Should be the STANDARDIZED reference of the verse
  * @param array $indexArray
  * @return int
  */
 function locationWithIndex(&$db, $reference, &$indexArray, $conversionIndex) {
+    if (strpos($reference, "Esther 10") !== false) {
+        print_r($reference);
+        print_r($indexArray[$reference]);
+        print_r($conversionIndex[$reference]);
+    }
     if (isset($indexArray[$reference])) {
         return $indexArray[$reference];
     } elseif (isset($conversionIndex[$reference])) {
@@ -104,6 +109,9 @@ function locationWithIndex(&$db, $reference, &$indexArray, $conversionIndex) {
         $refId = implode(',', $conversionIndex[$reference]);
     } else {
         $refId = getLocation($db, $reference);
+    }
+    if (strpos($reference, "Numbers 13") !== false) {
+        //echo "Ref ID: " . $refId . "\n";
     }
     $indexArray[$reference] = $refId;
     return $refId;
@@ -133,4 +141,19 @@ function getBookProperName(&$db, $bookId): string {
     $results = pg_query_params($db, $sql, [$bookId]);
     $row = pg_fetch_assoc($results);
     return (($row === false) ? '' : $row['term']);
+}
+
+function getStandardizedReference(&$db, $roughReference, &$bookName = '', &$chapterNumber = '', &$verseNumber = ''): string {
+    checkPgConnection($db);
+    $bookName = '';
+    $chapterNumber = '';
+    $verseNumber = '';
+    $bookAbbr = bookFromReference($roughReference);
+    $bookId = getBookId($db, $bookAbbr);
+    $bookName = getBookProperName($db, $bookId);
+    $cv = refArrayFromReference($roughReference, $bookAbbr, $bookId);
+    $chapterNumber = $cv[0];
+    $verseNumber = $cv[1];
+    $outRef = $bookName . ' ' . $chapterNumber . ':' . $verseNumber;
+    return $outRef;
 }

@@ -48,7 +48,6 @@ function getIdRows(&$pgConnection, $tableName, $searchCriteria = []) {
  */
 function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = []) {
     checkPgConnection($pgConnection);
-    $hasArray = false;
     if (is_null($tableName) || strlen($tableName) === 0) {
         return null;
     }
@@ -62,48 +61,35 @@ function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = []
             if ($c++ !== 0) {
                 $sql .= ', ';
             }
-            $sql .= $coln;
+            $sql .= pg_escape_identifier($coln);
         }
     }
-    $sql .= ' FROM public."' . $tableName . '" AS ' . $tableName;
+    $sql .= ' FROM public.' . pg_escape_identifier($tableName);
     if (count($searchCriteria) > 0) {
         $i = 1;
         foreach($searchCriteria as $coln => $value) {
-            if ($i === 1) {
+            if ($i++ === 1) {
                 $sql .= ' WHERE ';
             } else {
                 $sql .= ' AND ';
             }
             if (is_array($value)) {
-                $sql .= $coln . ' IN (';
-                /** @noinspection PhpUnusedLocalVariableInspection */
+                $sql .= pg_escape_identifier($coln) . ' IN (';
+                $subs = "";
                 foreach ($value as $subvalue) {
-                    $sql .= '$' . $i++;
-                    // we don't actually need the subvalues right now, we just want to do this once per value
+                    $subs .= ',' . pg_escape_literal($subvalue);
                 }
-                $hasArray = true;
+                $sql .= substr($subs,1) . ')';
             } elseif (is_null($value)) {
-                $sql .= $coln . ' IS NULL';
+                $sql .= pg_escape_identifier($coln) . ' IS NULL';
                 unset($searchCriteria[$coln]);
             } else {
-                $sql .= $coln . '=$' . $i++;
+                $sql .= $coln . '=' . pg_escape_literal($value);
             }
         }
     }
     $sql .= ';';
-    // we need to keep SQL replacement values in order in the criteria array
-    $newArray = [];
-    foreach ($searchCriteria as $criterion) {
-        if (is_array($criterion)) {
-            foreach ($criterion as $value) {
-                $newArray[] = $value;
-            }
-        } else {
-            $newArray[] = $criterion;
-        }
-    }
-    $searchCriteria = $newArray;
-    $results = pg_query_params($pgConnection, $sql, $searchCriteria);
+    $results = pg_query($pgConnection, $sql);
     return $results;
 }
 
@@ -134,7 +120,7 @@ function getLastInsertId(&$pgConnection, $tableName, $idColumnName = 'id') {
 
 function getCount(&$pgConnection, $tableName, $searchCriteria = []) {
     checkPgConnection($pgConnection);
-    $sql = 'SELECT COUNT(*) AS numFound FROM public."' . $tableName . '"';
+    $sql = 'SELECT COUNT(*) AS num_found FROM public."' . $tableName . '"';
     if (count($searchCriteria) > 0) {
         $i = 1;
         foreach ($searchCriteria as $coln => $value) {
@@ -152,7 +138,35 @@ function getCount(&$pgConnection, $tableName, $searchCriteria = []) {
     }
     $sql .= ';';
     $results = pg_query_params($pgConnection, $sql, $searchCriteria);
-    return pg_fetch_assoc($results)['numFound'];
+    return pg_fetch_assoc($results)['num_found'];
+}
+
+/**
+ * @param resource $db
+ * @param string $tableName
+ * @param array $insertArray
+ * @param string $idColumn
+ * @return bool|mixed
+ */
+function putData(&$db, $tableName, $insertArray, $idColumn = 'id') {
+    checkPgConnection($db);
+    $sql = 'INSERT INTO public.' . pg_escape_identifier($db, $tableName) . ' (';
+    $columns = '';
+    $values = '';
+    foreach ($insertArray as $column => $value) {
+        $columns .= ',' . pg_escape_identifier($db, $column);
+        $values .= ',' . pg_escape_literal($db, $value);
+    }
+    $sql .= substr($columns, 1);
+    $sql .= ') VALUES (';
+    $sql .= substr($values, 1);
+    $sql .= ') RETURNING ' . pg_escape_identifier($db, $idColumn) . ';';
+    $result = pg_query($sql);
+    if ($result === false) {
+        return false;
+    } else {
+        return pg_fetch_assoc($result)[$idColumn];
+    }
 }
 
 

@@ -10,13 +10,16 @@ include_once "general-functions.php";
 include_once "sql-functions.php";
 include_once "user-functions.php";
 
+$DEBUG = true;
+$VERBOSE = false;
+
 header('Content-type: text/html; charset=utf-8');
 ini_set("default_charset", 'utf-8');
 mb_internal_encoding('utf-8');
 
 $memlimit = ini_get('memory_limit');
 ini_set('memory_limit', '-1');
-ini_set('max_execution_time', '3000');
+ini_set('max_execution_time', '30000');
 
 $hexaData = new hexaText();
 
@@ -91,7 +94,7 @@ class hexaVerseObject {
     }
 
     public function setLocationId($newLoc) {
-        $this->locationId = $newLoc;
+        $this->locationId = intval($newLoc);
     }
 
     public function getLocationId(): int {
@@ -151,10 +154,12 @@ class hexaWord extends hexaVerseObject {
 
     public function upload($db, $version, $punc = "NotPunctuation"): void {
         $criteria['location_id'] = $this->getLocationId();
+        $criteria['position'] = $this->position;
         $criteria['version_id'] = $version;
         $results = getData($db, TEXT_VALUE_TABLE(), [], $criteria);
         $row = pg_fetch_assoc($results);
         if ($row !== false) {
+            // TODO: handle updates instead of skipping
             return;
         }
         $encoding = iconv_get_encoding('ouput_encoding');
@@ -165,9 +170,11 @@ class hexaWord extends hexaVerseObject {
         if (strlen($this->strongs) > 0) $valArray['strong_id'] = $this->strongs;
         $valArray['version_id'] = $version;
         pg_insert($db, TEXT_VALUE_TABLE(), $valArray);
-        if ($valArray['location_id'] === -1) {
-            print_r($this);
-            die(-1);
+        if ($GLOBALS['DEBUG']) {
+            if ($valArray['location_id'] === -1) {
+                print_r($this);
+                die(-1);
+            }
         }
         return;
     }
@@ -253,14 +260,14 @@ class hexaNote extends hexaVerseObject {
 
     public function upload($db, $versionId): void {
         if (!is_null($this->crossReference)) {
-            $valArray['loc_id'] = $this->getReference();
+            $valArray['loc_id'] = $this->getLocationId();
             $valArray['ref_id'] = $this->crossRefId;
             $valArray['version_id'] = $versionId;
             pg_insert($db, NOTE_CROSSREF_TABLE(), $valArray);
             free($valArray);
         }
         if (strlen($this->noteText) > 0) {
-            $valArray['loc_id'] = $this->getReference();
+            $valArray['loc_id'] = $this->getLocationId();
             $valArray['note'] = $this->noteText;
             $valArray['version_id'] = $versionId;
             pg_insert($db, NOTE_TEXT_TABLE(), $valArray);
@@ -462,13 +469,8 @@ class hexaText {
      * @param hexaWord $word A word to add to the list of words in this text
      */
     public function addWord($word) {
-        $bookAbbr = bookFromReference($word->getReference());
-        $bookId = getBookId($db, $bookAbbr);
-        $book = getBookProperName($db, $bookId);
-        $cv = refArrayFromReference($word->getReference(), $bookAbbr, $bookId);
-        $chapter = $cv[0];
-        $verse = $cv[1];
-        $this->wordList[$book][$chapter][$verse] = $word;
+        getStandardizedReference($db, $word->getReference(), $book, $chapter, $verse);
+        $this->wordList[$book][$chapter][$verse][] = $word;
     }
 
     /**
@@ -571,39 +573,39 @@ class hexaText {
         // Step 1: Identify number system
         $this->evaluateTests(getData($db, LOC_CONV_TEST_TABLE()));
         $this->discernConversions(getData($db, LOC_CONV_USES_TEST_TABLE()));
-        $this->identifyNumberSystem(getData($db, LOC_NS_USES_CONV_TABLE()), $db);
-        echo $this->officialNumberSystem . '<br />';
-        print_r($this->testResults);
-        die();
+        $this->identifyNumberSystem(getData($db, LOC_NS_USES_CONV_TABLE()));
+        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo 'Number System: ' . $this->officialNumberSystem . "\n";
         // Step 2: Upload source metadata
         $columns['id'] = true;
         $criteria['name'] = $this->copyright->getPublisher();
         $publisherSearch = getData($db, SRC_PUBLISH_TABLE(), $columns, $criteria);
         $row = pg_fetch_assoc($publisherSearch);
-        if ($row !== false) {
-            $insertResource = pg_insert($db, SRC_PUBLISH_TABLE(), $criteria);
-            $publisherId = pg_last_oid($insertResource);
+        if ($row === false) {
+            $publisherId = putData($db, SRC_PUBLISH_TABLE(), $criteria);
         } else {
             $publisherId = $row['id'];
         }
+        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo "Publisher ID: " . ($publisherId === false ? "false" : $publisherId) . "\n";
+
         $srcArray['publisher_id'] = $publisherId;
         $srcArray['lang_id'] = 1; // TODO: how do we know this?
         $srcArray['allows_actions'] = CAN_READ() + CAN_NOTE() + CAN_FOCUS() + CAN_DIFF(); // TODO: handle when diffing isn't allowed
         $srcArray['copyright'] = $this->copyright->getRights();
         $srcArray['user_id'] = CURRENT_USER(); // document owner/uploader
         $srcArray['source_id'] = 1;
-        pg_insert($db, SRC_VERSION_TABLE(), $srcArray);
-        $versionId = getLastInsertId($db, SRC_VERSION_TABLE());
+        $versionId = putData($db, SRC_VERSION_TABLE(), $srcArray);
+        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo "Version ID: " . ($versionId === false ? "false" : $versionId) . "\n";
         free($srcArray);
         free($columns);
         free($criteria);
         $srcArray['version_id'] = $versionId;
-        $srcArray['term'] = $this->translation->getName();
+        $srcArray['term'] = $this->title->getName();
         pg_insert($db, SRC_VERS_TERM_TABLE(), $srcArray);
-        foreach ($this->translation->getAbbreviations() as $abbr) {
+        foreach ($this->title->getAbbreviations() as $abbr) {
             $srcArray['term'] = $abbr;
             pg_insert($db, SRC_VERS_TERM_TABLE(), $srcArray);
         }
+        free($srcArray);
         // Step 3: Identify location IDs & upload data
         $quickIndex = [];
         $conversions = [];
@@ -614,20 +616,33 @@ class hexaText {
         }
         $indexedConversions = getConversionsByDisplayRef($conversions);
         free($conversions);
+        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
+            echo "Indexed conversions: ";
+            print_r($indexedConversions);
+        }
         /** @var hexaWord $word */
+        $i = 0;
         foreach ($this->wordList as $book => $bookContents) {
             foreach ($bookContents as $chapter => $chapterContents) {
-                foreach ($chapterContents as $verse => $word) {
-                    $ref = $word->getReference();
-                    $word->setLocationId(locationWithIndex($db, $ref, $quickIndex, $indexedConversions));
-                    $word->upload($db, $versionId);
+                foreach ($chapterContents as $verse => $verseContents) {
+                    foreach ($verseContents as $position => $word) {
+                        $ref = getStandardizedReference($db, $word->getReference());
+                        $word->setLocationId(locationWithIndex($db, $ref, $quickIndex, $indexedConversions));
+                        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
+                            if ($i % 100 === 0) {
+                                print_r($word);
+                            }
+                        }
+                        $word->upload($db, $versionId);
+                        $i++;
+                    }
                 }
             }
         }
         free($this->wordList);
         /** @var hexaNote $note */
         foreach ($this->nonCanonicalText as $note) {
-            $ref = $note->getReference();
+            $ref = getStandardizedReference($db, $word->getReference());
             $note->setLocationId(locationWithIndex($db, $ref, $quickIndex, $indexedConversions));
             $crossRef = $note->getCrossRef();
             $note->setCrossRefId(locationWithIndex($db, $crossRef, $quickIndex, $indexedConversions));
@@ -645,7 +660,7 @@ class hexaText {
         while (($row = pg_fetch_assoc($testData)) !== false) {
             $reverse = false;
             $greater = true;
-            switch($row['testtype']) {
+            switch ($row['testtype']) {
                 case 'Last':
                     $this->testResults[$row['id']] =
                         ($this->lastVerse($row['book1name'], $row['chapter1num']) == $row['verse1num']);
@@ -670,6 +685,15 @@ class hexaText {
                 default:
                     $this->testResults[$row['id']] = false;
             }
+            if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
+                if (in_array($row['id'], array(250, 1085, 1086, 1219))) {
+                    echo 'Test info! ';
+                    print_r($row);
+                    echo 'Test results: ';
+                    print_r($this->testResults[$row['id']]);
+                    echo "\n";
+                }
+            }
         }
         return;
     }
@@ -679,14 +703,26 @@ class hexaText {
      */
     private function discernConversions($conversionUses): void {
         while (($row = pg_fetch_assoc($conversionUses)) !== false) {
-            if (!isset($this->conversionsUsed[$row['conversion_id']])) {
-                $check = true;
-            } else {
+            $check = true;
+            if (isset($this->conversionsUsed[$row['conversion_id']])) {
                 $check = $this->conversionsUsed[$row['conversion_id']];
             }
             if (!$check) continue; // this will never be true again, so don't bother
-            $check = $check && $this->testResults[$row['test_id']];
+            if ($row['reversed'] === 't') {
+                $check = $check && !$this->testResults[$row['test_id']];
+            } else {
+                $check = $check && $this->testResults[$row['test_id']];
+            }
             $this->conversionsUsed[$row['conversion_id']] = $check;
+            if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
+                if ($row['conversion_id'] == 10176) {
+                    echo 'Conversion Info! ';
+                    print_r($row);
+                    echo 'Current result: ';
+                    print_r($this->conversionsUsed[$row['conversion_id']]);
+                    echo "\n";
+                }
+            }
         }
         return;
     }
@@ -694,23 +730,40 @@ class hexaText {
     /**
      *
      * @param resource $nsData Results of searching for all Number-System-uses-Conversions data
-     * @param resource $db Database connection
      */
-    private function identifyNumberSystem($nsData, $db): void {
-        while ($row = pg_fetch_assoc($nsData) !== false) {
+    private function identifyNumberSystem($nsData): void {
+        $counts = [];
+        while (($row = pg_fetch_assoc($nsData)) !== false) {
             if (!isset($this->numberSystems[$row['ns_id']])) {
                 $check = true;
+                $counts[$row['ns_id']] = 0;
             } else {
                 $check = $this->numberSystems[$row['ns_id']];
             }
+            $counts[$row['ns_id']] += 1;
             if (!$check) continue; // this will never be true again, so don't bother
             $check = $check && $this->conversionsUsed[$row['conversion_id']];
             $this->numberSystems[$row['ns_id']] = $check;
         }
+        $newConversions = [];
+        foreach ($this->conversionsUsed as $convId => $convUsed) {
+            if ($convUsed) {
+                $newConversions[] = $convId;
+            }
+        }
+        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
+            echo 'Number System info! ';
+            print_r($newConversions);
+        }
         foreach ($this->numberSystems as $nsId => $isUsed) {
             if ($isUsed) {
-                $this->officialNumberSystem = $nsId;
-                break;
+                $criteria['ns_id'] = $nsId;
+                //$associatedConversions = getCount($db, LOC_NS_USES_CONV_TABLE(), $criteria);
+                $associatedConversions = $counts[$nsId];
+                if ($associatedConversions == count($newConversions)) {
+                    $this->officialNumberSystem = $nsId;
+                    break;
+                }
             }
         }
         if (!isset($this->officialNumberSystem)) {
@@ -725,15 +778,8 @@ class hexaText {
                 $this->officialNumberSystem = 1; // Standard
             } else {
                 $db = getDbConnection();
-                $newConversions = [];
-                foreach ($this->conversionsUsed as $convId => $convUsed) {
-                    if ($convUsed) {
-                        $newConversions[] = $convId;
-                    }
-                }
-                $insertArray['name'] = $this->title;
-                pg_insert($db, LOC_NS_TABLE(), $insertArray);
-                $newNsId = getLastInsertId($db, LOC_NS_TABLE());
+                $insertArray['name'] = $this->title->getName();
+                $newNsId = putData($db, LOC_NS_TABLE(), $insertArray);
                 unset($insertArray);
                 $insertArray['ns_id'] = $newNsId;
                 foreach ($newConversions as $convId) {
@@ -750,10 +796,20 @@ class hexaText {
      * Returns the last verse (technically, the count of verses) in the given book & chapter combo
      * @param string $book The proper name of the book
      * @param int $chapter The chapter number
-     * @return int The count of verses in the chapter, i.e., the highest verse number
+     * @return int The highest verse number in the chapter
      */
     private function lastVerse($book, $chapter): int {
-        return count($this->wordList[$book][$chapter]);
+        $maxVerse = -1;
+        if (isset($this->wordList[$book])) {
+            if (isset($this->wordList[$book][$chapter])) {
+                foreach ($this->wordList[$book][$chapter] as $verse => $words) {
+                    if ($verse > $maxVerse) {
+                        $maxVerse = $verse;
+                    }
+                }
+            }
+        }
+        return $maxVerse;
     }
 
     /**
@@ -785,14 +841,20 @@ class hexaText {
                                      bool $oneGreater = true,
                                      float $oneMultiplier = 1, float $twoMultiplier = 1): bool {
         /** @var hexaWord $word1 */
-        $word1 = $this->wordList[$book1][$chapter1][$verse1];
+        $words1 = $this->getWord($book1, $chapter1, $verse1);
         /** @var hexaWord $word2 */
-        $word2 = $this->wordList[$book2][$chapter2][$verse2];
-        if (is_null($word1) || is_null($word2)) {
+        $words2 = $this->getWord($book2, $chapter2, $verse2);
+        if (is_null($words1) || is_null($words2)) {
             return false;
         }
-        $length1 = $word1->getTotalLength();
-        $length2 = $word2->getTotalLength();
+        $length1 = 0;
+        $length2 = 0;
+        foreach ($words1 as $word1) {
+            $length1 += $word1->getTotalLength();
+        }
+        foreach ($words2 as $word2) {
+            $length2 += $word2->getTotalLength();
+        }
         $length1 *= $oneMultiplier;
         $length2 *= $twoMultiplier;
         if ($oneGreater) {
@@ -800,5 +862,26 @@ class hexaText {
         } else {
             return $length2 > $length1;
         }
+    }
+
+    /**
+     * @param $book
+     * @param $chapter
+     * @param $verse
+     * @return hexaWord|array|null
+     */
+    private function getWord($book, $chapter, $verse, $position = -1) {
+        if (isset($this->wordList[$book])) {
+            if (isset($this->wordList[$book][$chapter])) {
+                if (isset($this->wordList[$book][$chapter][$verse])) {
+                    if ($position >= 0 && isset($this->wordList[$book][$chapter][$verse][$position])) {
+                        return $this->wordList[$book][$chapter][$verse][$position]; // this specific word
+                    } elseif ($position < 0) {
+                        return $this->wordList[$book][$chapter][$verse]; // all words in this verse
+                    }
+                }
+            }
+        }
+        return null; // word/verse does not exist
     }
 }

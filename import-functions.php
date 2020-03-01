@@ -73,6 +73,7 @@ function wordRegexPattern() {
  * @return string Pattern for identifying non-word strings (excluding spaces) in regex (internationally capable)
  */
 function nonwordRegexPattern() {
+    // TODO: account for weird punctuation like 'right quotation apostrophe' instead of regular apostrophe (we remove characters from words based on this regex rather than the one above)
     return '(?:\p{P}|\p{N}+|\p{S})';
 }
 
