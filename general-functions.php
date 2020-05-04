@@ -157,3 +157,28 @@ function getStandardizedReference(&$db, $roughReference, &$bookName = '', &$chap
     $outRef = $bookName . ' ' . $chapterNumber . ':' . $verseNumber;
     return $outRef;
 }
+
+/**
+ * @param array $row from the conversion tests table
+ */
+function rowIsEsther($row) {
+    return (bookIsEsther($row['book1name']) || bookIsEsther($row['book2name']));
+}
+
+/**
+ * @param string $bookName name of a book
+ */
+function bookIsEsther($bookName) {
+    return in_array($bookName, array('Esther', 'Esther (Greek)'));
+}
+
+/**
+ * @param string $bookName either "Esther" or "Esther (Greek)"
+ */
+function reverseEsther($bookName) {
+    if ($bookName === 'Esther') {
+        return 'Esther (Greek)';
+    } else {
+        return 'Esther';
+    }
+}

@@ -566,6 +566,100 @@ class hexaText {
     }
 
     /**
+     * @param resource $conversionUses Results of searching for all Conversion-uses-Tests data
+     */
+    private function discernConversions($conversionUses): void {
+        while (($row = pg_fetch_assoc($conversionUses)) !== false) {
+            $check = true;
+            if (isset($this->conversionsUsed[$row['conversion_id']])) {
+                $check = $this->conversionsUsed[$row['conversion_id']];
+            }
+            if (!$check) continue; // this will never be true again, so don't bother
+            if ($row['reversed'] === 't') {
+                $check = $check && !$this->testResults[$row['test_id']];
+            } else {
+                $check = $check && $this->testResults[$row['test_id']];
+            }
+            $this->conversionsUsed[$row['conversion_id']] = $check;
+            if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
+                if ($row['conversion_id'] == 10176) {
+                    echo 'Conversion Info! ';
+                    print_r($row);
+                    echo 'Current result: ';
+                    print_r($this->conversionsUsed[$row['conversion_id']]);
+                    echo "\n";
+                }
+            }
+        }
+        return;
+    }
+
+    /**
+     *
+     * @param resource $nsData Results of searching for all Number-System-uses-Conversions data
+     */
+    private function identifyNumberSystem($nsData): void {
+        $counts = [];
+        while (($row = pg_fetch_assoc($nsData)) !== false) {
+            if (!isset($this->numberSystems[$row['ns_id']])) {
+                $check = true;
+                $counts[$row['ns_id']] = 0;
+            } else {
+                $check = $this->numberSystems[$row['ns_id']];
+            }
+            $counts[$row['ns_id']] += 1;
+            if (!$check) continue; // this will never be true again, so don't bother
+            $check = $check && $this->conversionsUsed[$row['conversion_id']];
+            $this->numberSystems[$row['ns_id']] = $check;
+        }
+        $newConversions = [];
+        foreach ($this->conversionsUsed as $convId => $convUsed) {
+            if ($convUsed) {
+                $newConversions[] = $convId;
+            }
+        }
+        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
+            echo 'Number System info! ';
+            print_r($newConversions);
+        }
+        foreach ($this->numberSystems as $nsId => $isUsed) {
+            if ($isUsed) {
+                $criteria['ns_id'] = $nsId;
+                //$associatedConversions = getCount($db, LOC_NS_USES_CONV_TABLE(), $criteria);
+                $associatedConversions = $counts[$nsId];
+                if ($associatedConversions == count($newConversions)) {
+                    $this->officialNumberSystem = $nsId;
+                    break;
+                }
+            }
+        }
+        if (!isset($this->officialNumberSystem)) {
+            $needNew = false;
+            foreach ($this->conversionsUsed as $convUsed) {
+                if ($convUsed) {
+                    $needNew = true;
+                    break;
+                }
+            }
+            if (!$needNew) {
+                $this->officialNumberSystem = 1; // Standard
+            } else {
+                $db = getDbConnection();
+                $insertArray['name'] = $this->title->getName();
+                $newNsId = putData($db, LOC_NS_TABLE(), $insertArray);
+                unset($insertArray);
+                $insertArray['ns_id'] = $newNsId;
+                foreach ($newConversions as $convId) {
+                    $insertArray['conversion_id'] = $convId;
+                    pg_insert($db, LOC_NS_USES_CONV_TABLE(), $insertArray);
+                }
+                $this->officialNumberSystem = $newNsId;
+            }
+        }
+        return;
+    }
+
+    /**
      *
      */
     public function upload(): void {
@@ -658,33 +752,59 @@ class hexaText {
      */
     private function evaluateTests($testData): void {
         while (($row = pg_fetch_assoc($testData)) !== false) {
-            $reverse = false;
-            $greater = true;
-            switch ($row['testtype']) {
-                case 'Last':
-                    $this->testResults[$row['id']] =
-                        ($this->lastVerse($row['book1name'], $row['chapter1num']) == $row['verse1num']);
-                    break;
-                /** @noinspection PhpMissingBreakStatementInspection */
-                case 'NotExist':
-                    $reverse = true;
-                case 'Exist':
-                    $this->testResults[$row['id']] =
-                        $this->verseExists($row['book1name'], $row['chapter1num'], $row['verse1num']);
-                    if ($reverse) $this->testResults[$row['id']] = !$this->testResults[$row['id']];
-                    break;
-                /** @noinspection PhpMissingBreakStatementInspection */
-                case 'LessThan':
-                    $greater = false;
-                case 'GreaterThan':
-                    $this->testResults[$row['id']] =
-                        $this->lengthComparison($row['book1name'], $row['chapter1num'], $row['verse1num'],
-                            $row['book2name'], $row['chapter2num'], $row['verse2num'], $greater,
-                            $row['multiplier1'], $row['multiplier2']);
-                    break;
-                default:
-                    $this->testResults[$row['id']] = false;
-            }
+            $repeatBecauseEsther = rowIsEsther($row);
+            $reversedEstherOne = false;
+            $reversedEstherTwo = false;
+            $reversedBoth = false;
+            do {
+                if (isset($this->testResults[$row['id']]) && $this->testResults[$row['id']] === false && $repeatBecauseEsther) {
+                    // this will only happen if we've already run the test once
+                    // the first run was with both original names (e.g., Esther and Esther)
+                    // the second run is with name 1 reversed and name 2 normal (e.g., Esther (Greek) and Esther)
+                    // the third run is with name 1 reversed and name 2 reversed (e.g., Esther (Greek) and Esther (Greek))
+                    // the fourth run is with name 1 normal and name 2 reversed (e.g., Esther and Esther (Greek))
+                    // if ANY of these return true, the test is considered true
+                    if (bookIsEsther($row['book1name']) && !$reversedEstherOne) {
+                        $row['book1name'] = reverseEsther($row['book1name']);
+                        $reversedEstherOne = true;
+                    } elseif (bookIsEsther($row['book2name']) && !$reversedEstherTwo) {
+                        $row['book2name'] = reverseEsther($row['book2name']);
+                        $reversedEstherTwo = true;
+                    } elseif (bookIsEsther($row['book1name']) && bookIsEsther($row['book2name']) && !$reversedBoth) {
+                        $row['book1name'] = reverseEsther($row['book1name']);
+                        $reversedBoth = true;
+                    } else {
+                        break;
+                    }
+                }
+                $reverse = false;
+                $greater = true;
+                switch ($row['testtype']) {
+                    case 'Last':
+                        $this->testResults[$row['id']] =
+                            ($this->lastVerse($row['book1name'], $row['chapter1num']) == $row['verse1num']);
+                        break;
+                    /** @noinspection PhpMissingBreakStatementInspection */
+                    case 'NotExist':
+                        $reverse = true;
+                    case 'Exist':
+                        $this->testResults[$row['id']] =
+                            $this->verseExists($row['book1name'], $row['chapter1num'], $row['verse1num']);
+                        if ($reverse) $this->testResults[$row['id']] = !$this->testResults[$row['id']];
+                        break;
+                    /** @noinspection PhpMissingBreakStatementInspection */
+                    case 'LessThan':
+                        $greater = false;
+                    case 'GreaterThan':
+                        $this->testResults[$row['id']] =
+                            $this->lengthComparison($row['book1name'], $row['chapter1num'], $row['verse1num'],
+                                $row['book2name'], $row['chapter2num'], $row['verse2num'], $greater,
+                                $row['multiplier1'], $row['multiplier2']);
+                        break;
+                    default:
+                        $this->testResults[$row['id']] = false;
+                }
+            } while ($repeatBecauseEsther && !$this->testResults[$row['id']]);
             if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
                 if (in_array($row['id'], array(250, 1085, 1086, 1219))) {
                     echo 'Test info! ';
@@ -693,100 +813,6 @@ class hexaText {
                     print_r($this->testResults[$row['id']]);
                     echo "\n";
                 }
-            }
-        }
-        return;
-    }
-
-    /**
-     * @param resource $conversionUses Results of searching for all Conversion-uses-Tests data
-     */
-    private function discernConversions($conversionUses): void {
-        while (($row = pg_fetch_assoc($conversionUses)) !== false) {
-            $check = true;
-            if (isset($this->conversionsUsed[$row['conversion_id']])) {
-                $check = $this->conversionsUsed[$row['conversion_id']];
-            }
-            if (!$check) continue; // this will never be true again, so don't bother
-            if ($row['reversed'] === 't') {
-                $check = $check && !$this->testResults[$row['test_id']];
-            } else {
-                $check = $check && $this->testResults[$row['test_id']];
-            }
-            $this->conversionsUsed[$row['conversion_id']] = $check;
-            if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
-                if ($row['conversion_id'] == 10176) {
-                    echo 'Conversion Info! ';
-                    print_r($row);
-                    echo 'Current result: ';
-                    print_r($this->conversionsUsed[$row['conversion_id']]);
-                    echo "\n";
-                }
-            }
-        }
-        return;
-    }
-
-    /**
-     *
-     * @param resource $nsData Results of searching for all Number-System-uses-Conversions data
-     */
-    private function identifyNumberSystem($nsData): void {
-        $counts = [];
-        while (($row = pg_fetch_assoc($nsData)) !== false) {
-            if (!isset($this->numberSystems[$row['ns_id']])) {
-                $check = true;
-                $counts[$row['ns_id']] = 0;
-            } else {
-                $check = $this->numberSystems[$row['ns_id']];
-            }
-            $counts[$row['ns_id']] += 1;
-            if (!$check) continue; // this will never be true again, so don't bother
-            $check = $check && $this->conversionsUsed[$row['conversion_id']];
-            $this->numberSystems[$row['ns_id']] = $check;
-        }
-        $newConversions = [];
-        foreach ($this->conversionsUsed as $convId => $convUsed) {
-            if ($convUsed) {
-                $newConversions[] = $convId;
-            }
-        }
-        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
-            echo 'Number System info! ';
-            print_r($newConversions);
-        }
-        foreach ($this->numberSystems as $nsId => $isUsed) {
-            if ($isUsed) {
-                $criteria['ns_id'] = $nsId;
-                //$associatedConversions = getCount($db, LOC_NS_USES_CONV_TABLE(), $criteria);
-                $associatedConversions = $counts[$nsId];
-                if ($associatedConversions == count($newConversions)) {
-                    $this->officialNumberSystem = $nsId;
-                    break;
-                }
-            }
-        }
-        if (!isset($this->officialNumberSystem)) {
-            $needNew = false;
-            foreach ($this->conversionsUsed as $convUsed) {
-                if ($convUsed) {
-                    $needNew = true;
-                    break;
-                }
-            }
-            if (!$needNew) {
-                $this->officialNumberSystem = 1; // Standard
-            } else {
-                $db = getDbConnection();
-                $insertArray['name'] = $this->title->getName();
-                $newNsId = putData($db, LOC_NS_TABLE(), $insertArray);
-                unset($insertArray);
-                $insertArray['ns_id'] = $newNsId;
-                foreach ($newConversions as $convId) {
-                    $insertArray['conversion_id'] = $convId;
-                    pg_insert($db, LOC_NS_USES_CONV_TABLE(), $insertArray);
-                }
-                $this->officialNumberSystem = $newNsId;
             }
         }
         return;
