@@ -23,6 +23,8 @@ ini_set('max_execution_time', '30000');
 
 $hexaData = new hexaText();
 
+//TODO: Redo this with XMLReader instead of XMLParser
+
 /* ***** XML ***** */
 $sourceFile = "xml/engDRA_osis.xml"; // file path to upload?
 $xmlParser = xml_parser_create();
