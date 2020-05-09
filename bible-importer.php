@@ -27,6 +27,39 @@ $hexaData = new hexaText();
 
 /* ***** XML ***** */
 $sourceFile = "xml/engDRA_osis.xml"; // file path to upload?
+$initialReader = new XMLReader();
+$initialReader->open($sourceFile);
+$initialReader->read();
+$firstTag = strtolower($initialReader->localName);
+$initialReader->close();
+try {
+    switch ($firstTag) {
+        case 'osis':
+            $reader = new OSISReader();
+            break;
+        case 'thml':
+            break;
+        case 'xmlbible':
+        case 'x':
+            break;
+        case 'usfx':
+            break;
+        case 'scripture':
+            break;
+        case 'usx':
+            break;
+        default:
+            throw new TypeError('Not an accepted file format');
+    }
+} catch(TypeError $e) {
+    echo $e->getMessage();
+}
+$reader->open($sourceFile);
+
+$reader->close();
+
+
+/*
 $xmlParser = xml_parser_create();
 xml_parser_set_option($xmlParser, XML_OPTION_TARGET_ENCODING, 'utf-8');
 xml_parse_into_struct($xmlParser, implode("", file($sourceFile)), $values, $indices);
@@ -60,7 +93,7 @@ switch($values[0]['tag']) {
         break;
     default:
         echo "Error! Not an accepted file format.";
-}
+}*/
 
 // do stuff
 //echo $hexaData;

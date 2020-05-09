@@ -10,12 +10,22 @@ function numbersOnly($str) {
     return preg_replace('/\D/u', '', $str);
 }
 
+/**
+ * @param $ref
+ * @return string
+ */
 function bookFromReference($ref): string {
     $pattern = '/^((?:(?:\d+|[[:alpha:]]+)\s?)?[[:alpha:]]+)/u';
     preg_match($pattern, $ref, $matches);
     return $matches[0];
 }
 
+/**
+ * @param $ref
+ * @param $book
+ * @param $bookId
+ * @return array
+ */
 function refArrayFromReference($ref, $book, $bookId): array {
     $ref = str_replace($book, '', $ref);
     $ref = trim($ref, ".:;, \t\n\r\0\x0B");
@@ -36,6 +46,10 @@ function refArrayFromReference($ref, $book, $bookId): array {
     return [$chapter, $verse];
 }
 
+/**
+ * @param $cv
+ * @return array
+ */
 function splitChapterVerse($cv): array {
     $out = explode(':', $cv);
     if (count($out) > 1) return $out;
@@ -45,6 +59,11 @@ function splitChapterVerse($cv): array {
     return $out;
 }
 
+/**
+ * @param $db
+ * @param $reference
+ * @return int
+ */
 function getLocation(&$db, $reference) {
     checkPgConnection($db);
     $book = bookFromReference($reference);
@@ -56,6 +75,11 @@ function getLocation(&$db, $reference) {
     return getVerseId($db, $chapterId, $cv[1]);
 }
 
+/**
+ * @param $db
+ * @param $bookName
+ * @return int
+ */
 function getBookId(&$db, $bookName): int {
     checkPgConnection($db);
     $columns['section_id'] = true;
@@ -70,6 +94,12 @@ function getBookId(&$db, $bookName): int {
     return ($row !== false ? $row['section_id'] : -1);
 }
 
+/**
+ * @param $db
+ * @param $bookId
+ * @param $chapter
+ * @return int
+ */
 function getChapterId(&$db, $bookId, $chapter): int {
     checkPgConnection($db);
     $columns['id'] = true;
@@ -80,6 +110,12 @@ function getChapterId(&$db, $bookId, $chapter): int {
     return ($row !== false ? $row['id'] : -1);
 }
 
+/**
+ * @param $db
+ * @param $chapterId
+ * @param $verse
+ * @return int
+ */
 function getVerseId(&$db, $chapterId, $verse): int {
     checkPgConnection($db);
     $columns['id'] = true;
@@ -117,6 +153,10 @@ function locationWithIndex(&$db, $reference, &$indexArray, $conversionIndex) {
     return $refId;
 }
 
+/**
+ * @param $convList
+ * @return array
+ */
 function getConversionsByDisplayRef($convList) {
     if (count($convList) == 0) return [];
     $columns['loc_id'] = true;
@@ -130,11 +170,19 @@ function getConversionsByDisplayRef($convList) {
     return $indexedArray;
 }
 
+/**
+ * @param $array
+ */
 function free(&$array) {
     $array = null;
     unset($array);
 }
 
+/**
+ * @param $db
+ * @param $bookId
+ * @return string
+ */
 function getBookProperName(&$db, $bookId): string {
     checkPgConnection($db);
     $sql = 'SELECT term FROM public.loc_section_term WHERE loc_section_term.id = (SELECT primary_term_id FROM public.loc_section WHERE loc_section.id = $1)';
@@ -143,6 +191,14 @@ function getBookProperName(&$db, $bookId): string {
     return (($row === false) ? '' : $row['term']);
 }
 
+/**
+ * @param $db
+ * @param $roughReference
+ * @param string $bookName
+ * @param string $chapterNumber
+ * @param string $verseNumber
+ * @return string
+ */
 function getStandardizedReference(&$db, $roughReference, &$bookName = '', &$chapterNumber = '', &$verseNumber = ''): string {
     checkPgConnection($db);
     $bookName = '';
