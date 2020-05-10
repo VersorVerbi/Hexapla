@@ -1,9 +1,51 @@
 <?php
 
+/**
+ * Class BibleXMLReader
+ */
 abstract class BibleXMLReader extends XMLReader {
+
+    /** @var array */
     private $testResults;
-    abstract public function runTests();
-    abstract public function exportAndUpload();
+    /** @var string */
+    private $encoding;
+    /** @var string */
+    private $file;
+    /** @var int */
+    private $options;
+
+    /**
+     * @param string $URI
+     * @param string|null $encoding
+     * @param int $options
+     * @return bool
+     */
+    public function open($URI, $encoding = null, $options = 0) {
+        $this->encoding = $encoding;
+        $this->options = $options;
+        $this->file = $URI;
+        return parent::open($URI, $encoding, $options);
+    }
+
+    /**
+     * @param resource|null $db
+     * @return void
+     */
+    abstract public function runTests(&$db);
+
+    /**
+     * @param resource|null $db
+     * @return void
+     */
+    abstract public function exportAndUpload(&$db);
+
+    /**
+     *
+     */
+    public function returnToStart() {
+        $this->close();
+        $this->open($this->file, $this->encoding, $this->options);
+    }
 }
 
 class PositionException extends Exception {

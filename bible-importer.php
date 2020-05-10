@@ -54,8 +54,9 @@ try {
 } catch(TypeError $e) {
     echo $e->getMessage();
 }
-$reader->open($sourceFile);
-
+$reader->open($sourceFile, 'utf-8',LIBXML_PARSEHUGE);
+$reader->runTests();
+$reader->exportAndUpload();
 $reader->close();
 
 

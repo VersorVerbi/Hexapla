@@ -24,12 +24,30 @@ class OSISReader extends BibleXMLReader {
         } while (!$done);
     }
 
-    public function runTests() {
+    public function runTests(&$db) {
         // TODO: Implement runTests() method.
+        checkPgConnection($db);
+        $testData = getData($db, HexaplaTables::LOC_TEST);
+        while ($row = pg_fetch_assoc($testData) !== false) {
+            switch($row['testtype']) {
+                case HexaplaTests::LAST:
+                    break;
+                case HexaplaTests::NOT_EXIST:
+                case HexaplaTests::EXIST:
+                    break;
+                case HexaplaTests::LESS_THAN:
+                case HexaplaTests::GREATER_THAN:
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
-    public function exportAndUpload() {
+    public function exportAndUpload(&$db) {
         // TODO: Implement exportAndUpload() method.
+        checkPgConnection($db);
+        $this->returnToStart();
     }
 
     /**

@@ -146,9 +146,9 @@ function getCount(&$pgConnection, $tableName, $searchCriteria = []) {
  * @param string $tableName
  * @param array $insertArray
  * @param string $idColumn
- * @return bool|mixed
+ * @return bool|resource
  */
-function putData(&$db, $tableName, $insertArray, $idColumn = 'id') {
+function putData(&$db, $tableName, $insertArray, $idColumn = HexaplaStandardColumns::ID) {
     checkPgConnection($db);
     $sql = 'INSERT INTO public.' . pg_escape_identifier($db, $tableName) . ' (';
     $columns = '';
@@ -169,116 +169,204 @@ function putData(&$db, $tableName, $insertArray, $idColumn = 'id') {
     }
 }
 
-
-// TABLE CONSTANTS
-function TEXT_VALUE_TABLE(): string {
-    return 'text_value';
+#region Database Table & Enum Classes
+class HexaplaTables {
+    const TEXT_VALUE = 'text_value';
+    const LANG_DEFINITION = 'lang_definition';
+    const LANG_DICTIONARY = 'lang_dictionary';
+    const LANG_LEMMA = 'lang_lemma';
+    const LANG_PARSE = 'lang_parse';
+    const LANGUAGE = 'language';
+    const LOC_TEST = 'loc_conv_test';
+    const LOC_CONV_USES_TEST = 'loc_conv_uses_test';
+    const LOC_CONVERSION = 'loc_conversion';
+    const LOC_NUMSYS_USES_CONV = 'loc_ns_uses_conv';
+    const LOC_NUMBER_SYSTEM = 'loc_number_system';
+    const LOC_SECTION = 'loc_section';
+    const LOC_SECTION_TERM = 'loc_section_term';
+    const LOC_SUBSECTION = 'loc_subsection';
+    const LOC_SUBSECTION_TERM = 'loc_subsection_term';
+    const LOCATION = 'location';
+    const SOURCE_METADATA = 'source_metadata';
+    const SOURCE_PUBLISHER = 'source_publisher';
+    const SOURCE_VERSION = 'source_version';
+    const SOURCE_VERSION_SEQUENCE = 'source_version_sequence';
+    const SOURCE_VERSION_TERM = 'source_version_term';
+    const USER = 'user';
+    const USER_CREDENTIAL = 'user_credential';
+    const USER_GROUP = 'user_group';
+    const USER_NOTES = 'user_notes';
+    const USER_NOTES_LOCATION = 'user_notes_on_loc';
+    const NOTE_TEXT = 'note_text';
+    const NOTE_CROSSREF = 'note_reference';
 }
 
-function LANG_DEFN_TABLE(): string {
-    return 'lang_definition';
+class HexaplaTests {
+    const LAST = 'Last';
+    const NOT_EXIST = 'NotExist';
+    const EXIST = 'Exist';
+    const LESS_THAN = 'LessThan';
+    const GREATER_THAN = 'GreaterThan';
+}
+class HexaplaPunctuation {
+    const CLOSING = 'Closing';
+    const OPENING = 'Opening';
+    const NOT = 'NotPunctuation';
+}
+#endregion
+
+#region Database Column Classes
+interface HexaplaStandardColumns {
+    const ID = 'id';
+}
+interface HexaplaLangColumns {
+    const LANGUAGE_ID = 'lang_id';
+}
+interface HexaplaDefiningColumns {
+    const DEFINITION = 'definition';
+}
+interface HexaplaValueColumns {
+    const VALUE = 'value';
+}
+interface HexaplaStrongColumns {
+    const STRONG_ID = 'strong_id';
+}
+interface HexaplaLemmaColumns {
+    const LEMMA_ID = 'lemma_id';
+}
+interface HexaplaNameColumns {
+    const NAME = 'name';
+}
+interface HexaplaTestColumns {
+    const TEST_ID = 'test_id';
+}
+interface HexaplaConversionColumns {
+    const CONVERSION_ID = 'conversion_id';
+}
+interface HexaplaLocationColumns {
+    const LOCATION_ID = 'loc_id';
+}
+interface HexaplaNumberSystemColumns {
+    const NUMBER_SYSTEM_ID = 'ns_id';
+}
+interface HexaplaPositionColumns {
+    const POSITION = 'position';
+}
+interface HexaplaSourceColumns {
+    const SOURCE_ID = 'source_id';
+}
+interface HexaplaSectionColumns {
+    const SECTION_ID = 'section_id';
+}
+interface HexaplaTermColumns {
+    const TERM = 'term';
+}
+interface HexaplaSubsectionColumns {
+    const SUBSECTION_ID = 'subsection_id';
+}
+interface HexaplaVersionColumns {
+    const VERSION_ID = 'version_id';
+}
+interface HexaplaUserColumns {
+    const USER_ID = 'user_id';
 }
 
-function LANG_DICT_TABLE(): string {
-    return 'lang_dictionary';
+class HexaplaTextValue implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaStrongColumns, HexaplaPositionColumns, HexaplaVersionColumns {
+    const LOCATION_ID = 'location_id'; // TODO: Standardize this
+    const PUNCTUATION = 'punctuation';
 }
-
-function LANG_LEMMA_TABLE(): string {
-    return 'lang_lemma';
+class HexaplaLangDefinition implements HexaplaStandardColumns, HexaplaLangColumns, HexaplaDefiningColumns, HexaplaLemmaColumns {
+    const DICTIONARY_ID = 'dict_id';
 }
-
-function LANG_PARSE_TABLE(): string {
-    return 'lang_parse';
+class HexaplaLangDictionary implements HexaplaStandardColumns, HexaplaLangColumns, HexaplaNameColumns {}
+class HexaplaLangLemma implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaDefiningColumns, HexaplaStrongColumns {
+    const UNMARKED_VALUE = 'unmarked_value';
+    const UNICODE_VALUE = 'unicode_value';
+    const UNMARKED_UNICODE_VALUE = 'unmarked_unicode';
 }
-
-function LANG_TABLE(): string {
-    return 'language';
+class HexaplaLangParse implements HexaplaStandardColumns, HexaplaLemmaColumns {
+    const MORPH_CODE = 'morph_code';
+    const EXPANDED_FROM = 'expanded_from';
+    const FORM = 'form';
+    const BARE_FORM = 'bare_form';
+    const DIALECTS = 'dialects';
+    const MISC_FEATURES = 'misc_features';
 }
-
-function LOC_CONV_TEST_TABLE(): string {
-    return 'loc_conv_test';
+class HexaplaLangStrongs implements HexaplaStandardColumns, HexaplaLemmaColumns {}
+class HexaplaLanguage implements  HexaplaStandardColumns, HexaplaNameColumns {}
+class HexaplaLocTest implements HexaplaStandardColumns {
+    const BOOK_1_NAME = 'book1name';
+    const CHAPTER_1_NUM = 'chapter1num';
+    const VERSE_1_NUM = 'verse1num';
+    const MULTIPLER_1 = 'multiplier1';
+    const TEST_TYPE = 'testtype';
+    const BOOK_2_NAME = 'book2name';
+    const CHAPTER_2_NUM = 'chapter2num';
+    const VERSE_2_NUM = 'verse2num';
+    const MULTIPLIER_2 = 'multiplier2';
 }
-
-function LOC_CONV_USES_TEST_TABLE(): string {
-    return 'loc_conv_uses_test';
+class HexaplaLocConvUsesTest implements HexaplaConversionColumns, HexaplaTestColumns {
+    const REVERSED = 'reversed';
 }
-
-function LOC_CONV_TABLE(): string {
-    return 'loc_conversion';
+class HexaplaConversion implements HexaplaStandardColumns, HexaplaLocationColumns {
+    const DISPLAY_NAME = 'display_name';
 }
-
-function LOC_NS_USES_CONV_TABLE(): string {
-    return 'loc_ns_uses_conv';
+class HexaplaNumSysUsesConv implements HexaplaConversionColumns, HexaplaNumberSystemColumns {}
+class HexaplaNumberSystem implements HexaplaStandardColumns, HexaplaNameColumns {}
+class HexaplaLocSection implements HexaplaStandardColumns, HexaplaPositionColumns, HexaplaSourceColumns {
+    const PRIMARY_TERM_ID = 'primary_term_id';
 }
-
-function LOC_NS_TABLE(): string {
-    return 'loc_number_system';
+class HexaplaLocSectionTerm implements HexaplaStandardColumns, HexaplaSectionColumns, HexaplaTermColumns {
+    const IS_PRIMARY = 'is_primary';
 }
-
-function LOC_SECTION_TABLE(): string {
-    return 'loc_section';
+class HexaplaLocSubsection implements HexaplaStandardColumns, HexaplaPositionColumns, HexaplaSectionColumns {}
+class HexaplaLocSubsectionTerm implements HexaplaStandardColumns, HexaplaTermColumns {
+    const SUBSECTION_ID = 'subId'; //TODO: Standardize this
 }
-
-function LOC_SECT_TERM_TABLE(): string {
-    return 'loc_section_term';
+class HexaplaLocation implements HexaplaStandardColumns, HexaplaPositionColumns, HexaplaSubsectionColumns {}
+class HexaplaNoteCrossRef implements HexaplaStandardColumns, HexaplaLocationColumns, HexaplaVersionColumns {
+    const REFERENCE_ID = 'ref_id';
 }
-
-function LOC_SUBSECT_TABLE(): string {
-    return 'loc_subsection';
+class HexaplaNoteText implements HexaplaStandardColumns, HexaplaLocationColumns, HexaplaVersionColumns {
+    const VALUE = 'note'; // TODO: Standardize this
 }
-
-function LOC_SUBSECT_TERM_TABLE(): string {
-    return 'loc_subsection_term';
+class HexaplaSourceMetadata implements HexaplaStandardColumns {
+    const DATE = 'date';
+    const AUTHOR = 'author';
+    const TITLE = 'title';
 }
-
-function LOC_TABLE(): string {
-    return 'location';
+class HexaplaSourcePublisher implements HexaplaStandardColumns, HexaplaNameColumns {}
+class HexaplaSourceTerm implements HexaplaStandardColumns, HexaplaTermColumns {
+    const SOURCE_ID = 'sourceId'; // TODO: standardize this
 }
-
-function SRC_META_TABLE(): string {
-    return 'source_metadata';
+class HexaplaSourceVersion implements HexaplaStandardColumns {
+    const LANGUAGE_ID = 'langId'; // TODO: Standardize
+    const ALLOWS_ACTIONS = 'allowsActions'; // TODO: Reformat this
+    const SOURCE_ID = 'sourceId'; // TODO: Standardize
+    const USER_ID = 'userId'; // TODO: Standardize
+    const COPYRIGHT = 'copyright';
 }
-
-function SRC_PUBLISH_TABLE(): string {
-    return 'source_publisher';
+class HexaplaSourceVersionSequence implements HexaplaSectionColumns {
+    const SEQUENCE_ORDER = 'sequence_order';
 }
-
-function SRC_VERSION_TABLE(): string {
-    return 'source_version';
+class HexaplaUser implements HexaplaStandardColumns {
+    const NAME = 'username';
+    const EMAIL = 'email';
+    const PASSWORD = 'password';
+    const GROUP_ID = 'groupId'; // TODO: Reformat/standardize
 }
-
-function SRC_VERS_SEQ_TABLE(): string {
-    return 'source_version_sequence';
+class HexaplaUserCredential implements HexaplaStandardColumns {
+    const USER_ID = 'userId'; // TODO: Standardize
+    const INFO = 'info';
+    const DATA = 'data';
 }
-
-function USER_TABLE(): string {
-    return 'user';
+class HexaplaUserGroup implements HexaplaStandardColumns, HexaplaNameColumns {
+    const ALLOWS_ACTIONS = 'allowsBehavior';
 }
-
-function USER_CRED_TABLE(): string {
-    return 'user_credential';
+class HexaplaUserNotes implements HexaplaStandardColumns, HexaplaUserColumns {
+    const VALUE = 'note_text'; // TODO: Standardize?
 }
-
-function USER_GROUP_TABLE(): string {
-    return 'user_group';
+class HexaplaUserNotesLocation implements HexaplaLocationColumns {
+    const NOTE_ID = 'note_id';
 }
-
-function USER_NOTES_TABLE(): string {
-    return 'user_notes';
-}
-
-function USER_NOTES_LOC_TABLE(): string {
-    return 'user_notes_on_loc';
-}
-
-function NOTE_TEXT_TABLE(): string {
-    return 'note_text';
-}
-
-function NOTE_CROSSREF_TABLE(): string {
-    return 'note_reference';
-}
-
-function SRC_VERS_TERM_TABLE(): string {
-    return 'source_version_term';
-}
+#endregion
