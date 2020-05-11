@@ -28,11 +28,11 @@ function bookFromReference($ref): string {
  */
 function refArrayFromReference($ref, $book, $bookId): array {
     $ref = str_replace($book, '', $ref);
-    $ref = trim($ref, ".:;, \t\n\r\0\x0B");
+    $ref = cvTrim($ref);
     $split = splitChapterVerse($ref);
     if (count($split) == 1) {
-        $criteria['section_id'] = $bookId;
-        if (getCount($db, 'loc_subsection', $criteria) == 1) {
+        $criteria[HexaplaLocSubsection::SECTION_ID] = $bookId;
+        if (getCount($db, HexaplaTables::LOC_SUBSECTION, $criteria) == 1) {
             $chapter = 1;
             $verse = $split[0];
         }
@@ -237,4 +237,8 @@ function reverseEsther($bookName) {
     } else {
         return 'Esther';
     }
+}
+
+function cvTrim($reducedReference) {
+    return trim($reducedReference, ".:;, \t\n\r\0\x0B");
 }

@@ -46,7 +46,7 @@ function getIdRows(&$pgConnection, $tableName, $searchCriteria = []) {
  * @param array $searchCriteria Associative array where the key is the column name and the value is the search string
  * @return false|resource Results of the SQL query; use pg_fetch functions to get individual rows
  */
-function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = []) {
+function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = [], $sortColumns = []) {
     checkPgConnection($pgConnection);
     if (is_null($tableName) || strlen($tableName) === 0) {
         return null;
@@ -88,6 +88,18 @@ function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = []
             }
         }
     }
+    if (count($sortColumns) > 0) {
+        $i = 1;
+        $sql .= ' ORDER BY ';
+        foreach($sortColumns as $coln => $direction) {
+            if (strlen($direction) === 0) $direction = SortDirection::ASCENDING;
+            $direction = ' ' . $direction;
+            if ($i++ > 1) {
+                $sql .= ', ';
+            }
+            $sql .= $coln . $direction;
+        }
+    }
     $sql .= ';';
     $results = pg_query($pgConnection, $sql);
     return $results;
@@ -121,8 +133,8 @@ function getLastInsertId(&$pgConnection, $tableName, $idColumnName = 'id') {
 function getCount(&$pgConnection, $tableName, $searchCriteria = []) {
     checkPgConnection($pgConnection);
     $sql = 'SELECT COUNT(*) AS num_found FROM public."' . $tableName . '"';
+    $i = 1;
     if (count($searchCriteria) > 0) {
-        $i = 1;
         foreach ($searchCriteria as $coln => $value) {
             if ($i === 1) {
                 $sql .= ' WHERE ';
@@ -207,11 +219,40 @@ class HexaplaTests {
     const EXIST = 'Exist';
     const LESS_THAN = 'LessThan';
     const GREATER_THAN = 'GreaterThan';
+
+    /** @throws NoOppositeTypeException */
+    static public function opposite($testType) {
+        switch($testType) {
+            case HexaplaTests::LAST:
+                throw new NoOppositeTypeException();
+            case HexaplaTests::NOT_EXIST:
+                return HexaplaTests::EXIST;
+            case HexaplaTests::EXIST:
+                return HexaplaTests::NOT_EXIST;
+            case HexaplaTests::GREATER_THAN:
+                return HexaplaTests::LESS_THAN;
+            case HexaplaTests::LESS_THAN:
+                return HexaplaTests::GREATER_THAN;
+            default:
+                throw new NoOppositeTypeException();
+        }
+    }
 }
 class HexaplaPunctuation {
     const CLOSING = 'Closing';
     const OPENING = 'Opening';
     const NOT = 'NotPunctuation';
+}
+
+class SortDirection {
+    const ASCENDING = 'ASC';
+    const DESCENDING = 'DESC';
+}
+
+class NoOppositeTypeException extends Exception {
+    public function __construct($message = "", $code = 0, Throwable $previous = null) {
+        parent::__construct($message, $code, $previous);
+    }
 }
 #endregion
 
@@ -298,7 +339,7 @@ class HexaplaLocTest implements HexaplaStandardColumns {
     const BOOK_1_NAME = 'book1name';
     const CHAPTER_1_NUM = 'chapter1num';
     const VERSE_1_NUM = 'verse1num';
-    const MULTIPLER_1 = 'multiplier1';
+    const MULTIPLIER_1 = 'multiplier1';
     const TEST_TYPE = 'testtype';
     const BOOK_2_NAME = 'book2name';
     const CHAPTER_2_NUM = 'chapter2num';

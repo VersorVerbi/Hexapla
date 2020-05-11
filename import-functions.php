@@ -117,3 +117,24 @@ function getLastIndex(array $array) {
 function noWordSeparatorWritingSystems() {
     return '/\p{Devanagari}|\p{Ethiopic}|\p{Gujarati}|\p{Han}|\p{Hanunoo}|\p{Hiragana}|\p{Katakana}|\p{Khmer}|\p{Lao}|\p{Myanmar}|\p{Runic}|\p{Tai_le}|\p{Balinese}|\p{Batak}|\p{Javanese}|\p{Vai}|\p{Thai}|\p{Yi}/u';
 }
+
+class HexaplaErrorLog {
+    private $logFile;
+
+    public function __construct($fileName) {
+        $this->logFile = $fileName;
+    }
+
+    /**
+     * @param Exception $exception
+     * @param string $extraMessage
+     */
+    public function log($exception, $extraMessage = '') {
+        file_put_contents($this->logFile,
+            date('Y-m-d H:i:s e') . ' ' .
+            $exception->getCode() . ': ' . $exception->getFile() . ' line ' . $exception->getLine() . ': ' .
+            $exception->getMessage() .
+            (strlen($extraMessage) > 0 ? ' | ADDITIONAL NOTES: ' . $extraMessage : ''),
+            FILE_APPEND);
+    }
+}

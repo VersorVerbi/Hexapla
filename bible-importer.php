@@ -32,10 +32,11 @@ $initialReader->open($sourceFile);
 $initialReader->read();
 $firstTag = strtolower($initialReader->localName);
 $initialReader->close();
+$errorLogger = new HexaplaErrorLog('hexaErrorLog.txt');
 try {
     switch ($firstTag) {
         case 'osis':
-            $reader = new OSISReader();
+            $reader = new OSISReader($errorLogger);
             break;
         case 'thml':
             break;
