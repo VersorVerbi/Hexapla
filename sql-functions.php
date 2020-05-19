@@ -14,7 +14,7 @@ function getIdRows(&$pgConnection, $tableName, $searchCriteria = []) {
     if (is_null($tableName) || strlen($tableName) === 0) {
         return null;
     }
-    $sql = 'SELECT id FROM public."' . $tableName;
+    $sql = 'SELECT ' . HexaplaStandardColumns::ID . ' FROM public."' . $tableName;
     if (count($searchCriteria) > 0) {
         $i = 1;
         foreach($searchCriteria as $coln => $val) {
@@ -57,7 +57,7 @@ function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = []
         // get all
         $sql .= '*';
     } else {
-        foreach ($columns as $coln => $use) {
+        foreach ($columns as $coln) {
             if ($c++ !== 0) {
                 $sql .= ', ';
             }
@@ -130,9 +130,15 @@ function getLastInsertId(&$pgConnection, $tableName, $idColumnName = 'id') {
     return $row['lastid'];
 }
 
-function getCount(&$pgConnection, $tableName, $searchCriteria = []) {
+/**
+ * @param $pgConnection
+ * @param $tableName
+ * @param array $searchCriteria
+ * @return int
+ */
+function getCount(&$pgConnection, $tableName, $searchCriteria = []): int {
     checkPgConnection($pgConnection);
-    $sql = 'SELECT COUNT(*) AS num_found FROM public."' . $tableName . '"';
+    $sql = 'SELECT COUNT(*) AS num_found FROM public.' . pg_escape_identifier($tableName);
     $i = 1;
     if (count($searchCriteria) > 0) {
         foreach ($searchCriteria as $coln => $value) {
@@ -200,6 +206,7 @@ class HexaplaTables {
     const LOC_SUBSECTION_TERM = 'loc_subsection_term';
     const LOCATION = 'location';
     const SOURCE_METADATA = 'source_metadata';
+    const SOURCE_TERM = 'source_term';
     const SOURCE_PUBLISHER = 'source_publisher';
     const SOURCE_VERSION = 'source_version';
     const SOURCE_VERSION_SEQUENCE = 'source_version_sequence';
@@ -312,6 +319,10 @@ interface HexaplaUserColumns {
     const USER_ID = 'user_id';
 }
 
+interface HexaplaActionColumns {
+    const ALLOWS_ACTIONS = 'allows_actions';
+}
+
 class HexaplaTextValue implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaStrongColumns, HexaplaPositionColumns, HexaplaVersionColumns {
     const LOCATION_ID = 'location_id'; // TODO: Standardize this
     const PUNCTUATION = 'punctuation';
@@ -377,19 +388,15 @@ class HexaplaSourceMetadata implements HexaplaStandardColumns {
     const TITLE = 'title';
 }
 class HexaplaSourcePublisher implements HexaplaStandardColumns, HexaplaNameColumns {}
-class HexaplaSourceTerm implements HexaplaStandardColumns, HexaplaTermColumns {
-    const SOURCE_ID = 'sourceId'; // TODO: standardize this
-}
-class HexaplaSourceVersion implements HexaplaStandardColumns {
-    const LANGUAGE_ID = 'langId'; // TODO: Standardize
-    const ALLOWS_ACTIONS = 'allowsActions'; // TODO: Reformat this
-    const SOURCE_ID = 'sourceId'; // TODO: Standardize
-    const USER_ID = 'userId'; // TODO: Standardize
+class HexaplaSourceTerm implements HexaplaStandardColumns, HexaplaTermColumns, HexaplaSourceColumns {}
+class HexaplaSourceVersion implements HexaplaStandardColumns, HexaplaUserColumns, HexaplaLangColumns, HexaplaActionColumns, HexaplaSourceColumns {
+    const PUBLISHER_ID = 'publisher_id';
     const COPYRIGHT = 'copyright';
 }
 class HexaplaSourceVersionSequence implements HexaplaSectionColumns {
     const SEQUENCE_ORDER = 'sequence_order';
 }
+class HexaplaSourceVersionTerm implements HexaplaStandardColumns, HexaplaVersionColumns, HexaplaTermColumns {}
 class HexaplaUser implements HexaplaStandardColumns {
     const NAME = 'username';
     const EMAIL = 'email';

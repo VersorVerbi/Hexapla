@@ -40,6 +40,30 @@ function xml_get_attribute($xmlArray, $attr, &$ret) {
 }
 
 /**
+ * @uses xml_get_value()
+ * @param array $xmlArray
+ * @param array $indices
+ * @param mixed $targetRet
+ * @return bool
+ */
+function xml_value_is($xmlArray, $indices, $targetRet) {
+    xml_get_value($xmlArray, $indices, $ret);
+    return ($ret === $targetRet);
+}
+
+/**
+ * @uses xml_get_attribute()
+ * @param array $xmlArray
+ * @param string $attr
+ * @param mixed $targetRet
+ * @return bool
+ */
+function xml_attribute_is($xmlArray, $attr, $targetRet) {
+    xml_get_attribute($xmlArray, $attr, $ret);
+    return ($ret === $targetRet);
+}
+
+/**
  * Using a subnode of an XML values array (output of xml_parse_into_struct), returns an array of attribute values from
  * that node's attributes.
  * @uses xml_get_attribute(), count()
@@ -79,7 +103,7 @@ function nonwordRegexPattern() {
 
 /**
  * Given a string, determines whether that string is a properly formatted Strong's Number
- * @uses preg_match(), intval(), mb_substr()
+ * @uses preg_match(), intval(), utf8_substr()
  * @param string $strNum The string to check
  * @return bool True if the given string is a Strong's Number; false otherwise
  */
@@ -88,8 +112,8 @@ function isStrongsNumber($strNum) {
     if (!$matchesPattern) {
         return false;
     }
-    $num = intval(mb_substr($strNum, 1));
-    if (mb_substr($strNum, 0, 1) === 'H') {
+    $num = intval(utf8_substr($strNum, 1));
+    if (utf8_substr($strNum, 0, 1) === 'H') {
         $matchesNumbers = ($num >= 1) && ($num <= 8674);
     } else {
         // Greek Strong's numbers 2717 and 3203-3302 do not exist
@@ -134,7 +158,7 @@ class HexaplaErrorLog {
             date('Y-m-d H:i:s e') . ' ' .
             $exception->getCode() . ': ' . $exception->getFile() . ' line ' . $exception->getLine() . ': ' .
             $exception->getMessage() .
-            (strlen($extraMessage) > 0 ? ' | ADDITIONAL NOTES: ' . $extraMessage : ''),
+            (strlen($extraMessage) > 0 ? ' | ADDITIONAL NOTES: ' . $extraMessage : '') . "\n",
             FILE_APPEND);
     }
 }

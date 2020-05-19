@@ -1,42 +1,43 @@
 <?php
 
-include_once "osis-importer.php";
-include_once "thml-importer.php";
-include_once "usfx-importer.php";
-include_once "usx-importer.php";
-include_once "zefania-importer.php";
+//include_once "osis-importer.php";
+//include_once "thml-importer.php";
+//include_once "usfx-importer.php";
+//include_once "usx-importer.php";
+//include_once "zefania-importer.php";
 include_once "import-functions.php";
 include_once "general-functions.php";
 include_once "sql-functions.php";
 include_once "user-functions.php";
+include_once "osis-reader.php";
 
 $DEBUG = true;
 $VERBOSE = false;
+$REPLACE = false;
 
 header('Content-type: text/html; charset=utf-8');
 ini_set("default_charset", 'utf-8');
 mb_internal_encoding('utf-8');
 
-$memlimit = ini_get('memory_limit');
-ini_set('memory_limit', '-1');
-ini_set('max_execution_time', '30000');
+//$memlimit = ini_get('memory_limit');
+//ini_set('memory_limit', '-1');
+//ini_set('max_execution_time', '30000');
 
 $hexaData = new hexaText();
 
 //TODO: Redo this with XMLReader instead of XMLParser
 
 /* ***** XML ***** */
-$sourceFile = "xml/engDRA_osis.xml"; // file path to upload?
+$sourceFile = "xml/engDRA_osis_1Cor.xml"; // file path to upload?
 $initialReader = new XMLReader();
 $initialReader->open($sourceFile);
 $initialReader->read();
 $firstTag = strtolower($initialReader->localName);
 $initialReader->close();
-$errorLogger = new HexaplaErrorLog('hexaErrorLog.txt');
 try {
     switch ($firstTag) {
         case 'osis':
-            $reader = new OSISReader($errorLogger);
+            $reader = new OSISReader();
             break;
         case 'thml':
             break;
@@ -55,11 +56,14 @@ try {
 } catch(TypeError $e) {
     echo $e->getMessage();
 }
+$reader->set_errorLog(new HexaplaErrorLog('hexaErrorLog.txt'));
 $reader->open($sourceFile, 'utf-8',LIBXML_PARSEHUGE);
-$reader->runTests();
-$reader->exportAndUpload();
+$reader->loadMetadata($db);
+$reader->runTests($db);
+$reader->identifyNumberSystem($db);
+$reader->exportAndUpload($db);
 $reader->close();
-
+die(0);
 
 /*
 $xmlParser = xml_parser_create();
@@ -141,6 +145,14 @@ class hexaVerseObject {
     public function getReference(): string {
         return $this->reference;
     }
+
+    /**
+     * @param array $criteria SQL criteria array with column names as keys and values as values
+     */
+    public function toCriteria(&$criteria): void {
+        if (isset($this->locationId)) $criteria[HexaplaTextValue::LOCATION_ID] = $this->locationId;
+        return;
+    }
 }
 
 class hexaWord extends hexaVerseObject {
@@ -187,6 +199,19 @@ class hexaWord extends hexaVerseObject {
 
     public function getTotalLength(): int {
         return strlen($this->text) + 1; // extra 1 for space
+    }
+
+    /**
+     * @param array $criteria SQL criteria array with column names as keys and values as values
+     */
+    public function toCriteria(&$criteria): void {
+        if (isset($this->position)) $criteria[HexaplaTextValue::POSITION] = $this->position;
+        if (isset($this->text)) $criteria[HexaplaTextValue::VALUE] = $this->text;
+        if (isset($this->strongs) && utf8_strlen($this->strongs) > 0) $criteria[HexaplaTextValue::STRONG_ID] = $this->strongs;
+        if (!isset($criteria[HexaplaTextValue::PUNCTUATION])) $criteria[HexaplaTextValue::PUNCTUATION] = HexaplaPunctuation::NOT;
+        // others should be taken care of elsewhere / already
+        parent::toCriteria($criteria);
+        return;
     }
 
     public function upload($db, $version, $punc = "NotPunctuation"): void {
@@ -242,6 +267,15 @@ class hexaPunctuation extends hexaWord {
 
     public function getTotalLength(): int {
         return strlen($this->getText());
+    }
+
+    /**
+     * @param array $criteria SQL criteria array with column names as keys and values as values
+     */
+    public function toCriteria(&$criteria): void {
+        if (isset($this->endingPunctuation)) $criteria[HexaplaTextValue::PUNCTUATION] = ($this->endingPunctuation ? HexaplaPunctuation::CLOSING : HexaplaPunctuation::OPENING);
+        parent::toCriteria($criteria);
+        return;
     }
 
     public function upload($db, $version, $punc = "NotPunctuation"): void {
@@ -366,6 +400,8 @@ class hexaName {
  * Class hexaCopyright
  */
 class hexaCopyright {
+    const PUBLIC_DOMAIN = "Public domain";
+    const COPYRIGHTED = "Copyright";
     /** @var int|null Current copyright year (not "original publication date," so we don't need to worry about BC) */
     private $year;
     /** @var string|null The name of the publishing company or person(s) */
@@ -439,6 +475,16 @@ class hexaCopyright {
      */
     public function getPublisher(): string {
         return $this->publisher;
+    }
+
+    public function __toString(): string {
+        $output = '';
+        if ($this->type === $this::COPYRIGHTED) {
+            $output .= utf8_chr(169); // copyright symbol U+00A9
+            $output .= ' ' . $this->year . "\n";
+        }
+        $output .= $this->rights;
+        return $output;
     }
 }
 
@@ -632,22 +678,21 @@ class hexaText {
     }
 
     /**
-     *
      * @param resource $nsData Results of searching for all Number-System-uses-Conversions data
      */
     private function identifyNumberSystem($nsData): void {
         $counts = [];
         while (($row = pg_fetch_assoc($nsData)) !== false) {
-            if (!isset($this->numberSystems[$row['ns_id']])) {
+            if (!isset($this->numberSystems[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]])) {
                 $check = true;
-                $counts[$row['ns_id']] = 0;
+                $counts[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]] = 0;
             } else {
-                $check = $this->numberSystems[$row['ns_id']];
+                $check = $this->numberSystems[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]];
             }
-            $counts[$row['ns_id']] += 1;
+            $counts[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]] += 1;
             if (!$check) continue; // this will never be true again, so don't bother
-            $check = $check && $this->conversionsUsed[$row['conversion_id']];
-            $this->numberSystems[$row['ns_id']] = $check;
+            $check = $check && $this->conversionsUsed[$row[HexaplaNumSysUsesConv::CONVERSION_ID]];
+            $this->numberSystems[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]] = $check;
         }
         $newConversions = [];
         foreach ($this->conversionsUsed as $convId => $convUsed) {
@@ -702,17 +747,17 @@ class hexaText {
     public function upload(): void {
         // TODO: If we're missing critical data, ask the user for it
         // Step 1: Identify number system
-        $this->evaluateTests(getData($db, LOC_CONV_TEST_TABLE()));
-        $this->discernConversions(getData($db, LOC_CONV_USES_TEST_TABLE()));
-        $this->identifyNumberSystem(getData($db, LOC_NS_USES_CONV_TABLE()));
-        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo 'Number System: ' . $this->officialNumberSystem . "\n";
+        //$this->evaluateTests(getData($db, LOC_CONV_TEST_TABLE()));
+        //$this->discernConversions(getData($db, LOC_CONV_USES_TEST_TABLE()));
+        //$this->identifyNumberSystem(getData($db, LOC_NS_USES_CONV_TABLE()));
+        //if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo 'Number System: ' . $this->officialNumberSystem . "\n";
         // Step 2: Upload source metadata
         $columns['id'] = true;
         $criteria['name'] = $this->copyright->getPublisher();
-        $publisherSearch = getData($db, SRC_PUBLISH_TABLE(), $columns, $criteria);
+        $publisherSearch = getData($db, HexaplaTables::SOURCE_PUBLISHER, $columns, $criteria);
         $row = pg_fetch_assoc($publisherSearch);
         if ($row === false) {
-            $publisherId = putData($db, SRC_PUBLISH_TABLE(), $criteria);
+            $publisherId = putData($db, HexaplaTables::SOURCE_PUBLISHER, $criteria);
         } else {
             $publisherId = $row['id'];
         }
@@ -724,17 +769,17 @@ class hexaText {
         $srcArray['copyright'] = $this->copyright->getRights();
         $srcArray['user_id'] = CURRENT_USER(); // document owner/uploader
         $srcArray['source_id'] = 1;
-        $versionId = putData($db, SRC_VERSION_TABLE(), $srcArray);
+        $versionId = putData($db, HexaplaTables::SOURCE_VERSION, $srcArray);
         if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo "Version ID: " . ($versionId === false ? "false" : $versionId) . "\n";
         free($srcArray);
         free($columns);
         free($criteria);
         $srcArray['version_id'] = $versionId;
         $srcArray['term'] = $this->title->getName();
-        pg_insert($db, SRC_VERS_TERM_TABLE(), $srcArray);
+        pg_insert($db, HexaplaTables::SOURCE_VERSION_TERM, $srcArray);
         foreach ($this->title->getAbbreviations() as $abbr) {
             $srcArray['term'] = $abbr;
-            pg_insert($db, SRC_VERS_TERM_TABLE(), $srcArray);
+            pg_insert($db, HexaplaTables::SOURCE_VERSION_TERM, $srcArray);
         }
         free($srcArray);
         // Step 3: Identify location IDs & upload data

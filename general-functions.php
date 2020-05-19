@@ -12,11 +12,14 @@ function numbersOnly($str) {
 
 /**
  * @param $ref
- * @return string
+ * @return string|null
  */
-function bookFromReference($ref): string {
+function bookFromReference($ref): ?string {
     $pattern = '/^((?:(?:\d+|[[:alpha:]]+)\s?)?[[:alpha:]]+)/u';
     preg_match($pattern, $ref, $matches);
+    if (count($matches) === 0) {
+        return null;
+    }
     return $matches[0];
 }
 
@@ -82,10 +85,10 @@ function getLocation(&$db, $reference) {
  */
 function getBookId(&$db, $bookName): int {
     checkPgConnection($db);
-    $columns['section_id'] = true;
-    $columns['is_primary'] = true;
+    $columns[] = HexaplaLocSectionTerm::SECTION_ID;
+    $columns[] = HexaplaLocSectionTerm::IS_PRIMARY;
     $criteria['term'] = $bookName;
-    $results = getData($db, LOC_SECT_TERM_TABLE(), $columns, $criteria);
+    $results = getData($db, HexaplaTables::LOC_SECTION_TERM, $columns, $criteria);
     while (($row = pg_fetch_assoc($results)) !== false) {
         if ($row['is_primary']) {
             break;
@@ -102,10 +105,10 @@ function getBookId(&$db, $bookName): int {
  */
 function getChapterId(&$db, $bookId, $chapter): int {
     checkPgConnection($db);
-    $columns['id'] = true;
+    $columns[] = HexaplaLocSubsection::ID;
     $criteria['section_id'] = $bookId;
     $criteria['position'] = $chapter;
-    $results = getData($db, LOC_SUBSECT_TABLE(), $columns, $criteria);
+    $results = getData($db, HexaplaTables::LOC_SUBSECTION, $columns, $criteria);
     $row = pg_fetch_assoc($results);
     return ($row !== false ? $row['id'] : -1);
 }
@@ -118,10 +121,10 @@ function getChapterId(&$db, $bookId, $chapter): int {
  */
 function getVerseId(&$db, $chapterId, $verse): int {
     checkPgConnection($db);
-    $columns['id'] = true;
+    $columns[] = HexaplaLocation::ID;
     $criteria['subsection_id'] = $chapterId;
     $criteria['position'] = $verse;
-    $results = getData($db, LOC_TABLE(), $columns, $criteria);
+    $results = getData($db, HexaplaTables::LOCATION, $columns, $criteria);
     $row = pg_fetch_assoc($results);
     return ($row !== false ? $row['id'] : -1);
 }
@@ -130,6 +133,7 @@ function getVerseId(&$db, $chapterId, $verse): int {
  * @param resource|null $db
  * @param string $reference Should be the STANDARDIZED reference of the verse
  * @param array $indexArray
+ * @param array $conversionIndex
  * @return int
  */
 function locationWithIndex(&$db, $reference, &$indexArray, $conversionIndex) {
@@ -159,10 +163,10 @@ function locationWithIndex(&$db, $reference, &$indexArray, $conversionIndex) {
  */
 function getConversionsByDisplayRef($convList) {
     if (count($convList) == 0) return [];
-    $columns['loc_id'] = true;
-    $columns['display_name'] = true;
+    $columns[] = HexaplaConversion::LOCATION_ID;
+    $columns[] = HexaplaConversion::DISPLAY_NAME;
     $criteria['id'] = $convList;
-    $results = getData($db, LOC_CONV_TABLE(), $columns, $criteria);
+    $results = getData($db, HexaplaTables::LOC_CONVERSION, $columns, $criteria);
     $indexedArray = [];
     while (($row = pg_fetch_assoc($results)) !== false) {
         $indexedArray[$row['display_name']][] = $row['loc_id'];
@@ -210,8 +214,7 @@ function getStandardizedReference(&$db, $roughReference, &$bookName = '', &$chap
     $cv = refArrayFromReference($roughReference, $bookAbbr, $bookId);
     $chapterNumber = $cv[0];
     $verseNumber = $cv[1];
-    $outRef = $bookName . ' ' . $chapterNumber . ':' . $verseNumber;
-    return $outRef;
+    return $bookName . ' ' . $chapterNumber . ':' . $verseNumber;
 }
 
 /**
@@ -241,4 +244,19 @@ function reverseEsther($bookName) {
 
 function cvTrim($reducedReference) {
     return trim($reducedReference, ".:;, \t\n\r\0\x0B");
+}
+
+/**
+ * @param array $arr Ideally, array of booleans, but will accept any truthy/falsey array
+ * @return int Number of truthy (as opposed to falsey) values in an array
+ */
+function num_true($arr) {
+    if (is_null($arr) || !isset($arr) || count($arr) === 0) {
+        return 0;
+    }
+    $num = 0;
+    foreach ($arr as $itm) {
+        if ($itm) $num++;
+    }
+    return $num;
 }
