@@ -150,15 +150,86 @@ class HexaplaErrorLog {
     }
 
     /**
-     * @param Exception $exception
+     * @param HexaplaException $exception
      * @param string $extraMessage
      */
     public function log($exception, $extraMessage = '') {
         file_put_contents($this->logFile,
             date('Y-m-d H:i:s e') . ' ' .
+            get_class($exception) . ': ' .
             $exception->getCode() . ': ' . $exception->getFile() . ' line ' . $exception->getLine() . ': ' .
             $exception->getMessage() .
-            (strlen($extraMessage) > 0 ? ' | ADDITIONAL NOTES: ' . $extraMessage : '') . "\n",
+            (strlen($extraMessage) > 0 ? ' | ADDITIONAL NOTES: ' . $extraMessage : '') . "\n" .
+            "LOCAL VARIABLES:\n" . $exception->getLocals() . "\n",
             FILE_APPEND);
+    }
+}
+
+/**
+ * Class HexaplaException
+ */
+class HexaplaException extends Exception{
+    /** @var array $locals */
+    private $locals;
+
+    /**
+     * HexaplaException constructor.
+     * @param string $message
+     * @param int $code
+     * @param Throwable|null $previous
+     * @param array $locals
+     */
+    public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
+        $this->locals = $locals;
+        parent::__construct($message, $code, $previous);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocals() {
+        return print_r($this->locals, true);
+    }
+}
+
+class PerformanceLogger {
+    /** @var string $logFile */
+    private $logFile;
+    /** @var int $lastLog */
+    private $lastLog;
+    /** @var bool $isActive */
+    private $isActive;
+    /** @var bool $verbose */
+    private $verbose;
+
+    public function __construct($logFile, $isActive = true) {
+        $this->logFile = $logFile;
+        $this->isActive = $isActive;
+        $this->verbose = false;
+    }
+
+    public function log($msg = "", $first = false) {
+        if (!$this->isActive) { return; }
+        $now = microtime(true) * 1000;
+        if (isset($this->lastLog)) {
+            $micros = intdiv($now - $this->lastLog, 1);
+        } else {
+            $micros = 0;
+        }
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+        file_put_contents(
+            $this->logFile,
+            date('Y-m-d H:i:s e') . ': ' . $micros  . 'ms later' . (strlen($msg) > 0 ? ': ' . $msg : '') . "\n" .
+            ($this->verbose ? print_r($backtrace[1], true) : '') .
+            ($first ? : FILE_APPEND));
+        $this->lastLog = microtime(true) * 1000;
+    }
+
+    public function activate() {
+        $this->isActive = true;
+    }
+
+    public function deactivate() {
+        $this->isActive = false;
     }
 }

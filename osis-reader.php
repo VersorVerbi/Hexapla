@@ -42,6 +42,7 @@ class OSISReader extends BibleXMLReader {
      * @param resource|null $db
      */
     public function runTests(&$db) {
+        $this->perfLog->log("start runTests");
         checkPgConnection($db);
         $testSearch = getData($db, HexaplaTables::LOC_TEST);
         $testIndex = [];
@@ -97,12 +98,14 @@ class OSISReader extends BibleXMLReader {
                             break;
                         case HexaplaTests::EXIST:
                         case HexaplaTests::NOT_EXIST:
-                            $testData[$ref1]['exist'] = true;
+                            $testData[$ref1]['exists'] = true;
                             break;
                         case HexaplaTests::GREATER_THAN:
                         case HexaplaTests::LESS_THAN:
                             try {
-                                $testData[$ref1]['length'] = utf8_strlen($this->currentVerse()['text']);
+                                if (!isset($testData[$ref1]['length'])) {
+                                    $testData[$ref1]['length'] = utf8_strlen($this->currentVerse()['text']);
+                                }
                             } catch(PositionException $e) {
                                 // this should never happen because of preceding code, so break visibly
                                 $this->errorLog->log($e);
@@ -122,6 +125,8 @@ class OSISReader extends BibleXMLReader {
             return;
         }
         foreach ($testIndex as $ref1 => $test) {
+            if (!isset($testData[$ref1])) continue;
+            unset($ref2); // this is unnecessary, it just makes debugging less confusing
             foreach ($test as $testType => $testStep) {
                 $greater = false;
                 switch ($testType) {
@@ -164,6 +169,7 @@ class OSISReader extends BibleXMLReader {
         }
         // determine which conversions are used based on these tests
         $this->setUpConversions($db);
+        $this->perfLog->log("finish runTests");
     }
 
     /**
@@ -171,6 +177,7 @@ class OSISReader extends BibleXMLReader {
      */
     public function exportAndUpload(&$db) {
         // TODO: Handle notes / non-canonical text as well -- or specifically exclude them
+        $this->perfLog->log("start exportAndUpload");
         checkPgConnection($db);
         $this->returnToStart(); // we need to start at the beginning to loop through the data again
         while ($this->read(['targetElementName' => OsisTags::VERSE, 'targetAttributeExists' => OsisAttributes::START_ID])) {
@@ -182,6 +189,7 @@ class OSISReader extends BibleXMLReader {
                 continue;
             }
             // this is finally a small enough piece of XML that we can load it into workable memory
+            $this->perfLog->log("start " . $verse['reference']);
             $parser = xml_parser_create('utf-8');
             xml_parse_into_struct($parser, $verse['xml'], $values, $index);
             $key = 0;
@@ -193,7 +201,9 @@ class OSISReader extends BibleXMLReader {
                 if (xml_value_is($values[$w], array(OsisProperties::TAG), utf8_strtoupper(OsisTags::VERSE))) {
                     $text = utf8_trim($text);
                     if (utf8_strlen($text) > 0) {
-                        createHexaWords($text, $verse['reference'], $key, $words);
+                        foreach (preg_split("/\s+/u", $text) as $textPiece) {
+                            createHexaWords($textPiece, $verse['reference'], $key, $words);
+                        }
                     }
                 } else {
                     $strong = $this->workAnalyzer->getStrongsNumber($values[$w]);
@@ -201,6 +211,7 @@ class OSISReader extends BibleXMLReader {
                 }
             }
             free($criteria);
+            xml_parser_free($parser);
 
             $columns[] = HexaplaConversion::ID;
             $columns[] = HexaplaConversion::LOCATION_ID;
@@ -223,16 +234,23 @@ class OSISReader extends BibleXMLReader {
                 free($criteria);
                 $criteria[HexaplaTextValue::VERSION_ID] = $this->version;
                 $word->setLocationId($locId);
-                $word->toCriteria($criteria);
-                if (getCount($db, HexaplaTables::TEXT_VALUE, $criteria) > 0) {
+                $word->toCriteria($criteria, true);
+                $insert = $criteria;
+                $word->toCriteria($insert);
+                // TODO: Write an upsert function to handle this
+                if (($search = getIdRows($db, HexaplaTables::TEXT_VALUE, $criteria)) !== false) {
+                    $row = pg_fetch_assoc($search);
+                    $criteria[HexaplaTextValue::ID] = $row[HexaplaTextValue::ID];
                     if ($GLOBALS['REPLACE']) {
-                        // TODO: modify the table
+                        pg_update($db, HexaplaTables::TEXT_VALUE, $insert, $criteria);
                     }
                 } else {
-                    putData($db, HexaplaTables::TEXT_VALUE, $criteria);
+                    putData($db, HexaplaTables::TEXT_VALUE, $insert);
                 }
             }
+            $this->perfLog->log("finish " . $verse['reference']);
         }
+        $this->perfLog->log("finish exportAndUpload");
     }
 
     /**
@@ -258,6 +276,7 @@ class OSISReader extends BibleXMLReader {
             )
         );
         $this->version = $hexaData->upload($db);
+        xml_parser_free($parser);
     }
 
     /**
@@ -318,10 +337,10 @@ class OSISReader extends BibleXMLReader {
      */
     private function currentVerse() {
         if (strtolower($this->localName) !== OsisTags::VERSE) {
-            throw new PositionException('Not on a verse', 1);
+            throw new PositionException('Not on a verse', 1, null, get_defined_vars());
         }
         if (is_null($this->getAttribute(OsisAttributes::START_ID))) {
-            throw new PositionException('On a verse end spot', 2);
+            throw new PositionException('On a verse end spot', 2, null, get_defined_vars());
         }
         $bracketId = $this->getAttribute(OsisAttributes::START_ID);
         $output['reference'] = getStandardizedReference($db, $this->getAttribute(OsisAttributes::OSIS_ID));
@@ -330,6 +349,16 @@ class OSISReader extends BibleXMLReader {
             $output['xml'] .= $this->readOuterXml();
         }
         $output['xml'] .= '</verse>';
+        $output['text'] = '';
+        $tempParser = xml_parser_create('utf-8');
+        xml_parse_into_struct($tempParser, $output['xml'], $values);
+        foreach($values as $i => $data) {
+            unset($ret);
+            if (xml_get_value($data, array(OsisProperties::VALUE), $ret) !== 1) {
+                $output['text'] .= $ret;
+            }
+        }
+        xml_parser_free($tempParser);
         return $output;
     }
 
@@ -580,13 +609,14 @@ function createHexaWords(string $word, string $verseId, int &$key, array &$verse
         $newWord = new hexaPunctuation($verseId, $matches[0][0], $key++, '', '', false);
         $verseWords[] = $newWord;
     }
-    $wordOnly = preg_replace("/$nonWordPattern|\s/u", '', $word);
+    $trimPattern = "($nonWordPattern|\s)";
+    $wordOnly = preg_replace("/(^$trimPattern*)|($trimPattern*$)/u", '', $word);
     if (utf8_strlen($wordOnly) > 0) {
         $newWord = new hexaWord($verseId, $wordOnly, $key++, $strongsNum, '');
         $verseWords[] = $newWord;
     }
     if (preg_match("/($nonWordPattern)+$/u", $word, $matches) === 1) {
-        $newWord = new hexaPunctuation($verseId, $matches[0][0], $key++);
+        $newWord = new hexaPunctuation($verseId, $matches[0], $key++);
         $verseWords[] = $newWord;
     }
     return;

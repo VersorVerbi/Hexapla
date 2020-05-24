@@ -14,6 +14,7 @@ include_once "osis-reader.php";
 $DEBUG = true;
 $VERBOSE = false;
 $REPLACE = false;
+$PERF_TESTING = true;
 
 header('Content-type: text/html; charset=utf-8');
 ini_set("default_charset", 'utf-8');
@@ -25,10 +26,8 @@ mb_internal_encoding('utf-8');
 
 $hexaData = new hexaText();
 
-//TODO: Redo this with XMLReader instead of XMLParser
-
 /* ***** XML ***** */
-$sourceFile = "xml/engDRA_osis_1Cor.xml"; // file path to upload?
+$sourceFile = "xml/engDRA_osis.xml"; // file path to upload?
 $initialReader = new XMLReader();
 $initialReader->open($sourceFile);
 $initialReader->read();
@@ -56,6 +55,7 @@ try {
 } catch(TypeError $e) {
     echo $e->getMessage();
 }
+$reader->set_perfLog(new PerformanceLogger('hexaPerf.txt', $PERF_TESTING));
 $reader->set_errorLog(new HexaplaErrorLog('hexaErrorLog.txt'));
 $reader->open($sourceFile, 'utf-8',LIBXML_PARSEHUGE);
 $reader->loadMetadata($db);
@@ -148,8 +148,9 @@ class hexaVerseObject {
 
     /**
      * @param array $criteria SQL criteria array with column names as keys and values as values
+     * @param bool $forSearch True if only returning SEARCH criteria, not ALL -- but we don't use that here
      */
-    public function toCriteria(&$criteria): void {
+    public function toCriteria(&$criteria, $forSearch = false): void {
         if (isset($this->locationId)) $criteria[HexaplaTextValue::LOCATION_ID] = $this->locationId;
         return;
     }
@@ -203,14 +204,17 @@ class hexaWord extends hexaVerseObject {
 
     /**
      * @param array $criteria SQL criteria array with column names as keys and values as values
+     * @param bool $forSearch True if we only want to return SEARCH variables, not ALL variables
      */
-    public function toCriteria(&$criteria): void {
+    public function toCriteria(&$criteria, $forSearch = false): void {
         if (isset($this->position)) $criteria[HexaplaTextValue::POSITION] = $this->position;
-        if (isset($this->text)) $criteria[HexaplaTextValue::VALUE] = $this->text;
-        if (isset($this->strongs) && utf8_strlen($this->strongs) > 0) $criteria[HexaplaTextValue::STRONG_ID] = $this->strongs;
-        if (!isset($criteria[HexaplaTextValue::PUNCTUATION])) $criteria[HexaplaTextValue::PUNCTUATION] = HexaplaPunctuation::NOT;
+        if (!$forSearch) {
+            if (isset($this->text)) $criteria[HexaplaTextValue::VALUE] = $this->text;
+            if (isset($this->strongs) && utf8_strlen($this->strongs) > 0) $criteria[HexaplaTextValue::STRONG_ID] = $this->strongs;
+            if (!isset($criteria[HexaplaTextValue::PUNCTUATION])) $criteria[HexaplaTextValue::PUNCTUATION] = HexaplaPunctuation::NOT;
+        }
         // others should be taken care of elsewhere / already
-        parent::toCriteria($criteria);
+        parent::toCriteria($criteria, $forSearch);
         return;
     }
 
@@ -271,10 +275,13 @@ class hexaPunctuation extends hexaWord {
 
     /**
      * @param array $criteria SQL criteria array with column names as keys and values as values
+     * @param bool $forSearch True if only returning search variables
      */
-    public function toCriteria(&$criteria): void {
-        if (isset($this->endingPunctuation)) $criteria[HexaplaTextValue::PUNCTUATION] = ($this->endingPunctuation ? HexaplaPunctuation::CLOSING : HexaplaPunctuation::OPENING);
-        parent::toCriteria($criteria);
+    public function toCriteria(&$criteria, $forSearch = false): void {
+        if (!$forSearch) {
+            if (isset($this->endingPunctuation)) $criteria[HexaplaTextValue::PUNCTUATION] = ($this->endingPunctuation ? HexaplaPunctuation::CLOSING : HexaplaPunctuation::OPENING);
+        }
+        parent::toCriteria($criteria, $forSearch);
         return;
     }
 

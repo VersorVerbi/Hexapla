@@ -16,6 +16,8 @@ abstract class BibleXMLReader extends XMLReader {
     protected $conversions;
     /** @var HexaplaErrorLog $errorLog A class for logging errors to a file for later review */
     protected $errorLog;
+    /** @var PerformanceLogger $perfLog A class for logging performance data to a file for later review */
+    protected $perfLog;
     /** @var int */
     protected $numberSystem;
     /** @var int */
@@ -44,6 +46,12 @@ abstract class BibleXMLReader extends XMLReader {
 
     public function set_errorLog($errorLogger) {
         $this->errorLog = $errorLogger;
+        $this->perfLog->log();
+    }
+
+    public function set_perfLog($perfLog) {
+        $this->perfLog = $perfLog;
+        $this->perfLog->log("", true);
     }
 
     /**
@@ -69,14 +77,17 @@ abstract class BibleXMLReader extends XMLReader {
      * This function returns the XMLReader to the beginning of the source XML
      */
     protected function returnToStart() {
+        $this->perfLog->log("start returnToStart");
         $this->close();
         $this->open($this->file, $this->encoding, $this->options);
+        $this->perfLog->log("finish returnToStart");
     }
 
     /**
      * @param resource|null $db
      */
     protected function setUpConversions(&$db) {
+        $this->perfLog->log("start setUpConversions");
         checkPgConnection($db);
         $conversionSearch = getData($db, HexaplaTables::LOC_CONV_USES_TEST);
         while (($row = pg_fetch_assoc($conversionSearch)) !== false) {
@@ -87,11 +98,20 @@ abstract class BibleXMLReader extends XMLReader {
                 $result = $this->conversions[$row[HexaplaLocConvUsesTest::CONVERSION_ID]];
             }
             if ($row[HexaplaLocConvUsesTest::REVERSED]) {
-                $result = $result && !$this->testResults[$row[HexaplaLocConvUsesTest::TEST_ID]];
+                $result = $result && !$this->testCheck($row[HexaplaLocConvUsesTest::TEST_ID]);
             } else {
-                $result = $result && $this->testResults[$row[HexaplaLocConvUsesTest::TEST_ID]];
+                $result = $result && $this->testCheck($row[HexaplaLocConvUsesTest::TEST_ID]);
             }
             $this->conversions[$row[HexaplaLocConvUsesTest::CONVERSION_ID]] = $result;
+        }
+        $this->perfLog->log("finish setUpConversions");
+    }
+
+    private function testCheck($testId) {
+        if (isset($this->testResults[$testId])) {
+            return $this->testResults[$testId];
+        } else {
+            return false;
         }
     }
 
@@ -101,6 +121,7 @@ abstract class BibleXMLReader extends XMLReader {
     public function identifyNumberSystem(&$db) {
         // note: bitwise assignment operators work as expected with boolean values
         // but I acknowledge that it isn't exactly best practice
+        $this->perfLog->log("start identifyNumberSystem");
         checkPgConnection($db);
         $allNs = getData($db, HexaplaTables::LOC_NUMBER_SYSTEM, [HexaplaNumberSystem::ID]);
         $columns[] = HexaplaNumSysUsesConv::CONVERSION_ID;
@@ -118,7 +139,7 @@ abstract class BibleXMLReader extends XMLReader {
                 if (!$countEqual) {
                     break;
                 } elseif (isset($this->numberSystem)) {
-                    throw new TooManyMatchesError("number system");
+                    throw new TooManyMatchesError("number system", 0, null, get_defined_vars());
                 } else {
                     $this->numberSystem = $nsRow[HexaplaNumberSystem::ID];
                 }
@@ -134,6 +155,7 @@ abstract class BibleXMLReader extends XMLReader {
             $insert[HexaplaNumberSystem::NAME] = $this->title; // this should have been set by the loadMetadata routine already
             $this->numberSystem = putData($db, HexaplaTables::LOC_NUMBER_SYSTEM, $insert);
         }
+        $this->perfLog->log("finish identifyNumberSystem");
     }
 
     /**
@@ -314,30 +336,30 @@ class HexaplaStandardMetadata {
 /**
  * Class PositionException
  */
-class PositionException extends Exception {
+class PositionException extends HexaplaException {
     /**
      * PositionException constructor.
      * @param string $message
      * @param int $code 1: Not on a verse; 2: On an ending verse element
      * @param Throwable|null $previous
      */
-    public function __construct($message = "", $code = 0, Throwable $previous = null) {
-        parent::__construct($message, $code, $previous);
+    public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
+        parent::__construct($message, $code, $previous, $locals);
     }
 }
 
 /**
  * Class TooManyMatchesError
  */
-class TooManyMatchesError extends Exception {
+class TooManyMatchesError extends HexaplaException {
     /**
      * TooManyMatchesError constructor.
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous
      */
-    public function __construct($message = "", $code = 0, Throwable $previous = null) {
+    public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
         $message = "Too many $message matches!";
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code, $previous, $locals);
     }
 }
