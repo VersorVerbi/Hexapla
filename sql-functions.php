@@ -1,6 +1,7 @@
 <?php
 
 include_once "oldcode/dbconnect.php";
+include_once "import-functions.php";
 
 /**
  * @uses checkPgConnection(), is_null(), strlen(), count(), is_numeric(), pg_query_params()
@@ -147,28 +148,169 @@ function getCount(&$pgConnection, $tableName, $searchCriteria = []): int {
  */
 function putData(&$db, $tableName, $insertArray, $idColumn = HexaplaStandardColumns::ID) {
     checkPgConnection($db);
-    $sql = 'INSERT INTO public.' . pg_escape_identifier($db, $tableName) . ' (';
+    $sql = 'INSERT INTO public.' . pg_escape_identifier($db, $tableName) . ' ';
     $columns = '';
     $values = '';
-    foreach ($insertArray as $column => $value) {
-        $columns .= ',' . pg_escape_identifier($db, $column);
-        $values .= ',' . pg_escape_literal($db, $value);
+    $columnArray = [];
+    if (is_array($starter = reset($insertArray))) {
+        foreach($starter as $column => $value) {
+            if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
+            $columnArray[] = $column;
+        }
+        $columns = '(' . pg_implode(',', $columnArray) . ')';
+        foreach ($insertArray as $row) {
+            $valueChunk = '';
+            foreach ($columnArray as $column) {
+                if (isset($row[$column])) {
+                    $valueChunk .= ',' . pg_escape_literal($row[$column]);
+                } else {
+                    $valueChunk .= ',NULL';
+                }
+            }
+            $values .= ',(' . substr($valueChunk, 1) . ')';
+        }
+        $values = substr($values, 1);
+    } else {
+        foreach ($insertArray as $column => $value) {
+            if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
+            $columns .= ',' . pg_escape_identifier($db, $column);
+            $values .= ',' . pg_escape_literal($db, $value);
+        }
+        $columns = '(' . substr($columns, 1) . ')';
+        $values = '(' . substr($values, 1) . ')';
     }
-    $sql .= substr($columns, 1);
-    $sql .= ') VALUES (';
-    $sql .= substr($values, 1);
-    $sql .= ') RETURNING ' . pg_escape_identifier($db, $idColumn) . ';';
+    $sql .= $columns;
+    $sql .= ' VALUES ';
+    $sql .= $values;
+    if ($tableName === HexaplaTables::TEXT_STRONGS) {
+        $sql .= ' ON CONFLICT DO NOTHING';
+    }
+    if (!is_null($idColumn)) {
+        $sql .= ' RETURNING ' . pg_escape_identifier($db, $idColumn) . ';';
+    } else {
+        $sql .= ';';
+    }
     $result = pg_query($sql);
     if ($result === false) {
         return false;
-    } else {
+    } elseif (!is_null($idColumn)) {
+        if ($tableName === HexaplaTables::TEXT_VALUE) {
+            updateStrongs($insertArray, $result, $idColumn);
+        }
+        pg_result_seek($result, 0);
         return pg_fetch_assoc($result)[$idColumn];
+    } else {
+        return true;
     }
+}
+
+function update(&$db, $tableName, $updates, $criteria = [], $idColumn = HexaplaStandardColumns::ID) {
+    // TODO: handle situation where targeted record does not exist
+    checkPgConnection($db);
+    $sql = 'UPDATE public.' . pg_escape_identifier($tableName) . ' SET ';
+    foreach ($updates as $column => $value) {
+        if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
+        $sql .= pg_escape_identifier($column) . '=' . pg_escape_literal($value) . ',';
+    }
+    $sql = substr($sql, 0, -1);
+    if (count($criteria) > 0) {
+        $sql .= ' WHERE ';
+        foreach ($criteria as $column => $value) {
+            if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
+            $sql .= pg_escape_identifier($column) . '=' . pg_escape_literal($value) . ' AND ';
+        }
+        $sql = substr($sql, 0, -5);
+    }
+    if (!is_null($idColumn)) {
+        $sql .= ' RETURNING ' . pg_escape_identifier($idColumn);
+    }
+    $sql .= ';';
+    $result = pg_query($db, $sql);
+    if ($result === false) {
+        return false;
+    } elseif (!is_null($idColumn)) {
+        if ($tableName === HexaplaTables::TEXT_VALUE) {
+            updateStrongs($updates, $result, $idColumn, true);
+        }
+        $resultRow = pg_fetch_assoc($result);
+        return ($resultRow !== false ? $resultRow[$idColumn] : true); // "true" in this case means the update was successful but unnecessary
+    } else {
+        return true;
+    }
+}
+
+function updateStrongs($insertArray, $insertUpdateResult, $idColumn, $insert = true) {
+    $strongInserts = [];
+    if (isset($insertArray[HexaplaTextStrongs::STRONG_ID]) && strlen($insertArray[HexaplaTextStrongs::STRONG_ID]) > 0) {
+        $wordId = pg_fetch_assoc($insertUpdateResult)[$idColumn];
+        $strongId = $insertArray[HexaplaTextStrongs::STRONG_ID];
+        if (count($strongList = explode(',', $strongId)) > 1) {
+            foreach ($strongList as $singleStrong) {
+                $insertChunk[HexaplaTextStrongs::TEXT_ID] = $wordId;
+                $insertChunk[HexaplaTextStrongs::STRONG_ID] = $singleStrong;
+                $strongInserts[] = $insertChunk;
+            }
+        } else {
+            $strongInserts[HexaplaTextStrongs::TEXT_ID] = $wordId;
+            $strongInserts[HexaplaTextStrongs::STRONG_ID] = $strongId;
+        }
+    } elseif (is_array($starter= reset($insertArray))) {
+        foreach ($insertArray as $row) {
+            $wordId = pg_fetch_assoc($insertUpdateResult)[$idColumn];
+            if (isset($row[HexaplaTextStrongs::STRONG_ID]) && strlen($row[HexaplaTextStrongs::STRONG_ID]) > 0) {
+                $strongId = $row[HexaplaTextStrongs::STRONG_ID];
+                if (count($strongList = explode(',', $strongId)) > 1) {
+                    foreach ($strongList as $singleStrong) {
+                        $insertChunk[HexaplaTextStrongs::TEXT_ID] = $wordId;
+                        $insertChunk[HexaplaTextStrongs::STRONG_ID] = $singleStrong;
+                        $strongInserts[] = $insertChunk;
+                    }
+                } else {
+                    $insertChunk[HexaplaTextStrongs::TEXT_ID] = $wordId;
+                    $insertChunk[HexaplaTextStrongs::STRONG_ID] = $strongId;
+                    $strongInserts[] = $insertChunk;
+                }
+            }
+        }
+    }
+    if (count($strongInserts) > 0) {
+        if ($insert) {
+            putData($db, HexaplaTables::TEXT_STRONGS, $strongInserts, null);
+        } else {
+            //TODO: delete existing data in Text_Strongs
+            //TODO: reinsert new data
+            putData($db, HexaplaTables::TEXT_STRONGS, $strongInserts, null);
+        }
+    }
+}
+
+function begin($db) {
+    checkPgConnection($db);
+    pg_query($db, "BEGIN");
+}
+
+function commit($db) {
+    checkPgConnection($db);
+    pg_query($db, "COMMIT");
+}
+
+function pg_implode($glue, $array, $literal = false) {
+    if ($literal) {
+        $formattedArray = array_map(function ($item) {
+            return pg_escape_literal($item);
+        }, $array);
+    } else {
+        $formattedArray = array_map(function ($item) {
+            return pg_escape_identifier($item);
+        }, $array);
+    }
+    return implode($glue, $formattedArray);
 }
 
 #region Database Table & Enum Classes
 class HexaplaTables {
     const TEXT_VALUE = 'text_value';
+    const TEXT_STRONGS = 'text_strongs';
     const LANG_DEFINITION = 'lang_definition';
     const LANG_DICTIONARY = 'lang_dictionary';
     const LANG_LEMMA = 'lang_lemma';
@@ -299,7 +441,11 @@ interface HexaplaActionColumns {
     const ALLOWS_ACTIONS = 'allows_actions';
 }
 
-class HexaplaTextValue implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaStrongColumns, HexaplaPositionColumns, HexaplaVersionColumns {
+class HexaplaTextStrongs implements HexaplaStrongColumns {
+    const TEXT_ID = 'text_id';
+}
+
+class HexaplaTextValue implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaPositionColumns, HexaplaVersionColumns {
     const LOCATION_ID = 'location_id'; // TODO: Standardize this
     const PUNCTUATION = 'punctuation';
 }
@@ -365,7 +511,7 @@ class HexaplaSourceMetadata implements HexaplaStandardColumns {
 }
 class HexaplaSourcePublisher implements HexaplaStandardColumns, HexaplaNameColumns {}
 class HexaplaSourceTerm implements HexaplaStandardColumns, HexaplaTermColumns, HexaplaSourceColumns {}
-class HexaplaSourceVersion implements HexaplaStandardColumns, HexaplaUserColumns, HexaplaLangColumns, HexaplaActionColumns, HexaplaSourceColumns {
+class HexaplaSourceVersion implements HexaplaStandardColumns, HexaplaUserColumns, HexaplaLangColumns, HexaplaActionColumns, HexaplaSourceColumns, HexaplaNumberSystemColumns {
     const PUBLISHER_ID = 'publisher_id';
     const COPYRIGHT = 'copyright';
 }

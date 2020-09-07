@@ -12,10 +12,10 @@ abstract class BibleXMLReader extends XMLReader {
 
     /** @var array $testResults This should be a pseudo-numeric associative array with keys as test record IDs from the database and values as true (if that test passed) or false (if it didn't) */
     protected $testResults;
-    /** @var array $conversions This should be a pseudo-numeric associative array with keys as conversion record IDs from the database and values as true (if that conversion applies) or false (if it doesn't) */
+    /** @var array $conversions This is an associative array in the format $conversions[$reference] = $location_id */
     protected $conversions;
     /** @var HexaplaErrorLog $errorLog A class for logging errors to a file for later review */
-    protected $errorLog;
+    public $errorLog;
     /** @var PerformanceLogger $perfLog A class for logging performance data to a file for later review */
     protected $perfLog;
     /** @var int */
@@ -24,12 +24,19 @@ abstract class BibleXMLReader extends XMLReader {
     protected $version;
     /** @var string */
     protected $title;
+    /** @var array $existingRows Associative array in the format $existingRows[$location_id][$position] = $text_id */
+    protected $existingRows;
     /** @var string */
     private $encoding;
     /** @var string */
     private $file;
     /** @var int */
     private $options;
+    /** @var array $conversionResults This should be a pseudo-numeric associative array with keys as conversion record IDs from the database and values as true (if that conversion applies) or false (if it doesn't) */
+    private $conversionResults;
+    private $beganTransaction;
+    private $lastBook;
+    private $lastChapter;
 
     /**
      * @param string $URI
@@ -42,6 +49,11 @@ abstract class BibleXMLReader extends XMLReader {
         $this->options = $options;
         $this->file = $URI;
         return parent::open($URI, $encoding, $options);
+    }
+
+    public function close($final = false) {
+        if ($final) $this->perfLog->close();
+        parent::close();
     }
 
     public function set_errorLog($errorLogger) {
@@ -91,18 +103,24 @@ abstract class BibleXMLReader extends XMLReader {
         checkPgConnection($db);
         $conversionSearch = getData($db, HexaplaTables::LOC_CONV_USES_TEST);
         while (($row = pg_fetch_assoc($conversionSearch)) !== false) {
-            if (!isset($this->conversions[$row[HexaplaLocConvUsesTest::CONVERSION_ID]])) {
-                $this->conversions[$row[HexaplaLocConvUsesTest::CONVERSION_ID]] = true;
+            if (!isset($this->conversionResults[$row[HexaplaLocConvUsesTest::CONVERSION_ID]])) {
+                $this->conversionResults[$row[HexaplaLocConvUsesTest::CONVERSION_ID]] = true;
                 $result = true;
             } else {
-                $result = $this->conversions[$row[HexaplaLocConvUsesTest::CONVERSION_ID]];
+                $result = $this->conversionResults[$row[HexaplaLocConvUsesTest::CONVERSION_ID]];
             }
-            if ($row[HexaplaLocConvUsesTest::REVERSED]) {
+            if ($row[HexaplaLocConvUsesTest::REVERSED] === 't') {
                 $result = $result && !$this->testCheck($row[HexaplaLocConvUsesTest::TEST_ID]);
             } else {
                 $result = $result && $this->testCheck($row[HexaplaLocConvUsesTest::TEST_ID]);
             }
-            $this->conversions[$row[HexaplaLocConvUsesTest::CONVERSION_ID]] = $result;
+            $this->conversionResults[$row[HexaplaLocConvUsesTest::CONVERSION_ID]] = $result;
+        }
+        $conversionDetails = getData($db, HexaplaTables::LOC_CONVERSION);
+        while (($row = pg_fetch_assoc($conversionDetails)) !== false) {
+            if ($this->conversionCheck($row[HexaplaConversion::ID])) {
+                $this->conversions[$row[HexaplaConversion::DISPLAY_NAME]] = $row[HexaplaConversion::LOCATION_ID];
+            }
         }
         $this->perfLog->log("finish setUpConversions");
     }
@@ -110,6 +128,14 @@ abstract class BibleXMLReader extends XMLReader {
     private function testCheck($testId) {
         if (isset($this->testResults[$testId])) {
             return $this->testResults[$testId];
+        } else {
+            return false;
+        }
+    }
+
+    private function conversionCheck($convId) {
+        if (isset($this->conversionResults[$convId])) {
+            return $this->conversionResults[$convId];
         } else {
             return false;
         }
@@ -130,11 +156,11 @@ abstract class BibleXMLReader extends XMLReader {
             $criteria[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID] = $nsRow[HexaplaNumberSystem::ID];
             $nsUses = getData($db, HexaplaTables::LOC_NUMSYS_USES_CONV, $columns, $criteria);
             while (($row = pg_fetch_assoc($nsUses)) !== false) {
-                if (!$this->conversions[$row[HexaplaNumSysUsesConv::CONVERSION_ID]]) {
+                if (!$this->conversionResults[$row[HexaplaNumSysUsesConv::CONVERSION_ID]]) {
                     continue 2; // don't bother with this number system, since it can't match
                 }
             }
-            $countEqual = (num_true($this->conversions) === pg_num_rows($nsUses));
+            $countEqual = (num_true($this->conversionResults) === pg_num_rows($nsUses));
             try {
                 if (!$countEqual) {
                     break;
@@ -154,7 +180,21 @@ abstract class BibleXMLReader extends XMLReader {
             // we need a new number system
             $insert[HexaplaNumberSystem::NAME] = $this->title; // this should have been set by the loadMetadata routine already
             $this->numberSystem = putData($db, HexaplaTables::LOC_NUMBER_SYSTEM, $insert);
+            free($insert);
+            foreach ($this->conversionResults as $cid => $isUsed) {
+                if ($isUsed) {
+                    $insertChunk[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID] = $this->numberSystem;
+                    $insertChunk[HexaplaNumSysUsesConv::CONVERSION_ID] = $cid;
+                    $insert[] = $insertChunk;
+                }
+            }
+            putData($db, HexaplaTables::LOC_NUMSYS_USES_CONV, $insert, null);
         }
+        free($criteria);
+        free($insert);
+        $criteria[HexaplaSourceVersion::ID] = $this->version;
+        $insert[HexaplaSourceVersion::NUMBER_SYSTEM_ID] = $this->numberSystem;
+        update($db, HexaplaTables::SOURCE_VERSION, $insert, $criteria);
         $this->perfLog->log("finish identifyNumberSystem");
     }
 
@@ -175,6 +215,39 @@ abstract class BibleXMLReader extends XMLReader {
             'id' => $row[HexaplaLocTest::ID],
             'multi1' => $row[HexaplaLocTest::MULTIPLIER_2],
             'multi2' => $row[HexaplaLocTest::MULTIPLIER_1]];
+    }
+
+    /**
+     * Meant to be used in a loop uploading verses. Side-effect: begins and commits transactions for each book.
+     * @param $db
+     * @param $ref
+     */
+    protected function beginCommitChapter($db, $ref) {
+        getStandardizedReference($db, $ref, $book, $chapter);
+        if ($book !== $this->lastBook || $chapter !== $this->lastChapter) {
+            if ($this->beganTransaction) {
+                commit($db);
+                $this->beganTransaction = false;
+            }
+            $this->lastBook = $book;
+            $this->lastChapter = $chapter;
+            begin($db);
+            $this->beganTransaction = true;
+        }
+    }
+
+    protected function existingDataCheck($db) {
+        $this->perfLog->log("begin existingDatacheck");
+        checkPgConnection($db);
+        $columns[] = HexaplaTextValue::ID;
+        $columns[] = HexaplaTextValue::POSITION;
+        $columns[] = HexaplaTextValue::LOCATION_ID;
+        $criteria[HexaplaTextValue::VERSION_ID] = $this->version;
+        $existingText = getData($db, HexaplaTables::TEXT_VALUE, $columns, $criteria);
+        while (($row = pg_fetch_assoc($existingText)) !== false) {
+            $this->existingRows[$row[HexaplaTextValue::LOCATION_ID]][$row[HexaplaTextValue::POSITION]] = $row[HexaplaTextValue::ID];
+        }
+        $this->perfLog->log("finish existingDataCheck");
     }
 }
 

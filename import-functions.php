@@ -108,7 +108,7 @@ function nonwordRegexPattern() {
  * @return bool True if the given string is a Strong's Number; false otherwise
  */
 function isStrongsNumber($strNum) {
-    $matchesPattern = preg_match('/(H|G)\d{1,4}/u', $strNum) !== false;
+    $matchesPattern = preg_match('/^(H|G)\d{1,4}$/u', $strNum) !== false;
     if (!$matchesPattern) {
         return false;
     }
@@ -159,9 +159,9 @@ class HexaplaErrorLog {
             get_class($exception) . ': ' .
             $exception->getCode() . ': ' . $exception->getFile() . ' line ' . $exception->getLine() . ': ' .
             $exception->getMessage() .
-            (strlen($extraMessage) > 0 ? ' | ADDITIONAL NOTES: ' . $extraMessage : '') . "\n" .
-            "LOCAL VARIABLES:\n" . $exception->getLocals() . "\n",
+            (strlen($extraMessage) > 0 ? ' | ADDITIONAL NOTES: ' . $extraMessage : '') . "\n",
             FILE_APPEND);
+        print_r($exception->getLocals());
     }
 }
 
@@ -185,6 +185,14 @@ class HexaplaException extends Exception{
     }
 
     /**
+     * @param Throwable $e
+     * @return HexaplaException
+     */
+    public static function toHexaplaException($e) {
+        return new HexaplaException($e->getMessage(), $e->getCode(), $e->getPrevious());
+    }
+
+    /**
      * @return string
      */
     public function getLocals() {
@@ -201,11 +209,14 @@ class PerformanceLogger {
     private $isActive;
     /** @var bool $verbose */
     private $verbose;
+    /** @var DateTime $veryBeginning */
+    private $veryBeginning;
 
     public function __construct($logFile, $isActive = true) {
         $this->logFile = $logFile;
         $this->isActive = $isActive;
         $this->verbose = false;
+        $this->veryBeginning = new DateTime();
     }
 
     public function log($msg = "", $first = false) {
@@ -220,8 +231,12 @@ class PerformanceLogger {
         file_put_contents(
             $this->logFile,
             date('Y-m-d H:i:s e') . ': ' . $micros  . 'ms later' . (strlen($msg) > 0 ? ': ' . $msg : '') . "\n" .
-            ($this->verbose ? print_r($backtrace[1], true) : '') .
-            ($first ? : FILE_APPEND));
+            ($this->verbose ? print_r($backtrace[1], true) . "\n" : '') .
+            'Memory Usage: ' . memory_get_usage() . ' / ' . memory_get_usage(true) . "\n",
+            ($first ? 0 : FILE_APPEND));
+        if ($micros > 1000 && strpos($msg, "Conversions") === false && strpos($msg, " days,") === false && strpos($msg, "existingDataCheck") === false) {
+            throw new HexaplaException("taking too long --> ", -1, null, debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2));
+        }
         $this->lastLog = microtime(true) * 1000;
     }
 
@@ -232,4 +247,23 @@ class PerformanceLogger {
     public function deactivate() {
         $this->isActive = false;
     }
+
+    public function close() {
+        $end = new DateTime();
+        /** @var DateInterval $diff */
+        $diff = date_diff($end, $this->veryBeginning, true);
+        $this->log($diff->format("%d days, %h hours, %i minutes, %s seconds, %f microseconds"));
+    }
+}
+
+function stripStrongsNums($strNum) {
+    if (is_numeric($strNum)) {
+        // TODO: assume Greek for now
+        $strNum = 'G' . $strNum;
+    }
+    $num = substr($strNum, 1);
+    if (is_numeric($num)) {
+        return substr($strNum, 0, 1) . +$num;
+    }
+    return "";
 }

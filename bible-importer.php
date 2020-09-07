@@ -13,21 +13,20 @@ include_once "osis-reader.php";
 
 $DEBUG = true;
 $VERBOSE = false;
-$REPLACE = false;
 $PERF_TESTING = true;
 
 header('Content-type: text/html; charset=utf-8');
 ini_set("default_charset", 'utf-8');
 mb_internal_encoding('utf-8');
 
-//$memlimit = ini_get('memory_limit');
-//ini_set('memory_limit', '-1');
+$memlimit = ini_get('memory_limit');
+ini_set('memory_limit', '-1');
 //ini_set('max_execution_time', '30000');
 
 $hexaData = new hexaText();
 
 /* ***** XML ***** */
-$sourceFile = "xml/engDRA_osis.xml"; // file path to upload?
+$sourceFile = "xml/DRA/engDRA_osis.xml"; // file path to upload?
 $initialReader = new XMLReader();
 $initialReader->open($sourceFile);
 $initialReader->read();
@@ -35,18 +34,24 @@ $firstTag = strtolower($initialReader->localName);
 $initialReader->close();
 try {
     switch ($firstTag) {
+        // Open Scripture Information Standard (OSIS) --> http://crosswire.org/osis/OSIS%202.1.1%20User%20Manual%2006March2006.pdf
         case 'osis':
             $reader = new OSISReader();
             break;
+        // Theological Markup Language (ThML) --> https://www.ccel.org/ThML/
         case 'thml':
             break;
+        // Zefania --> http://bgfdb.de/zefaniaxml/bml/
         case 'xmlbible':
         case 'x':
             break;
+        // Unified Scripture Format XML (USFX) --> https://ebible.org/usfx/usfx.htm
         case 'usfx':
             break;
+        // XML Scripture Encoding Model (XSEM) --> https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=XSEM
         case 'scripture':
             break;
+        // Unified Scripture XML (USX) --> https://ubsicap.github.io/usx/
         case 'usx':
             break;
         default:
@@ -55,60 +60,23 @@ try {
 } catch(TypeError $e) {
     echo $e->getMessage();
 }
-$reader->set_perfLog(new PerformanceLogger('hexaPerf.txt', $PERF_TESTING));
-$reader->set_errorLog(new HexaplaErrorLog('hexaErrorLog.txt'));
-$reader->open($sourceFile, 'utf-8',LIBXML_PARSEHUGE);
-$reader->loadMetadata($db);
-$reader->runTests($db);
-$reader->identifyNumberSystem($db);
-$reader->exportAndUpload($db);
-$reader->close();
+try {
+    $reader->set_perfLog(new PerformanceLogger('hexaPerf.txt', $PERF_TESTING));
+    $reader->set_errorLog(new HexaplaErrorLog('hexaErrorLog.txt'));
+    $reader->open($sourceFile, 'utf-8', LIBXML_PARSEHUGE);
+    $reader->runTests($db);
+    $reader->loadMetadata($db);
+    $reader->identifyNumberSystem($db);
+    $reader->exportAndUpload($db);
+} catch(HexaplaException $h) {
+    $reader->errorLog->log($h);
+} catch(Exception $e) {
+    $reader->errorLog->log(HexaplaException::toHexaplaException($e));
+} finally {
+    $reader->close(true);
+    ini_set('memory_limit', $memlimit);
+}
 die(0);
-
-/*
-$xmlParser = xml_parser_create();
-xml_parser_set_option($xmlParser, XML_OPTION_TARGET_ENCODING, 'utf-8');
-xml_parse_into_struct($xmlParser, implode("", file($sourceFile)), $values, $indices);
-switch($values[0]['tag']) {
-    // Open Scripture Information Standard (OSIS) --> http://crosswire.org/osis/OSIS%202.1.1%20User%20Manual%2006March2006.pdf
-    case 'OSIS':
-        osisImport($values, $indices, $hexaData);
-        free($values);
-        free($indices);
-        break;
-    // Theological Markup Language (ThML) --> https://www.ccel.org/ThML/
-    case 'THML':
-        thmlImport($values, $indices);
-        break;
-    // Zefania --> http://bgfdb.de/zefaniaxml/bml/
-    case 'XMLBIBLE':
-    case 'X':
-        zefaniaImport($values, $indices);
-        break;
-    // Unified Scripture Format XML (USFX) --> https://ebible.org/usfx/usfx.htm
-    case 'USFX':
-        usfxImport($values, $indices);
-        break;
-    // XML Scripture Encoding Model (XSEM) --> https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=XSEM
-    case 'SCRIPTURE':
-        xsemImport($values, $indices);
-        break;
-    // Unified Scripture XML (USX) --> https://ubsicap.github.io/usx/
-    case 'USX':
-        usxImport($values, $indices);
-        break;
-    default:
-        echo "Error! Not an accepted file format.";
-}*/
-
-// do stuff
-//echo $hexaData;
-
-// load hexaData into the database
-$hexaData->upload();
-
-ini_set('memory_limit', $memlimit);
-
 
 // apparently some TEI Bibles exist... do we want to deal with those?
 
@@ -207,34 +175,33 @@ class hexaWord extends hexaVerseObject {
      * @param bool $forSearch True if we only want to return SEARCH variables, not ALL variables
      */
     public function toCriteria(&$criteria, $forSearch = false): void {
+        if (!$forSearch && !isset($criteria[HexaplaTextValue::PUNCTUATION])) $criteria[HexaplaTextValue::PUNCTUATION] = HexaplaPunctuation::NOT;
         if (isset($this->position)) $criteria[HexaplaTextValue::POSITION] = $this->position;
         if (!$forSearch) {
             if (isset($this->text)) $criteria[HexaplaTextValue::VALUE] = $this->text;
-            if (isset($this->strongs) && utf8_strlen($this->strongs) > 0) $criteria[HexaplaTextValue::STRONG_ID] = $this->strongs;
-            if (!isset($criteria[HexaplaTextValue::PUNCTUATION])) $criteria[HexaplaTextValue::PUNCTUATION] = HexaplaPunctuation::NOT;
+            if (isset($this->strongs) && utf8_strlen($this->strongs) > 0) $criteria[HexaplaTextStrongs::STRONG_ID] = $this->strongs;
         }
         // others should be taken care of elsewhere / already
         parent::toCriteria($criteria, $forSearch);
         return;
     }
 
-    public function upload($db, $version, $punc = "NotPunctuation"): void {
+    public function upload($db, $version, $punc = "NotPunctuation"): void {/*
         $criteria['location_id'] = $this->getLocationId();
         $criteria['position'] = $this->position;
         $criteria['version_id'] = $version;
         $results = getData($db, TEXT_VALUE_TABLE(), [], $criteria);
         $row = pg_fetch_assoc($results);
         if ($row !== false) {
-            // TODO: handle updates instead of skipping
+            // handle updates instead of skipping
             return;
         }
         $encoding = iconv_get_encoding('ouput_encoding');
-        $valArray['position'] = $this->position;
-        $valArray['value'] = iconv($encoding, 'UTF-8', $this->text);
-        $valArray['location_id'] = $this->getLocationId();
-        $valArray['punctuation'] = $punc;
-        if (strlen($this->strongs) > 0) $valArray['strong_id'] = $this->strongs;
-        $valArray['version_id'] = $version;
+        $valArray[HexaplaTextValue::POSITION] = $this->position;
+        $valArray[HexaplaTextValue::VALUE] = iconv($encoding, 'UTF-8', $this->text);
+        $valArray[HexaplaTextValue::LOCATION_ID] = $this->getLocationId();
+        $valArray[HexaplaTextValue::PUNCTUATION] = $punc;
+        $valArray[HexaplaTextValue::VERSION_ID] = $version;
         pg_insert($db, TEXT_VALUE_TABLE(), $valArray);
         if ($GLOBALS['DEBUG']) {
             if ($valArray['location_id'] === -1) {
@@ -242,7 +209,10 @@ class hexaWord extends hexaVerseObject {
                 die(-1);
             }
         }
-        return;
+        if (strlen($this->strongs) > 0) {
+
+        }
+        return;*/
     }
 }
 
@@ -478,9 +448,9 @@ class hexaCopyright {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPublisher(): string {
+    public function getPublisher() {
         return $this->publisher;
     }
 
@@ -751,8 +721,8 @@ class hexaText {
     /**
      *
      */
-    public function upload(): void {
-        // TODO: If we're missing critical data, ask the user for it
+    public function upload(): void {/*
+        // If we're missing critical data, ask the user for it
         // Step 1: Identify number system
         //$this->evaluateTests(getData($db, LOC_CONV_TEST_TABLE()));
         //$this->discernConversions(getData($db, LOC_CONV_USES_TEST_TABLE()));
@@ -771,8 +741,8 @@ class hexaText {
         if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo "Publisher ID: " . ($publisherId === false ? "false" : $publisherId) . "\n";
 
         $srcArray['publisher_id'] = $publisherId;
-        $srcArray['lang_id'] = 1; // TODO: how do we know this?
-        $srcArray['allows_actions'] = CAN_READ() + CAN_NOTE() + CAN_FOCUS() + CAN_DIFF(); // TODO: handle when diffing isn't allowed
+        $srcArray['lang_id'] = 3; // how do we know this?
+        $srcArray['allows_actions'] = CAN_READ() + CAN_NOTE() + CAN_FOCUS() + CAN_DIFF(); // handle when diffing isn't allowed
         $srcArray['copyright'] = $this->copyright->getRights();
         $srcArray['user_id'] = CURRENT_USER(); // document owner/uploader
         $srcArray['source_id'] = 1;
@@ -802,8 +772,8 @@ class hexaText {
         if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
             echo "Indexed conversions: ";
             print_r($indexedConversions);
-        }
-        /** @var hexaWord $word */
+        }*/
+        /** @var hexaWord $word *//*
         $i = 0;
         foreach ($this->wordList as $book => $bookContents) {
             foreach ($bookContents as $chapter => $chapterContents) {
@@ -822,8 +792,8 @@ class hexaText {
                 }
             }
         }
-        free($this->wordList);
-        /** @var hexaNote $note */
+        free($this->wordList);*/
+        /** @var hexaNote $note *//*
         foreach ($this->nonCanonicalText as $note) {
             $ref = getStandardizedReference($db, $word->getReference());
             $note->setLocationId(locationWithIndex($db, $ref, $quickIndex, $indexedConversions));
@@ -833,7 +803,7 @@ class hexaText {
         }
         free($this->nonCanonicalText);
         free($quickIndex);
-        free($indexedConversions);
+        free($indexedConversions);*/
     }
 
     /**

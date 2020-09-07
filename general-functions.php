@@ -15,7 +15,7 @@ function numbersOnly($str) {
  * @return string|null
  */
 function bookFromReference($ref): ?string {
-    $pattern = '/^((?:(?:\d+|[[:alpha:]]+)\s?)?[[:alpha:]]+)/u';
+    $pattern = '/^((?:(?:\d+|[[:alpha:]]+)\s?)*[[:alpha:]]+(?:\s?\([[:alpha:]]+\))?)(?=\s*\d+|\W)/u';
     preg_match($pattern, $ref, $matches);
     if (count($matches) === 0) {
         return null;
@@ -75,7 +75,11 @@ function getLocation(&$db, $reference) {
     $cv = refArrayFromReference($reference, $book, $bookId);
     $chapterId = getChapterId($db, $bookId, $cv[0]);
     if ($chapterId < 0) return -1;
-    return getVerseId($db, $chapterId, $cv[1]);
+    $verseId = getVerseId($db, $chapterId, $cv[1]);
+    if ($verseId < 0) {
+        throw new HexaplaException('Location ' . $reference . ' could not be found.', 2, null, debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2));
+    }
+    return $verseId;
 }
 
 /**
@@ -89,12 +93,15 @@ function getBookId(&$db, $bookName): int {
     $columns[] = HexaplaLocSectionTerm::IS_PRIMARY;
     $criteria['term'] = $bookName;
     $results = getData($db, HexaplaTables::LOC_SECTION_TERM, $columns, $criteria);
+    if (!$results) {
+        return -1;
+    }
     while (($row = pg_fetch_assoc($results)) !== false) {
         if ($row['is_primary']) {
             break;
         }
     }
-    return ($row !== false ? $row['section_id'] : -1);
+    return ($row !== false ? $row[HexaplaLocSectionTerm::SECTION_ID] : -1);
 }
 
 /**
@@ -149,9 +156,6 @@ function locationWithIndex(&$db, $reference, &$indexArray, $conversionIndex) {
         $refId = implode(',', $conversionIndex[$reference]);
     } else {
         $refId = getLocation($db, $reference);
-    }
-    if (strpos($reference, "Numbers 13") !== false) {
-        //echo "Ref ID: " . $refId . "\n";
     }
     $indexArray[$reference] = $refId;
     return $refId;
@@ -209,6 +213,7 @@ function getStandardizedReference(&$db, $roughReference, &$bookName = '', &$chap
     $chapterNumber = '';
     $verseNumber = '';
     $bookAbbr = bookFromReference($roughReference);
+    if (is_null($bookAbbr)) { return ''; }
     $bookId = getBookId($db, $bookAbbr);
     $bookName = getBookProperName($db, $bookId);
     $cv = refArrayFromReference($roughReference, $bookAbbr, $bookId);
@@ -259,4 +264,13 @@ function num_true($arr) {
         if ($itm) $num++;
     }
     return $num;
+}
+
+/**
+ * @param array $array Original associative array
+ * @param array $exceptKeys Numeric array of keys to remove from the original array
+ * @return array The original array, except the specified keys
+ */
+function array_except($array, $exceptKeys) {
+    return array_diff_key($array, array_flip($exceptKeys));
 }

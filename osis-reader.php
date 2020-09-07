@@ -38,6 +38,20 @@ class OSISReader extends BibleXMLReader {
         return $output;
     }
 
+    public function next($localName = null) {
+        if ($this->localName === 'q') {
+            // this is a multi-verse spanning element that breaks everything else, so we need to read instead
+            $args['targetElementName'] = $localName;
+            return $this->read($args);
+        } else {
+            if (is_null($localName)) {
+                return parent::next();
+            } else {
+                return parent::next($localName);
+            }
+        }
+    }
+
     /**
      * @param resource|null $db
      */
@@ -95,6 +109,7 @@ class OSISReader extends BibleXMLReader {
                             if (!isset($testData[$book][$chapter]['last']) || $verse > $testData[$book][$chapter]['last']) {
                                 $testData[$book][$chapter]['last'] = $verse;
                             }
+                            $testData[$ref1]['last'] = $testData[$book][$chapter]['last'] == $verse;
                             break;
                         case HexaplaTests::EXIST:
                         case HexaplaTests::NOT_EXIST:
@@ -119,6 +134,21 @@ class OSISReader extends BibleXMLReader {
                 }
             }
         }
+        // we also need to account for what might NOT exist
+        foreach ($testIndex as $ref => $testList) {
+            foreach ($testList as $testType => $test) {
+                switch($testType) {
+                    case HexaplaTests::EXIST:
+                    case HexaplaTests::NOT_EXIST:
+                        if (!isset($testData[$ref]['exists'])) {
+                            $testData[$ref]['exists'] = false;
+                        }
+                        break;
+                    default:
+                        continue 2;
+                }
+            }
+        }
         // now that test data is loaded, run the tests
         if (count($testData) === 0) {
             // no tests apply, so we're done
@@ -136,7 +166,11 @@ class OSISReader extends BibleXMLReader {
                             $book,
                             $chapter,
                             $verse);
-                        $this->testResults[$testStep] = ($testData[$book][$chapter] === $verse);
+                        if (isset($testData[$book][$chapter]['last'])) {
+                            $this->testResults[$testStep] = ($testData[$book][$chapter]['last'] === $verse);
+                        } else {
+                            $this->testResults[$testStep] = false;
+                        }
                         break;
                     case HexaplaTests::NOT_EXIST:
                         $this->testResults[$testStep] = !$testData[$ref1]['exists'];
@@ -177,6 +211,8 @@ class OSISReader extends BibleXMLReader {
      */
     public function exportAndUpload(&$db) {
         // TODO: Handle notes / non-canonical text as well -- or specifically exclude them
+        $this->existingDataCheck($db);
+        //$this->perfLog->activate();
         $this->perfLog->log("start exportAndUpload");
         checkPgConnection($db);
         $this->returnToStart(); // we need to start at the beginning to loop through the data again
@@ -188,10 +224,16 @@ class OSISReader extends BibleXMLReader {
                 $this->errorLog->log($e);
                 continue;
             }
+            //$this->perfLog->log("current verse load from XML");
+            $this->beginCommitChapter($db, $verse['reference']);
+            $extraVerbose = false;
+            //$extraVerbose = $verse['reference'] == 'Matthew 5:3';
+            if ($extraVerbose) $this->perfLog->log("commit/begin query");
             // this is finally a small enough piece of XML that we can load it into workable memory
-            $this->perfLog->log("start " . $verse['reference']);
+            //$this->perfLog->log("start " . $verse['reference']);
             $parser = xml_parser_create('utf-8');
             xml_parse_into_struct($parser, $verse['xml'], $values, $index);
+            if ($extraVerbose) $this->perfLog->log("parse into struct");
             $key = 0;
             $words = [];
             for ($w = 0; $w < count($values); $w++) {
@@ -211,24 +253,18 @@ class OSISReader extends BibleXMLReader {
                 }
             }
             free($criteria);
+            free($values);
+            free($index);
             xml_parser_free($parser);
+            if ($extraVerbose) $this->perfLog->log("createHexaWords");
 
-            $columns[] = HexaplaConversion::ID;
-            $columns[] = HexaplaConversion::LOCATION_ID;
-            $criteria[HexaplaConversion::DISPLAY_NAME] = $verse['reference'];
-            $converted = getData($db, HexaplaTables::LOC_CONVERSION, $columns, $criteria);
-            $locId = -1;
-            while (($row = pg_fetch_assoc($converted)) !== false) {
-                if ($this->conversions[$row[HexaplaConversion::ID]]) {
-                    // this conversion applies
-                    $locId = $row[HexaplaConversion::LOCATION_ID];
-                    break;
-                }
-            }
-            if ($locId < 0) {
+            if (isset($this->conversions[$verse['reference']])) {
+                $locId = $this->conversions[$verse['reference']];
+            } else {
                 $locId = getLocation($db, $verse['reference']);
             }
-            free($columns);
+            if ($extraVerbose) $this->perfLog->log("location ID retrieval");
+            $insertCollection = [];
             /** @var hexaWord $word */
             foreach ($words as $word) {
                 free($criteria);
@@ -237,19 +273,24 @@ class OSISReader extends BibleXMLReader {
                 $word->toCriteria($criteria, true);
                 $insert = $criteria;
                 $word->toCriteria($insert);
-                // TODO: Write an upsert function to handle this
-                if (($search = getIdRows($db, HexaplaTables::TEXT_VALUE, $criteria)) !== false) {
-                    $row = pg_fetch_assoc($search);
-                    $criteria[HexaplaTextValue::ID] = $row[HexaplaTextValue::ID];
-                    if ($GLOBALS['REPLACE']) {
-                        pg_update($db, HexaplaTables::TEXT_VALUE, $insert, $criteria);
-                    }
+                if (isset($this->existingRows[$locId])) {
+                    $criteria[HexaplaTextValue::ID] = $this->existingRows[$locId][$criteria[HexaplaTextValue::POSITION]];
+                    update($db, HexaplaTables::TEXT_VALUE, $insert, $criteria);
                 } else {
-                    putData($db, HexaplaTables::TEXT_VALUE, $insert);
+                    $insertCollection[] = $insert;
                 }
+                free($insert);
+                if ($extraVerbose) $this->perfLog->log("single word query");
             }
+            if (count($insertCollection) > 0) {
+                putData($db, HexaplaTables::TEXT_VALUE, $insertCollection);
+            }
+            free($insertCollection);
+            free($words);
             $this->perfLog->log("finish " . $verse['reference']);
+            //$this->perfLog->deactivate();
         }
+        $this->beginCommitChapter($db, "");
         $this->perfLog->log("finish exportAndUpload");
     }
 
@@ -258,6 +299,7 @@ class OSISReader extends BibleXMLReader {
      */
     public function loadMetadata(&$db) {
         checkPgConnection($db);
+        $this->returnToStart();
         $this->read(['targetElementName' => OsisTags::HEADER]);
         $headerXML = $this->readOuterXml();
         $parser = xml_parser_create('utf-8');
@@ -484,6 +526,7 @@ class osisWorkAnalyzer {
                     } else {
                         $num = $keyValue[0];
                     }
+                    $num = stripStrongsNums($num);
                     if (isStrongsNumber($num)) {
                         $strongArray[] = $num;
                     }
@@ -601,12 +644,12 @@ class osisMetadataOptions {
 function createHexaWords(string $word, string $verseId, int &$key, array &$verseWords, string $strongsNum = ''): void {
     $nonWordPattern = nonwordRegexPattern();
     if (preg_match("/^($nonWordPattern)+$/u", $word, $matches) === 1) {
-        $newWord = new hexaPunctuation($verseId, $matches[0][0], $key++); // assume this is ending punctuation
+        $newWord = new hexaPunctuation($verseId, $matches[0], $key++); // assume this is ending punctuation
         $verseWords[] = $newWord;
         return;
     }
     if (preg_match("/^($nonWordPattern)+/u", $word, $matches) === 1) {
-        $newWord = new hexaPunctuation($verseId, $matches[0][0], $key++, '', '', false);
+        $newWord = new hexaPunctuation($verseId, $matches[0], $key++, '', '', false);
         $verseWords[] = $newWord;
     }
     $trimPattern = "($nonWordPattern|\s)";
