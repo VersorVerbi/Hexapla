@@ -217,6 +217,7 @@ function update(&$db, $tableName, $updates, $criteria = [], $idColumn = HexaplaS
         $sql .= ' WHERE ';
         foreach ($criteria as $column => $value) {
             if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
+            if (hasNoValue($value)) continue;
             $sql .= pg_escape_identifier($column) . '=' . pg_escape_literal($value) . ' AND ';
         }
         $sql = substr($sql, 0, -5);

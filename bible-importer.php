@@ -26,7 +26,7 @@ ini_set('memory_limit', '-1');
 $hexaData = new hexaText();
 
 /* ***** XML ***** */
-$sourceFile = "xml/DRA/engDRA_osis.xml"; // file path to upload?
+$sourceFile = "xml/osis-bibles-master/he/osmhb.xml"; // file path to upload?
 $initialReader = new XMLReader();
 $initialReader->open($sourceFile);
 $initialReader->read();
@@ -37,6 +37,7 @@ try {
         // Open Scripture Information Standard (OSIS) --> http://crosswire.org/osis/OSIS%202.1.1%20User%20Manual%2006March2006.pdf
         case 'osis':
             $reader = new OSISReader();
+            $reader->formatStyle = OSIS_FORMAT_ENUM::SIMPLE_STRUCT;
             break;
         // Theological Markup Language (ThML) --> https://www.ccel.org/ThML/
         case 'thml':

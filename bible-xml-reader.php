@@ -365,7 +365,7 @@ class HexaplaStandardMetadata {
         // Version
         $columns[] = HexaplaSourceVersion::ID;
         $criteria[HexaplaSourceVersion::COPYRIGHT] = $this->copyright->__toString();
-        $criteria[HexaplaSourceVersion::LANGUAGE_ID] = 1; //$this->language; // TODO: We haven't resolved this anywhere
+        $criteria[HexaplaSourceVersion::LANGUAGE_ID] = 4; //$this->language; // TODO: We haven't resolved this anywhere
         $criteria[HexaplaSourceVersion::ALLOWS_ACTIONS] = CAN_READ() + CAN_NOTE() + CAN_FOCUS() + CAN_DIFF(); // TODO: handle when diffing isn't allowed
         $criteria[HexaplaSourceVersion::PUBLISHER_ID] = $publisherId;
         $criteria[HexaplaSourceVersion::SOURCE_ID] = 1; // i.e., the Bible

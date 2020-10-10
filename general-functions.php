@@ -274,3 +274,10 @@ function num_true($arr) {
 function array_except($array, $exceptKeys) {
     return array_diff_key($array, array_flip($exceptKeys));
 }
+
+function hasNoValue($val) {
+    if (is_null($val)) return true;
+    if (strlen($val) === 0) return true;
+    if ($val === 'NULL') return true;
+    return false;
+}

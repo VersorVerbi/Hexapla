@@ -4,6 +4,8 @@ include_once "bible-xml-reader.php";
 class OSISReader extends BibleXMLReader {
     /** @var osisWorkAnalyzer $workAnalyzer */
     private $workAnalyzer;
+    /** @var int $formatStyle */
+    public $formatStyle;
 
     /**
      * Override
@@ -19,28 +21,24 @@ class OSISReader extends BibleXMLReader {
         $targetDivType = (isset($args['targetDivType']) ? $args['targetDivType'] : '');
         $targetAttributeExists = (isset($args['targetAttributeExists']) ? $args['targetAttributeExists'] : '');
         $targetElementName = (isset($args['targetElementName']) ? $args['targetElementName'] : '');
+        if ($this->formatStyle === OSIS_FORMAT_ENUM::SIMPLE_STRUCT && isset($args['or'])) {
+            $orArgs = $args['or'];
+            $targetNodeType = (isset($orArgs['targetNodeType']) ? $orArgs['targetNodeType'] : -1);
+            $targetDivType = (isset($orArgs['targetDivType']) ? $orArgs['targetDivType'] : '');
+            $targetAttributeExists = (isset($args['targetAttributeExists']) ? $orArgs['targetAttributeExists'] : '');
+            $targetElementName = (isset($args['targetElementName']) ? $args['targetElementName'] : '');
+        }
         do {
             $output = parent::read();
             if (!$output) break;
-            $done = true;
-            if ($skipLineBreaks && preg_match('/^[\r\n]+$/', $this->value) > 0) {
-                $done = false;
-            } elseif ($targetNodeType >= 0 && $this->nodeType !== $targetNodeType) {
-                $done = false;
-            } elseif (strlen($targetDivType) > 0 && $this->divType() !== $targetDivType) {
-                $done = false;
-            } elseif (strlen($targetAttributeExists) > 0 && is_null($this->getAttribute($targetAttributeExists))) {
-                $done = false;
-            } elseif (strlen($targetElementName) > 0 && $this->localName !== $targetElementName) {
-                $done = false;
-            }
+            $done = $this->nodeMatch($skipLineBreaks, $targetNodeType, $targetDivType, $targetAttributeExists, $targetElementName);
         } while (!$done);
         return $output;
     }
 
     public function next($localName = null) {
-        if ($this->localName === 'q') {
-            // this is a multi-verse spanning element that breaks everything else, so we need to read instead
+        if ($this->localName === 'q' || $this->localName === 'p') {
+            // these are multi-verse spanning elements that break everything else, so we need to read instead
             $args['targetElementName'] = $localName;
             return $this->read($args);
         } else {
@@ -96,7 +94,9 @@ class OSISReader extends BibleXMLReader {
         }
         // use the test index to load necessary test data
         $testData = [];
-        while ($this->read(['targetElementName' => OsisTags::VERSE, 'targetAttributeExists' => OsisAttributes::START_ID])) {
+        while ($this->read(
+            ['targetElementName' => OsisTags::VERSE, 'targetAttributeExists' => OsisAttributes::START_ID,
+                'or' => ['targetElementName' => OsisTags::VERSE, 'targetAttributeExists' => OsisAttributes::OSIS_ID]])) {
             $ref1 = getStandardizedReference($db,
                 $this->getAttribute(OsisAttributes::OSIS_ID),
                 $book,
@@ -184,8 +184,16 @@ class OSISReader extends BibleXMLReader {
                     case HexaplaTests::LESS_THAN:
                         foreach($testStep as $ref2 => $testArray) {
                             if (!isset($this->testResults[$testArray['id']])) {
-                                $num1 = $testData[$ref1]['length'] * $testArray['multi1'];
-                                $num2 = $testData[$ref2]['length'] * $testArray['multi2'];
+                                if (!isset($testData[$ref1])) {
+                                    $num1 = 0;
+                                } else {
+                                    $num1 = $testData[$ref1]['length'] * $testArray['multi1'];
+                                }
+                                if (!isset($testData[$ref2])) {
+                                    $num2 = 0;
+                                } else {
+                                    $num2 = $testData[$ref2]['length'] * $testArray['multi2'];
+                                }
                                 if ($greater) {
                                     $result = $num1 > $num2;
                                 } else {
@@ -216,7 +224,9 @@ class OSISReader extends BibleXMLReader {
         $this->perfLog->log("start exportAndUpload");
         checkPgConnection($db);
         $this->returnToStart(); // we need to start at the beginning to loop through the data again
-        while ($this->read(['targetElementName' => OsisTags::VERSE, 'targetAttributeExists' => OsisAttributes::START_ID])) {
+        while ($this->read(
+            ['targetElementName' => OsisTags::VERSE, 'targetAttributeExists' => OsisAttributes::START_ID,
+                'or' => ['targetElementName' => OsisTags::VERSE, 'targetAttributeExists' => OsisAttributes::OSIS_ID]])) {
             try {
                 $verse = $this->currentVerse();
             } catch(PositionException $e) {
@@ -273,7 +283,7 @@ class OSISReader extends BibleXMLReader {
                 $word->toCriteria($criteria, true);
                 $insert = $criteria;
                 $word->toCriteria($insert);
-                if (isset($this->existingRows[$locId])) {
+                if (isset($this->existingRows[$locId]) && isset($this->existingRows[$locId][$criteria[HexaplaTextValue::POSITION]])) {
                     $criteria[HexaplaTextValue::ID] = $this->existingRows[$locId][$criteria[HexaplaTextValue::POSITION]];
                     update($db, HexaplaTables::TEXT_VALUE, $insert, $criteria);
                 } else {
@@ -381,14 +391,18 @@ class OSISReader extends BibleXMLReader {
         if (strtolower($this->localName) !== OsisTags::VERSE) {
             throw new PositionException('Not on a verse', 1, null, get_defined_vars());
         }
-        if (is_null($this->getAttribute(OsisAttributes::START_ID))) {
+        if ($this->formatStyle === OSIS_FORMAT_ENUM::WITH_OVERLAP && is_null($this->getAttribute(OsisAttributes::START_ID))) {
             throw new PositionException('On a verse end spot', 2, null, get_defined_vars());
         }
         $bracketId = $this->getAttribute(OsisAttributes::START_ID);
         $output['reference'] = getStandardizedReference($db, $this->getAttribute(OsisAttributes::OSIS_ID));
         $output['xml'] = '<verse>'; // this is a fake XML object to help xml_parser understand what we're doing
-        while ($this->next() && $this->getAttribute(OsisAttributes::END_ID) !== $bracketId) {
-            $output['xml'] .= $this->readOuterXml();
+        if ($this->formatStyle === OSIS_FORMAT_ENUM::WITH_OVERLAP) {
+            while ($this->next() && !$this->finishedVerse($bracketId)) {
+                $output['xml'] .= $this->readOuterXml();
+            }
+        } else {
+            $output['xml'] .= $this->readInnerXml();
         }
         $output['xml'] .= '</verse>';
         $output['text'] = '';
@@ -402,6 +416,14 @@ class OSISReader extends BibleXMLReader {
         }
         xml_parser_free($tempParser);
         return $output;
+    }
+
+    private function finishedVerse($id) {
+        if ($this->formatStyle === OSIS_FORMAT_ENUM::WITH_OVERLAP) {
+            return $this->getAttribute(OsisAttributes::END_ID) === $id;
+        } else {
+            return $this->nodeType === XMLReader::END_ELEMENT && $this->localName === OsisTags::VERSE;
+        }
     }
 
     /**
@@ -418,6 +440,31 @@ class OSISReader extends BibleXMLReader {
             return '';
         }
         return $this->getAttribute(OsisAttributes::TYPE);
+    }
+
+    /**
+     * @param bool $skipLineBreaks
+     * @param int $targetNodeType
+     * @param string $targetDivType
+     * @param string $targetAttributeExists
+     * @param string $targetElementName
+     * @return false
+     */
+    private function nodeMatch(bool $skipLineBreaks, int $targetNodeType, string $targetDivType, string $targetAttributeExists, string $targetElementName): bool
+    {
+        $done = true;
+        if ($skipLineBreaks && preg_match('/^[\r\n]+$/', $this->value) > 0) {
+            $done = false;
+        } elseif ($targetNodeType >= 0 && $this->nodeType !== $targetNodeType) {
+            $done = false;
+        } elseif (strlen($targetDivType) > 0 && $this->divType() !== $targetDivType) {
+            $done = false;
+        } elseif (strlen($targetAttributeExists) > 0 && is_null($this->getAttribute($targetAttributeExists))) {
+            $done = false;
+        } elseif (strlen($targetElementName) > 0 && $this->localName !== $targetElementName) {
+            $done = false;
+        }
+        return $done;
     }
 }
 
@@ -663,4 +710,9 @@ function createHexaWords(string $word, string $verseId, int &$key, array &$verse
         $verseWords[] = $newWord;
     }
     return;
+}
+
+class OSIS_FORMAT_ENUM {
+    const WITH_OVERLAP = 1;
+    const SIMPLE_STRUCT = 2;
 }

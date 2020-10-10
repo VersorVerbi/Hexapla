@@ -234,7 +234,7 @@ class PerformanceLogger {
             ($this->verbose ? print_r($backtrace[1], true) . "\n" : '') .
             'Memory Usage: ' . memory_get_usage() . ' / ' . memory_get_usage(true) . "\n",
             ($first ? 0 : FILE_APPEND));
-        if ($micros > 1000 && strpos($msg, "Conversions") === false && strpos($msg, " days,") === false && strpos($msg, "existingDataCheck") === false) {
+        if (!$GLOBALS['DEBUG'] && $micros > 1000 && strpos($msg, "Conversions") === false && strpos($msg, " days,") === false && strpos($msg, "existingDataCheck") === false) {
             throw new HexaplaException("taking too long --> ", -1, null, debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2));
         }
         $this->lastLog = microtime(true) * 1000;
