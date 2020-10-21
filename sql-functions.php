@@ -308,6 +308,10 @@ function pg_implode($glue, $array, $literal = false) {
     return implode($glue, $formattedArray);
 }
 
+function pg_bool($value) { // maybe this way we'll one day be able to improve PostgreSQL to return actual booleans
+    return is_bool($value) ? $value : ($value === 't');
+}
+
 #region Database Table & Enum Classes
 class HexaplaTables {
     const TEXT_VALUE = 'text_value';
@@ -446,8 +450,7 @@ class HexaplaTextStrongs implements HexaplaStrongColumns {
     const TEXT_ID = 'text_id';
 }
 
-class HexaplaTextValue implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaPositionColumns, HexaplaVersionColumns {
-    const LOCATION_ID = 'location_id'; // TODO: Standardize this
+class HexaplaTextValue implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaPositionColumns, HexaplaVersionColumns, HexaplaLocationColumns {
     const PUNCTUATION = 'punctuation';
 }
 class HexaplaLangDefinition implements HexaplaStandardColumns, HexaplaLangColumns, HexaplaDefiningColumns, HexaplaLemmaColumns {
@@ -495,9 +498,7 @@ class HexaplaLocSectionTerm implements HexaplaStandardColumns, HexaplaSectionCol
     const IS_PRIMARY = 'is_primary';
 }
 class HexaplaLocSubsection implements HexaplaStandardColumns, HexaplaPositionColumns, HexaplaSectionColumns {}
-class HexaplaLocSubsectionTerm implements HexaplaStandardColumns, HexaplaTermColumns {
-    const SUBSECTION_ID = 'subId'; //TODO: Standardize this
-}
+class HexaplaLocSubsectionTerm implements HexaplaStandardColumns, HexaplaTermColumns, HexaplaSubsectionColumns {}
 class HexaplaLocation implements HexaplaStandardColumns, HexaplaPositionColumns, HexaplaSubsectionColumns {}
 class HexaplaNoteCrossRef implements HexaplaStandardColumns, HexaplaLocationColumns, HexaplaVersionColumns {
     const REFERENCE_ID = 'ref_id';
@@ -524,10 +525,9 @@ class HexaplaUser implements HexaplaStandardColumns {
     const NAME = 'username';
     const EMAIL = 'email';
     const PASSWORD = 'password';
-    const GROUP_ID = 'groupId'; // TODO: Reformat/standardize
+    const GROUP_ID = 'group_id';
 }
-class HexaplaUserCredential implements HexaplaStandardColumns {
-    const USER_ID = 'userId'; // TODO: Standardize
+class HexaplaUserCredential implements HexaplaStandardColumns, HexaplaUserColumns {
     const INFO = 'info';
     const DATA = 'data';
 }

@@ -26,7 +26,7 @@ ini_set('memory_limit', '-1');
 $hexaData = new hexaText();
 
 /* ***** XML ***** */
-$sourceFile = "xml/osis-bibles-master/he/osmhb.xml"; // file path to upload?
+$sourceFile = "xml/OSMHB/osmhb.xml"; // file path to upload?
 $initialReader = new XMLReader();
 $initialReader->open($sourceFile);
 $initialReader->read();

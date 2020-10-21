@@ -109,7 +109,7 @@ abstract class BibleXMLReader extends XMLReader {
             } else {
                 $result = $this->conversionResults[$row[HexaplaLocConvUsesTest::CONVERSION_ID]];
             }
-            if ($row[HexaplaLocConvUsesTest::REVERSED] === 't') {
+            if (pg_bool($row[HexaplaLocConvUsesTest::REVERSED])) {
                 $result = $result && !$this->testCheck($row[HexaplaLocConvUsesTest::TEST_ID]);
             } else {
                 $result = $result && $this->testCheck($row[HexaplaLocConvUsesTest::TEST_ID]);

@@ -97,7 +97,7 @@ function getBookId(&$db, $bookName): int {
         return -1;
     }
     while (($row = pg_fetch_assoc($results)) !== false) {
-        if ($row['is_primary']) {
+        if (pg_bool($row[HexaplaLocSectionTerm::IS_PRIMARY])) {
             break;
         }
     }
