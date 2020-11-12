@@ -1,7 +1,8 @@
 <?php
 
-include_once "oldcode/dbconnect.php";
+include_once "dbconnect.php";
 include_once "import-functions.php";
+include_once "general-functions.php";
 
 /**
  * @uses checkPgConnection(), is_null(), strlen(), count(), is_numeric(), pg_query_params()
@@ -283,6 +284,37 @@ function updateStrongs($insertArray, $insertUpdateResult, $idColumn, $insert = t
             putData($db, HexaplaTables::TEXT_STRONGS, $strongInserts, null);
         }
     }
+}
+
+function fullSearch(&$db, $reference, $translations, &$alternatives) {
+    checkPgConnection($db);
+    $alternatives = [];
+    $resolutionSql = "SELECT public.resolve_reference('$reference');";
+    $resolutionResult = pg_query($db, $resolutionSql);
+    if (($resolRow = pg_fetch_assoc($resolutionResult)) !== false) {
+        $data = resolveMore($resolRow['resolve_reference']);
+        $searchSql = "SELECT public.full_search(" . pg_escape_literal($db, $data[0]) .
+            ',' . pg_escape_literal($db, $data[1]) . ',' . pg_escape_literal($db, $data[2]) .
+            ',' . pg_escape_literal($db, $data[3]) . ',' . pg_escape_literal($db, $data[4]) .
+            ',' . pg_escape_literal($db, $data[5]) . ',' . pg_escape_literal($db, $data[6]) .
+            ',' . pg_escape_literal($db, $translations) . ');';
+        $searchResult = pg_query($db, $searchSql);
+    } else {
+        return null;
+    }
+    while (($resolRow = pg_fetch_assoc($resolutionResult)) !== false) {
+        $alternatives[] = $resolRow['resolve_reference'];
+    }
+    return $searchResult;
+}
+
+/**
+ * @param $resolve_reference
+ * @return array
+ */
+function resolveMore($resolve_reference): array
+{
+    return str_getcsv(trim(trim($resolve_reference, '('), ')'), ',', '"');
 }
 
 function begin($db) {

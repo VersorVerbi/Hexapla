@@ -82,6 +82,10 @@ function getLocation(&$db, $reference) {
     return $verseId;
 }
 
+function noQuotes($val) {
+    return trim($val, '"');
+}
+
 /**
  * @param $db
  * @param $bookName

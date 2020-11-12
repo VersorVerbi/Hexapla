@@ -1,0 +1,2644 @@
+body.dark {
+  background-color: #624a2e;
+}
+body.dark #wrap {
+  background-color: #352a1d;
+}
+body.dark .search {
+  border-color: black;
+}
+body.dark #searchbox::placeholder {
+  color: lightgray;
+}
+body.dark .menu-tab {
+  background-color: #4e3c27;
+  border-color: #e5daaf;
+}
+body.dark .menu-tab .activator {
+  border-right-color: #4e3c27;
+}
+body.dark .sidebar {
+  background-color: #4e3c27;
+  color: #e5daaf;
+  border-color: #e5daaf;
+}
+body.dark .sidebar a {
+  color: #e5daaf;
+}
+body.dark .sidebar a:hover, body.dark .sidebar a:visited, body.dark .sidebar a:active {
+  color: #e5daaf;
+}
+body.dark #menu ul li {
+  background-color: #4e3c27;
+}
+body.dark #menu ul li:hover {
+  background-color: #6e5431;
+}
+body.dark div.del span, body.dark div.promote span, body.dark #addtl span, body.dark #prevPsg span, body.dark #nextPsg span {
+  border-color: #d4b039;
+  background-color: #4e3c27;
+}
+body.dark .modal-content {
+  background-color: #6e5431;
+  border-color: #e5daaf;
+}
+body.dark .diff2L, body.dark .diff2R {
+  background-color: #45632f;
+}
+body.dark .diff2L .diff3L, body.dark .diff3L .diff2L {
+  background-color: linear-gradient(#45632f, #495d6b);
+}
+body.dark .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#45632f, #495d6b, #755426);
+}
+body.dark .diff2L .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#45632f, #495d6b, #755426, #6b5559);
+}
+body.dark .diff2L .diff3L .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#45632f, #495d6b, #755426, #6b5559, #5c5d2e);
+}
+body.dark .diff2L .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#45632f, #495d6b, #755426, #5c5d2e);
+}
+body.dark .diff2L .diff3L .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#45632f, #495d6b, #755426, #5c5d2e, #6b5559);
+}
+body.dark .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#45632f, #495d6b, #6b5559);
+}
+body.dark .diff2L .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#45632f, #495d6b, #6b5559, #755426);
+}
+body.dark .diff2L .diff3L .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#45632f, #495d6b, #6b5559, #755426, #5c5d2e);
+}
+body.dark .diff2L .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#45632f, #495d6b, #6b5559, #5c5d2e);
+}
+body.dark .diff2L .diff3L .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#45632f, #495d6b, #6b5559, #5c5d2e, #755426);
+}
+body.dark .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#45632f, #495d6b, #5c5d2e);
+}
+body.dark .diff2L .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#45632f, #495d6b, #5c5d2e, #755426);
+}
+body.dark .diff2L .diff3L .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#45632f, #495d6b, #5c5d2e, #755426, #6b5559);
+}
+body.dark .diff2L .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#45632f, #495d6b, #5c5d2e, #6b5559);
+}
+body.dark .diff2L .diff3L .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#45632f, #495d6b, #5c5d2e, #6b5559, #755426);
+}
+body.dark .diff2L .diff4L, body.dark .diff4L .diff2L {
+  background-color: linear-gradient(#45632f, #755426);
+}
+body.dark .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#45632f, #755426, #495d6b);
+}
+body.dark .diff2L .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#45632f, #755426, #495d6b, #6b5559);
+}
+body.dark .diff2L .diff4L .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#45632f, #755426, #495d6b, #6b5559, #5c5d2e);
+}
+body.dark .diff2L .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#45632f, #755426, #495d6b, #5c5d2e);
+}
+body.dark .diff2L .diff4L .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#45632f, #755426, #495d6b, #5c5d2e, #6b5559);
+}
+body.dark .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#45632f, #755426, #6b5559);
+}
+body.dark .diff2L .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#45632f, #755426, #6b5559, #495d6b);
+}
+body.dark .diff2L .diff4L .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#45632f, #755426, #6b5559, #495d6b, #5c5d2e);
+}
+body.dark .diff2L .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#45632f, #755426, #6b5559, #5c5d2e);
+}
+body.dark .diff2L .diff4L .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#45632f, #755426, #6b5559, #5c5d2e, #495d6b);
+}
+body.dark .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#45632f, #755426, #5c5d2e);
+}
+body.dark .diff2L .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#45632f, #755426, #5c5d2e, #495d6b);
+}
+body.dark .diff2L .diff4L .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#45632f, #755426, #5c5d2e, #495d6b, #6b5559);
+}
+body.dark .diff2L .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#45632f, #755426, #5c5d2e, #6b5559);
+}
+body.dark .diff2L .diff4L .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#45632f, #755426, #5c5d2e, #6b5559, #495d6b);
+}
+body.dark .diff2L .diff5L, body.dark .diff5L .diff2L {
+  background-color: linear-gradient(#45632f, #6b5559);
+}
+body.dark .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#45632f, #6b5559, #495d6b);
+}
+body.dark .diff2L .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#45632f, #6b5559, #495d6b, #755426);
+}
+body.dark .diff2L .diff5L .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#45632f, #6b5559, #495d6b, #755426, #5c5d2e);
+}
+body.dark .diff2L .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#45632f, #6b5559, #495d6b, #5c5d2e);
+}
+body.dark .diff2L .diff5L .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#45632f, #6b5559, #495d6b, #5c5d2e, #755426);
+}
+body.dark .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#45632f, #6b5559, #755426);
+}
+body.dark .diff2L .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#45632f, #6b5559, #755426, #495d6b);
+}
+body.dark .diff2L .diff5L .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#45632f, #6b5559, #755426, #495d6b, #5c5d2e);
+}
+body.dark .diff2L .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#45632f, #6b5559, #755426, #5c5d2e);
+}
+body.dark .diff2L .diff5L .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#45632f, #6b5559, #755426, #5c5d2e, #495d6b);
+}
+body.dark .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#45632f, #6b5559, #5c5d2e);
+}
+body.dark .diff2L .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#45632f, #6b5559, #5c5d2e, #495d6b);
+}
+body.dark .diff2L .diff5L .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#45632f, #6b5559, #5c5d2e, #495d6b, #755426);
+}
+body.dark .diff2L .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#45632f, #6b5559, #5c5d2e, #755426);
+}
+body.dark .diff2L .diff5L .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#45632f, #6b5559, #5c5d2e, #755426, #495d6b);
+}
+body.dark .diff2L .diff6L, body.dark .diff6L .diff2L {
+  background-color: linear-gradient(#45632f, #5c5d2e);
+}
+body.dark .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #495d6b);
+}
+body.dark .diff2L .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #495d6b, #755426);
+}
+body.dark .diff2L .diff6L .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #495d6b, #755426, #6b5559);
+}
+body.dark .diff2L .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #495d6b, #6b5559);
+}
+body.dark .diff2L .diff6L .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #495d6b, #6b5559, #755426);
+}
+body.dark .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #755426);
+}
+body.dark .diff2L .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #755426, #495d6b);
+}
+body.dark .diff2L .diff6L .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #755426, #495d6b, #6b5559);
+}
+body.dark .diff2L .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #755426, #6b5559);
+}
+body.dark .diff2L .diff6L .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #755426, #6b5559, #495d6b);
+}
+body.dark .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #6b5559);
+}
+body.dark .diff2L .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #6b5559, #495d6b);
+}
+body.dark .diff2L .diff6L .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #6b5559, #495d6b, #755426);
+}
+body.dark .diff2L .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #6b5559, #755426);
+}
+body.dark .diff2L .diff6L .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#45632f, #5c5d2e, #6b5559, #755426, #495d6b);
+}
+body.dark .diff3L, body.dark .diff3R {
+  background-color: #495d6b;
+}
+body.dark .diff3L .diff2L, body.dark .diff2L .diff3L {
+  background-color: linear-gradient(#495d6b, #45632f);
+}
+body.dark .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#495d6b, #45632f, #755426);
+}
+body.dark .diff3L .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#495d6b, #45632f, #755426, #6b5559);
+}
+body.dark .diff3L .diff2L .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#495d6b, #45632f, #755426, #6b5559, #5c5d2e);
+}
+body.dark .diff3L .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#495d6b, #45632f, #755426, #5c5d2e);
+}
+body.dark .diff3L .diff2L .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#495d6b, #45632f, #755426, #5c5d2e, #6b5559);
+}
+body.dark .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#495d6b, #45632f, #6b5559);
+}
+body.dark .diff3L .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#495d6b, #45632f, #6b5559, #755426);
+}
+body.dark .diff3L .diff2L .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#495d6b, #45632f, #6b5559, #755426, #5c5d2e);
+}
+body.dark .diff3L .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#495d6b, #45632f, #6b5559, #5c5d2e);
+}
+body.dark .diff3L .diff2L .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#495d6b, #45632f, #6b5559, #5c5d2e, #755426);
+}
+body.dark .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#495d6b, #45632f, #5c5d2e);
+}
+body.dark .diff3L .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#495d6b, #45632f, #5c5d2e, #755426);
+}
+body.dark .diff3L .diff2L .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#495d6b, #45632f, #5c5d2e, #755426, #6b5559);
+}
+body.dark .diff3L .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#495d6b, #45632f, #5c5d2e, #6b5559);
+}
+body.dark .diff3L .diff2L .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#495d6b, #45632f, #5c5d2e, #6b5559, #755426);
+}
+body.dark .diff3L .diff4L, body.dark .diff4L .diff3L {
+  background-color: linear-gradient(#495d6b, #755426);
+}
+body.dark .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#495d6b, #755426, #45632f);
+}
+body.dark .diff3L .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#495d6b, #755426, #45632f, #6b5559);
+}
+body.dark .diff3L .diff4L .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#495d6b, #755426, #45632f, #6b5559, #5c5d2e);
+}
+body.dark .diff3L .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#495d6b, #755426, #45632f, #5c5d2e);
+}
+body.dark .diff3L .diff4L .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#495d6b, #755426, #45632f, #5c5d2e, #6b5559);
+}
+body.dark .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#495d6b, #755426, #6b5559);
+}
+body.dark .diff3L .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#495d6b, #755426, #6b5559, #45632f);
+}
+body.dark .diff3L .diff4L .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#495d6b, #755426, #6b5559, #45632f, #5c5d2e);
+}
+body.dark .diff3L .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#495d6b, #755426, #6b5559, #5c5d2e);
+}
+body.dark .diff3L .diff4L .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#495d6b, #755426, #6b5559, #5c5d2e, #45632f);
+}
+body.dark .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#495d6b, #755426, #5c5d2e);
+}
+body.dark .diff3L .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#495d6b, #755426, #5c5d2e, #45632f);
+}
+body.dark .diff3L .diff4L .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#495d6b, #755426, #5c5d2e, #45632f, #6b5559);
+}
+body.dark .diff3L .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#495d6b, #755426, #5c5d2e, #6b5559);
+}
+body.dark .diff3L .diff4L .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#495d6b, #755426, #5c5d2e, #6b5559, #45632f);
+}
+body.dark .diff3L .diff5L, body.dark .diff5L .diff3L {
+  background-color: linear-gradient(#495d6b, #6b5559);
+}
+body.dark .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#495d6b, #6b5559, #45632f);
+}
+body.dark .diff3L .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#495d6b, #6b5559, #45632f, #755426);
+}
+body.dark .diff3L .diff5L .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#495d6b, #6b5559, #45632f, #755426, #5c5d2e);
+}
+body.dark .diff3L .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#495d6b, #6b5559, #45632f, #5c5d2e);
+}
+body.dark .diff3L .diff5L .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#495d6b, #6b5559, #45632f, #5c5d2e, #755426);
+}
+body.dark .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#495d6b, #6b5559, #755426);
+}
+body.dark .diff3L .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#495d6b, #6b5559, #755426, #45632f);
+}
+body.dark .diff3L .diff5L .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#495d6b, #6b5559, #755426, #45632f, #5c5d2e);
+}
+body.dark .diff3L .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#495d6b, #6b5559, #755426, #5c5d2e);
+}
+body.dark .diff3L .diff5L .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#495d6b, #6b5559, #755426, #5c5d2e, #45632f);
+}
+body.dark .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#495d6b, #6b5559, #5c5d2e);
+}
+body.dark .diff3L .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#495d6b, #6b5559, #5c5d2e, #45632f);
+}
+body.dark .diff3L .diff5L .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#495d6b, #6b5559, #5c5d2e, #45632f, #755426);
+}
+body.dark .diff3L .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#495d6b, #6b5559, #5c5d2e, #755426);
+}
+body.dark .diff3L .diff5L .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#495d6b, #6b5559, #5c5d2e, #755426, #45632f);
+}
+body.dark .diff3L .diff6L, body.dark .diff6L .diff3L {
+  background-color: linear-gradient(#495d6b, #5c5d2e);
+}
+body.dark .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #45632f);
+}
+body.dark .diff3L .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #45632f, #755426);
+}
+body.dark .diff3L .diff6L .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #45632f, #755426, #6b5559);
+}
+body.dark .diff3L .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #45632f, #6b5559);
+}
+body.dark .diff3L .diff6L .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #45632f, #6b5559, #755426);
+}
+body.dark .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #755426);
+}
+body.dark .diff3L .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #755426, #45632f);
+}
+body.dark .diff3L .diff6L .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #755426, #45632f, #6b5559);
+}
+body.dark .diff3L .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #755426, #6b5559);
+}
+body.dark .diff3L .diff6L .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #755426, #6b5559, #45632f);
+}
+body.dark .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #6b5559);
+}
+body.dark .diff3L .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #6b5559, #45632f);
+}
+body.dark .diff3L .diff6L .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #6b5559, #45632f, #755426);
+}
+body.dark .diff3L .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #6b5559, #755426);
+}
+body.dark .diff3L .diff6L .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#495d6b, #5c5d2e, #6b5559, #755426, #45632f);
+}
+body.dark .diff4L, body.dark .diff4R {
+  background-color: #755426;
+}
+body.dark .diff4L .diff2L, body.dark .diff2L .diff4L {
+  background-color: linear-gradient(#755426, #45632f);
+}
+body.dark .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#755426, #45632f, #495d6b);
+}
+body.dark .diff4L .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#755426, #45632f, #495d6b, #6b5559);
+}
+body.dark .diff4L .diff2L .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#755426, #45632f, #495d6b, #6b5559, #5c5d2e);
+}
+body.dark .diff4L .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#755426, #45632f, #495d6b, #5c5d2e);
+}
+body.dark .diff4L .diff2L .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#755426, #45632f, #495d6b, #5c5d2e, #6b5559);
+}
+body.dark .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#755426, #45632f, #6b5559);
+}
+body.dark .diff4L .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#755426, #45632f, #6b5559, #495d6b);
+}
+body.dark .diff4L .diff2L .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#755426, #45632f, #6b5559, #495d6b, #5c5d2e);
+}
+body.dark .diff4L .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#755426, #45632f, #6b5559, #5c5d2e);
+}
+body.dark .diff4L .diff2L .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#755426, #45632f, #6b5559, #5c5d2e, #495d6b);
+}
+body.dark .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#755426, #45632f, #5c5d2e);
+}
+body.dark .diff4L .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#755426, #45632f, #5c5d2e, #495d6b);
+}
+body.dark .diff4L .diff2L .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#755426, #45632f, #5c5d2e, #495d6b, #6b5559);
+}
+body.dark .diff4L .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#755426, #45632f, #5c5d2e, #6b5559);
+}
+body.dark .diff4L .diff2L .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#755426, #45632f, #5c5d2e, #6b5559, #495d6b);
+}
+body.dark .diff4L .diff3L, body.dark .diff3L .diff4L {
+  background-color: linear-gradient(#755426, #495d6b);
+}
+body.dark .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#755426, #495d6b, #45632f);
+}
+body.dark .diff4L .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#755426, #495d6b, #45632f, #6b5559);
+}
+body.dark .diff4L .diff3L .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#755426, #495d6b, #45632f, #6b5559, #5c5d2e);
+}
+body.dark .diff4L .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#755426, #495d6b, #45632f, #5c5d2e);
+}
+body.dark .diff4L .diff3L .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#755426, #495d6b, #45632f, #5c5d2e, #6b5559);
+}
+body.dark .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#755426, #495d6b, #6b5559);
+}
+body.dark .diff4L .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#755426, #495d6b, #6b5559, #45632f);
+}
+body.dark .diff4L .diff3L .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#755426, #495d6b, #6b5559, #45632f, #5c5d2e);
+}
+body.dark .diff4L .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#755426, #495d6b, #6b5559, #5c5d2e);
+}
+body.dark .diff4L .diff3L .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#755426, #495d6b, #6b5559, #5c5d2e, #45632f);
+}
+body.dark .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#755426, #495d6b, #5c5d2e);
+}
+body.dark .diff4L .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#755426, #495d6b, #5c5d2e, #45632f);
+}
+body.dark .diff4L .diff3L .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#755426, #495d6b, #5c5d2e, #45632f, #6b5559);
+}
+body.dark .diff4L .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#755426, #495d6b, #5c5d2e, #6b5559);
+}
+body.dark .diff4L .diff3L .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#755426, #495d6b, #5c5d2e, #6b5559, #45632f);
+}
+body.dark .diff4L .diff5L, body.dark .diff5L .diff4L {
+  background-color: linear-gradient(#755426, #6b5559);
+}
+body.dark .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#755426, #6b5559, #45632f);
+}
+body.dark .diff4L .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#755426, #6b5559, #45632f, #495d6b);
+}
+body.dark .diff4L .diff5L .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#755426, #6b5559, #45632f, #495d6b, #5c5d2e);
+}
+body.dark .diff4L .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#755426, #6b5559, #45632f, #5c5d2e);
+}
+body.dark .diff4L .diff5L .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#755426, #6b5559, #45632f, #5c5d2e, #495d6b);
+}
+body.dark .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#755426, #6b5559, #495d6b);
+}
+body.dark .diff4L .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#755426, #6b5559, #495d6b, #45632f);
+}
+body.dark .diff4L .diff5L .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#755426, #6b5559, #495d6b, #45632f, #5c5d2e);
+}
+body.dark .diff4L .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#755426, #6b5559, #495d6b, #5c5d2e);
+}
+body.dark .diff4L .diff5L .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#755426, #6b5559, #495d6b, #5c5d2e, #45632f);
+}
+body.dark .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#755426, #6b5559, #5c5d2e);
+}
+body.dark .diff4L .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#755426, #6b5559, #5c5d2e, #45632f);
+}
+body.dark .diff4L .diff5L .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#755426, #6b5559, #5c5d2e, #45632f, #495d6b);
+}
+body.dark .diff4L .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#755426, #6b5559, #5c5d2e, #495d6b);
+}
+body.dark .diff4L .diff5L .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#755426, #6b5559, #5c5d2e, #495d6b, #45632f);
+}
+body.dark .diff4L .diff6L, body.dark .diff6L .diff4L {
+  background-color: linear-gradient(#755426, #5c5d2e);
+}
+body.dark .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#755426, #5c5d2e, #45632f);
+}
+body.dark .diff4L .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#755426, #5c5d2e, #45632f, #495d6b);
+}
+body.dark .diff4L .diff6L .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#755426, #5c5d2e, #45632f, #495d6b, #6b5559);
+}
+body.dark .diff4L .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#755426, #5c5d2e, #45632f, #6b5559);
+}
+body.dark .diff4L .diff6L .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#755426, #5c5d2e, #45632f, #6b5559, #495d6b);
+}
+body.dark .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#755426, #5c5d2e, #495d6b);
+}
+body.dark .diff4L .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#755426, #5c5d2e, #495d6b, #45632f);
+}
+body.dark .diff4L .diff6L .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#755426, #5c5d2e, #495d6b, #45632f, #6b5559);
+}
+body.dark .diff4L .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#755426, #5c5d2e, #495d6b, #6b5559);
+}
+body.dark .diff4L .diff6L .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#755426, #5c5d2e, #495d6b, #6b5559, #45632f);
+}
+body.dark .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#755426, #5c5d2e, #6b5559);
+}
+body.dark .diff4L .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#755426, #5c5d2e, #6b5559, #45632f);
+}
+body.dark .diff4L .diff6L .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#755426, #5c5d2e, #6b5559, #45632f, #495d6b);
+}
+body.dark .diff4L .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#755426, #5c5d2e, #6b5559, #495d6b);
+}
+body.dark .diff4L .diff6L .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#755426, #5c5d2e, #6b5559, #495d6b, #45632f);
+}
+body.dark .diff5L, body.dark .diff5R {
+  background-color: #6b5559;
+}
+body.dark .diff5L .diff2L, body.dark .diff2L .diff5L {
+  background-color: linear-gradient(#6b5559, #45632f);
+}
+body.dark .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#6b5559, #45632f, #495d6b);
+}
+body.dark .diff5L .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#6b5559, #45632f, #495d6b, #755426);
+}
+body.dark .diff5L .diff2L .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#6b5559, #45632f, #495d6b, #755426, #5c5d2e);
+}
+body.dark .diff5L .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#6b5559, #45632f, #495d6b, #5c5d2e);
+}
+body.dark .diff5L .diff2L .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#6b5559, #45632f, #495d6b, #5c5d2e, #755426);
+}
+body.dark .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#6b5559, #45632f, #755426);
+}
+body.dark .diff5L .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#6b5559, #45632f, #755426, #495d6b);
+}
+body.dark .diff5L .diff2L .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#6b5559, #45632f, #755426, #495d6b, #5c5d2e);
+}
+body.dark .diff5L .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#6b5559, #45632f, #755426, #5c5d2e);
+}
+body.dark .diff5L .diff2L .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#6b5559, #45632f, #755426, #5c5d2e, #495d6b);
+}
+body.dark .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#6b5559, #45632f, #5c5d2e);
+}
+body.dark .diff5L .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#6b5559, #45632f, #5c5d2e, #495d6b);
+}
+body.dark .diff5L .diff2L .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#6b5559, #45632f, #5c5d2e, #495d6b, #755426);
+}
+body.dark .diff5L .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#6b5559, #45632f, #5c5d2e, #755426);
+}
+body.dark .diff5L .diff2L .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#6b5559, #45632f, #5c5d2e, #755426, #495d6b);
+}
+body.dark .diff5L .diff3L, body.dark .diff3L .diff5L {
+  background-color: linear-gradient(#6b5559, #495d6b);
+}
+body.dark .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#6b5559, #495d6b, #45632f);
+}
+body.dark .diff5L .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#6b5559, #495d6b, #45632f, #755426);
+}
+body.dark .diff5L .diff3L .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#6b5559, #495d6b, #45632f, #755426, #5c5d2e);
+}
+body.dark .diff5L .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#6b5559, #495d6b, #45632f, #5c5d2e);
+}
+body.dark .diff5L .diff3L .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#6b5559, #495d6b, #45632f, #5c5d2e, #755426);
+}
+body.dark .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#6b5559, #495d6b, #755426);
+}
+body.dark .diff5L .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#6b5559, #495d6b, #755426, #45632f);
+}
+body.dark .diff5L .diff3L .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#6b5559, #495d6b, #755426, #45632f, #5c5d2e);
+}
+body.dark .diff5L .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#6b5559, #495d6b, #755426, #5c5d2e);
+}
+body.dark .diff5L .diff3L .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#6b5559, #495d6b, #755426, #5c5d2e, #45632f);
+}
+body.dark .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#6b5559, #495d6b, #5c5d2e);
+}
+body.dark .diff5L .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#6b5559, #495d6b, #5c5d2e, #45632f);
+}
+body.dark .diff5L .diff3L .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#6b5559, #495d6b, #5c5d2e, #45632f, #755426);
+}
+body.dark .diff5L .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#6b5559, #495d6b, #5c5d2e, #755426);
+}
+body.dark .diff5L .diff3L .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#6b5559, #495d6b, #5c5d2e, #755426, #45632f);
+}
+body.dark .diff5L .diff4L, body.dark .diff4L .diff5L {
+  background-color: linear-gradient(#6b5559, #755426);
+}
+body.dark .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#6b5559, #755426, #45632f);
+}
+body.dark .diff5L .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#6b5559, #755426, #45632f, #495d6b);
+}
+body.dark .diff5L .diff4L .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#6b5559, #755426, #45632f, #495d6b, #5c5d2e);
+}
+body.dark .diff5L .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#6b5559, #755426, #45632f, #5c5d2e);
+}
+body.dark .diff5L .diff4L .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#6b5559, #755426, #45632f, #5c5d2e, #495d6b);
+}
+body.dark .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#6b5559, #755426, #495d6b);
+}
+body.dark .diff5L .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#6b5559, #755426, #495d6b, #45632f);
+}
+body.dark .diff5L .diff4L .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#6b5559, #755426, #495d6b, #45632f, #5c5d2e);
+}
+body.dark .diff5L .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#6b5559, #755426, #495d6b, #5c5d2e);
+}
+body.dark .diff5L .diff4L .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#6b5559, #755426, #495d6b, #5c5d2e, #45632f);
+}
+body.dark .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#6b5559, #755426, #5c5d2e);
+}
+body.dark .diff5L .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#6b5559, #755426, #5c5d2e, #45632f);
+}
+body.dark .diff5L .diff4L .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#6b5559, #755426, #5c5d2e, #45632f, #495d6b);
+}
+body.dark .diff5L .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#6b5559, #755426, #5c5d2e, #495d6b);
+}
+body.dark .diff5L .diff4L .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#6b5559, #755426, #5c5d2e, #495d6b, #45632f);
+}
+body.dark .diff5L .diff6L, body.dark .diff6L .diff5L {
+  background-color: linear-gradient(#6b5559, #5c5d2e);
+}
+body.dark .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #45632f);
+}
+body.dark .diff5L .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #45632f, #495d6b);
+}
+body.dark .diff5L .diff6L .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #45632f, #495d6b, #755426);
+}
+body.dark .diff5L .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #45632f, #755426);
+}
+body.dark .diff5L .diff6L .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #45632f, #755426, #495d6b);
+}
+body.dark .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #495d6b);
+}
+body.dark .diff5L .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #495d6b, #45632f);
+}
+body.dark .diff5L .diff6L .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #495d6b, #45632f, #755426);
+}
+body.dark .diff5L .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #495d6b, #755426);
+}
+body.dark .diff5L .diff6L .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #495d6b, #755426, #45632f);
+}
+body.dark .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #755426);
+}
+body.dark .diff5L .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #755426, #45632f);
+}
+body.dark .diff5L .diff6L .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #755426, #45632f, #495d6b);
+}
+body.dark .diff5L .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #755426, #495d6b);
+}
+body.dark .diff5L .diff6L .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#6b5559, #5c5d2e, #755426, #495d6b, #45632f);
+}
+body.dark .diff6L, body.dark .diff6R {
+  background-color: #5c5d2e;
+}
+body.dark .diff6L .diff2L, body.dark .diff2L .diff6L {
+  background-color: linear-gradient(#5c5d2e, #45632f);
+}
+body.dark .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #495d6b);
+}
+body.dark .diff6L .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #495d6b, #755426);
+}
+body.dark .diff6L .diff2L .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #495d6b, #755426, #6b5559);
+}
+body.dark .diff6L .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #495d6b, #6b5559);
+}
+body.dark .diff6L .diff2L .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #495d6b, #6b5559, #755426);
+}
+body.dark .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #755426);
+}
+body.dark .diff6L .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #755426, #495d6b);
+}
+body.dark .diff6L .diff2L .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #755426, #495d6b, #6b5559);
+}
+body.dark .diff6L .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #755426, #6b5559);
+}
+body.dark .diff6L .diff2L .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #755426, #6b5559, #495d6b);
+}
+body.dark .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #6b5559);
+}
+body.dark .diff6L .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #6b5559, #495d6b);
+}
+body.dark .diff6L .diff2L .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #6b5559, #495d6b, #755426);
+}
+body.dark .diff6L .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #6b5559, #755426);
+}
+body.dark .diff6L .diff2L .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #45632f, #6b5559, #755426, #495d6b);
+}
+body.dark .diff6L .diff3L, body.dark .diff3L .diff6L {
+  background-color: linear-gradient(#5c5d2e, #495d6b);
+}
+body.dark .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #45632f);
+}
+body.dark .diff6L .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #45632f, #755426);
+}
+body.dark .diff6L .diff3L .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #45632f, #755426, #6b5559);
+}
+body.dark .diff6L .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #45632f, #6b5559);
+}
+body.dark .diff6L .diff3L .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #45632f, #6b5559, #755426);
+}
+body.dark .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #755426);
+}
+body.dark .diff6L .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #755426, #45632f);
+}
+body.dark .diff6L .diff3L .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #755426, #45632f, #6b5559);
+}
+body.dark .diff6L .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #755426, #6b5559);
+}
+body.dark .diff6L .diff3L .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #755426, #6b5559, #45632f);
+}
+body.dark .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #6b5559);
+}
+body.dark .diff6L .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #6b5559, #45632f);
+}
+body.dark .diff6L .diff3L .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #6b5559, #45632f, #755426);
+}
+body.dark .diff6L .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #6b5559, #755426);
+}
+body.dark .diff6L .diff3L .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #495d6b, #6b5559, #755426, #45632f);
+}
+body.dark .diff6L .diff4L, body.dark .diff4L .diff6L {
+  background-color: linear-gradient(#5c5d2e, #755426);
+}
+body.dark .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #755426, #45632f);
+}
+body.dark .diff6L .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #755426, #45632f, #495d6b);
+}
+body.dark .diff6L .diff4L .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #755426, #45632f, #495d6b, #6b5559);
+}
+body.dark .diff6L .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #755426, #45632f, #6b5559);
+}
+body.dark .diff6L .diff4L .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #755426, #45632f, #6b5559, #495d6b);
+}
+body.dark .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #755426, #495d6b);
+}
+body.dark .diff6L .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #755426, #495d6b, #45632f);
+}
+body.dark .diff6L .diff4L .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #755426, #495d6b, #45632f, #6b5559);
+}
+body.dark .diff6L .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #755426, #495d6b, #6b5559);
+}
+body.dark .diff6L .diff4L .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #755426, #495d6b, #6b5559, #45632f);
+}
+body.dark .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#5c5d2e, #755426, #6b5559);
+}
+body.dark .diff6L .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #755426, #6b5559, #45632f);
+}
+body.dark .diff6L .diff4L .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #755426, #6b5559, #45632f, #495d6b);
+}
+body.dark .diff6L .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #755426, #6b5559, #495d6b);
+}
+body.dark .diff6L .diff4L .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #755426, #6b5559, #495d6b, #45632f);
+}
+body.dark .diff6L .diff5L, body.dark .diff5L .diff6L {
+  background-color: linear-gradient(#5c5d2e, #6b5559);
+}
+body.dark .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #45632f);
+}
+body.dark .diff6L .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #45632f, #495d6b);
+}
+body.dark .diff6L .diff5L .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #45632f, #495d6b, #755426);
+}
+body.dark .diff6L .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #45632f, #755426);
+}
+body.dark .diff6L .diff5L .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #45632f, #755426, #495d6b);
+}
+body.dark .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #495d6b);
+}
+body.dark .diff6L .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #495d6b, #45632f);
+}
+body.dark .diff6L .diff5L .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #495d6b, #45632f, #755426);
+}
+body.dark .diff6L .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #495d6b, #755426);
+}
+body.dark .diff6L .diff5L .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #495d6b, #755426, #45632f);
+}
+body.dark .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #755426);
+}
+body.dark .diff6L .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #755426, #45632f);
+}
+body.dark .diff6L .diff5L .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #755426, #45632f, #495d6b);
+}
+body.dark .diff6L .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #755426, #495d6b);
+}
+body.dark .diff6L .diff5L .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#5c5d2e, #6b5559, #755426, #495d6b, #45632f);
+}
+body.light {
+  background-color: #624a2e;
+}
+body.light #wrap {
+  background-color: #e2d39b;
+}
+body.light .search {
+  border-color: black;
+}
+body.light #searchbox::placeholder {
+  color: lightgray;
+}
+body.light .menu-tab {
+  background-color: #d6b449;
+  border-color: #2f251a;
+}
+body.light .menu-tab .activator {
+  border-right-color: #d6b449;
+}
+body.light .sidebar {
+  background-color: #d6b449;
+  color: #2f251a;
+  border-color: #2f251a;
+}
+body.light .sidebar a {
+  color: #2f251a;
+}
+body.light .sidebar a:hover, body.light .sidebar a:visited, body.light .sidebar a:active {
+  color: #2f251a;
+}
+body.light #menu ul li {
+  background-color: #d6b449;
+}
+body.light #menu ul li:hover {
+  background-color: #b2913a;
+}
+body.light div.del span, body.light div.promote span, body.light #addtl span, body.light #prevPsg span, body.light #nextPsg span {
+  border-color: #523f28;
+  background-color: #d6b449;
+}
+body.light .modal-content {
+  background-color: #b2913a;
+  border-color: #2f251a;
+}
+body.light .diff2L, body.light .diff2R {
+  background-color: #70c531;
+}
+body.light .diff2L .diff3L, body.light .diff3L .diff2L {
+  background-color: linear-gradient(#70c531, #7cb7dc);
+}
+body.light .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #f29e0f);
+}
+body.light .diff2L .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #f29e0f, #d6a3ac);
+}
+body.light .diff2L .diff3L .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #f29e0f, #d6a3ac, #b5b634);
+}
+body.light .diff2L .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #f29e0f, #b5b634);
+}
+body.light .diff2L .diff3L .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #f29e0f, #b5b634, #d6a3ac);
+}
+body.light .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #d6a3ac);
+}
+body.light .diff2L .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #d6a3ac, #f29e0f);
+}
+body.light .diff2L .diff3L .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #d6a3ac, #f29e0f, #b5b634);
+}
+body.light .diff2L .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #d6a3ac, #b5b634);
+}
+body.light .diff2L .diff3L .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #d6a3ac, #b5b634, #f29e0f);
+}
+body.light .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #b5b634);
+}
+body.light .diff2L .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #b5b634, #f29e0f);
+}
+body.light .diff2L .diff3L .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #b5b634, #f29e0f, #d6a3ac);
+}
+body.light .diff2L .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #b5b634, #d6a3ac);
+}
+body.light .diff2L .diff3L .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#70c531, #7cb7dc, #b5b634, #d6a3ac, #f29e0f);
+}
+body.light .diff2L .diff4L, body.light .diff4L .diff2L {
+  background-color: linear-gradient(#70c531, #f29e0f);
+}
+body.light .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#70c531, #f29e0f, #7cb7dc);
+}
+body.light .diff2L .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#70c531, #f29e0f, #7cb7dc, #d6a3ac);
+}
+body.light .diff2L .diff4L .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#70c531, #f29e0f, #7cb7dc, #d6a3ac, #b5b634);
+}
+body.light .diff2L .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#70c531, #f29e0f, #7cb7dc, #b5b634);
+}
+body.light .diff2L .diff4L .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#70c531, #f29e0f, #7cb7dc, #b5b634, #d6a3ac);
+}
+body.light .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#70c531, #f29e0f, #d6a3ac);
+}
+body.light .diff2L .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#70c531, #f29e0f, #d6a3ac, #7cb7dc);
+}
+body.light .diff2L .diff4L .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#70c531, #f29e0f, #d6a3ac, #7cb7dc, #b5b634);
+}
+body.light .diff2L .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#70c531, #f29e0f, #d6a3ac, #b5b634);
+}
+body.light .diff2L .diff4L .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#70c531, #f29e0f, #d6a3ac, #b5b634, #7cb7dc);
+}
+body.light .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#70c531, #f29e0f, #b5b634);
+}
+body.light .diff2L .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#70c531, #f29e0f, #b5b634, #7cb7dc);
+}
+body.light .diff2L .diff4L .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#70c531, #f29e0f, #b5b634, #7cb7dc, #d6a3ac);
+}
+body.light .diff2L .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#70c531, #f29e0f, #b5b634, #d6a3ac);
+}
+body.light .diff2L .diff4L .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#70c531, #f29e0f, #b5b634, #d6a3ac, #7cb7dc);
+}
+body.light .diff2L .diff5L, body.light .diff5L .diff2L {
+  background-color: linear-gradient(#70c531, #d6a3ac);
+}
+body.light .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #7cb7dc);
+}
+body.light .diff2L .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #7cb7dc, #f29e0f);
+}
+body.light .diff2L .diff5L .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #7cb7dc, #f29e0f, #b5b634);
+}
+body.light .diff2L .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #7cb7dc, #b5b634);
+}
+body.light .diff2L .diff5L .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #7cb7dc, #b5b634, #f29e0f);
+}
+body.light .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #f29e0f);
+}
+body.light .diff2L .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #f29e0f, #7cb7dc);
+}
+body.light .diff2L .diff5L .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #f29e0f, #7cb7dc, #b5b634);
+}
+body.light .diff2L .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #f29e0f, #b5b634);
+}
+body.light .diff2L .diff5L .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #f29e0f, #b5b634, #7cb7dc);
+}
+body.light .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #b5b634);
+}
+body.light .diff2L .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #b5b634, #7cb7dc);
+}
+body.light .diff2L .diff5L .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #b5b634, #7cb7dc, #f29e0f);
+}
+body.light .diff2L .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #b5b634, #f29e0f);
+}
+body.light .diff2L .diff5L .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#70c531, #d6a3ac, #b5b634, #f29e0f, #7cb7dc);
+}
+body.light .diff2L .diff6L, body.light .diff6L .diff2L {
+  background-color: linear-gradient(#70c531, #b5b634);
+}
+body.light .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#70c531, #b5b634, #7cb7dc);
+}
+body.light .diff2L .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#70c531, #b5b634, #7cb7dc, #f29e0f);
+}
+body.light .diff2L .diff6L .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#70c531, #b5b634, #7cb7dc, #f29e0f, #d6a3ac);
+}
+body.light .diff2L .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#70c531, #b5b634, #7cb7dc, #d6a3ac);
+}
+body.light .diff2L .diff6L .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#70c531, #b5b634, #7cb7dc, #d6a3ac, #f29e0f);
+}
+body.light .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#70c531, #b5b634, #f29e0f);
+}
+body.light .diff2L .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#70c531, #b5b634, #f29e0f, #7cb7dc);
+}
+body.light .diff2L .diff6L .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#70c531, #b5b634, #f29e0f, #7cb7dc, #d6a3ac);
+}
+body.light .diff2L .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#70c531, #b5b634, #f29e0f, #d6a3ac);
+}
+body.light .diff2L .diff6L .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#70c531, #b5b634, #f29e0f, #d6a3ac, #7cb7dc);
+}
+body.light .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#70c531, #b5b634, #d6a3ac);
+}
+body.light .diff2L .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#70c531, #b5b634, #d6a3ac, #7cb7dc);
+}
+body.light .diff2L .diff6L .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#70c531, #b5b634, #d6a3ac, #7cb7dc, #f29e0f);
+}
+body.light .diff2L .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#70c531, #b5b634, #d6a3ac, #f29e0f);
+}
+body.light .diff2L .diff6L .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#70c531, #b5b634, #d6a3ac, #f29e0f, #7cb7dc);
+}
+body.light .diff3L, body.light .diff3R {
+  background-color: #7cb7dc;
+}
+body.light .diff3L .diff2L, body.light .diff2L .diff3L {
+  background-color: linear-gradient(#7cb7dc, #70c531);
+}
+body.light .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #f29e0f);
+}
+body.light .diff3L .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #f29e0f, #d6a3ac);
+}
+body.light .diff3L .diff2L .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #f29e0f, #d6a3ac, #b5b634);
+}
+body.light .diff3L .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #f29e0f, #b5b634);
+}
+body.light .diff3L .diff2L .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #f29e0f, #b5b634, #d6a3ac);
+}
+body.light .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #d6a3ac);
+}
+body.light .diff3L .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #d6a3ac, #f29e0f);
+}
+body.light .diff3L .diff2L .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #d6a3ac, #f29e0f, #b5b634);
+}
+body.light .diff3L .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #d6a3ac, #b5b634);
+}
+body.light .diff3L .diff2L .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #d6a3ac, #b5b634, #f29e0f);
+}
+body.light .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #b5b634);
+}
+body.light .diff3L .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #b5b634, #f29e0f);
+}
+body.light .diff3L .diff2L .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #b5b634, #f29e0f, #d6a3ac);
+}
+body.light .diff3L .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #b5b634, #d6a3ac);
+}
+body.light .diff3L .diff2L .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #70c531, #b5b634, #d6a3ac, #f29e0f);
+}
+body.light .diff3L .diff4L, body.light .diff4L .diff3L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f);
+}
+body.light .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #70c531);
+}
+body.light .diff3L .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #70c531, #d6a3ac);
+}
+body.light .diff3L .diff4L .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #70c531, #d6a3ac, #b5b634);
+}
+body.light .diff3L .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #70c531, #b5b634);
+}
+body.light .diff3L .diff4L .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #70c531, #b5b634, #d6a3ac);
+}
+body.light .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #d6a3ac);
+}
+body.light .diff3L .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #d6a3ac, #70c531);
+}
+body.light .diff3L .diff4L .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #d6a3ac, #70c531, #b5b634);
+}
+body.light .diff3L .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #d6a3ac, #b5b634);
+}
+body.light .diff3L .diff4L .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #d6a3ac, #b5b634, #70c531);
+}
+body.light .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #b5b634);
+}
+body.light .diff3L .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #b5b634, #70c531);
+}
+body.light .diff3L .diff4L .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #b5b634, #70c531, #d6a3ac);
+}
+body.light .diff3L .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #b5b634, #d6a3ac);
+}
+body.light .diff3L .diff4L .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #f29e0f, #b5b634, #d6a3ac, #70c531);
+}
+body.light .diff3L .diff5L, body.light .diff5L .diff3L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac);
+}
+body.light .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #70c531);
+}
+body.light .diff3L .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #70c531, #f29e0f);
+}
+body.light .diff3L .diff5L .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #70c531, #f29e0f, #b5b634);
+}
+body.light .diff3L .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #70c531, #b5b634);
+}
+body.light .diff3L .diff5L .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #70c531, #b5b634, #f29e0f);
+}
+body.light .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #f29e0f);
+}
+body.light .diff3L .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #f29e0f, #70c531);
+}
+body.light .diff3L .diff5L .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #f29e0f, #70c531, #b5b634);
+}
+body.light .diff3L .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #f29e0f, #b5b634);
+}
+body.light .diff3L .diff5L .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #f29e0f, #b5b634, #70c531);
+}
+body.light .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #b5b634);
+}
+body.light .diff3L .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #b5b634, #70c531);
+}
+body.light .diff3L .diff5L .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #b5b634, #70c531, #f29e0f);
+}
+body.light .diff3L .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #b5b634, #f29e0f);
+}
+body.light .diff3L .diff5L .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #d6a3ac, #b5b634, #f29e0f, #70c531);
+}
+body.light .diff3L .diff6L, body.light .diff6L .diff3L {
+  background-color: linear-gradient(#7cb7dc, #b5b634);
+}
+body.light .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #70c531);
+}
+body.light .diff3L .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #70c531, #f29e0f);
+}
+body.light .diff3L .diff6L .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #70c531, #f29e0f, #d6a3ac);
+}
+body.light .diff3L .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #70c531, #d6a3ac);
+}
+body.light .diff3L .diff6L .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #70c531, #d6a3ac, #f29e0f);
+}
+body.light .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #f29e0f);
+}
+body.light .diff3L .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #f29e0f, #70c531);
+}
+body.light .diff3L .diff6L .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #f29e0f, #70c531, #d6a3ac);
+}
+body.light .diff3L .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #f29e0f, #d6a3ac);
+}
+body.light .diff3L .diff6L .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #f29e0f, #d6a3ac, #70c531);
+}
+body.light .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #d6a3ac);
+}
+body.light .diff3L .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #d6a3ac, #70c531);
+}
+body.light .diff3L .diff6L .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #d6a3ac, #70c531, #f29e0f);
+}
+body.light .diff3L .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #d6a3ac, #f29e0f);
+}
+body.light .diff3L .diff6L .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#7cb7dc, #b5b634, #d6a3ac, #f29e0f, #70c531);
+}
+body.light .diff4L, body.light .diff4R {
+  background-color: #f29e0f;
+}
+body.light .diff4L .diff2L, body.light .diff2L .diff4L {
+  background-color: linear-gradient(#f29e0f, #70c531);
+}
+body.light .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#f29e0f, #70c531, #7cb7dc);
+}
+body.light .diff4L .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#f29e0f, #70c531, #7cb7dc, #d6a3ac);
+}
+body.light .diff4L .diff2L .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#f29e0f, #70c531, #7cb7dc, #d6a3ac, #b5b634);
+}
+body.light .diff4L .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#f29e0f, #70c531, #7cb7dc, #b5b634);
+}
+body.light .diff4L .diff2L .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#f29e0f, #70c531, #7cb7dc, #b5b634, #d6a3ac);
+}
+body.light .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#f29e0f, #70c531, #d6a3ac);
+}
+body.light .diff4L .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#f29e0f, #70c531, #d6a3ac, #7cb7dc);
+}
+body.light .diff4L .diff2L .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#f29e0f, #70c531, #d6a3ac, #7cb7dc, #b5b634);
+}
+body.light .diff4L .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#f29e0f, #70c531, #d6a3ac, #b5b634);
+}
+body.light .diff4L .diff2L .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#f29e0f, #70c531, #d6a3ac, #b5b634, #7cb7dc);
+}
+body.light .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#f29e0f, #70c531, #b5b634);
+}
+body.light .diff4L .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#f29e0f, #70c531, #b5b634, #7cb7dc);
+}
+body.light .diff4L .diff2L .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#f29e0f, #70c531, #b5b634, #7cb7dc, #d6a3ac);
+}
+body.light .diff4L .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#f29e0f, #70c531, #b5b634, #d6a3ac);
+}
+body.light .diff4L .diff2L .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#f29e0f, #70c531, #b5b634, #d6a3ac, #7cb7dc);
+}
+body.light .diff4L .diff3L, body.light .diff3L .diff4L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc);
+}
+body.light .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #70c531);
+}
+body.light .diff4L .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #70c531, #d6a3ac);
+}
+body.light .diff4L .diff3L .diff2L .diff5L .diff6L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #70c531, #d6a3ac, #b5b634);
+}
+body.light .diff4L .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #70c531, #b5b634);
+}
+body.light .diff4L .diff3L .diff2L .diff6L .diff5L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #70c531, #b5b634, #d6a3ac);
+}
+body.light .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #d6a3ac);
+}
+body.light .diff4L .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #d6a3ac, #70c531);
+}
+body.light .diff4L .diff3L .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #d6a3ac, #70c531, #b5b634);
+}
+body.light .diff4L .diff3L .diff5L .diff6L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #d6a3ac, #b5b634);
+}
+body.light .diff4L .diff3L .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #d6a3ac, #b5b634, #70c531);
+}
+body.light .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #b5b634);
+}
+body.light .diff4L .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #b5b634, #70c531);
+}
+body.light .diff4L .diff3L .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #b5b634, #70c531, #d6a3ac);
+}
+body.light .diff4L .diff3L .diff6L .diff5L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #b5b634, #d6a3ac);
+}
+body.light .diff4L .diff3L .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#f29e0f, #7cb7dc, #b5b634, #d6a3ac, #70c531);
+}
+body.light .diff4L .diff5L, body.light .diff5L .diff4L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac);
+}
+body.light .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #70c531);
+}
+body.light .diff4L .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #70c531, #7cb7dc);
+}
+body.light .diff4L .diff5L .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #70c531, #7cb7dc, #b5b634);
+}
+body.light .diff4L .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #70c531, #b5b634);
+}
+body.light .diff4L .diff5L .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #70c531, #b5b634, #7cb7dc);
+}
+body.light .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #7cb7dc);
+}
+body.light .diff4L .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #7cb7dc, #70c531);
+}
+body.light .diff4L .diff5L .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #7cb7dc, #70c531, #b5b634);
+}
+body.light .diff4L .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #7cb7dc, #b5b634);
+}
+body.light .diff4L .diff5L .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #7cb7dc, #b5b634, #70c531);
+}
+body.light .diff4L .diff5L .diff6L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #b5b634);
+}
+body.light .diff4L .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #b5b634, #70c531);
+}
+body.light .diff4L .diff5L .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #b5b634, #70c531, #7cb7dc);
+}
+body.light .diff4L .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #b5b634, #7cb7dc);
+}
+body.light .diff4L .diff5L .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#f29e0f, #d6a3ac, #b5b634, #7cb7dc, #70c531);
+}
+body.light .diff4L .diff6L, body.light .diff6L .diff4L {
+  background-color: linear-gradient(#f29e0f, #b5b634);
+}
+body.light .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #70c531);
+}
+body.light .diff4L .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #70c531, #7cb7dc);
+}
+body.light .diff4L .diff6L .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #70c531, #7cb7dc, #d6a3ac);
+}
+body.light .diff4L .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #70c531, #d6a3ac);
+}
+body.light .diff4L .diff6L .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #70c531, #d6a3ac, #7cb7dc);
+}
+body.light .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #7cb7dc);
+}
+body.light .diff4L .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #7cb7dc, #70c531);
+}
+body.light .diff4L .diff6L .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #7cb7dc, #70c531, #d6a3ac);
+}
+body.light .diff4L .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #7cb7dc, #d6a3ac);
+}
+body.light .diff4L .diff6L .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #7cb7dc, #d6a3ac, #70c531);
+}
+body.light .diff4L .diff6L .diff5L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #d6a3ac);
+}
+body.light .diff4L .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #d6a3ac, #70c531);
+}
+body.light .diff4L .diff6L .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #d6a3ac, #70c531, #7cb7dc);
+}
+body.light .diff4L .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #d6a3ac, #7cb7dc);
+}
+body.light .diff4L .diff6L .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#f29e0f, #b5b634, #d6a3ac, #7cb7dc, #70c531);
+}
+body.light .diff5L, body.light .diff5R {
+  background-color: #d6a3ac;
+}
+body.light .diff5L .diff2L, body.light .diff2L .diff5L {
+  background-color: linear-gradient(#d6a3ac, #70c531);
+}
+body.light .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #7cb7dc);
+}
+body.light .diff5L .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #7cb7dc, #f29e0f);
+}
+body.light .diff5L .diff2L .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #7cb7dc, #f29e0f, #b5b634);
+}
+body.light .diff5L .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #7cb7dc, #b5b634);
+}
+body.light .diff5L .diff2L .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #7cb7dc, #b5b634, #f29e0f);
+}
+body.light .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #f29e0f);
+}
+body.light .diff5L .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #f29e0f, #7cb7dc);
+}
+body.light .diff5L .diff2L .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #f29e0f, #7cb7dc, #b5b634);
+}
+body.light .diff5L .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #f29e0f, #b5b634);
+}
+body.light .diff5L .diff2L .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #f29e0f, #b5b634, #7cb7dc);
+}
+body.light .diff5L .diff2L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #b5b634);
+}
+body.light .diff5L .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #b5b634, #7cb7dc);
+}
+body.light .diff5L .diff2L .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #b5b634, #7cb7dc, #f29e0f);
+}
+body.light .diff5L .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #b5b634, #f29e0f);
+}
+body.light .diff5L .diff2L .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #70c531, #b5b634, #f29e0f, #7cb7dc);
+}
+body.light .diff5L .diff3L, body.light .diff3L .diff5L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc);
+}
+body.light .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #70c531);
+}
+body.light .diff5L .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #70c531, #f29e0f);
+}
+body.light .diff5L .diff3L .diff2L .diff4L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #70c531, #f29e0f, #b5b634);
+}
+body.light .diff5L .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #70c531, #b5b634);
+}
+body.light .diff5L .diff3L .diff2L .diff6L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #70c531, #b5b634, #f29e0f);
+}
+body.light .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #f29e0f);
+}
+body.light .diff5L .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #f29e0f, #70c531);
+}
+body.light .diff5L .diff3L .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #f29e0f, #70c531, #b5b634);
+}
+body.light .diff5L .diff3L .diff4L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #f29e0f, #b5b634);
+}
+body.light .diff5L .diff3L .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #f29e0f, #b5b634, #70c531);
+}
+body.light .diff5L .diff3L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #b5b634);
+}
+body.light .diff5L .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #b5b634, #70c531);
+}
+body.light .diff5L .diff3L .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #b5b634, #70c531, #f29e0f);
+}
+body.light .diff5L .diff3L .diff6L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #b5b634, #f29e0f);
+}
+body.light .diff5L .diff3L .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #7cb7dc, #b5b634, #f29e0f, #70c531);
+}
+body.light .diff5L .diff4L, body.light .diff4L .diff5L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f);
+}
+body.light .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #70c531);
+}
+body.light .diff5L .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #70c531, #7cb7dc);
+}
+body.light .diff5L .diff4L .diff2L .diff3L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #70c531, #7cb7dc, #b5b634);
+}
+body.light .diff5L .diff4L .diff2L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #70c531, #b5b634);
+}
+body.light .diff5L .diff4L .diff2L .diff6L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #70c531, #b5b634, #7cb7dc);
+}
+body.light .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #7cb7dc);
+}
+body.light .diff5L .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #7cb7dc, #70c531);
+}
+body.light .diff5L .diff4L .diff3L .diff2L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #7cb7dc, #70c531, #b5b634);
+}
+body.light .diff5L .diff4L .diff3L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #7cb7dc, #b5b634);
+}
+body.light .diff5L .diff4L .diff3L .diff6L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #7cb7dc, #b5b634, #70c531);
+}
+body.light .diff5L .diff4L .diff6L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #b5b634);
+}
+body.light .diff5L .diff4L .diff6L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #b5b634, #70c531);
+}
+body.light .diff5L .diff4L .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #b5b634, #70c531, #7cb7dc);
+}
+body.light .diff5L .diff4L .diff6L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #b5b634, #7cb7dc);
+}
+body.light .diff5L .diff4L .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #f29e0f, #b5b634, #7cb7dc, #70c531);
+}
+body.light .diff5L .diff6L, body.light .diff6L .diff5L {
+  background-color: linear-gradient(#d6a3ac, #b5b634);
+}
+body.light .diff5L .diff6L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #70c531);
+}
+body.light .diff5L .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #70c531, #7cb7dc);
+}
+body.light .diff5L .diff6L .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #70c531, #7cb7dc, #f29e0f);
+}
+body.light .diff5L .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #70c531, #f29e0f);
+}
+body.light .diff5L .diff6L .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #70c531, #f29e0f, #7cb7dc);
+}
+body.light .diff5L .diff6L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #7cb7dc);
+}
+body.light .diff5L .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #7cb7dc, #70c531);
+}
+body.light .diff5L .diff6L .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #7cb7dc, #70c531, #f29e0f);
+}
+body.light .diff5L .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #7cb7dc, #f29e0f);
+}
+body.light .diff5L .diff6L .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #7cb7dc, #f29e0f, #70c531);
+}
+body.light .diff5L .diff6L .diff4L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #f29e0f);
+}
+body.light .diff5L .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #f29e0f, #70c531);
+}
+body.light .diff5L .diff6L .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #f29e0f, #70c531, #7cb7dc);
+}
+body.light .diff5L .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #f29e0f, #7cb7dc);
+}
+body.light .diff5L .diff6L .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#d6a3ac, #b5b634, #f29e0f, #7cb7dc, #70c531);
+}
+body.light .diff6L, body.light .diff6R {
+  background-color: #b5b634;
+}
+body.light .diff6L .diff2L, body.light .diff2L .diff6L {
+  background-color: linear-gradient(#b5b634, #70c531);
+}
+body.light .diff6L .diff2L .diff3L {
+  background-color: linear-gradient(#b5b634, #70c531, #7cb7dc);
+}
+body.light .diff6L .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#b5b634, #70c531, #7cb7dc, #f29e0f);
+}
+body.light .diff6L .diff2L .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#b5b634, #70c531, #7cb7dc, #f29e0f, #d6a3ac);
+}
+body.light .diff6L .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#b5b634, #70c531, #7cb7dc, #d6a3ac);
+}
+body.light .diff6L .diff2L .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#b5b634, #70c531, #7cb7dc, #d6a3ac, #f29e0f);
+}
+body.light .diff6L .diff2L .diff4L {
+  background-color: linear-gradient(#b5b634, #70c531, #f29e0f);
+}
+body.light .diff6L .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#b5b634, #70c531, #f29e0f, #7cb7dc);
+}
+body.light .diff6L .diff2L .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#b5b634, #70c531, #f29e0f, #7cb7dc, #d6a3ac);
+}
+body.light .diff6L .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#b5b634, #70c531, #f29e0f, #d6a3ac);
+}
+body.light .diff6L .diff2L .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#b5b634, #70c531, #f29e0f, #d6a3ac, #7cb7dc);
+}
+body.light .diff6L .diff2L .diff5L {
+  background-color: linear-gradient(#b5b634, #70c531, #d6a3ac);
+}
+body.light .diff6L .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#b5b634, #70c531, #d6a3ac, #7cb7dc);
+}
+body.light .diff6L .diff2L .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#b5b634, #70c531, #d6a3ac, #7cb7dc, #f29e0f);
+}
+body.light .diff6L .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#b5b634, #70c531, #d6a3ac, #f29e0f);
+}
+body.light .diff6L .diff2L .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#b5b634, #70c531, #d6a3ac, #f29e0f, #7cb7dc);
+}
+body.light .diff6L .diff3L, body.light .diff3L .diff6L {
+  background-color: linear-gradient(#b5b634, #7cb7dc);
+}
+body.light .diff6L .diff3L .diff2L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #70c531);
+}
+body.light .diff6L .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #70c531, #f29e0f);
+}
+body.light .diff6L .diff3L .diff2L .diff4L .diff5L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #70c531, #f29e0f, #d6a3ac);
+}
+body.light .diff6L .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #70c531, #d6a3ac);
+}
+body.light .diff6L .diff3L .diff2L .diff5L .diff4L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #70c531, #d6a3ac, #f29e0f);
+}
+body.light .diff6L .diff3L .diff4L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #f29e0f);
+}
+body.light .diff6L .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #f29e0f, #70c531);
+}
+body.light .diff6L .diff3L .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #f29e0f, #70c531, #d6a3ac);
+}
+body.light .diff6L .diff3L .diff4L .diff5L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #f29e0f, #d6a3ac);
+}
+body.light .diff6L .diff3L .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #f29e0f, #d6a3ac, #70c531);
+}
+body.light .diff6L .diff3L .diff5L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #d6a3ac);
+}
+body.light .diff6L .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #d6a3ac, #70c531);
+}
+body.light .diff6L .diff3L .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #d6a3ac, #70c531, #f29e0f);
+}
+body.light .diff6L .diff3L .diff5L .diff4L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #d6a3ac, #f29e0f);
+}
+body.light .diff6L .diff3L .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#b5b634, #7cb7dc, #d6a3ac, #f29e0f, #70c531);
+}
+body.light .diff6L .diff4L, body.light .diff4L .diff6L {
+  background-color: linear-gradient(#b5b634, #f29e0f);
+}
+body.light .diff6L .diff4L .diff2L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #70c531);
+}
+body.light .diff6L .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #70c531, #7cb7dc);
+}
+body.light .diff6L .diff4L .diff2L .diff3L .diff5L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #70c531, #7cb7dc, #d6a3ac);
+}
+body.light .diff6L .diff4L .diff2L .diff5L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #70c531, #d6a3ac);
+}
+body.light .diff6L .diff4L .diff2L .diff5L .diff3L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #70c531, #d6a3ac, #7cb7dc);
+}
+body.light .diff6L .diff4L .diff3L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #7cb7dc);
+}
+body.light .diff6L .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #7cb7dc, #70c531);
+}
+body.light .diff6L .diff4L .diff3L .diff2L .diff5L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #7cb7dc, #70c531, #d6a3ac);
+}
+body.light .diff6L .diff4L .diff3L .diff5L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #7cb7dc, #d6a3ac);
+}
+body.light .diff6L .diff4L .diff3L .diff5L .diff2L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #7cb7dc, #d6a3ac, #70c531);
+}
+body.light .diff6L .diff4L .diff5L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #d6a3ac);
+}
+body.light .diff6L .diff4L .diff5L .diff2L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #d6a3ac, #70c531);
+}
+body.light .diff6L .diff4L .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #d6a3ac, #70c531, #7cb7dc);
+}
+body.light .diff6L .diff4L .diff5L .diff3L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #d6a3ac, #7cb7dc);
+}
+body.light .diff6L .diff4L .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#b5b634, #f29e0f, #d6a3ac, #7cb7dc, #70c531);
+}
+body.light .diff6L .diff5L, body.light .diff5L .diff6L {
+  background-color: linear-gradient(#b5b634, #d6a3ac);
+}
+body.light .diff6L .diff5L .diff2L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #70c531);
+}
+body.light .diff6L .diff5L .diff2L .diff3L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #70c531, #7cb7dc);
+}
+body.light .diff6L .diff5L .diff2L .diff3L .diff4L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #70c531, #7cb7dc, #f29e0f);
+}
+body.light .diff6L .diff5L .diff2L .diff4L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #70c531, #f29e0f);
+}
+body.light .diff6L .diff5L .diff2L .diff4L .diff3L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #70c531, #f29e0f, #7cb7dc);
+}
+body.light .diff6L .diff5L .diff3L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #7cb7dc);
+}
+body.light .diff6L .diff5L .diff3L .diff2L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #7cb7dc, #70c531);
+}
+body.light .diff6L .diff5L .diff3L .diff2L .diff4L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #7cb7dc, #70c531, #f29e0f);
+}
+body.light .diff6L .diff5L .diff3L .diff4L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #7cb7dc, #f29e0f);
+}
+body.light .diff6L .diff5L .diff3L .diff4L .diff2L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #7cb7dc, #f29e0f, #70c531);
+}
+body.light .diff6L .diff5L .diff4L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #f29e0f);
+}
+body.light .diff6L .diff5L .diff4L .diff2L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #f29e0f, #70c531);
+}
+body.light .diff6L .diff5L .diff4L .diff2L .diff3L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #f29e0f, #70c531, #7cb7dc);
+}
+body.light .diff6L .diff5L .diff4L .diff3L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #f29e0f, #7cb7dc);
+}
+body.light .diff6L .diff5L .diff4L .diff3L .diff2L {
+  background-color: linear-gradient(#b5b634, #d6a3ac, #f29e0f, #7cb7dc, #70c531);
+}
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  min-height: 100%;
+  font-family: "Droid Serif", serif;
+  overflow: hidden;
+}
+
+#wrap {
+  position: relative;
+  width: 1200px;
+  min-height: 95%;
+  border: none;
+  padding: 40px 10px 10px 10px;
+  margin: auto;
+  opacity: 0.95;
+  overflow: auto;
+}
+
+#page {
+  margin: auto;
+  width: 75%;
+}
+
+#page h3 {
+  margin: 10px auto 5px auto;
+  width: 60%;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+h4 {
+  margin: 5px 0 0 0;
+}
+
+.search {
+  height: 30px;
+  padding-right: 5px;
+  border: 1px solid;
+  margin-top: 0;
+  overflow: hidden;
+  padding-left: 10px;
+}
+
+#searchbox {
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+}
+
+#headerSpace {
+  position: relative;
+  margin-top: -30px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.active .sidebar, .active .menu-tab {
+  transform: translate3d(-300px, 0, 0);
+}
+
+.tab-button {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 40px-20px/21px;
+  top: 40px-20px/2;
+  z-index: 99;
+  margin: auto;
+}
+
+#menu-button {
+  background-image: url("../images/menubutton.svg");
+}
+
+#dict-button {
+  background-image: url("../images/dictbutton.svg");
+}
+
+#ref-button {
+  background-image: url("../images/crossref.svg");
+}
+
+.menu-tab {
+  position: fixed;
+  z-index: 98;
+  right: -1px;
+  width: 41px;
+  height: 40px;
+  transition: transform 1s;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 1px solid;
+}
+
+#menu-btn-wrap {
+  top: 8px;
+}
+
+#dict-btn-wrap {
+  top: 8px40px4px2px;
+}
+
+#crossref-btn-wrap {
+  top: 8px40px4px2px40px4px2px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  z-index: 96;
+  transition: transform 1s;
+  width: 300px;
+  border-left: 1px solid;
+  padding-top: 1em;
+}
+
+.sidebar.activated {
+  z-index: 97;
+}
+
+#menu ul {
+  list-style-type: none;
+  width: 280px;
+  right: 0;
+  padding: 0;
+  position: absolute;
+  margin-top: 0;
+}
+
+#menu ul li {
+  width: 100%;
+  padding-left: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  transition: background 0.25s ease-in;
+  right: 0;
+}
+
+.sidebar a {
+  vertical-align: middle;
+  display: inline-block;
+  width: 100%;
+  margin: auto;
+  text-decoration: none;
+}
+
+#menu ul li input, #menu ul li label {
+  vertical-align: middle;
+  position: relative;
+}
+
+.sidebar a:active, .sidebar a:hover, .sidebar a:visited {
+  text-decoration: none;
+}
+
+#dictionary, #crossref {
+  margin-bottom: 50px;
+  padding-left: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#menubottom {
+  top: unset;
+  bottom: 20px;
+  height: 30px;
+  text-align: center;
+  z-index: 98;
+}
+
+#addtl, .del, .promote, #prevPsg, #nextPsg {
+  /*position: absolute;*/
+  /*top: 5px;*/
+  cursor: pointer;
+  background-origin: content-box;
+  float: right;
+}
+
+#addtl, #prevPsg, #nextPsg {
+  margin-top: 0;
+}
+
+#addtl {
+  /*right: 85px;*/
+  background-image: url("../images/grey_plus_icon.png");
+  background-repeat: no-repeat;
+  padding-right: 5px;
+  border-right: 1px solid black;
+  padding-left: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+#prevPsg {
+  /*right: 45px;*/
+  background-image: url("../images/grey_left_icon.png");
+  /* change to correct icon */
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+#nextPsg {
+  /*right: 15px;*/
+  background-image: url("../images/grey_right_icon.png");
+  /* change to correct icon */
+  width: 30px;
+  height: 30px;
+}
+
+div.del {
+  right: 10px;
+  background-image: url("../images/grey_minus_icon.png");
+  width: 30px;
+  height: 30px;
+}
+
+div.promote {
+  right: 43px;
+  background-image: url("../images/grey_up_icon.png");
+  width: 30px;
+  height: 30px;
+}
+
+div.del span::before {
+  content: "Remove this translation";
+}
+
+div.promote span::before {
+  content: "Make this the primary translation";
+}
+
+#addtl span::before {
+  content: "Add another translation";
+}
+
+#prevPsg span::before {
+  content: "Last passage";
+}
+
+#nextPsg span::before {
+  content: "Next passage";
+}
+
+div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+  display: none;
+  position: relative;
+  top: 31px;
+  left: -80px;
+  right: 0;
+  border: 1px solid;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  padding: 1px 2px 1px 2px;
+  z-index: 1;
+  width: 100px;
+}
+
+div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover span, #nextPsg:hover span {
+  display: block;
+  transform-origin: 100% 0;
+  -webkit-animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal {
+  position: fixed;
+  z-index: 50;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  border: 1px solid;
+  border-radius: 3px;
+  width: 240px;
+  margin: 10% auto;
+  padding: 10px 20px 30px 20px;
+}
+
+.modal-content select {
+  width: 80%;
+  margin-left: 20px;
+}
+
+.modal-content input {
+  float: right;
+  font-weight: bold;
+  clear: none;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 100%;
+    transform: scale(1);
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+.boxHolder {
+  position: relative;
+  border-collapse: collapse;
+  display: flex;
+  flex-flow: row wrap;
+  border: 1px solid black;
+}
+
+.box {
+  position: relative;
+  border-collapse: collapse;
+  overflow: hidden;
+  padding-bottom: 25px;
+}
+
+.noTextBox {
+  position: relative;
+  margin: 10px auto;
+  padding: 5px;
+  border: 3px ridge darkred;
+  clear: both;
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.scrollbox {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 5px;
+}
+
+.scrollbox h4 {
+  float: left;
+}
+
+.scrollbox p {
+  clear: both;
+}
+
+.of1 {
+  width: 1194px;
+}
+
+.of1 {
+  height: calc((90% - 1.5em) / (1 + 0));
+  border: 1px solid black;
+}
+
+.of2 {
+  width: 597px;
+}
+
+.of2 {
+  height: calc((90% - 1.5em) / (1 + 0));
+  border: 1px solid black;
+}
+
+.of3 {
+  width: 398px;
+}
+
+.of3 {
+  height: calc((90% - 1.5em) / (1 + 0));
+  border: 1px solid black;
+}
+
+.of4 {
+  width: 597px;
+}
+
+.of4 {
+  height: calc((90% - 1.5em) / (1 + 1));
+  border: 1px solid black;
+}
+
+.of5:nth-child(-n+2) {
+  width: 597px;
+}
+
+.of5:nth-last-child(-n+3) {
+  width: 398px;
+}
+
+.of5 {
+  height: calc((90% - 1.5em) / (1 + 1));
+  border: 1px solid black;
+}
+
+.of6 {
+  width: 398px;
+}
+
+.of6 {
+  height: calc((90% - 1.5em) / (1 + 1));
+  border: 1px solid black;
+}
+
+.diff {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: right;
+  padding: 5px;
+  height: 15px;
+  background: azure;
+  font-style: italic;
+  font-size: 0.8em;
+}
+
+.diff input, .diff label {
+  margin: auto 2px;
+}
+
+/* -------------------- */
+/* --- MEDIA CLASSES -- */
+/* -------------------- */
+@media screen and (min-width: 2000px) {
+  body {
+    background-image: url("../images/bg_verylarge.png");
+  }
+}
+@media screen and (max-width: 2000px) {
+  body {
+    background-image: url("../images/bg_2000.png");
+  }
+}
+@media screen and (max-width: 1300px) {
+  body {
+    background-image: url("../images/bg_1300.png");
+  }
+}
+@media screen and (max-width: 1064px) {
+  body {
+    background-image: url("../images/bg_1064.png");
+  }
+}
+@media screen and (min-width: 1064px) and (max-width: 1250px) {
+  #wrap {
+    width: 1000px;
+  }
+
+  .of1 {
+    width: 994px;
+  }
+
+  .of2, .of5#first, .of5#second, .of4 {
+    width: 497px;
+  }
+
+  .of3, .of5, .of6 {
+    width: 331.3px;
+  }
+}
+@media screen and (max-width: 800px) {
+  body {
+    background-image: url("../images/bg_800.png");
+  }
+}
+@media screen and (min-width: 800px) and (max-width: 1063px) {
+  body {
+    min-height: 100%;
+    max-height: 200%;
+  }
+
+  #wrap {
+    width: 700px;
+  }
+
+  .of1, .of3#first, .of5#first {
+    width: 694px;
+    padding-right: 1px;
+  }
+
+  .of2, .of3, .of4, .of5, .of6, .of5#second {
+    width: 347px;
+    padding-right: 0;
+  }
+
+  .of5, .of6 {
+    height: calc((85% - 1.5em) / 3);
+  }
+
+  .of3 {
+    border-bottom: 0;
+  }
+
+  .of3#second {
+    clear: both;
+    border-bottom: 1px solid black;
+  }
+
+  .of3#first {
+    border-right: 1px solid black;
+  }
+
+  .of3#third {
+    border-bottom: 1px solid black;
+  }
+
+  .of5#first, .of5#third {
+    border-right: 1px solid black;
+    border-bottom: none;
+    clear: none;
+  }
+
+  .of5#second {
+    border-right: none;
+    clear: both;
+  }
+
+  .of5#fourth {
+    clear: both;
+  }
+
+  .of6#second, .of6#fourth {
+    border-right: 1px solid black;
+    border-bottom: none;
+    clear: none;
+  }
+
+  .of6#third {
+    border-right: none;
+    clear: both;
+  }
+
+  .of6#fifth {
+    clear: both;
+  }
+}
+@media screen and (max-width: 600px) {
+  body {
+    background-image: url("../images/bg_600.png");
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 799px) {
+  #wrap {
+    width: 390px;
+    min-height: 95%;
+    height: auto;
+    max-height: 200%;
+  }
+
+  #innerwrap {
+    min-height: 100%;
+    height: auto;
+    max-height: 200%;
+  }
+
+  .of1, .of2, .of3, .of4, .of5, .of6 {
+    width: 384px;
+    clear: both;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: none;
+    height: calc((90% - 1.5em) / 3);
+  }
+
+  .of5#first, .of5#second {
+    width: 384px;
+    clear: both;
+    padding-right: 0;
+  }
+
+  .of1, .of2#second, .of3#third, .of4#fourth, .of5#fifth, .of6#sixth {
+    border-bottom: 1px solid black;
+  }
+}
+@media screen and (max-width: 400px) {
+  body {
+    background-image: url("../images/bg_400.png");
+  }
+}
+
+/*# sourceMappingURL=leather-bound.css.map */

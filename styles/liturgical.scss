@@ -1,0 +1,125 @@
+$themeSource: null;
+$light1-5: null;
+$light2: null;
+$light3: null;
+$light4-5: null;
+$light7: null;
+$light10: null;
+$light15: null;
+$dark1-5: null;
+$dark2: null;
+$dark3: null;
+$dark4-5: null;
+$dark7: null;
+$dark10: null;
+$dark15: null;
+
+$greenTheme: #228B22;
+$greenL1-5: #c4d8c2;
+$greenL2: #9cc197;
+$greenL3: #63a45c;
+$greenL4-5: #238823;
+$greenL7: #2b6625;
+$greenL10: #274b21;
+$greenL15: #1a2b17;
+$greenD1-5: #1d3119;
+$greenD2: #254721;
+$greenD3: #2b6625;
+$greenD4-5: #258523;
+$greenD7: #63a45c;
+$greenD10: #95be90;
+$greenD15: #cedfcd;
+
+$purpleTheme: #800080;
+$purpleL1-5: #dccfdb;
+$purpleL2: #c9b0c6;
+$purpleL3: #b287ae;
+$purpleL4-5: #9f619b;
+$purpleL7: #8d358a;
+$purpleL10: #770c76;
+$purpleL15: #3e183c;
+$purpleD1-5: #481946;
+$purpleD2: #70116f;
+$purpleD3: #8d358a;
+$purpleD4-5: #9d5e99;
+$purpleD7: #b287ae;
+$purpleD10: #c5abc3;
+$purpleD15: #e1d7e0;
+
+$roseTheme: #ff6699;
+$roseL1-5: #f9c6d3;
+$roseL2: #fc9bb7;
+$roseL3: #f26392;
+$roseL4-5: #ba5675;
+$roseL7: #864558;
+$roseL10: #603541;
+$roseL15: #352126;
+$roseD1-5: #3e252b;
+$roseD2: #5b333e;
+$roseD3: #864558;
+$roseD4-5: #b55572;
+$roseD7: #f26392;
+$roseD10: #fc94b2;
+$roseD15: #f9cfda;
+
+$redTheme: #ff0000;
+$redL1-5: #fdc6bb;
+$redL2: #ff9e8a;
+$redL3: #ff6045;
+$redL4-5: #ea1a0c;
+$redL7: #a62d1c;
+$redL10: #76291c;
+$redL15: #411c15;
+$redD1-5: #4a1f17;
+$redD2: #6f281c;
+$redD3: #a62d1c;
+$redD4-5: #e51e0e;
+$redD7: #ff5f45;
+$redD10: #ff9782;
+$redD15: #fcd1c7;
+
+$goldTheme: #FFD700;
+$goldL1-5: #f7d00e;
+$goldL2: #d4b525;
+$goldL3: #ab942e;
+$goldL4-5: #87762f;
+$goldL7: #63592a;
+$goldL10: #4a4224;
+$goldL15: #2a2717;
+$goldD1-5: #302c1a;
+$goldD2: #463f22;
+$goldD3: #64592a;
+$goldD4-5: #83742f;
+$goldD7: #ab942e;
+$goldD10: #cfb127;
+$goldD15: #ffd80e;
+
+$greens: 'green', $greenTheme, $greenL1-5, $greenL2, $greenL3, $greenL4-5, $greenL7, $greenL10, $greenL15, $greenD1-5, $greenD2, $greenD3, $greenD4-5, $greenD7, $greenD10, $greenD15;
+$reds: 'red', $redTheme, $redL1-5, $redL2, $redL3, $redL4-5, $redL7, $redL10, $redL15, $redD1-5, $redD2, $redD3, $redD4-5, $redD7, $redD10, $redD15;
+$roses: 'rose', $roseTheme, $roseL1-5, $roseL2, $roseL3, $roseL4-5, $roseL7, $roseL10, $roseL15, $roseD1-5, $roseD2, $roseD3, $roseD4-5, $roseD7, $roseD10, $roseD15;
+$golds: 'gold', $goldTheme, $goldL1-5, $goldL2, $goldL3, $goldL4-5, $goldL7, $goldL10, $goldL15, $goldD1-5, $goldD2, $goldD3, $goldD4-5, $goldD7, $goldD10, $goldD15;
+$purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5, $purpleL7, $purpleL10, $purpleL15, $purpleD1-5, $purpleD2, $purpleD3, $purpleD4-5, $purpleD7, $purpleD10, $purpleD15;
+
+@import "style";
+
+@each $bodyClass, $thm, $l1-5, $l2, $l3, $l4-5, $l7, $l10, $l15, $d1-5, $d2, $d3, $d4-5, $d7, $d10, $d15 in $greens, $reds, $roses, $golds, $purples {
+  body.#{$bodyClass} {
+    &.dark {
+      $colorMap: ('background': $thm, 'siteBackground': $d1-5,
+              'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
+              'menuColor': $d2, 'menuBorderColor': $d15, 'menuFontColor': $d15,
+              'menuButtonHoverColor': $d3, 'translationBorder': $d10, 'translationBg': $d2,
+              'modalBg': $d3, 'modalBorder': $d15);
+      @include colors($colorMap);
+    }
+
+    &.light {
+      $colorMap: ('background': $thm, 'siteBackground': $l1-5,
+              'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
+              'menuColor': $l2, 'menuBorderColor': $l15, 'menuFontColor': $l15,
+              'menuButtonHoverColor': $l3, 'translationBorder': $l10, 'translationBg': $l2,
+              'modalBg': $l3, 'modalBorder': $l15);
+      @include colors($colorMap);
+    }
+  }
+}
