@@ -14,4 +14,13 @@ $dark7: #89979f;
 $dark10: #abb5ba;
 $dark15: #d6dbdd;
 
+$largeBackground: url('../images/jonahtest.jpg');
+$mediumBackground: $largeBackground;
+$smallBackground: $mediumBackground;
+$tinyBackground: $smallBackground;
+$backgroundTop: 0;
+
 @import "style";
+
+// #a9b8d4 -- links for $dark1-5
+// #001fc5 -- links for $light1-5

@@ -14,4 +14,10 @@ $dark7: #b2913a;
 $dark10: #d4b039;
 $dark15: #e5daaf;
 
+$largeBackground: url('../images/leathertest.jpg');
+$mediumBackground: $largeBackground;
+$smallBackground: $mediumBackground;
+$tinyBackground: $smallBackground;
+$backgroundTop: 0;
+
 @import "style";

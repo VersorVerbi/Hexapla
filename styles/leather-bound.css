@@ -1,14 +1,18 @@
 body.dark {
   background-color: #624a2e;
+  color: #e5daaf;
+}
+body.dark a {
+  color: #a9b8d4;
 }
 body.dark #wrap {
-  background-color: #352a1d;
+  background-color: rgba(53, 42, 29, 0.9);
 }
 body.dark .search {
   border-color: black;
 }
 body.dark #searchbox::placeholder {
-  color: lightgray;
+  color: #555;
 }
 body.dark .menu-tab {
   background-color: #4e3c27;
@@ -41,6 +45,12 @@ body.dark div.del span, body.dark div.promote span, body.dark #addtl span, body.
 body.dark .modal-content {
   background-color: #6e5431;
   border-color: #e5daaf;
+}
+body.dark [class*=" icofont-"], body.dark [class^=icofont-] {
+  color: #352a1d;
+}
+body.dark #loading {
+  background-color: rgba(229, 218, 175, 0.7);
 }
 body.dark .diff2L, body.dark .diff2R {
   background-color: #45632f;
@@ -1019,15 +1029,19 @@ body.dark .diff6L .diff5L .diff4L .diff3L .diff2L {
 }
 body.light {
   background-color: #624a2e;
+  color: #2f251a;
+}
+body.light a {
+  color: #001fc5;
 }
 body.light #wrap {
-  background-color: #e2d39b;
+  background-color: rgba(226, 211, 155, 0.9);
 }
 body.light .search {
   border-color: black;
 }
 body.light #searchbox::placeholder {
-  color: lightgray;
+  color: #555;
 }
 body.light .menu-tab {
   background-color: #d6b449;
@@ -1060,6 +1074,12 @@ body.light div.del span, body.light div.promote span, body.light #addtl span, bo
 body.light .modal-content {
   background-color: #b2913a;
   border-color: #2f251a;
+}
+body.light [class*=" icofont-"], body.light [class^=icofont-] {
+  color: #2f251a;
+}
+body.light #loading {
+  background-color: rgba(47, 37, 26, 0.7);
 }
 body.light .diff2L, body.light .diff2R {
   background-color: #70c531;
@@ -2041,7 +2061,8 @@ body {
   margin: 0;
   width: 100%;
   background-repeat: no-repeat;
-  background-position: top left;
+  background-position: 0 0;
+  background-size: cover;
   min-height: 100%;
   font-family: "Droid Serif", serif;
   overflow: hidden;
@@ -2049,18 +2070,17 @@ body {
 
 #wrap {
   position: relative;
-  width: 1200px;
+  width: 1280px;
   min-height: 95%;
   border: none;
-  padding: 40px 10px 10px 10px;
+  padding: 40px 40px 5px 40px;
   margin: auto;
-  opacity: 0.95;
   overflow: auto;
 }
 
 #page {
-  margin: auto;
-  width: 75%;
+  margin: 50px auto;
+  width: 95%;
 }
 
 #page h3 {
@@ -2069,7 +2089,7 @@ body {
 }
 
 h3 {
-  margin: 0;
+  margin: 0 0 20px 0;
   font-size: 1.5em;
 }
 
@@ -2086,10 +2106,52 @@ h4 {
   padding-left: 10px;
 }
 
-#searchbox {
+#search {
   width: 100%;
-  height: 100%;
-  padding: 2px;
+}
+#search #searchbox {
+  width: calc(100% - 35px - 5px);
+  height: 35px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+}
+
+#translationHandler {
+  width: 40%;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.icoButton {
+  width: 35px;
+  margin-left: 5px;
+  height: 35px;
+  padding: 3px;
+}
+.icoButton [class*=" icofont-"], .icoButton [class^=icofont-] {
+  font-size: 1.25em;
+}
+
+.miniButton {
+  width: 17.5px;
+  height: 17.5px;
+  padding: 0;
+}
+.miniButton [class*=" icofont-"], .miniButton [class^=icofont-] {
+  font-size: 0.8em;
+  position: relative;
+  top: -2px;
+}
+
+#header, #tlConHeader {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+#header #title, #tlConHeader #title {
+  width: 40%;
 }
 
 #headerSpace {
@@ -2099,8 +2161,31 @@ h4 {
   width: 100%;
 }
 
+#loading {
+  width: 300px;
+  height: 300px;
+  border-width: 0;
+  border-radius: 20px;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 150px;
+  position: fixed;
+  left: calc(50% - 150px);
+  top: calc(50% - 150px);
+  z-index: 50;
+}
+
+.dark #loading {
+  background-image: url("../images/bookloading.gif");
+}
+
+.light #loading {
+  background-image: url("../images/bookloading_light.gif");
+}
+
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .active .sidebar, .active .menu-tab {
@@ -2485,22 +2570,22 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 /* -------------------- */
 @media screen and (min-width: 2000px) {
   body {
-    background-image: url("../images/bg_verylarge.png");
+    background-image: url("../images/leathertest.jpg");
   }
 }
 @media screen and (max-width: 2000px) {
   body {
-    background-image: url("../images/bg_2000.png");
+    background-image: url("../images/leathertest.jpg");
   }
 }
 @media screen and (max-width: 1300px) {
   body {
-    background-image: url("../images/bg_1300.png");
+    background-image: url("../images/leathertest.jpg");
   }
 }
 @media screen and (max-width: 1064px) {
   body {
-    background-image: url("../images/bg_1064.png");
+    background-image: url("../images/leathertest.jpg");
   }
 }
 @media screen and (min-width: 1064px) and (max-width: 1250px) {
@@ -2639,6 +2724,78 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   body {
     background-image: url("../images/bg_400.png");
   }
+}
+.popup {
+  position: fixed;
+  left: calc(50% - 375px);
+  top: calc(50% - 200px);
+  z-index: 500;
+  background-color: black;
+  border-radius: 10px;
+  width: 750px;
+  height: 400px;
+}
+
+#translationController {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+#translationController #tlConHeader {
+  flex-basis: 100%;
+}
+#translationController #tlConHeader h3 {
+  margin: 0;
+}
+#translationController #translGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 3;
+  flex-basis: 50%;
+  height: 90%;
+}
+#translationController #translGrid .tlBox {
+  flex-basis: 33%;
+  height: 50%;
+  text-align: center;
+}
+#translationController #translGrid .tlBox.occupied {
+  outline-color: aliceblue;
+  outline-width: 1px;
+  outline-style: solid;
+}
+#translationController #translGrid .tlBox.potentialTl {
+  outline-style: dashed;
+  outline-color: aliceblue;
+  outline-width: 2px;
+}
+#translationController #translGrid .tlBox div {
+  display: inline-block;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+}
+#translationController #translList {
+  flex-grow: 1;
+  flex-basis: 33%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#translationController .transl {
+  display: inline-block;
+}
+
+[draggable=true] {
+  cursor: grab;
+}
+[draggable=true]:active {
+  cursor: grabbing;
 }
 
 /*# sourceMappingURL=leather-bound.css.map */

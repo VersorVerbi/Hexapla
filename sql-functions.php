@@ -286,9 +286,10 @@ function updateStrongs($insertArray, $insertUpdateResult, $idColumn, $insert = t
     }
 }
 
-function fullSearch(&$db, $reference, $translations, &$alternatives) {
+function fullSearch(&$db, $reference, $translations, &$alternatives, &$title) {
     checkPgConnection($db);
     $alternatives = [];
+    $title = '';
     $resolutionSql = "SELECT public.resolve_reference('$reference');";
     $resolutionResult = pg_query($db, $resolutionSql);
     if (($resolRow = pg_fetch_assoc($resolutionResult)) !== false) {
@@ -299,11 +300,17 @@ function fullSearch(&$db, $reference, $translations, &$alternatives) {
             ',' . pg_escape_literal($db, $data[5]) . ',' . pg_escape_literal($db, $data[6]) .
             ',' . pg_escape_literal($db, $translations) . ');';
         $searchResult = pg_query($db, $searchSql);
+        $title = $data[5];
+        if ($data[2] > $data[1]) {
+            $title .= '-' . $data[2] . ':' . $data[4];
+        } elseif ($data[4] > $data[3]) {
+            $title .= '-' . $data[4];
+        }
     } else {
         return null;
     }
     while (($resolRow = pg_fetch_assoc($resolutionResult)) !== false) {
-        $alternatives[] = $resolRow['resolve_reference'];
+        $alternatives[] = resolveMore($resolRow['resolve_reference']);
     }
     return $searchResult;
 }
@@ -315,6 +322,12 @@ function fullSearch(&$db, $reference, $translations, &$alternatives) {
 function resolveMore($resolve_reference): array
 {
     return str_getcsv(trim(trim($resolve_reference, '('), ')'), ',', '"');
+}
+
+function getVersions(&$db) {
+    checkPgConnection($db);
+    $sql = "SELECT source_version.id, lang_id, \"language\".name AS lang, allows_actions, array_agg(source_version_term.term) AS terms FROM source_version JOIN \"language\" ON lang_id = \"language\".id JOIN source_version_term ON source_version.id = version_id GROUP BY source_version.id, lang_id, lang, allows_actions ORDER BY lang_id;";
+    return pg_query($sql);
 }
 
 function begin($db) {

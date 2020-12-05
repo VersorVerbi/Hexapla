@@ -30,15 +30,20 @@ switch($page) {
 <head>
     <meta charset="UTF-8" />
     <title>Modern Hexapla</title>
-    <link type="text/css" rel="stylesheet" href="" />
-    <script type="text/javascript" src="scripts/"></script>
+    <link type="text/css" rel="stylesheet" href="styles/icofont.min.css" />
+    <link type="text/css" rel="stylesheet" href="styles/leather-bound.css" />
+    <script type="text/javascript" src="scripts/functions.js"></script>
+    <script type="text/javascript" src="scripts/nav-and-search.js"></script>
+    <script type="text/javascript" src="scripts/tl-config.js"></script>
 </head>
-<body>
+<body class="dark">
     <div id="wrap">
         <?php include "header.php"; ?>
+        <?php include "translation-controller.php"; ?>
         <div id="page">
             <?php include $toLoad; ?>
         </div>
     </div>
+    <div id="loading" class="hidden"></div>
 </body>
 </html>

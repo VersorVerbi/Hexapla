@@ -1,18 +1,18 @@
 $themeSource: null;
-$light1-5: null;
+$light1-5: #FFF;
 $light2: null;
 $light3: null;
 $light4-5: null;
 $light7: null;
 $light10: null;
-$light15: null;
-$dark1-5: null;
+$light15: #000;
+$dark1-5: #000;
 $dark2: null;
 $dark3: null;
 $dark4-5: null;
 $dark7: null;
 $dark10: null;
-$dark15: null;
+$dark15: #FFF;
 
 $greenTheme: #228B22;
 $greenL1-5: #c4d8c2;
@@ -94,6 +94,12 @@ $goldD7: #ab942e;
 $goldD10: #cfb127;
 $goldD15: #ffd80e;
 
+$largeBackground: url('../images/parishtest.jpg');
+$mediumBackground: $largeBackground;
+$smallBackground: $mediumBackground;
+$tinyBackground: $smallBackground;
+$backgroundTop: 0;
+
 $greens: 'green', $greenTheme, $greenL1-5, $greenL2, $greenL3, $greenL4-5, $greenL7, $greenL10, $greenL15, $greenD1-5, $greenD2, $greenD3, $greenD4-5, $greenD7, $greenD10, $greenD15;
 $reds: 'red', $redTheme, $redL1-5, $redL2, $redL3, $redL4-5, $redL7, $redL10, $redL15, $redD1-5, $redD2, $redD3, $redD4-5, $redD7, $redD10, $redD15;
 $roses: 'rose', $roseTheme, $roseL1-5, $roseL2, $roseL3, $roseL4-5, $roseL7, $roseL10, $roseL15, $roseD1-5, $roseD2, $roseD3, $roseD4-5, $roseD7, $roseD10, $roseD15;
@@ -105,20 +111,22 @@ $purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5
 @each $bodyClass, $thm, $l1-5, $l2, $l3, $l4-5, $l7, $l10, $l15, $d1-5, $d2, $d3, $d4-5, $d7, $d10, $d15 in $greens, $reds, $roses, $golds, $purples {
   body.#{$bodyClass} {
     &.dark {
-      $colorMap: ('background': $thm, 'siteBackground': $d1-5,
+      $colorMap: ('background': $thm, 'siteBackground': rgba($d1-5, 0.9),
               'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
               'menuColor': $d2, 'menuBorderColor': $d15, 'menuFontColor': $d15,
               'menuButtonHoverColor': $d3, 'translationBorder': $d10, 'translationBg': $d2,
-              'modalBg': $d3, 'modalBorder': $d15);
+              'modalBg': $d3, 'modalBorder': $d15, 'fontColor': $d15, 'buttonFontColor': $d1-5,
+              'loadBg': rgba($d15, 0.7), 'links': $darkLinks);
       @include colors($colorMap);
     }
 
     &.light {
-      $colorMap: ('background': $thm, 'siteBackground': $l1-5,
+      $colorMap: ('background': $thm, 'siteBackground': rgba($l1-5, 0.9),
               'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
               'menuColor': $l2, 'menuBorderColor': $l15, 'menuFontColor': $l15,
               'menuButtonHoverColor': $l3, 'translationBorder': $l10, 'translationBg': $l2,
-              'modalBg': $l3, 'modalBorder': $l15);
+              'modalBg': $l3, 'modalBorder': $l15, 'fontColor': $l15, 'buttonFontColor': $l1-5,
+              'loadBg': rgba($l15, 0.7), 'links': $lightLinks);
       @include colors($colorMap);
     }
   }

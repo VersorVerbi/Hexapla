@@ -6,4 +6,6 @@ if (isset($_GET['translations'])) {
 <div id="t<?php echo $t; ?>"></div>
         <?php
     }
+} else {
+    ?><div></div><?php
 }

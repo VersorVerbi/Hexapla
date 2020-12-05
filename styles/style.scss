@@ -7,11 +7,18 @@
 
 //#region Theme Establishment
 $borderColor: black;
-$searchPlaceholderColor: lightgray;
+$searchPlaceholderColor: #555;
 $warningBorder: darkred;
+$darkLinks: #a9b8d4;
+$lightLinks: #001fc5;
 
 @mixin colors($colorMap) {
   background-color: map.get($colorMap, 'background');
+  color: map.get($colorMap, 'fontColor');
+
+  a {
+    color: map.get($colorMap, 'links');
+  }
 
   #wrap {
     background-color: map.get($colorMap, 'siteBackground');
@@ -64,6 +71,14 @@ $warningBorder: darkred;
   .modal-content {
     background-color: map.get($colorMap, 'modalBg');
     border-color: map.get($colorMap, 'modalBorder');
+  }
+
+  [class *= " icofont-"],[class ^= "icofont-"] {
+    color: map.get($colorMap, 'buttonFontColor');
+  }
+
+  #loading {
+    background-color: map.get($colorMap, 'loadBg');
   }
 }
 
@@ -123,13 +138,24 @@ $warningBorder: darkred;
   }
 }
 
+@mixin verticalAlign($position: absolute) {
+  position: $position;
+  top: 50%;
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%); // IE
+  -moz-transform: translateY(-50%); // Firefox
+  -webkit-transform: translateY(-50%); // Safari and Chrome
+  -o-transform: translateY(-50%);
+}
+
 body {
   &.dark {
-    $colorMap: ('background': $themeSource, 'siteBackground': $dark1-5,
+    $colorMap: ('background': $themeSource, 'siteBackground': rgba($dark1-5, 0.9),
                  'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
                  'menuColor': $dark2, 'menuBorderColor': $dark15, 'menuFontColor': $dark15,
                  'menuButtonHoverColor': $dark3, 'translationBorder': $dark10, 'translationBg': $dark2,
-                 'modalBg': $dark3, 'modalBorder': $dark15);
+                 'modalBg': $dark3, 'modalBorder': $dark15, 'fontColor': $dark15, 'buttonFontColor': $dark1-5,
+                 'loadBg': rgba($dark15, 0.7), 'links': $darkLinks);
     @include colors($colorMap);
 
     $highlightMap: (2: #45632f, 3: #495d6b, 4: #755426, 5: #6b5559, 6: #5c5d2e);
@@ -137,11 +163,12 @@ body {
   }
 
   &.light {
-    $colorMap: ('background': $themeSource, 'siteBackground': $light1-5,
+    $colorMap: ('background': $themeSource, 'siteBackground': rgba($light1-5, 0.9),
             'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
             'menuColor': $light2, 'menuBorderColor': $light15, 'menuFontColor': $light15,
             'menuButtonHoverColor': $light3, 'translationBorder': $light10, 'translationBg': $light2,
-            'modalBg': $light3, 'modalBorder': $light15);
+            'modalBg': $light3, 'modalBorder': $light15, 'fontColor': $light15, 'buttonFontColor': $light15,
+            'loadBg': rgba($light15, 0.7), 'links': $lightLinks);
     @include colors($colorMap);
 
     $highlightMap: (2: #70c531, 3: #7cb7dc, 4: #f29e0f, 5: #d6a3ac, 6: #b5b634);
@@ -155,13 +182,12 @@ body {
 //#endregion
 
 //#region Site/Page variables
-$siteWidth: 1200px;
+$siteWidth: 1280px;
 $siteHeight: 95%;
-$siteTopPadding: 40px;
-$sitePadding: 10px;
-$siteOpacity: 0.95;
+$sitePadding: 40px;
+$siteBottomPadding: 5px;
 
-$pageWidth: 75%;
+$pageWidth: 95%;
 //#endregion
 
 //#region Header / Nav / Search
@@ -173,6 +199,8 @@ $headerLittleMargin: 5px;
 $searchHeight: 30px;
 $searchPadding: 5px;
 $searchBorderWidth: 1px;
+$searchButtonWidth: 35px;
+$searchButtonMargin: 5px;
 //#endregion
 
 //#region Menu variables
@@ -208,7 +236,8 @@ body {
   margin: 0;
   width: 100%;
   background-repeat: no-repeat;
-  background-position: top left;
+  background-position: 0 $backgroundTop;
+  background-size: cover;
   min-height: 100%;
   font-family: 'Droid Serif', serif;
   overflow: hidden;
@@ -219,14 +248,13 @@ body {
   width: $siteWidth;
   min-height: $siteHeight;
   border: none;
-  padding: $siteTopPadding $sitePadding $sitePadding $sitePadding;
+  padding: $sitePadding $sitePadding $siteBottomPadding $sitePadding;
   margin: auto;
-  opacity: $siteOpacity;
   overflow: auto;
 }
 
 #page {
-  margin: auto;
+  margin: 50px auto;
   width: $pageWidth;
 }
 
@@ -238,7 +266,7 @@ body {
 
 //#region Header
 h3 {
-  margin: 0;
+  margin: 0 0 20px 0;
   font-size: $headerSize;
 }
 
@@ -255,10 +283,56 @@ h4 {
   padding-left: #{2 * $searchPadding};
 }
 
-#searchbox {
+#search {
   width: 100%;
-  height: 100%;
-  padding: 2px;
+
+  #searchbox {
+    width: calc(100% - #{$searchButtonWidth} - #{$searchButtonMargin});
+    height: $searchButtonWidth;
+    padding: 5px 10px;
+    box-sizing: border-box;
+  }
+}
+
+#translationHandler {
+  width: 40%;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.icoButton {
+  width: $searchButtonWidth;
+  margin-left: $searchButtonMargin;
+  height: $searchButtonWidth;
+  padding: 3px;
+
+  [class *= " icofont-"],[class ^= "icofont-"] {
+    font-size: 1.25em;
+  }
+}
+
+.miniButton {
+  width: #{$searchButtonWidth / 2};
+  height: #{$searchButtonWidth / 2};
+  padding: 0;
+
+  [class *= " icofont-"],[class ^= "icofont-"] {
+    font-size: 0.8em;
+    position: relative;
+    top: -2px;
+  }
+}
+
+#header, #tlConHeader {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+
+  #title {
+    width: 40%;
+  }
 }
 
 #headerSpace {
@@ -267,11 +341,38 @@ h4 {
   margin-bottom: 5px;
   width: 100%;
 }
+
+#loading {
+  width: 300px;
+  height: 300px;
+  border-width: 0;
+  border-radius: 20px;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 150px;
+  position: fixed;
+  left: calc(50% - 150px);
+  top: calc(50% - 150px);
+  z-index: 50;
+}
+
+.dark {
+  #loading {
+    background-image: url("../images/bookloading.gif");
+  }
+}
+
+.light {
+  #loading {
+    background-image: url("../images/bookloading_light.gif");
+  }
+}
 //#endregion
 
 //#region Basic classes
 .hidden {
-  display: none;
+  display: none !important;
 }
 //#endregion
 
@@ -630,25 +731,25 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 /* -------------------- */
 @media screen and (min-width: 2000px) {
   body {
-    background-image: url("../images/bg_verylarge.png");
+    background-image: $largeBackground;
   }
 }
 
 @media screen and (max-width: 2000px) {
   body {
-    background-image: url("../images/bg_2000.png");
+    background-image: $mediumBackground;
   }
 }
 
 @media screen and (max-width: 1300px) {
   body {
-    background-image: url("../images/bg_1300.png");
+    background-image: $smallBackground;
   }
 }
 
 @media screen and (max-width: 1064px) {
   body {
-    background-image: url("../images/bg_1064.png");
+    background-image: $tinyBackground;
   }
 }
 
@@ -778,3 +879,83 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
     background-image: url("../images/bg_400.png");
   }
 }
+
+//#region Popup
+.popup {
+  position: fixed;
+  left: calc(50% - 375px);
+  top: calc(50% - 200px);
+  z-index: 500;
+  background-color: black;
+  border-radius: 10px;
+  width: 750px;
+  height: 400px;
+}
+
+#translationController {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+
+  #tlConHeader {
+    flex-basis: 100%;
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  #translGrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    flex-grow: 3;
+    flex-basis: 50%;
+    height: 90%;
+
+    .tlBox {
+      flex-basis: 33%;
+      height: 50%;
+      text-align: center;
+
+      &.occupied {
+        outline-color: aliceblue;
+        outline-width: 1px;
+        outline-style: solid;
+      }
+
+      &.potentialTl {
+        outline-style: dashed;
+        outline-color: aliceblue;
+        outline-width: 2px;
+      }
+
+      div {
+        display: inline-block;
+        @include verticalAlign(relative);
+      }
+    }
+  }
+
+  #translList {
+    flex-grow: 1;
+    flex-basis: 33%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .transl {
+    display: inline-block;
+  }
+}
+
+[draggable='true'] {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+//#endregion
