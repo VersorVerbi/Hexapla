@@ -1,13 +1,23 @@
 <?php
 $versionsResource = getVersions($db);
+?>
+<pre>
+<?php
+while (($row = pg_fetch_assoc($versionsResource)) !== false) {
+    $row['terms'] = terms_array($row['terms']);
+    print_r($row); echo "<br />";
+}
 // TODO: check $_GET for specified translations
 // TODO: check user settings for "always" or "last"
 // TODO: check cookies for last use
 ?>
+</pre>
 <div id="translationController" class="popup hidden">
     <div id="tlConHeader">
         <h3>Translation Grid</h3>
-        <button id="closeTlCon" class="miniButton" title="Close" onclick="closeTlConfig()"><span class="icofont-close"></span></button>
+        <button id="closeTlCon" class="miniButton" title="Close" onclick="closeTlConfig()">
+            <span class="icofont-close"></span>
+        </button>
     </div>
     <div id="translGrid">
         <div id="tl1" class="tlBox"></div>

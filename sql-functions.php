@@ -1,8 +1,8 @@
 <?php
-
-include_once "dbconnect.php";
-include_once "import-functions.php";
-include_once "general-functions.php";
+require_once "dbconnect.php";
+require_once "import-functions.php";
+require_once "general-functions.php";
+require_once "lib/portable-utf8.php";
 
 /**
  * @uses checkPgConnection(), is_null(), strlen(), count(), is_numeric(), pg_query_params()
@@ -205,6 +205,14 @@ function putData(&$db, $tableName, $insertArray, $idColumn = HexaplaStandardColu
     }
 }
 
+/**
+ * @param resource $db
+ * @param string $tableName
+ * @param array $updates
+ * @param array $criteria
+ * @param string $idColumn
+ * @return bool|mixed
+ */
 function update(&$db, $tableName, $updates, $criteria = [], $idColumn = HexaplaStandardColumns::ID) {
     // TODO: handle situation where targeted record does not exist
     checkPgConnection($db);
@@ -241,6 +249,12 @@ function update(&$db, $tableName, $updates, $criteria = [], $idColumn = HexaplaS
     }
 }
 
+/**
+ * @param array $insertArray
+ * @param resource $insertUpdateResult
+ * @param string $idColumn
+ * @param bool $insert
+ */
 function updateStrongs($insertArray, $insertUpdateResult, $idColumn, $insert = true) {
     $strongInserts = [];
     if (isset($insertArray[HexaplaTextStrongs::STRONG_ID]) && strlen($insertArray[HexaplaTextStrongs::STRONG_ID]) > 0) {
@@ -286,6 +300,14 @@ function updateStrongs($insertArray, $insertUpdateResult, $idColumn, $insert = t
     }
 }
 
+/**
+ * @param $db
+ * @param $reference
+ * @param $translations
+ * @param $alternatives
+ * @param $title
+ * @return false|resource|null
+ */
 function fullSearch(&$db, $reference, $translations, &$alternatives, &$title) {
     checkPgConnection($db);
     $alternatives = [];
@@ -324,9 +346,13 @@ function resolveMore($resolve_reference): array
     return str_getcsv(trim(trim($resolve_reference, '('), ')'), ',', '"');
 }
 
+/**
+ * @param resource $db
+ * @return false|resource
+ */
 function getVersions(&$db) {
     checkPgConnection($db);
-    $sql = "SELECT source_version.id, lang_id, \"language\".name AS lang, allows_actions, array_agg(source_version_term.term) AS terms FROM source_version JOIN \"language\" ON lang_id = \"language\".id JOIN source_version_term ON source_version.id = version_id GROUP BY source_version.id, lang_id, lang, allows_actions ORDER BY lang_id;";
+    $sql = "SELECT source_version.id, lang_id, \"language\".name AS lang, allows_actions, array_agg(CONCAT(source_version_term.term,'|',source_version_term.flag)) AS terms FROM source_version JOIN \"language\" ON lang_id = \"language\".id JOIN source_version_term ON source_version.id = version_id GROUP BY source_version.id, lang_id, lang, allows_actions ORDER BY lang_id;";
     return pg_query($sql);
 }
 
@@ -355,6 +381,44 @@ function pg_implode($glue, $array, $literal = false) {
 
 function pg_bool($value) { // maybe this way we'll one day be able to improve PostgreSQL to return actual booleans
     return is_bool($value) ? $value : ($value === 't');
+}
+
+function pg_decode_array($aggregateString) {
+    $aggregateString = trim($aggregateString, '{}');
+    $inQuote = false;
+    $decoded = [];
+    $d = 0;
+    $decoded[$d] = '';
+    $aggCharArray = utf8_split($aggregateString);
+    for ($c = 0; $c < count($aggCharArray); $c++) {
+        switch($aggCharArray[$c]) {
+            case '"':
+                if ($inQuote) $inQuote = false;
+                else $inQuote = true;
+                break;
+            case ',':
+                if ($inQuote) $decoded[$d] .= $aggCharArray[$c];
+                else $decoded[++$d] = '';
+                break;
+            default:
+                $decoded[$d] .= $aggCharArray[$c];
+                break;
+        }
+    }
+    return $decoded;
+}
+
+function terms_array($aggregateString) {
+    $output = [];
+    $aggArray = pg_decode_array($aggregateString);
+    foreach ($aggArray as $value) {
+        $split = explode('|', $value);
+        $type = $split[1];
+        $val = $split[0];
+        $output[$type][] = $val;
+    }
+    ksort($output, SORT_LOCALE_STRING);
+    return $output;
 }
 
 #region Database Table & Enum Classes
@@ -420,6 +484,12 @@ class HexaplaPunctuation {
     const CLOSING = 'Closing';
     const OPENING = 'Opening';
     const NOT = 'NotPunctuation';
+}
+
+class HexaplaTermFlag {
+    const NONE = 'NoFlag';
+    const PRIMARY = 'Primary';
+    const ABBREVIATION = 'Abbreviation';
 }
 
 class SortDirection {
@@ -565,7 +635,9 @@ class HexaplaSourceVersion implements HexaplaStandardColumns, HexaplaUserColumns
 class HexaplaSourceVersionSequence implements HexaplaSectionColumns {
     const SEQUENCE_ORDER = 'sequence_order';
 }
-class HexaplaSourceVersionTerm implements HexaplaStandardColumns, HexaplaVersionColumns, HexaplaTermColumns {}
+class HexaplaSourceVersionTerm implements HexaplaStandardColumns, HexaplaVersionColumns, HexaplaTermColumns {
+    const FLAG = 'flag';
+}
 class HexaplaUser implements HexaplaStandardColumns {
     const NAME = 'username';
     const EMAIL = 'email';

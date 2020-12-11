@@ -1,5 +1,5 @@
 <?php
-include "dbconnect.php";
+require_once "sql-functions.php";
 
 if (!isset($_GET['page'])) {
     $page = 'home';

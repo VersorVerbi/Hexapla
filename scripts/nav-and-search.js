@@ -1,16 +1,27 @@
-async function doSearch() {
+async function doSearch(event) {
     event.preventDefault();
     let formData = new FormData(document.getElementById('searchform'));
-    let translations;
+    let translations, currentSearch, newSearch;
     for (let dataPair of formData.entries()) {
         if (dataPair[0] === 'translations') {
             translations = dataPair[1];
-            break;
+        } else if (dataPair[0] === 'currentSearch') {
+            currentSearch = dataPair[1];
+        } else if (dataPair[0] === 'searchbox') {
+            newSearch = dataPair[1];
         }
     }
     if (translations.length === 0) {
         translations = '1';
         formData.set('translations', translations);
+    }
+    if (currentSearch.length !== 0) {
+        let currentSplit = currentSearch.split('|');
+        let srch = currentSplit[0];
+        let tls = currentSplit[1];
+        if (translations === tls && newSearch === srch) {
+            return; // nothing has changed
+        }
     }
     let ts = translations.split('^');
     let translationCheckId = 't' + ts[0];
@@ -93,32 +104,4 @@ async function completeSearch(formData) {
 
         document.getElementById('loading').classList.add('hidden');
     });
-}
-
-
-function highlightWords(className) {
-    let words = document.getElementsByClassName(className);
-    for (let w = 0; w < words.length; w++) {
-        words[w].classList.add('hovered');
-    }
-}
-
-function clearWords(className) {
-    let words = document.getElementsByClassName(className);
-    for (let w = 0; w < words.length; w++) {
-        words[w].classList.remove('hovered');
-    }
-}
-
-function emptyBox(box) { // per benchmarking, this is the fastest way to clear children, at least in FF and Chrome at the time
-    let kid = box.firstChild;
-    while (kid) {
-        kid.remove();
-        kid = box.firstChild;
-    }
-}
-
-function configTls() {
-    let tlCfg = document.getElementById('translationController');
-    tlCfg.classList.remove('hidden');
 }

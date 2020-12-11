@@ -18,3 +18,5 @@ number-system-identifier.php
 .idea/watcherTasks.xml
 /styles/icofont.min.css
 /styles/fonts/
+/bench.php
+/bench.html

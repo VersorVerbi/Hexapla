@@ -1,3 +1,8 @@
+function configTls() {
+    let tlCfg = document.getElementById('translationController');
+    tlCfg.classList.remove('hidden');
+}
+
 function addTl(ev) {
     ev.preventDefault();
     let targetBox = document.getElementsByClassName('potentialTl')[0];
