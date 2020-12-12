@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\Pure;
+
 include_once "sql-functions.php";
 include_once "general-functions.php";
 include_once "import-functions.php";
@@ -11,32 +13,32 @@ include_once "lib/portable-utf8.php";
 abstract class BibleXMLReader extends XMLReader {
 
     /** @var array $testResults This should be a pseudo-numeric associative array with keys as test record IDs from the database and values as true (if that test passed) or false (if it didn't) */
-    protected $testResults;
+    protected array $testResults;
     /** @var array $conversions This is an associative array in the format $conversions[$reference] = $location_id */
-    protected $conversions;
+    protected array $conversions;
     /** @var HexaplaErrorLog $errorLog A class for logging errors to a file for later review */
-    public $errorLog;
+    public HexaplaErrorLog $errorLog;
     /** @var PerformanceLogger $perfLog A class for logging performance data to a file for later review */
-    protected $perfLog;
+    protected PerformanceLogger $perfLog;
     /** @var int */
-    protected $numberSystem;
+    protected int $numberSystem;
     /** @var int */
-    protected $version;
+    protected int $version;
     /** @var string */
-    protected $title;
+    protected string $title;
     /** @var array $existingRows Associative array in the format $existingRows[$location_id][$position] = $text_id */
-    protected $existingRows;
+    protected array $existingRows;
+    /** @var string|null */
+    private ?string $encoding;
     /** @var string */
-    private $encoding;
-    /** @var string */
-    private $file;
+    private string $file;
     /** @var int */
-    private $options;
+    private int $options;
     /** @var array $conversionResults This should be a pseudo-numeric associative array with keys as conversion record IDs from the database and values as true (if that conversion applies) or false (if it doesn't) */
-    private $conversionResults;
-    private $beganTransaction;
-    private $lastBook;
-    private $lastChapter;
+    private array $conversionResults;
+    private bool $beganTransaction;
+    private int $lastBook;
+    private int $lastChapter;
 
     /**
      * @param string $URI
@@ -44,16 +46,17 @@ abstract class BibleXMLReader extends XMLReader {
      * @param int $options
      * @return bool
      */
-    public function open($URI, $encoding = null, $options = 0) {
+    public function openThis(string $URI, ?string $encoding = null, $options = 0): bool {
         $this->encoding = $encoding;
         $this->options = $options;
         $this->file = $URI;
         return parent::open($URI, $encoding, $options);
     }
 
-    public function close($final = false) {
+    public function close($final = false): bool
+    {
         if ($final) $this->perfLog->close();
-        parent::close();
+        return parent::close();
     }
 
     public function set_errorLog($errorLogger) {
@@ -91,12 +94,14 @@ abstract class BibleXMLReader extends XMLReader {
     protected function returnToStart() {
         $this->perfLog->log("start returnToStart");
         $this->close();
-        $this->open($this->file, $this->encoding, $this->options);
+        $this->openThis($this->file, $this->encoding, $this->options);
         $this->perfLog->log("finish returnToStart");
     }
 
     /**
      * @param resource|null $db
+     * @throws HexaplaException
+     * @throws HexaplaException
      */
     protected function setUpConversions(&$db) {
         $this->perfLog->log("start setUpConversions");
@@ -143,6 +148,8 @@ abstract class BibleXMLReader extends XMLReader {
 
     /**
      * @param resource|null $db
+     * @throws HexaplaException
+     * @throws HexaplaException
      */
     public function identifyNumberSystem(&$db) {
         // note: bitwise assignment operators work as expected with boolean values
@@ -206,7 +213,7 @@ abstract class BibleXMLReader extends XMLReader {
      * @param array $row Associative array of a row of results from the test table
      * @throws NoOppositeTypeException Indicates that the given test type has no reverse test type
      */
-    protected function testComparisonToIndex(&$testIndex, $ref1, $testType, $ref2, $row) {
+    protected function testComparisonToIndex(array &$testIndex, string $ref1, int $testType, string $ref2, array $row) {
         $testIndex[$ref1][$testType][$ref2] = [
             'id' => $row[HexaplaLocTest::ID],
             'multi1' => $row[HexaplaLocTest::MULTIPLIER_1],
@@ -253,20 +260,20 @@ abstract class BibleXMLReader extends XMLReader {
 
 class HexaplaStandardMetadata {
     /** @var hexaName|null */
-    private $title;
+    private ?hexaName $title;
     /** @var hexaName|null */
-    private $translation;
+    private ?hexaName $translation;
     /** @var hexaCopyright|null */
-    private $copyright;
+    private ?hexaCopyright $copyright;
     /** @var array Metadata of unclear origins or purpose */
-    private $metadata;
+    private array $metadata;
     /** @var hexaName|null */
-    private $language;
+    private ?hexaName $language;
 
     /**
      * hexaText constructor.
      */
-    public function __construct() {
+    #[Pure] public function __construct() {
         $this->title = new hexaName();
         $this->translation = new hexaName();
         $this->language = new hexaName();
@@ -277,21 +284,21 @@ class HexaplaStandardMetadata {
      * @param string $metaname The name/key of this metadatum
      * @param string $metadatum The content of this metadatum
      */
-    public function addMetadata($metaname, $metadatum) {
+    public function addMetadata(string $metaname, string $metadatum) {
         $this->metadata[$metaname] = $metadatum;
     }
 
     /**
      * @param hexaName $newTitle
      */
-    public function setTitle($newTitle) {
+    public function setTitle(hexaName $newTitle) {
         $this->title = $newTitle;
     }
 
     /**
      * @param hexaName $newTranslation
      */
-    public function setTranslation($newTranslation) {
+    public function setTranslation(hexaName $newTranslation) {
         $this->translation = $newTranslation;
     }
 
@@ -305,7 +312,7 @@ class HexaplaStandardMetadata {
     /**
      * @param hexaCopyright $newCopyright
      */
-    public function setCopyright($newCopyright) {
+    public function setCopyright(hexaCopyright $newCopyright) {
         $this->copyright = $newCopyright;
     }
 
@@ -382,7 +389,7 @@ class HexaplaStandardMetadata {
         // Version Name
         $columns[] = HexaplaSourceVersionTerm::TERM;
         $options[] = $this->title->getName();
-        array_merge($options, $this->title->getAbbreviations());
+        $options = array_merge($options, $this->title->getAbbreviations());
         $criteria[HexaplaSourceVersionTerm::TERM] = $options;
         $criteria[HexaplaSourceVersionTerm::VERSION_ID] = $versionId;
         $termData = getData($db, HexaplaTables::SOURCE_VERSION_TERM, $columns, $criteria);
@@ -415,8 +422,9 @@ class PositionException extends HexaplaException {
      * @param string $message
      * @param int $code 1: Not on a verse; 2: On an ending verse element
      * @param Throwable|null $previous
+     * @param array $locals
      */
-    public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
+    #[Pure] public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
         parent::__construct($message, $code, $previous, $locals);
     }
 }
@@ -430,8 +438,9 @@ class TooManyMatchesError extends HexaplaException {
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous
+     * @param array $locals
      */
-    public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
+    #[Pure] public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
         $message = "Too many $message matches!";
         parent::__construct($message, $code, $previous, $locals);
     }

@@ -1,13 +1,13 @@
 <?php
 
 function import_zefania($simpleXml) {
-  $attr = $simpleXml->attributes();
+  /*$attr = $simpleXml->attributes();
   $_IMPORTDATA['name'] = $attr->biblename;
   $_IMPORTDATA['version'] = $attr->version;
   
   $info = zefania_getElement($simpleXml, 'INFORMATION');
   /* title, creator, description, publisher, subject, contributors, date, type, format, identifier, source, language, coverage, rights */
-  
+  /*
   $books = zefania_getElement($simpleXml, 'BIBLEBOOK');
   foreach ($books as $book) {
     $bookAttr = $book->attributes(); // bname (full name), bnumber (some unambiguous number?), bsname (short name)
@@ -21,9 +21,9 @@ function import_zefania($simpleXml) {
         // GRAM (grammatical info), NOTE (annotation), STYLE (??), SUP (superscript?), XREF (cross-reference), BR
       }
     }
-  }
+  }*/
 }
-
+/*
 function zefania_getElement($containingElement, $elementName) {
   if ($containingElement->{strtoupper($elementName)}->count() > 0) {
     return $containingElement->{strtoupper($elementName)};
@@ -33,3 +33,4 @@ function zefania_getElement($containingElement, $elementName) {
     return $containingElement->{substr(strtolower($elementName), 0, 1)};
   }
 }
+*/

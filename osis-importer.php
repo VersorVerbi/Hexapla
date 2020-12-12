@@ -10,14 +10,14 @@
  * $allNotes:
  *      [OSIS-type Bible reference]
  *          [#] = text of note
- * @uses osisMetadataOptions, mb_regex_set_options(), osisGetMetadata(), osisWorkAnalyzer, count(), xml_get_value()
- * @uses hexaWord, explode(), utf8_strlen(), hexaNote, osisHandleWord(), preg_split(), noWordSeparatorWritingSystems()
- * @uses utf8_split(), getLastIndex(), createHexaWords()
  * @param array $values Value array from xml_parse_into_struct; source XML assumed to meet OSIS standard
  * @param array $indices Index array from xml_parse_into_struct; source XML assumed to meet OSIS standard
  * @param hexaText $hexaData
+ * @uses osisMetadataOptions, mb_regex_set_options(), osisGetMetadata(), osisWorkAnalyzer, count(), xml_get_value()
+ * @uses hexaWord, explode(), utf8_strlen(), hexaNote, osisHandleWord(), preg_split(), noWordSeparatorWritingSystems()
+ * @uses utf8_split(), getLastIndex(), createHexaWords()
  */
-function osisImport($values, $indices, &$hexaData): void {
+function osisImport(array $values, array $indices, hexaText &$hexaData): void {
     mb_regex_set_options('mub');
     // metadata to get
     osisGetMetadata($values, $indices, $hexaData,
@@ -126,7 +126,6 @@ function osisImport($values, $indices, &$hexaData): void {
             }
         }
     }
-    return;
 }
 
 /**
@@ -158,7 +157,6 @@ function createHexaWords(string $word, string $verseId, int &$key, array &$verse
         $newWord = new hexaPunctuation($verseId, $matches[0][0], $key++);
         $verseWords[] = $newWord;
     }
-    return;
 }
 
 /**
@@ -177,7 +175,6 @@ function osisHandleWord(string $wordValue, string $verseId, int $valIdx, array &
         $key = getLastIndex($verseWords) + 1;
         createHexaWords($word, $verseId, $key, $verseWords, $workAnalyzer->getStrongsNumber($values[$valIdx]));
     }
-    return;
 }
 
 /**

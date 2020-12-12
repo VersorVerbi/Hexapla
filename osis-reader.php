@@ -3,16 +3,17 @@ include_once "bible-xml-reader.php";
 
 class OSISReader extends BibleXMLReader {
     /** @var osisWorkAnalyzer $workAnalyzer */
-    private $workAnalyzer;
+    private osisWorkAnalyzer $workAnalyzer;
     /** @var int $formatStyle */
-    public $formatStyle;
+    public int $formatStyle;
 
     /**
      * Override
      * @param array $args
      * @return bool|void
      */
-    public function read($args = []) {
+    public function read($args = []): bool
+    {
         if (count($args) === 0) {
             return parent::read();
         }
@@ -36,9 +37,12 @@ class OSISReader extends BibleXMLReader {
         return $output;
     }
 
-    public function next($localName = null) {
+    /** @noinspection PhpParameterNameChangedDuringInheritanceInspection */
+    public function next($localName = null): bool
+    {
         if ($this->localName === 'q' || $this->localName === 'p') {
             // these are multi-verse spanning elements that break everything else, so we need to read instead
+            /** array $args */
             $args['targetElementName'] = $localName;
             return $this->read($args);
         } else {
@@ -52,6 +56,8 @@ class OSISReader extends BibleXMLReader {
 
     /**
      * @param resource|null $db
+     * @throws HexaplaException
+     * @throws HexaplaException
      */
     public function runTests(&$db) {
         $this->perfLog->log("start runTests");
@@ -80,15 +86,12 @@ class OSISReader extends BibleXMLReader {
                     case HexaplaTests::LESS_THAN:
                     case HexaplaTests::GREATER_THAN:
                         /** @noinspection PhpUndefinedVariableInspection -- if it crashes, it crashes */
-                        $this->testComparisonToIndex($testIndex, $ref1, $testType, $ref2, $row);
+                        $this->testComparisonToIndex($testIndex, $ref1, (int)$testType, $ref2, $row);
                         break;
                     default:
                         throw new InvalidArgumentException('Broken test');
-                        break;
                 }
-            } catch(InvalidArgumentException $e) {
-                continue;
-            } catch(NoOppositeTypeException $n) {
+            } /** @noinspection PhpUnusedLocalVariableInspection */ catch(InvalidArgumentException | NoOppositeTypeException $e) {
                 continue;
             }
         }
@@ -216,6 +219,8 @@ class OSISReader extends BibleXMLReader {
 
     /**
      * @param resource|null $db
+     * @throws HexaplaException
+     * @throws HexaplaException
      */
     public function exportAndUpload(&$db) {
         // TODO: Handle notes / non-canonical text as well -- or specifically exclude them
@@ -387,7 +392,8 @@ class OSISReader extends BibleXMLReader {
             * reference - the verse reference
             * text - the text of the verse
      */
-    private function currentVerse() {
+    private function currentVerse(): array
+    {
         if (strtolower($this->localName) !== OsisTags::VERSE) {
             throw new PositionException('Not on a verse', 1, null, get_defined_vars());
         }
@@ -418,7 +424,8 @@ class OSISReader extends BibleXMLReader {
         return $output;
     }
 
-    private function finishedVerse($id) {
+    private function finishedVerse($id): bool
+    {
         if ($this->formatStyle === OSIS_FORMAT_ENUM::WITH_OVERLAP) {
             return $this->getAttribute(OsisAttributes::END_ID) === $id;
         } else {
@@ -429,7 +436,8 @@ class OSISReader extends BibleXMLReader {
     /**
      * @return string
      */
-    private function divType() {
+    private function divType(): string
+    {
         if ($this->nodeType !== XMLReader::ELEMENT) {
             return '';
         }
@@ -475,24 +483,24 @@ class osisWorkAnalyzer {
     /**
      * @var array|bool Either a list of IDs for all works in the document or FALSE, indicating there are no works.
      */
-    private $allWorks;
+    private bool|array $allWorks;
     /**
      * @var array|bool Either a list of IDs for works in the document associated with Strong's Numbers or FALSE,
      *                 indicating there are no works.
      */
-    private $strongWorks;
+    private bool|array $strongWorks;
     /**
      * @var array|bool Either the names of potential <W> attributes containing Strong's Numbers, an empty array,
      *                 indicating we do not know it, or FALSE, indicating there are no works.
      */
-    private $strongAttr;
+    private bool|array $strongAttr;
 
     /**
      * osisWorkAnalyzer constructor.
      * @param array $values
      * @param array $indices
      */
-    public function __construct($values, $indices) {
+    public function __construct(array $values, array $indices) {
         if (isset($indices[utf8_strtoupper(OsisTags::WORK)])) {
             $this->allWorks = [];
             $this->strongWorks = [];
@@ -532,11 +540,12 @@ class osisWorkAnalyzer {
 
     /**
      * Given a word node, retrieves the Strong's Number based on the works and workPrefixes we know about
-     * @uses count(), xml_get_attribute_set(), utf8_strpos(), explode, isStrongsNumber(), utf8_strlen(), implode()
      * @param array $wNode
      * @return string The Strong's Number(s), comma-delimited if multiple, associated with this word node
+     * @uses count(), xml_get_attribute_set(), utf8_strpos(), explode, isStrongsNumber(), utf8_strlen(), implode()
      */
-    public function getStrongsNumber($wNode) {
+    public function getStrongsNumber(array $wNode): string
+    {
         $strongArray = [];
         $strongs = '';
         if (count($this->strongAttr) > 0) {
@@ -631,16 +640,16 @@ class osisMetadataOptions {
     /**
      * @var string The name of the metadata piece to retrieve
      */
-    private $name;
+    private string $name;
     /**
      * @var int The index to retrieve. Default -1. If >=0, osisGetMetadata will return that index; if <0,
      *          osisGetMetadata will return all indexes in a string with the delimiter in $delimiter
      */
-    private $indexRequest;
+    private int $indexRequest;
     /**
      * @var string Delimiter between sets of metadata. Ignored if $indexRequest >= 0. Default is a single space.
      */
-    private $delimiter;
+    private string $delimiter;
 
     /**
      * osisMetadataOptions constructor.
@@ -648,7 +657,7 @@ class osisMetadataOptions {
      * @param int $indexRequested
      * @param string $delim
      */
-    public function __construct($newName, $indexRequested = -1, $delim = ' ') {
+    public function __construct(string $newName, $indexRequested = -1, $delim = ' ') {
         $this->name = utf8_strtoupper($newName);
         $this->indexRequest = $indexRequested;
         $this->delimiter = $delim;
@@ -658,7 +667,8 @@ class osisMetadataOptions {
      * Public getter of $this->name
      * @return string The metadata name to retrieve
      */
-    public function getName() {
+    public function getName(): string
+    {
         return $this->name;
     }
 
@@ -666,7 +676,8 @@ class osisMetadataOptions {
      * Public getter of $this->indexRequest
      * @return int The index to retrieve, or -1 to retrieve all
      */
-    public function getIndex() {
+    public function getIndex(): int
+    {
         return $this->indexRequest;
     }
 
@@ -674,7 +685,8 @@ class osisMetadataOptions {
      * Public getter of $this->delimiter
      * @return string The delimiter to place between pieces of metadata
      */
-    public function getDelim() {
+    public function getDelim(): string
+    {
         return $this->delimiter;
     }
 }
@@ -709,7 +721,6 @@ function createHexaWords(string $word, string $verseId, int &$key, array &$verse
         $newWord = new hexaPunctuation($verseId, $matches[0], $key++);
         $verseWords[] = $newWord;
     }
-    return;
 }
 
 class OSIS_FORMAT_ENUM {

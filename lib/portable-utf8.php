@@ -1,6 +1,16 @@
-<?php
-    
-    /**
+<?php /** @noinspection ALL */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+/** @noinspection PhpDocSignatureInspection */
+
+/**
      * Portable UTF-8
      * Lightweight Library for Unicode Handling in PHP
      * @details    http://pageconfig.com/post/portable-utf8
@@ -12,23 +22,11 @@
      * @copyright  2013 Hamid sarfraz
      * @license    http://pageconfig.com/post/license
     */
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
+
+use JetBrains\PhpStorm\Pure;
+
+
+/**
      * utf8_url_slug( )
      * 
      * Creates SEO Friendly URL Slugs with UTF-8 support
@@ -42,8 +40,8 @@
      * @return   string The UTF-8 encoded URL Slug.
     */
     
-    function utf8_url_slug( $str = '' , $maxl = -1 , $trns = false )
-	{
+    function utf8_url_slug( $str = '' , $maxl = -1 , $trns = false ): string
+    {
 		$str	= utf8_clean( $str , true );	//True == $remove_bom
 		
 		$str	= utf8_strtolower( $str );
@@ -78,20 +76,20 @@
 		
 		return $str;
 	}
+
+
+/**
+ * is_utf8( )
+ *
+ * Checks whether the passed string contains only byte sequances that
+ * appear valid UTF-8 characters.
+ * @param string $str The string to be checked
+ * @return   bool True if the check succeeds, False Otherwise
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * is_utf8( )
-     * 
-     * Checks whether the passed string contains only byte sequances that
-     * appear valid UTF-8 characters.
-     * @since 1.0
-     * 
-     * @param    string $str The string to be checked
-     * @return   bool True if the check succeeds, False Otherwise
-    */
-    
-    function is_utf8( $str )
+    function is_utf8(string $str): bool
     {
         if( pcre_utf8_support( ) )
         {
@@ -152,20 +150,20 @@
         
         return true;
     }
+
+
+/**
+ * utf8_ord( )
+ *
+ * Calculates Unicode Code Point of the given UTF-8 encoded character
+ * @param string $chr The character of which to calculate Code Point
+ * @return   int Unicode Code Point of the given character
+ *           0 on invalid UTF-8 byte sequence
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_ord( )
-     * 
-     * Calculates Unicode Code Point of the given UTF-8 encoded character
-     * @since 1.0
-     * 
-     * @param    string $chr The character of which to calculate Code Point
-     * @return   int Unicode Code Point of the given character
-     *           0 on invalid UTF-8 byte sequence
-    */
-    
-    function utf8_ord( $chr )
+    function utf8_ord(string $chr): int
     {
         $chr    = utf8_split( $chr );
         
@@ -194,21 +192,21 @@
         
         return 0;
     }
+
+
+/**
+ * utf8_strlen( )
+ *
+ * Finds the length of the given string in terms of number
+ * of valid UTF-8 characters it contains. Invalid characters are ignored.
+ * @param string $str The string for which to find the character length
+ * @return   int Length of the Unicode String
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_strlen( )
-     * 
-     * Finds the length of the given string in terms of number
-     * of valid UTF-8 characters it contains. Invalid characters are ignored.
-     * @since 1.0
-     * 
-     * @param    string $str The string for which to find the character length
-     * @return   int Length of the Unicode String
-    */
-    
-    function utf8_strlen( $str )
-	{
+    function utf8_strlen(string $str): int
+    {
 		if( mbstring_loaded( ) )
 		{
 			$str	= utf8_clean( $str );
@@ -250,8 +248,8 @@
      *           returns empty string on failure to encode
     */
     
-    function utf8_chr( $code_point )
-	{
+    function utf8_chr( $code_point ): string
+    {
 		if( ( $i = ( int ) $code_point ) !== $code_point )
 		{
 			//$code_point is a string, lets extract int code point from it
@@ -320,7 +318,7 @@
      * @return   bool True if support is available, false otherwise
     */
     
-    function pcre_utf8_support( )
+    function pcre_utf8_support( ): bool
     {
         static $support;
         
@@ -332,20 +330,20 @@
         
         return $support;
     }
+
+
+/**
+ * utf8_clean( )
+ *
+ * Accepts a string and removes all non-UTF-8 characters from it.
+ * @param string $str The string to be sanitized.
+ * @param bool $remove_bom
+ * @return   string Clean UTF-8 encoded string
+ * @since 1.0
+ */
     
-    
-    /**
-     * utf8_clean( )
-     * 
-     * Accepts a string and removes all non-UTF-8 characters from it.
-     * @since 1.0
-     * 
-     * @param    string $str The string to be sanitized.
-     * @return   string Clean UTF-8 encoded string
-    */
-    
-    function utf8_clean( $str , $remove_bom = false )
-	{
+    function utf8_clean(string $str , $remove_bom = false): string
+    {
 		//http://stackoverflow.com/questions/1401317/remove-non-utf8-characters-from-string
 		//caused connection reset problem on larger strings
 		//$regx = '/((?:[\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3}){1,})|./';
@@ -361,21 +359,21 @@
 		
 		return $str;
 	}
+
+
+/**
+ * utf8_split( )
+ *
+ * Convert a string to an array of Unicode characters.
+ * @param string $str The string to split into array.
+ * @param int $split_length Max character length of each array element
+ * @return   array An array containing chunks of the string
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_split( )
-     * 
-     * Convert a string to an array of Unicode characters.
-     * @since 1.0
-     * 
-     * @param    string $str The string to split into array.
-     * @param    int $split_length Max character length of each array element
-     * @return   array An array containing chunks of the string
-    */
-    
-    function utf8_split( $str , $split_length = 1 )
-	{
+    function utf8_split(string $str , $split_length = 1): array
+    {
 		$str	= ( string ) $str;
 		
 		$ret	= array( );
@@ -448,127 +446,129 @@
 		
 		return $ret;
 	}
+
+
+/**
+ * utf8_chunk_split( )
+ *
+ * Splits a string into smaller chunks and multiple lines, using the specified
+ * line ending character
+ * @param string $body The original string to be split.
+ * @param int $chunklen The maximum character length of a chunk
+ * @param string $end The character(s) to be inserted at the end of each chunk
+ * @return   string The chunked string
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_chunk_split( )
-     * 
-     * Splits a string into smaller chunks and multiple lines, using the specified
-     * line ending character
-     * @since 1.0
-     * 
-     * @param    string $body The original string to be split.
-     * @param    int $chunklen The maximum character length of a chunk
-     * @param    string $end The character(s) to be inserted at the end of each chunk
-     * @return   string The chunked string
-    */
-    
-    function utf8_chunk_split( $body , $chunklen = 76 , $end = "\r\n" )
+    function utf8_chunk_split(string $body , $chunklen = 76 , $end = "\r\n"): string
     {
         return implode( $end , utf8_split( $body , $chunklen ) );
     }
+
+
+/**
+ * utf8_fits_inside( )
+ *
+ * Checks if the number of Unicode characters in a string are not
+ * more than the specified integer.
+ * @param string $str The original string to be checked.
+ * @param int $box_size The size in number of chars to be checked against string.
+ * @return   bool true if string is less than or equal to $box_size The
+ *           false otherwise
+ * @since 1.0
+ */
     
-    
-    
-    /**
-     * utf8_fits_inside( )
-     * 
-     * Checks if the number of Unicode characters in a string are not
-     * more than the specified integer.
-     * @since 1.0
-     * 
-     * @param    string $str The original string to be checked.
-     * @param    int $box_size The size in number of chars to be checked against string.
-     * @return   bool true if string is less than or equal to $box_size The
-     *           false otherwise
-    */
-    
-    function utf8_fits_inside( $str , $box_size )
+    function utf8_fits_inside(string $str , int $box_size): bool
     {
         return ( utf8_strlen( $str ) <= $box_size );
     }
+
+
+/**
+ * utf8_chr_size_list( )
+ *
+ * Generates an array of byte length of each character of a Unicode string.
+ * @param string $str The original Unicode string
+ * @return   array An array of byte lengths of each character.
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_chr_size_list( )
-     * 
-     * Generates an array of byte length of each character of a Unicode string.
-     * @since 1.0
-     * 
-     * @param    string $str The original Unicode string
-     * @return   array An array of byte lengths of each character.
-    */
-    
-    function utf8_chr_size_list( $str )
+    function utf8_chr_size_list(string $str): array
     {
         return array_map( 'strlen' , utf8_split( $str ) );
     }
+
+
+/**
+ * utf8_max_chr_width( )
+ *
+ * Calculates and returns the maximum number of bytes taken by any
+ * UTF-8 encoded character in the given string
+ * @param string $str The original Unicode string
+ * @return   array An array of byte lengths of each character.
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_max_chr_width( )
-     * 
-     * Calculates and returns the maximum number of bytes taken by any
-     * UTF-8 encoded character in the given string
-     * @since 1.0
-     * 
-     * @param    string $str The original Unicode string
-     * @return   array An array of byte lengths of each character.
-    */
-    
-    function utf8_max_chr_width( $str )
+    function utf8_max_chr_width(string $str): array
     {
-        return max( utf8_chr_size_list( $string ) );
+        return max( utf8_chr_size_list( $str ) );
     }
+
+
+/**
+ * utf8_single_chr_html_encode( )
+ *
+ * Converts a UTF-8 character to HTML Numbered Entity like &#123;
+ * @param string $chr The Unicode character to be encoded as numbered entity
+ * @return   string HTML numbered entity
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_single_chr_html_encode( )
-     * 
-     * Converts a UTF-8 character to HTML Numbered Entity like &#123;
-     * @since 1.0
-     * 
-     * @param    string $chr The Unicode character to be encoded as numbered entity
-     * @return   string HTML numbered entity
-    */
-    
-    function utf8_single_chr_html_encode( $chr )
+    function utf8_single_chr_html_encode(string $chr): string
     {
         return '&#' . utf8_ord( $chr ) . ';';
     }
+
+
+/**
+ * utf8_html_encode( )
+ *
+ * Converts a UTF-8 string to a series of
+ * HTML Numbered Entities like &#123;&#39;&#1740;...
+ * @param string $str The Unicode string to be encoded as numbered entities
+ * @return   string HTML numbered entities
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_html_encode( )
-     * 
-     * Converts a UTF-8 string to a series of
-     * HTML Numbered Entities like &#123;&#39;&#1740;...
-     * @since 1.0
-     * 
-     * @param    string $str The Unicode string to be encoded as numbered entities
-     * @return   string HTML numbered entities
-    */
-    
-    function utf8_html_encode( $str )
+    function utf8_html_encode(string $str): string
     {
         return implode( array_map( 'utf8_single_chr_html_encode' , utf8_split( $str ) ) );
     }
-    
-    
-    /**
-     * utf8_substr( )
-     * 
-     * UTF-8 aware substr
-     * @since 1.0
-     * 
-     * For detailed documentation see php.net/substr
-     * 
-     * substr works with bytes, while utf8_substr works with characters
-     * and are identical in all other aspects.
-    */
-    
-    function utf8_substr( $str , $start = 0 , $length = NULL )
-    {
+
+
+/**
+ * utf8_substr( )
+ *
+ * UTF-8 aware substr
+ * @param $str
+ * @param int $start
+ * @param null $length
+ * @return false|string
+ * @since 1.0
+ *
+ * For detailed documentation see php.net/substr
+ *
+ * substr works with bytes, while utf8_substr works with characters
+ * and are identical in all other aspects.
+ */
+
+function utf8_substr( $str , $start = 0 , $length = NULL ): bool|string
+{
         //iconv and mbstring are not tolerant to invalid encoding
 		//further, their behaviour is inconsistant with that of PHP's substr
 		
@@ -615,7 +615,7 @@
      * @return   string Byte Order Mark
     */
     
-    function utf8_bom( )
+    function utf8_bom( ): string
     {
         return "\xef\xbb\xbf";
         
@@ -628,68 +628,68 @@
         
         //return $bom;
     }
+
+
+/**
+ * is_bom( )
+ *
+ * Checks if the given string is a Byte Order Mark
+ * @param string $utf8_chr The input string
+ * @return   bool True if the $utf8_chr is Byte Order Mark, False otherwise
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * is_bom( )
-     * 
-     * Checks if the given string is a Byte Order Mark
-     * @since 1.0
-     * 
-     * @param    string $utf8_chr The input string
-     * @return   bool True if the $utf8_chr is Byte Order Mark, False otherwise
-    */
-    
-    function is_bom( $utf8_chr )
+    #[Pure] function is_bom(string $utf8_chr): bool
     {
         return ( $utf8_chr === utf8_bom( ) );
     }
+
+
+/**
+ * utf8_file_has_bom( )
+ *
+ * Checks if a file starts with BOM character
+ * @param string $file_path Path to a valid file
+ * @return   bool True if the file has BOM at the start, False otherwise
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_file_has_bom( )
-     * 
-     * Checks if a file starts with BOM character
-     * @since 1.0
-     * 
-     * @param    string $file_path Path to a valid file
-     * @return   bool True if the file has BOM at the start, False otherwise
-    */
-    
-    function utf8_file_has_bom( $file_path )
+    function utf8_file_has_bom(string $file_path): bool
     {
         return is_bom( file_get_contents( $file_path , 0 , NULL , -1 , 3 ) );
     }
+
+
+/**
+ * utf8_string_has_bom( )
+ *
+ * Checks if string starts with BOM character
+ * @param string $str The input string
+ * @return   bool True if the string has BOM at the start, False otherwise
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_string_has_bom( )
-     * 
-     * Checks if string starts with BOM character
-     * @since 1.0
-     * 
-     * @param    string $str The input string
-     * @return   bool True if the string has BOM at the start, False otherwise
-    */
-    
-    function utf8_string_has_bom( $str )
+    #[Pure] function utf8_string_has_bom(string $str): bool
     {
         return is_bom( substr( $str , 0 , 3 ) );
     }
+
+
+/**
+ * utf8_add_bom_to_string( )
+ *
+ * Prepends BOM character to the string and returns the whole string.
+ * If BOM already existed there, the Input string is returned.
+ * @param string $str The input string
+ * @return   string The output string that contains BOM
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_add_bom_to_string( )
-     * 
-     * Prepends BOM character to the string and returns the whole string.
-     * If BOM already existed there, the Input string is returned.
-     * @since 1.0
-     * 
-     * @param    string $str The input string
-     * @return   string The output string that contains BOM
-    */
-    
-    function utf8_add_bom_to_string( $str )
+    #[Pure] function utf8_add_bom_to_string(string $str): string
     {
         if( !is_bom( substr( $str , 0 , 3 ) ) )
         {
@@ -698,19 +698,19 @@
         
         return $str;
     }
+
+
+/**
+ * utf8_str_shuffle( )
+ *
+ * Shuffles all the characters in the string.
+ * @param string $str The input string
+ * @return   string The shuffled string
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_str_shuffle( )
-     * 
-     * Shuffles all the characters in the string.
-     * @since 1.0
-     * 
-     * @param    string $str The input string
-     * @return   string The shuffled string
-    */
-    
-    function utf8_str_shuffle( $str )
+    function utf8_str_shuffle(string $str): string
     {
         $array    = utf8_split( $str );
         
@@ -718,20 +718,20 @@
         
         return implode( '' , $array );
     }
+
+
+/**
+ * utf8_count_chars( )
+ *
+ * Returns count of characters used in a string
+ * @param string $str The input string
+ * @return   array An associative array of Character as keys and
+ *           their count as values
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_count_chars( )
-     * 
-     * Returns count of characters used in a string
-     * @since 1.0
-     * 
-     * @param    string $str The input string
-     * @return   array An associative array of Character as keys and
-     *           their count as values
-    */
-    
-    function utf8_count_chars( $str )    //there is no $mode parameters
+    function utf8_count_chars(string $str): array    //there is no $mode parameters
     {
         $array    = array_count_values( utf8_split( $str ) );
         
@@ -739,39 +739,42 @@
         
         return $array;
     }
+
+
+/**
+ * utf8_strrev( )
+ *
+ * Reverses characters order in the string
+ * @param string $str The input string
+ * @return   string The string with characters in the reverse sequence
+ * @since 1.0
+ *
+ */
     
-    
-    
-    /**
-     * utf8_strrev( )
-     * 
-     * Reverses characters order in the string
-     * @since 1.0
-     * 
-     * @param    string $str The input string
-     * @return   string The string with characters in the reverse sequence
-    */
-    
-    function utf8_strrev( $str )
-	{
+    function utf8_strrev(string $str): string
+    {
 		return implode( array_reverse( utf8_split( $str ) ) );
 	}
-    
-    
-    /**
-     * utf8_strpos( )
-     * 
-     * Finds the number of Characters to the left of first occurance of the needle
-     * @since 1.0
-     * 
-     * For detailed documentation see php.net/strpos
-     * 
-     * strpos works with bytes, while utf8_strpos works with characters
-     * and are identical in all other aspects.
-    */
-    
-    function utf8_strpos( $haystack , $needle , $offset = 0 )
-	{
+
+
+/**
+ * utf8_strpos( )
+ *
+ * Finds the number of Characters to the left of first occurance of the needle
+ * @param $haystack
+ * @param $needle
+ * @param int $offset
+ * @return false|int
+ * @since 1.0
+ *
+ * For detailed documentation see php.net/strpos
+ *
+ * strpos works with bytes, while utf8_strpos works with characters
+ * and are identical in all other aspects.
+ */
+
+function utf8_strpos( $haystack , $needle , $offset = 0 ): bool|int
+{
 		//iconv and mbstring do not support integer $needle
 		
 		if( ( ( int ) $needle ) === $needle && ( $needle >= 0 ) )
@@ -814,19 +817,19 @@
 		
 		return false;
 	}
+
+
+/**
+ * utf8_max( )
+ *
+ * Returns the UTF-8 character with the maximum code point in the given data
+ * @param mixed $arg A UTF-8 encoded string or an array of such strings
+ * @return   string The character with the highest code point than others
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_max( )
-     * 
-     * Returns the UTF-8 character with the maximum code point in the given data
-     * @since 1.0
-     * 
-     * @param    mixed $arg A UTF-8 encoded string or an array of such strings
-     * @return   string The character with the highest code point than others
-    */
-    
-    function utf8_max( $arg )
+    function utf8_max(mixed $arg): string
     {
         if( is_array( $arg ) )
         {
@@ -835,19 +838,19 @@
         
         return utf8_chr( max( utf8_codepoints( $arg ) ) );
     }
+
+
+/**
+ * utf8_min( )
+ *
+ * Returns the UTF-8 character with the minimum code point in the given data
+ * @param mixed $arg A UTF-8 encoded string or an array of such strings
+ * @return   string The character with the lowest code point than others
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_min( )
-     * 
-     * Returns the UTF-8 character with the minimum code point in the given data
-     * @since 1.0
-     * 
-     * @param    mixed $arg A UTF-8 encoded string or an array of such strings
-     * @return   string The character with the lowest code point than others
-    */
-    
-    function utf8_min( $arg )
+    function utf8_min(mixed $arg): string
     {
         if( is_array( $arg ) )
         {
@@ -856,21 +859,21 @@
         
         return utf8_chr( min( utf8_codepoints( $arg ) ) );
     }
+
+
+/**
+ * utf8_codepoints( )
+ *
+ * Accepts a string and returns an array of Unicode Code Points
+ * @param mixed $arg A UTF-8 encoded string or an array of such strings
+ * @param bool $u_style If True, will return Code Points in U+xxxx format,
+ *           default, Code Points will be returned as integers
+ * @return   array The array of code points
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_codepoints( )
-     * 
-     * Accepts a string and returns an array of Unicode Code Points
-     * @since 1.0
-     * 
-     * @param    mixed $arg A UTF-8 encoded string or an array of such strings
-     * @param    bool $u_style If True, will return Code Points in U+xxxx format,
-     *           default, Code Points will be returned as integers
-     * @return   array The array of code points
-    */
-    
-    function utf8_codepoints( $arg , $u_style = false )
+    function utf8_codepoints(mixed $arg , $u_style = false): array
     {
         if( is_string( $arg ) )
         {
@@ -886,20 +889,20 @@
         
         return $arg;
     }
-    
-    
-    /**
-     * utf8_int_to_hex( )
-     * 
-     * Converts Integer to hexadecimal U+xxxx code point representation
-     * @since 1.0
-     * 
-     * @param    int $int The integer to be converted to hexadecimal code point
-     * @return   string The Code Point, or empty string on failure
-    */
-    
-    function utf8_int_to_hex( $int , $pfix = 'U+' )
-	{
+
+
+/**
+ * utf8_int_to_hex( )
+ *
+ * Converts Integer to hexadecimal U+xxxx code point representation
+ * @param int $int The integer to be converted to hexadecimal code point
+ * @param string $pfix
+ * @return   string The Code Point, or empty string on failure
+ * @since 1.0
+ */
+
+#[Pure] function utf8_int_to_hex(int $int , $pfix = 'U+'): string
+{
 		if( ctype_digit( ( string ) $int ) )
 		{
 			$hex	= dechex( ( int ) $int );
@@ -911,21 +914,21 @@
 		
 		return '';
 	}
-	
+
+
+/**
+ * utf8_hex_to_int( )
+ *
+ * Opposite to utf8_int_to_hex( )
+ * Converts hexadecimal U+xxxx code point representation to Integer
+ * @param string $str The Hexadecimal Code Point representation
+ * @return   int The Code Point, or 0 on failure
+ * @since 1.0
+ *
+ */
     
-    /**
-     * utf8_hex_to_int( )
-     * 
-     * Opposite to utf8_int_to_hex( )
-     * Converts hexadecimal U+xxxx code point representation to Integer
-     * @since 1.0
-     * 
-     * @param    string $str The Hexadecimal Code Point representation
-     * @return   int The Code Point, or 0 on failure
-    */
-    
-    function utf8_hex_to_int( $str )
-	{
+    function utf8_hex_to_int(string $str): int
+    {
 		if( preg_match( '/^(?:\\\u|U\+|)([a-z0-9]{4,6})$/i' , $str , $match ) )
 		{
 			return ( int ) hexdec( $match[1] );
@@ -933,35 +936,35 @@
 		
 		return 0;
 	}
-    
-    
-    /**
-     * utf8_chr_to_hex( )
-     * 
-     * Get hexadecimal code point (U+xxxx) of a UTF-8 encoded character
-     * @since 1.0
-     * 
-     * @param    string $chr The input character
-     * @return   string The Code Point encoded as U+xxxx
-    */
-    
-    function utf8_chr_to_hex( $chr , $pfix = 'U+' )
-	{
+
+
+/**
+ * utf8_chr_to_hex( )
+ *
+ * Get hexadecimal code point (U+xxxx) of a UTF-8 encoded character
+ * @param string $chr The input character
+ * @param string $pfix
+ * @return   string The Code Point encoded as U+xxxx
+ * @since 1.0
+ */
+
+function utf8_chr_to_hex(string $chr , $pfix = 'U+'): string
+{
 		return utf8_int_to_hex( utf8_ord( $chr ) , $pfix );
 	}
+
+
+/**
+ * utf8_word_count( )
+ *
+ * Counts number of words in the UTF-8 string
+ * @param string $str The input string
+ * @return   int The number of words in the string
+ * @since 1.0
+ *
+ */
     
-    
-    /**
-     * utf8_word_count( )
-     * 
-     * Counts number of words in the UTF-8 string
-     * @since 1.0
-     * 
-     * @param    string $str The input string
-     * @return   int The number of words in the string
-    */
-    
-    function utf8_word_count( $str )
+    function utf8_word_count(string $str): int
     {
         return count( explode( '-' , utf8_url_slug( $str ) ) );
     }
@@ -973,38 +976,37 @@
     
     
     //Since Version 1.2
+
+
+/**
+ * utf8_string( )
+ *
+ * Makes a UTF-8 string from Code  points
+ * @param array $array Integer or Hexadecimal codepoints
+ * @return   string UTF-8 encoded string
+ * @since 1.2
+ *
+ */
     
-    
-    /**
-     * utf8_string( )
-     * 
-     * Makes a UTF-8 string from Code  points
-     * @since 1.2
-     * 
-     * @param    array $array Integer or Hexadecimal codepoints
-     * @return   string UTF-8 encoded string
-    */
-    
-    function utf8_string( $array )
+    function utf8_string(array $array): string
     {
         return implode( array_map( 'utf8_chr' , $array ) );
     }
+
+
+/**
+ * utf8_substr_count( )
+ *
+ * Count the number of sub string occurances
+ * @param string $haystack The string to search in
+ * @param string $needle The string to search for
+ * @param int $offset The offset where to start counting
+ * @param null $length The maximum length after the specified offset to search for the substring.
+ * @return   int number of occurances of $needle
+ * @since 1.2
+ */
     
-    
-    /**
-     * utf8_substr_count( )
-     * 
-     * Count the number of sub string occurances
-     * @since 1.2
-     * 
-     * @param    string $haystack The string to search in
-     * @param    string $needle The string to search for
-     * @param    int $offset The offset where to start counting
-     * @param    int $length The maximum length after the specified offset to search for the substring.
-     * @return   int number of occurances of $needle
-    */
-    
-    function utf8_substr_count( $haystack , $needle , $offset = 0 , $length = NULL )
+    function utf8_substr_count(string $haystack , string $needle , $offset = 0 , $length = NULL): int
     {
         if( $offset || $length )
         {
@@ -1013,36 +1015,35 @@
         
         return ( $length === null ? substr_count( $haystack , $needle , $offset ) : substr_count( $haystack , $needle , $offset , $length ) );
     }
+
+
+/**
+ * is_ascii( )
+ *
+ * Checks if a string is 7 bit ASCII
+ * @param string $str The string to check
+ * @return   bool True if ASCII, False otherwise
+ * @since 1.2
+ *
+ */
     
-    
-    /**
-     * is_ascii( )
-     * 
-     * Checks if a string is 7 bit ASCII
-     * @since 1.2
-     * 
-     * @param    string $str The string to check
-     * @return   bool True if ASCII, False otherwise
-    */
-    
-    function is_ascii( $str )
+    function is_ascii(string $str): bool
     {
         return ( bool ) !preg_match( '/[\x80-\xFF]/' , $str );
     }
+
+
+/**
+ * utf8_range( )
+ *
+ * Create an array containing a range of UTF-8 characters
+ * @param mixed $var1 Numeric or hexadecimal code points, or a UTF-8 character to start from
+ * @param mixed $var2 Numeric or hexadecimal code points, or a UTF-8 character to end at
+ * @return   array Array of UTF-8 characters
+ * @since 1.2
+ */
     
-    
-    /**
-     * utf8_range( )
-     * 
-     * Create an array containing a range of UTF-8 characters
-     * @since 1.2
-     * 
-     * @param    mixed $var1 Numeric or hexadecimal code points, or a UTF-8 character to start from
-     * @param    mixed $var2 Numeric or hexadecimal code points, or a UTF-8 character to end at
-     * @return   array Array of UTF-8 characters
-    */
-    
-    function utf8_range( $var1 , $var2 )
+    function utf8_range(mixed $var1 , mixed $var2): array
     {
         if( ctype_digit( ( string ) $var1 ) )
         {
@@ -1090,7 +1091,7 @@
      * @return   string String consisting of random characters
     */
     
-    function utf8_hash( $len = 8 )
+    function utf8_hash( $len = 8 ): string
     {
         Static $chrs        = array( );
         Static $chrs_len    = null;
@@ -1122,72 +1123,73 @@
         
         return $hash;
     }
+
+
+/**
+ * utf8_chr_map( )
+ *
+ * Applies callback to all characters of a string
+ * @param string $callback The callback function
+ * @param string $str UTF-8 string to run callback on
+ * @return   array The outcome of callback
+ * @since 1.2
+ */
     
-    
-    /**
-     * utf8_chr_map( )
-     * 
-     * Applies callback to all characters of a string
-     * @since 1.2
-     * 
-     * @param    string $callback The callback function
-     * @param    string $str UTF-8 string to run callback on
-     * @return   array The outcome of callback
-    */
-    
-    function utf8_chr_map( $callback , $str )
+    function utf8_chr_map(string $callback , string $str): array
     {
         $chrs    = utf8_split( $str );
         
-        return array_map( $callback , $chars );
+        return array_map( $callback , $chrs );
     }
-    
-    
-    /**
-     * utf8_callback( )
-     * 
-     * @Alias of utf8_chr_map( )
-     * @since 1.2
-    */
-    
-    function utf8_callback( $callback , $str )
-    {
+
+
+/**
+ * utf8_callback( )
+ *
+ * @Alias of utf8_chr_map( )
+ * @param $callback
+ * @param $str
+ * @return array
+ * @since 1.2
+ */
+
+function utf8_callback( $callback , $str ): array
+{
         return utf8_chr_map( $callback , $str );
     }
-    
-    
-    /**
-     * utf8_access( )
-     * 
-     * Returns a single UTF-8 character from string.
-     * @since 1.2
-     * 
-     * @param    string $str UTF-8 string
-     * @param    int $pos The position of character to return.
-     * @return   string Single Multi-Byte character
-    */
-    
-    function utf8_access( $string , $pos )
-    {
+
+
+/**
+ * utf8_access( )
+ *
+ * Returns a single UTF-8 character from string.
+ * @param $string
+ * @param int $pos The position of character to return.
+ * @return   string Single Multi-Byte character
+ * @since 1.2
+ */
+
+function utf8_access($string , int $pos): bool|string
+{
         //return the character at the specified position: $str[1] like functionality
         
         return utf8_substr( $string , $pos , 1 );
     }
+
+
+/**
+ * utf8_str_sort( )
+ *
+ * Sort all characters according to code points
+ * @param string $str UTF-8 string
+ * @param bool $unique Sort unique. If true, repeated characters are ignored
+ * @param bool $desc If true, will sort characters in reverse code point order.
+ * @return   string String of sorted characters
+ * @since 1.2
+ *
+ */
     
-    
-    /**
-     * utf8_str_sort( )
-     * 
-     * Sort all characters according to code points
-     * @since 1.2
-     * 
-     * @param    string $str UTF-8 string
-     * @param    bool $unique Sort unique. If true, repeated characters are ignored
-     * @param    bool $desc If true, will sort characters in reverse code point order.
-     * @return   string String of sorted characters
-    */
-    
-    function utf8_str_sort( $str , $unique = false , $desc = false )
+    function utf8_str_sort(string $str , $unique = false , $desc = false): string
     {
         $array    = utf8_codepoints( $str );
         
@@ -1207,21 +1209,21 @@
         
         return utf8_string( $array );
     }
-    
-    
-    /**
-     * utf8_strip_tags( )
-     * 
-     * Strip HTML and PHP tags from a string
-     * @since 1.2
-     * 
-     * @param    string $str UTF-8 string
-     * @param    string $allowable_tags The tags to allow in the string.
-     * @return   string The stripped string.
-    */
-    
-    function utf8_strip_tags( $string , $allowable_tags = '' )
-    {
+
+
+/**
+ * utf8_strip_tags( )
+ *
+ * Strip HTML and PHP tags from a string
+ * @param $string
+ * @param string $allowable_tags The tags to allow in the string.
+ * @return   string The stripped string.
+ * @since 1.2
+ *
+ */
+
+function utf8_strip_tags( $string , $allowable_tags = '' ): string
+{
         //clean broken utf8
         $string = utf8_clean( $string );
         
@@ -1236,59 +1238,55 @@
     
     
     //Since Version 1.3
+
+
+/**
+ * utf8_str_replace( )
+ *
+ * UTF-8 aware replace all occurrances of a string with another string
+ * @param mixed $search The value being searched for
+ * @param mixed $replace value that replaces search values
+ * @param mixed $subject The string or array being searched and replaced on.
+ * @param int $count Holds number of replaced needles
+ * @return   mixed string or array with replaced values
+ * @since 1.3
+ */
     
-    
-    
-    /**
-     * utf8_str_replace( )
-     * 
-     * UTF-8 aware replace all occurrances of a string with another string
-     * @since 1.3
-     * 
-     * @param    mixed $search The value being searched for
-     * @param    mixed $replace value that replaces search values
-     * @param    mixed $subject The string or array being searched and replaced on.
-     * @param    int $count Holds number of replaced needles
-     * @return   mixed string or array with replaced values
-    */
-    
-    function utf8_str_replace( $search , $replace , $subject , &$count = 0 )
+    function utf8_str_replace(mixed $search , mixed $replace , mixed $subject , &$count = 0): mixed
     {
         return str_replace( $search , $replace , $subject , $count );
     }
-    
-    
-    /**
-     * utf8_str_repeat( )
-     * 
-     * Repeat a UTF-8 encoded string
-     * @since 1.3
-     * 
-     * @param    string $input The string to be repeated
-     * @param    int $multiplier Number of times string to be repeated
-     * @return   string Returns the repeated string
-    */
-    
-    function utf8_str_repeat( $string , $multiplier )
-    {
+
+
+/**
+ * utf8_str_repeat( )
+ *
+ * Repeat a UTF-8 encoded string
+ * @param $string
+ * @param int $multiplier Number of times string to be repeated
+ * @return   string Returns the repeated string
+ * @since 1.3
+ */
+
+#[Pure] function utf8_str_repeat($string , int $multiplier): string
+{
         return str_repeat( $string , $multiplier );
     }
+
+
+/**
+ * utf8_str_pad( )
+ *
+ * Pad a UTF-8 string to given length with another string
+ * @param string $input The input string
+ * @param int $pad_length The length of return string
+ * @param string $pad_string String to use for padding the input string
+ * @param int $pad_type can be STR_PAD_RIGHT, STR_PAD_LEFT or STR_PAD_BOTH
+ * @return   string Returns the padded string
+ * @since 1.3
+ */
     
-    
-    /**
-     * utf8_str_pad( )
-     * 
-     * Pad a UTF-8 string to given length with another string
-     * @since 1.3
-     * 
-     * @param    string $input The input string
-     * @param    int $pad_length The length of return string
-     * @param    string $pad_string String to use for padding the input string
-     * @param    int $pad_type can be STR_PAD_RIGHT, STR_PAD_LEFT or STR_PAD_BOTH
-     * @return   string Returns the padded string
-    */
-    
-    function utf8_str_pad( $input , $pad_length , $pad_string = ' ' , $pad_type = STR_PAD_RIGHT )
+    function utf8_str_pad(string $input , int $pad_length , $pad_string = ' ' , $pad_type = STR_PAD_RIGHT): string
     {
         $input_length    = utf8_strlen( $input );
         
@@ -1327,21 +1325,20 @@
         
         return $input;
     }
+
+
+/**
+ * utf8_strrpos( )
+ *
+ * Find position of last occurrence of a char in a UTF-8 string
+ * @param string $haystack The string to search in
+ * @param string $needle The string to search for
+ * @param int $offset Number of char to ignore from start or end
+ * @return   int THe position of last occurrance of needle
+ * @since 1.3
+ */
     
-    
-    /**
-     * utf8_strrpos( )
-     * 
-     * Find position of last occurrence of a char in a UTF-8 string
-     * @since 1.3
-     * 
-     * @param    string $haystack The string to search in
-     * @param    string $needle The string to search for
-     * @param    int $offset Number of char to ignore from start or end
-     * @return   int THe position of last occurrance of needle
-    */
-    
-    function utf8_strrpos( $haystack , $needle , $offset = 0 )
+    function utf8_strrpos(string $haystack , string $needle , $offset = 0): bool|int
     {
         if( ( ( int ) $needle ) === $needle && ( $needle >= 0 ) )
         {
@@ -1387,20 +1384,20 @@
         
         return false;
     }
+
+
+/**
+ * utf8_remove_duplicates( )
+ *
+ * Removes duplicate occurrances of a string in another string
+ * @param string $str The base string
+ * @param string $what String to search for in the base string
+ * @return   string The result string with removed duplicates
+ * @since 1.3
+ *
+ */
     
-    
-    /**
-     * utf8_remove_duplicates( )
-     * 
-     * Removes duplicate occurrances of a string in another string
-     * @since 1.3
-     * 
-     * @param    string $str The base string
-     * @param    string $what String to search for in the base string
-     * @return   string The result string with removed duplicates
-    */
-    
-    function utf8_remove_duplicates( $str , $what = ' ' )
+    function utf8_remove_duplicates(string $str , $what = ' '): string
     {
         if( is_string( $what ) )
         {
@@ -1428,7 +1425,7 @@
      * @return   array An array with numeric code point as key and White Space Character as value
     */
     
-    function utf8_ws( )
+    function utf8_ws( ): array
     {
         Static $white = array( 
             
@@ -1463,19 +1460,18 @@
         
         return $white;
     }
+
+
+/**
+ * utf8_trim_util( )
+ *
+ * For internal use - Prepares a string and given chars for trim operations
+ * @param string $string The string to be trimmed
+ * @param string $chrs Optional characters to be stripped
+ * @since 1.3
+ */
     
-    
-    /**
-     * utf8_trim_util( )
-     * 
-     * For internal use - Prepares a string and given chars for trim operations
-     * @since 1.3
-     * 
-     * @param    string $string The string to be trimmed
-     * @param    string $chrs Optional characters to be stripped
-    */
-    
-    function utf8_trim_util( &$string , &$chrs )
+    function utf8_trim_util(string &$string , string &$chrs)
     {
         if( empty( $chrs ) )
         {
@@ -1503,7 +1499,7 @@
      * @return   string The trimmed string
     */
     
-    function utf8_trim( $string = '' , $chrs = '' )
+    function utf8_trim( $string = '' , $chrs = '' ): bool|string
     {
         $string    = utf8_ltrim( $string , $chrs );
         
@@ -1522,7 +1518,7 @@
      * @return   string The string with unwanted characters stripped from the left
     */
     
-    function utf8_ltrim( $string = '' , $chrs = '' )
+    function utf8_ltrim( $string = '' , $chrs = '' ): bool|string
     {
         utf8_trim_util( $string , $chrs );
         
@@ -1550,7 +1546,7 @@
      * @return   string The string with unwanted characters stripped from the right
     */
     
-    function utf8_rtrim( $string = '' , $chrs = '' )
+    function utf8_rtrim( $string = '' , $chrs = '' ): bool|string
     {
         utf8_trim_util( $string , $chrs );
         
@@ -1565,19 +1561,19 @@
         
         return utf8_substr( $string , 0 , $len );
     }
+
+
+/**
+ * utf8_strtolower( )
+ *
+ * Make a UTF-8 string Lower Case
+ * @param string $str The input string
+ * @return   string The string with all upper case chars turned to lower case
+ * @since 1.3
+ *
+ */
     
-    
-    /**
-     * utf8_strtolower( )
-     * 
-     * Make a UTF-8 string Lower Case
-     * @since 1.3
-     * 
-     * @param    string $str The input string
-     * @return   string The string with all upper case chars turned to lower case
-    */
-    
-    function utf8_strtolower( $str )
+    function utf8_strtolower(string $str): string
     {
         static $table = null;
         
@@ -1599,19 +1595,19 @@
         
         return strtr( $str , $table );
     }
+
+
+/**
+ * utf8_strtoupper( )
+ *
+ * Make a UTF-8 string Upper Case
+ * @param string $str The input string
+ * @return   string The string with all lower case chars turned to upper case
+ * @since 1.3
+ *
+ */
     
-    
-    /**
-     * utf8_strtoupper( )
-     * 
-     * Make a UTF-8 string Upper Case
-     * @since 1.3
-     * 
-     * @param    string $str The input string
-     * @return   string The string with all lower case chars turned to upper case
-    */
-    
-    function utf8_strtoupper( $str )
+    function utf8_strtoupper(string $str): string
     {
         static $table = null;
         
@@ -1644,7 +1640,7 @@
      * @return   array An array with lower case chars as keys and upper chars as values
     */
     
-    function utf8_case_table( )
+    function utf8_case_table( ): array
     {
         static $case = array(
             
@@ -1917,7 +1913,7 @@
      * @return   bool True if available, False otherwise
     */
     
-    function mbstring_loaded( )
+    function mbstring_loaded( ): ?bool
     {
         static $flag = null;
         
@@ -1939,7 +1935,7 @@
      * @return   bool True if available, False otherwise
     */
     
-    function iconv_loaded( )
+    function iconv_loaded( ): ?bool
     {
         static $flag = null;
         
@@ -1950,51 +1946,51 @@
         
         return $flag;
     }
+
+
+/**
+ * utf8_ucfirst( )
+ *
+ * Makes string's first char Uppercase
+ * @param string $str The input string
+ * @return   string The resulting string
+ * @since 1.3
+ *
+ */
     
-    
-    /**
-     * utf8_ucfirst( )
-     * 
-     * Makes string's first char Uppercase
-     * @since 1.3
-     * 
-     * @param    string $str The input string
-     * @return   string The resulting string
-    */
-    
-    function utf8_ucfirst( $str )
+    function utf8_ucfirst(string $str): string
     {
         return utf8_strtoupper( utf8_substr( $str , 0 , 1 ) ) . utf8_substr( $str , 1 );
     }
+
+
+/**
+ * utf8_lcfirst( )
+ *
+ * Makes string's first char Lowercase
+ * @param string $str The input string
+ * @return   string The resulting string
+ * @since 1.3
+ *
+ */
     
-    
-    /**
-     * utf8_lcfirst( )
-     * 
-     * Makes string's first char Lowercase
-     * @since 1.3
-     * 
-     * @param    string $str The input string
-     * @return   string The resulting string
-    */
-    
-    function utf8_lcfirst( $str )
+    function utf8_lcfirst(string $str): string
     {
         return utf8_strtolower( utf8_substr( $str , 0 , 1 ) ) . utf8_substr( $str , 1 );
     }
+
+
+/**
+ * utf8_ucwords( )
+ *
+ * Uppercase the first character of each word in a string
+ * @param string $str The input string
+ * @return   string The resulting string
+ * @since 1.3
+ *
+ */
     
-    
-    /**
-     * utf8_ucwords( )
-     * 
-     * Uppercase the first character of each word in a string
-     * @since 1.3
-     * 
-     * @param    string $str The input string
-     * @return   string The resulting string
-    */
-    
-    function utf8_ucwords( $str )
+    function utf8_ucwords(string $str): string
     {
         foreach( utf8_ws( ) as $ws )
         {
@@ -2013,39 +2009,37 @@
         
         return utf8_ucfirst( $str );
     }
+
+
+/**
+ * utf8_stripos( )
+ *
+ * Find position of first occurrence of a case-insensitive string
+ * @param string $haystack The string to look in
+ * @param string $needle The string to look for
+ * @param int $offset (Optional) Number of characters to ignore in the begining
+ * @return   int The position of needle
+ * @since 1.3
+ */
     
-    
-    /**
-     * utf8_stripos( )
-     * 
-     * Find position of first occurrence of a case-insensitive string
-     * @since 1.3
-     * 
-     * @param    string $haystack The string to look in
-     * @param    string $needle The string to look for
-     * @param    int $offset (Optional) Number of characters to ignore in the begining
-     * @return   int The position of needle
-    */
-    
-    function utf8_stripos( $haystack , $needle , $offset = 0 )
+    function utf8_stripos(string $haystack , string $needle , $offset = 0): bool|int
     {
         return utf8_strpos( utf8_strtolower( $haystack ) , utf8_strtolower( $needle ) , $offset );
     }
+
+
+/**
+ * utf8_strripos( )
+ *
+ * Find position of last occurrence of a case-insensitive string
+ * @param string $haystack The string to look in
+ * @param string $needle The string to look for
+ * @param int $offset (Optional) Number of characters to ignore in the begining or end
+ * @return   int The position of offset
+ * @since 1.3
+ */
     
-    
-    /**
-     * utf8_strripos( )
-     * 
-     * Find position of last occurrence of a case-insensitive string
-     * @since 1.3
-     * 
-     * @param    string $haystack The string to look in
-     * @param    string $needle The string to look for
-     * @param    int $offset (Optional) Number of characters to ignore in the begining or end
-     * @return   int The position of offset
-    */
-    
-    function utf8_strripos( $haystack , $needle , $offset = 0 )
+    function utf8_strripos(string $haystack , string $needle , $offset = 0): bool|int
     {
         return utf8_strrpos( utf8_strtolower( $haystack ) , utf8_strtolower( $needle ) , $offset );
     }
@@ -2054,4 +2048,3 @@
     
     
     
-?>

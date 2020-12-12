@@ -42,4 +42,3 @@ $output['title'] = $title;
 
 echo json_encode($output);
 session_write_close();
-?>

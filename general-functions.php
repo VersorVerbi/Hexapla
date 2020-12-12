@@ -1,12 +1,15 @@
 <?php
 
+use JetBrains\PhpStorm\Pure;
+
 /**
  * Given a string, returns a string containing only the numeric digits (0-9)
- * @uses preg_replace()
  * @param string $str
  * @return string
+ * @uses preg_replace()
  */
-function numbersOnly($str) {
+function numbersOnly(string $str): string
+{
     return preg_replace('/\D/u', '', $str);
 }
 
@@ -53,7 +56,7 @@ function refArrayFromReference($ref, $book, $bookId): array {
  * @param $cv
  * @return array
  */
-function splitChapterVerse($cv): array {
+#[Pure] function splitChapterVerse($cv): array {
     $out = explode(':', $cv);
     if (count($out) > 1) return $out;
     $out = explode('.', $cv);
@@ -66,8 +69,11 @@ function splitChapterVerse($cv): array {
  * @param $db
  * @param $reference
  * @return int
+ * @throws HexaplaException
+ * @throws HexaplaException
  */
-function getLocation(&$db, $reference) {
+function getLocation(&$db, $reference): int
+{
     checkPgConnection($db);
     $book = bookFromReference($reference);
     $bookId = getBookId($db, $book);
@@ -82,7 +88,8 @@ function getLocation(&$db, $reference) {
     return $verseId;
 }
 
-function noQuotes($val) {
+#[Pure] function noQuotes($val): string
+{
     return trim($val, '"');
 }
 
@@ -146,9 +153,11 @@ function getVerseId(&$db, $chapterId, $verse): int {
  * @param array $indexArray
  * @param array $conversionIndex
  * @return int
+ * @throws HexaplaException
  */
-function locationWithIndex(&$db, $reference, &$indexArray, $conversionIndex) {
-    if (strpos($reference, "Esther 10") !== false) {
+function locationWithIndex(&$db, string $reference, array &$indexArray, array $conversionIndex): int
+{
+    if (str_contains($reference, "Esther 10")) {
         print_r($reference);
         print_r($indexArray[$reference]);
         print_r($conversionIndex[$reference]);
@@ -169,7 +178,8 @@ function locationWithIndex(&$db, $reference, &$indexArray, $conversionIndex) {
  * @param $convList
  * @return array
  */
-function getConversionsByDisplayRef($convList) {
+function getConversionsByDisplayRef($convList): array
+{
     if (count($convList) == 0) return [];
     $columns[] = HexaplaConversion::LOCATION_ID;
     $columns[] = HexaplaConversion::DISPLAY_NAME;
@@ -228,22 +238,28 @@ function getStandardizedReference(&$db, $roughReference, &$bookName = '', &$chap
 
 /**
  * @param array $row from the conversion tests table
+ * @return bool
  */
-function rowIsEsther($row) {
+#[Pure] function rowIsEsther(array $row): bool
+{
     return (bookIsEsther($row['book1name']) || bookIsEsther($row['book2name']));
 }
 
 /**
  * @param string $bookName name of a book
+ * @return bool
  */
-function bookIsEsther($bookName) {
+#[Pure] function bookIsEsther(string $bookName): bool
+{
     return in_array($bookName, array('Esther', 'Esther (Greek)'));
 }
 
 /**
  * @param string $bookName either "Esther" or "Esther (Greek)"
+ * @return string
  */
-function reverseEsther($bookName) {
+function reverseEsther(string $bookName): string
+{
     if ($bookName === 'Esther') {
         return 'Esther (Greek)';
     } else {
@@ -251,7 +267,8 @@ function reverseEsther($bookName) {
     }
 }
 
-function cvTrim($reducedReference) {
+#[Pure] function cvTrim($reducedReference): string
+{
     return trim($reducedReference, ".:;, \t\n\r\0\x0B");
 }
 
@@ -259,7 +276,8 @@ function cvTrim($reducedReference) {
  * @param array $arr Ideally, array of booleans, but will accept any truthy/falsey array
  * @return int Number of truthy (as opposed to falsey) values in an array
  */
-function num_true($arr) {
+#[Pure] function num_true(array $arr): int
+{
     if (is_null($arr) || !isset($arr) || count($arr) === 0) {
         return 0;
     }
@@ -275,11 +293,13 @@ function num_true($arr) {
  * @param array $exceptKeys Numeric array of keys to remove from the original array
  * @return array The original array, except the specified keys
  */
-function array_except($array, $exceptKeys) {
+#[Pure] function array_except(array $array, array $exceptKeys): array
+{
     return array_diff_key($array, array_flip($exceptKeys));
 }
 
-function hasNoValue($val) {
+#[Pure] function hasNoValue($val): bool
+{
     if (is_null($val)) return true;
     if (strlen($val) === 0) return true;
     if ($val === 'NULL') return true;

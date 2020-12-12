@@ -92,35 +92,35 @@ $lightLinks: #001fc5;
       @for $j from 2 through 6 {
         @if $j != $i {
           .diff#{$i}L .diff#{$j}L, .diff#{$j}L .diff#{$i}L {
-            background-color: linear-gradient(map.get($highlightMap, $i), map.get($highlightMap, $j));
+            background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j));
           }
 
           @for $k from 2 through 6 {
             $ij: $i, $j;
             @if not list.index($ij, $k) {
               .diff#{$i}L .diff#{$j}L .diff#{$k}L {
-                background-color: linear-gradient(map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k));
+                background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k));
               }
 
               @for $l from 2 through 6 {
                 $ijk: $i, $j, $k;
                 @if not list.index($ijk, $l) {
                   .diff#{$i}L .diff#{$j}L .diff#{$k}L .diff#{$l}L {
-                    background-color: linear-gradient(map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l));
+                    background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l));
                   }
 
                   @for $m from 2 through 6 {
                     $ijkl: $i, $j, $k, $l;
                     @if not list.index($ijkl, $m) {
                       .diff#{$i}L .diff#{$j}L .diff#{$k}L .diff#{$l}L .diff#{$m}L {
-                        background-color: linear-gradient(map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l), map.get($highlightMap, $m));
+                        background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l), map.get($highlightMap, $m));
                       }
 
                       @for $n from 2 through 6 {
                         $ijklm: $i, $j, $k, $l, $m;
                         @if not list.index($ijklm, $n) {
                           .diff#{$i}L .diff#{$j}L .diff#{$k}L .diff#{$l}L .diff#{$m}L .diff#{$n}L {
-                            background-color: linear-gradient(map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l), map.get($highlightMap, $m), map.get($highlightMap, $n));
+                            background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l), map.get($highlightMap, $m), map.get($highlightMap, $n));
                           }
                         }
                       }
@@ -921,15 +921,11 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
       text-align: center;
 
       &.occupied {
-        outline-color: aliceblue;
-        outline-width: 1px;
-        outline-style: solid;
+        outline: aliceblue solid 1px;
       }
 
       &.potentialTl {
-        outline-style: dashed;
-        outline-color: aliceblue;
-        outline-width: 2px;
+        outline: aliceblue dashed 2px;
       }
 
       div {

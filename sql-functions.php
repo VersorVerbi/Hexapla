@@ -1,17 +1,22 @@
 <?php
+
+use JetBrains\PhpStorm\Pure;
+
 require_once "dbconnect.php";
 require_once "import-functions.php";
 require_once "general-functions.php";
 require_once "lib/portable-utf8.php";
 
 /**
- * @uses checkPgConnection(), is_null(), strlen(), count(), is_numeric(), pg_query_params()
  * @param resource|null $pgConnection Connection to the PostgreSQL database; returns it if not set
  * @param string $tableName Name of the table to get ID rows from
  * @param array $searchCriteria Associative array where the key is the column name and the value is the search string
+ * @param string $idColumn
  * @return false|resource Results of the SQL query; use pg_fetch functions to retrieve individual rows
+ * @uses checkPgConnection(), is_null(), strlen(), getData()
  */
-function getIdRows(&$pgConnection, $tableName, $searchCriteria = [], $idColumn = HexaplaStandardColumns::ID) {
+function getIdRows(&$pgConnection, string $tableName, array $searchCriteria = [], string $idColumn = HexaplaStandardColumns::ID): ?bool
+{
     checkPgConnection($pgConnection);
     if (is_null($tableName) || strlen($tableName) === 0) {
         return null;
@@ -20,14 +25,16 @@ function getIdRows(&$pgConnection, $tableName, $searchCriteria = [], $idColumn =
 }
 
 /**
- * @uses checkPgConnection(), is_null(), strlen(), pg_query_params()
  * @param resource|null $pgConnection Connection to the PostgreSQL database; returns it if not set
  * @param string $tableName Name of the table to search
  * @param array $columns Array of column names as strings to get data from
  * @param array $searchCriteria Associative array where the key is the column name and the value is the search string
+ * @param array $sortColumns
  * @return false|resource Results of the SQL query; use pg_fetch functions to get individual rows
+ * @uses checkPgConnection(), is_null(), strlen(), pg_query_params()
  */
-function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = [], $sortColumns = []) {
+function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = []): ?bool
+{
     checkPgConnection($pgConnection);
     if (is_null($tableName) || strlen($tableName) === 0) {
         return null;
@@ -82,8 +89,7 @@ function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = []
         }
     }
     $sql .= ';';
-    $results = pg_query($pgConnection, $sql);
-    return $results;
+    return pg_query($pgConnection, $sql);
 }
 
 /**
@@ -91,24 +97,9 @@ function getData(&$pgConnection, $tableName, $columns = [], $searchCriteria = []
  * @param resource|null $pgConnection Either the connection to the PostgreSQL database or null; if null, gets set to that connection
  */
 function checkPgConnection(&$pgConnection) {
-    if (!$pgConnection || is_null($pgConnection)) {
+    if (!$pgConnection) {
         $pgConnection = getDbConnection();
     }
-}
-
-/**
- * @uses checkPgConnection(), pg_query(), pg_fetch_assoc()
- * @param resource|null $pgConnection Connection to the PostgreSQL database; returns it if not set
- * @param string $tableName Name of the table to get the highest ID from
- * @param string $idColumnName Name of the ID column; 'id' by default
- * @return mixed Highest (assumed most recent) row ID of the given table
- */
-function getLastInsertId(&$pgConnection, $tableName, $idColumnName = 'id') {
-    checkPgConnection($pgConnection);
-    $sql = 'SELECT MAX(' . $idColumnName . ') AS lastid FROM public."' . $tableName . '";';
-    $res = pg_query($pgConnection, $sql);
-    $row = pg_fetch_assoc($res);
-    return $row['lastid'];
 }
 
 /**
@@ -147,7 +138,8 @@ function getCount(&$pgConnection, $tableName, $searchCriteria = []): int {
  * @param string $idColumn
  * @return bool|resource
  */
-function putData(&$db, $tableName, $insertArray, $idColumn = HexaplaStandardColumns::ID) {
+function putData(&$db, string $tableName, array $insertArray, string $idColumn = HexaplaStandardColumns::ID): bool|string
+{
     checkPgConnection($db);
     $sql = 'INSERT INTO public.' . pg_escape_identifier($db, $tableName) . ' ';
     $columns = '';
@@ -213,7 +205,8 @@ function putData(&$db, $tableName, $insertArray, $idColumn = HexaplaStandardColu
  * @param string $idColumn
  * @return bool|mixed
  */
-function update(&$db, $tableName, $updates, $criteria = [], $idColumn = HexaplaStandardColumns::ID) {
+function update(&$db, string $tableName, array $updates, $criteria = [], $idColumn = HexaplaStandardColumns::ID): mixed
+{
     // TODO: handle situation where targeted record does not exist
     checkPgConnection($db);
     $sql = 'UPDATE public.' . pg_escape_identifier($tableName) . ' SET ';
@@ -240,7 +233,7 @@ function update(&$db, $tableName, $updates, $criteria = [], $idColumn = HexaplaS
         return false;
     } elseif (!is_null($idColumn)) {
         if ($tableName === HexaplaTables::TEXT_VALUE) {
-            updateStrongs($updates, $result, $idColumn, true);
+            updateStrongs($updates, $result, $idColumn);
         }
         $resultRow = pg_fetch_assoc($result);
         return ($resultRow !== false ? $resultRow[$idColumn] : true); // "true" in this case means the update was successful but unnecessary
@@ -255,7 +248,7 @@ function update(&$db, $tableName, $updates, $criteria = [], $idColumn = HexaplaS
  * @param string $idColumn
  * @param bool $insert
  */
-function updateStrongs($insertArray, $insertUpdateResult, $idColumn, $insert = true) {
+function updateStrongs(array $insertArray, $insertUpdateResult, string $idColumn, $insert = true) {
     $strongInserts = [];
     if (isset($insertArray[HexaplaTextStrongs::STRONG_ID]) && strlen($insertArray[HexaplaTextStrongs::STRONG_ID]) > 0) {
         $wordId = pg_fetch_assoc($insertUpdateResult)[$idColumn];
@@ -308,7 +301,8 @@ function updateStrongs($insertArray, $insertUpdateResult, $idColumn, $insert = t
  * @param $title
  * @return false|resource|null
  */
-function fullSearch(&$db, $reference, $translations, &$alternatives, &$title) {
+function fullSearch(&$db, $reference, $translations, &$alternatives, &$title): ?bool
+{
     checkPgConnection($db);
     $alternatives = [];
     $title = '';
@@ -338,35 +332,49 @@ function fullSearch(&$db, $reference, $translations, &$alternatives, &$title) {
 }
 
 /**
- * @param $resolve_reference
+ * @param string $resolve_reference
  * @return array
  */
-function resolveMore($resolve_reference): array
+#[Pure] function resolveMore(string $resolve_reference): array
 {
-    return str_getcsv(trim(trim($resolve_reference, '('), ')'), ',', '"');
+    return str_getcsv(trim(trim($resolve_reference, '('), ')'));
 }
 
 /**
  * @param resource $db
  * @return false|resource
  */
-function getVersions(&$db) {
+function getVersions(&$db): bool
+{
     checkPgConnection($db);
     $sql = "SELECT source_version.id, lang_id, \"language\".name AS lang, allows_actions, array_agg(CONCAT(source_version_term.term,'|',source_version_term.flag)) AS terms FROM source_version JOIN \"language\" ON lang_id = \"language\".id JOIN source_version_term ON source_version.id = version_id GROUP BY source_version.id, lang_id, lang, allows_actions ORDER BY lang_id;";
     return pg_query($sql);
 }
 
+/**
+ * @param resource $db
+ */
 function begin($db) {
     checkPgConnection($db);
     pg_query($db, "BEGIN");
 }
 
+/**
+ * @param resource $db
+ */
 function commit($db) {
     checkPgConnection($db);
     pg_query($db, "COMMIT");
 }
 
-function pg_implode($glue, $array, $literal = false) {
+/**
+ * @param string $glue
+ * @param array $array
+ * @param boolean $literal
+ * @return string
+ */
+function pg_implode(string $glue, array $array, $literal = false): string
+{
     if ($literal) {
         $formattedArray = array_map(function ($item) {
             return pg_escape_literal($item);
@@ -379,11 +387,21 @@ function pg_implode($glue, $array, $literal = false) {
     return implode($glue, $formattedArray);
 }
 
-function pg_bool($value) { // maybe this way we'll one day be able to improve PostgreSQL to return actual booleans
+/**
+ * @param string $value
+ * @return bool
+ */
+#[Pure] function pg_bool(string $value): bool
+{ // maybe this way we'll one day be able to improve PostgreSQL to return actual booleans
     return is_bool($value) ? $value : ($value === 't');
 }
 
-function pg_decode_array($aggregateString) {
+/**
+ * @param string $aggregateString
+ * @return array
+ */
+function pg_decode_array(string $aggregateString): array
+{
     $aggregateString = trim($aggregateString, '{}');
     $inQuote = false;
     $decoded = [];
@@ -408,7 +426,12 @@ function pg_decode_array($aggregateString) {
     return $decoded;
 }
 
-function terms_array($aggregateString) {
+/**
+ * @param string $aggregateString
+ * @return array
+ */
+function terms_array(string $aggregateString): array
+{
     $output = [];
     $aggArray = pg_decode_array($aggregateString);
     foreach ($aggArray as $value) {
@@ -462,8 +485,13 @@ class HexaplaTests {
     const LESS_THAN = 'LessThan';
     const GREATER_THAN = 'GreaterThan';
 
-    /** @throws NoOppositeTypeException */
-    static public function opposite($testType) {
+    /**
+     * @param $testType
+     * @return string
+     * @throws NoOppositeTypeException
+     */
+    static public function opposite($testType): string
+    {
         switch($testType) {
             case HexaplaTests::LAST:
                 throw new NoOppositeTypeException("", 0, null, get_defined_vars());

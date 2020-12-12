@@ -1,4 +1,5 @@
 <?php
+include "sql-functions.php";
 $versionsResource = getVersions($db);
 ?>
 <pre>

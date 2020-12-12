@@ -5,6 +5,8 @@
 //include_once "usfx-importer.php";
 //include_once "usx-importer.php";
 //include_once "zefania-importer.php";
+use JetBrains\PhpStorm\Pure;
+
 include_once "import-functions.php";
 include_once "general-functions.php";
 include_once "sql-functions.php";
@@ -64,7 +66,7 @@ try {
 try {
     $reader->set_perfLog(new PerformanceLogger('hexaPerf.txt', $PERF_TESTING));
     $reader->set_errorLog(new HexaplaErrorLog('hexaErrorLog.txt'));
-    $reader->open($sourceFile, 'utf-8', LIBXML_PARSEHUGE);
+    $reader->openThis($sourceFile, 'utf-8', LIBXML_PARSEHUGE);
     $reader->runTests($db);
     $reader->loadMetadata($db);
     $reader->identifyNumberSystem($db);
@@ -91,15 +93,15 @@ die(0);
 
 class hexaVerseObject {
     /** @var string Source reference (e.g., "Gen3:12" or "Matthew 26:14") */
-    private $reference;
+    private string $reference;
     /** @var int|string Unique location ID(s) for this reference object */
-    private $locationId;
+    private int|string $locationId;
 
     /**
      * hexaVerseObject constructor.
      * @param string $reference
      */
-    public function __construct($reference) {
+    public function __construct(string $reference) {
         $this->reference = $reference;
     }
 
@@ -118,22 +120,22 @@ class hexaVerseObject {
     /**
      * @param array $criteria SQL criteria array with column names as keys and values as values
      * @param bool $forSearch True if only returning SEARCH criteria, not ALL -- but we don't use that here
+     * @noinspection PhpUnusedParameterInspection
      */
-    public function toCriteria(&$criteria, $forSearch = false): void {
+    public function toCriteria(array &$criteria, $forSearch = false): void {
         if (isset($this->locationId)) $criteria[HexaplaTextValue::LOCATION_ID] = $this->locationId;
-        return;
     }
 }
 
 class hexaWord extends hexaVerseObject {
     /** @var int 0-indexed position in a verse */
-    private $position;
+    private int $position;
     /** @var string Value of this word/text/punctuation */
-    private $text;
+    private string $text;
     /** @var string Strong's Number */
-    private $strongs;
+    private string $strongs;
     /** @var string Source lemma */
-    private $lemma;
+    private string $lemma;
 
     /**
      * hexaWord constructor.
@@ -143,7 +145,7 @@ class hexaWord extends hexaVerseObject {
      * @param string $strongs
      * @param string $lemma
      */
-    public function __construct($myRef, $val, $myPos, $strongs = '', $lemma = '') {
+    #[Pure] public function __construct(string $myRef, string $val, int $myPos, $strongs = '', $lemma = '') {
         $this->position = $myPos;
         $this->text = $val;
         $this->strongs = $strongs;
@@ -167,7 +169,7 @@ class hexaWord extends hexaVerseObject {
         return $this->lemma;
     }
 
-    public function getTotalLength(): int {
+    #[Pure] public function getTotalLength(): int {
         return strlen($this->text) + 1; // extra 1 for space
     }
 
@@ -175,7 +177,7 @@ class hexaWord extends hexaVerseObject {
      * @param array $criteria SQL criteria array with column names as keys and values as values
      * @param bool $forSearch True if we only want to return SEARCH variables, not ALL variables
      */
-    public function toCriteria(&$criteria, $forSearch = false): void {
+    public function toCriteria(array &$criteria, $forSearch = false): void {
         if (!$forSearch && !isset($criteria[HexaplaTextValue::PUNCTUATION])) $criteria[HexaplaTextValue::PUNCTUATION] = HexaplaPunctuation::NOT;
         if (isset($this->position)) $criteria[HexaplaTextValue::POSITION] = $this->position;
         if (!$forSearch) {
@@ -184,7 +186,6 @@ class hexaWord extends hexaVerseObject {
         }
         // others should be taken care of elsewhere / already
         parent::toCriteria($criteria, $forSearch);
-        return;
     }
 
     public function upload($db, $version, $punc = "NotPunctuation"): void {/*
@@ -220,7 +221,7 @@ class hexaWord extends hexaVerseObject {
 class hexaPunctuation extends hexaWord {
     /** @var bool If true, follows the previous text exactly (no space before); if false, precedes the following
      *            text exactly (no space after). */
-    private $endingPunctuation;
+    private bool $endingPunctuation;
 
     /**
      * hexaPunctuation constructor.
@@ -231,7 +232,7 @@ class hexaPunctuation extends hexaWord {
      * @param string $lemma
      * @param bool $endingPunctuation
      */
-    public function __construct($myRef, $val, $myPos, $strongs = '', $lemma = '', $endingPunctuation = true) {
+    #[Pure] public function __construct(string $myRef, string $val, int $myPos, $strongs = '', $lemma = '', $endingPunctuation = true) {
         $this->endingPunctuation = $endingPunctuation;
         parent::__construct($myRef, $val, $myPos, $strongs, $lemma);
     }
@@ -240,7 +241,7 @@ class hexaPunctuation extends hexaWord {
         return $this->endingPunctuation;
     }
 
-    public function getTotalLength(): int {
+    #[Pure] public function getTotalLength(): int {
         return strlen($this->getText());
     }
 
@@ -248,81 +249,37 @@ class hexaPunctuation extends hexaWord {
      * @param array $criteria SQL criteria array with column names as keys and values as values
      * @param bool $forSearch True if only returning search variables
      */
-    public function toCriteria(&$criteria, $forSearch = false): void {
+    public function toCriteria(array &$criteria, $forSearch = false): void {
         if (!$forSearch) {
             if (isset($this->endingPunctuation)) $criteria[HexaplaTextValue::PUNCTUATION] = ($this->endingPunctuation ? HexaplaPunctuation::CLOSING : HexaplaPunctuation::OPENING);
         }
         parent::toCriteria($criteria, $forSearch);
-        return;
     }
 
     public function upload($db, $version, $punc = "NotPunctuation"): void {
         $punc = ($this->endingPunctuation ? "Closing" : "Opening");
         parent::upload($db, $version, $punc);
-        return;
     }
 }
 
 class hexaNote extends hexaVerseObject {
     /** @var string Text of the note on this reference */
-    private $noteText;
+    private string $noteText;
     /** @var string|null Target reference */
-    private $crossReference;
+    private ?string $crossReference;
     /** @var int|string|null Target reference location ID(s) */
-    private $crossRefId;
+    private null|int|string $crossRefId;
 
     /**
      * hexaNote constructor.
      * @param string $reference
      * @param string $text
-     * @param string|null $crossReference
+     * @param null $crossReference
      */
-    public function __construct($reference, $text = '', $crossReference = null) {
+    #[Pure] public function __construct(string $reference, $text = '', $crossReference = null) {
         $this->noteText = $text;
         $this->crossReference = $crossReference;
         parent::__construct($reference);
-    }
-
-    public function setText($newText) {
-        $this->noteText = $newText;
-    }
-
-    public function setCrossRef($newRef) {
-        $this->crossReference = $newRef;
-    }
-
-    public function getText(): string {
-        return $this->noteText;
-    }
-
-    public function getCrossRef(): string {
-        return $this->crossReference;
-    }
-
-    public function setCrossRefId($newRefId) {
-        $this->crossRefId = $newRefId;
-    }
-
-    public function getCrossRefId() {
-        return $this->crossRefId;
-    }
-
-    public function upload($db, $versionId): void {
-        if (!is_null($this->crossReference)) {
-            $valArray['loc_id'] = $this->getLocationId();
-            $valArray['ref_id'] = $this->crossRefId;
-            $valArray['version_id'] = $versionId;
-            pg_insert($db, NOTE_CROSSREF_TABLE(), $valArray);
-            free($valArray);
-        }
-        if (strlen($this->noteText) > 0) {
-            $valArray['loc_id'] = $this->getLocationId();
-            $valArray['note'] = $this->noteText;
-            $valArray['version_id'] = $versionId;
-            pg_insert($db, NOTE_TEXT_TABLE(), $valArray);
-            free($valArray);
-            return;
-        }
     }
 }
 
@@ -331,9 +288,9 @@ class hexaNote extends hexaVerseObject {
  */
 class hexaName {
     /** @var string Official name of this thing */
-    private $name;
+    private string $name;
     /** @var array List of string abbreviations or alternative names */
-    private $abbreviationList;
+    private array $abbreviationList;
 
     /**
      * hexaName constructor.
@@ -343,20 +300,6 @@ class hexaName {
     public function __construct($name = '', ...$abbrs) {
         $this->name = $name;
         $this->abbreviationList = $abbrs;
-    }
-
-    /**
-     * @param string $newName
-     */
-    public function setName($newName) {
-        $this->name = $newName;
-    }
-
-    /**
-     * @param string $newAbbr
-     */
-    public function addAbbreviation($newAbbr) {
-        $this->abbreviationList[] = $newAbbr;
     }
 
     /**
@@ -378,16 +321,16 @@ class hexaName {
  * Class hexaCopyright
  */
 class hexaCopyright {
-    const PUBLIC_DOMAIN = "Public domain";
+    // --Commented out by Inspection (12/12/2020 9:27 AM):const PUBLIC_DOMAIN = "Public domain";
     const COPYRIGHTED = "Copyright";
     /** @var int|null Current copyright year (not "original publication date," so we don't need to worry about BC) */
-    private $year;
+    private ?int $year;
     /** @var string|null The name of the publishing company or person(s) */
-    private $publisher;
+    private ?string $publisher;
     /** @var string|null textual representation of rights restrictions or availability */
-    private $rights;
+    private ?string $rights;
     /** @var string|null "Public domain" or "copyrighted," usually */
-    private $type;
+    private ?string $type;
 
     /**
      * hexaCopyright constructor.
@@ -400,58 +343,24 @@ class hexaCopyright {
     }
 
     /**
-     * @param string $newType
-     */
-    public function setType($newType) {
-        $this->type = $newType;
-    }
-
-    /**
-     * @param int $newYear
-     */
-    public function setYear($newYear) {
-        $this->year = $newYear;
-    }
-
-    /**
      * @param string $newRights
      */
-    public function setRights($newRights) {
+    public function setRights(string $newRights) {
         $this->rights = $newRights;
     }
 
     /**
      * @param string $newPublisher
      */
-    public function setPublisher($newPublisher) {
+    public function setPublisher(string $newPublisher) {
         $this->publisher = $newPublisher;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string {
-        return $this->type;
-    }
-
-    /**
-     * @return int
-     */
-    public function getYear(): int {
-        return $this->year;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRights(): string {
-        return $this->rights;
     }
 
     /**
      * @return string|null
      */
-    public function getPublisher() {
+    public function getPublisher(): ?string
+    {
         return $this->publisher;
     }
 
@@ -471,32 +380,32 @@ class hexaCopyright {
  */
 class hexaText {
     /** @var hexaName|null */
-    private $title;
+    private ?hexaName $title;
     /** @var hexaName|null */
-    private $translation;
+    private ?hexaName $translation;
     /** @var hexaCopyright|null */
-    private $copyright;
+    private ?hexaCopyright $copyright;
     /** @var array Array of hexaWord/hexaPunctuation objects */
-    private $wordList;
+    private array $wordList;
     /** @var string Unique identification piece for this text (usually provided by the source) */
-    private $uniqueId;
+    private string $uniqueId;
     /** @var array Metadata of unclear origins or purpose */
-    private $metadata;
+    private array $metadata;
     /** @var array Array of hexaNote objects */
-    private $nonCanonicalText;
+    private array $nonCanonicalText;
     /** @var array Array of conversion test results in the format $testResults['testId'] = true || false */
-    private $testResults;
+    private array $testResults;
     /** @var array Array of conversions used in the format $conversionsUsed['conversionId'] = true || false */
-    private $conversionsUsed;
+    private array $conversionsUsed;
     /** @var array Array of number systems used to identify which, if any, match this struct */
-    private $numberSystems;
+    private array $numberSystems;
     /** @var int ID of the number system used by this struct */
-    private $officialNumberSystem;
+    private int $officialNumberSystem;
 
     /**
      * hexaText constructor.
      */
-    public function __construct() {
+    #[Pure] public function __construct() {
         $this->title = new hexaName();
         $this->translation = new hexaName();
         $this->copyright = new hexaCopyright();
@@ -510,7 +419,8 @@ class hexaText {
      * Meant for printing debug data
      * @return string Closing <pre> tag
      */
-    public function __toString() {
+    public function __toString(): string
+    {
         echo "<pre>";
         print_r($this->title);
         print_r($this->translation);
@@ -529,7 +439,7 @@ class hexaText {
     /**
      * @param hexaWord $word A word to add to the list of words in this text
      */
-    public function addWord($word) {
+    public function addWord(hexaWord $word) {
         getStandardizedReference($db, $word->getReference(), $book, $chapter, $verse);
         $this->wordList[$book][$chapter][$verse][] = $word;
     }
@@ -537,7 +447,7 @@ class hexaText {
     /**
      * @param hexaNote $note A note to add to the list of notes in this text
      */
-    public function addNote($note) {
+    public function addNote(hexaNote $note) {
         $this->nonCanonicalText[] = $note;
     }
 
@@ -545,429 +455,21 @@ class hexaText {
      * @param string $metaname The name/key of this metadatum
      * @param string $metadatum The content of this metadatum
      */
-    public function addMetadata($metaname, $metadatum) {
+    public function addMetadata(string $metaname, string $metadatum) {
         $this->metadata[$metaname] = $metadatum;
     }
 
     /**
      * @param hexaName $newTitle
      */
-    public function setTitle($newTitle) {
+    public function setTitle(hexaName $newTitle) {
         $this->title = $newTitle;
-    }
-
-    /**
-     * @param hexaName $newTranslation
-     */
-    public function setTranslation($newTranslation) {
-        $this->translation = $newTranslation;
     }
 
     /**
      * @param hexaCopyright $newCopyright
      */
-    public function setCopyright($newCopyright) {
+    public function setCopyright(hexaCopyright $newCopyright) {
         $this->copyright = $newCopyright;
-    }
-
-    /**
-     * @param string $newId
-     */
-    public function setId($newId) {
-        $this->uniqueId = $newId;
-    }
-
-    /**
-     * @return hexaName
-     */
-    public function getTitle(): hexaName {
-        return $this->title;
-    }
-
-    /**
-     * @return hexaName
-     */
-    public function getTranslation(): hexaName {
-        return $this->translation;
-    }
-
-    /**
-     * @return hexaCopyright
-     */
-    public function getCopyright(): hexaCopyright {
-        return $this->copyright;
-    }
-
-    /**
-     * @return array
-     */
-    public function getWords(): array {
-        return $this->wordList;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string {
-        return $this->uniqueId;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMetadata(): array {
-        return $this->metadata;
-    }
-
-    /**
-     * @return array
-     */
-    public function getNotes(): array {
-        return $this->nonCanonicalText;
-    }
-
-    /**
-     * @param resource $conversionUses Results of searching for all Conversion-uses-Tests data
-     */
-    private function discernConversions($conversionUses): void {
-        while (($row = pg_fetch_assoc($conversionUses)) !== false) {
-            $check = true;
-            if (isset($this->conversionsUsed[$row['conversion_id']])) {
-                $check = $this->conversionsUsed[$row['conversion_id']];
-            }
-            if (!$check) continue; // this will never be true again, so don't bother
-            if ($row['reversed'] === 't') {
-                $check = $check && !$this->testResults[$row['test_id']];
-            } else {
-                $check = $check && $this->testResults[$row['test_id']];
-            }
-            $this->conversionsUsed[$row['conversion_id']] = $check;
-            if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
-                if ($row['conversion_id'] == 10176) {
-                    echo 'Conversion Info! ';
-                    print_r($row);
-                    echo 'Current result: ';
-                    print_r($this->conversionsUsed[$row['conversion_id']]);
-                    echo "\n";
-                }
-            }
-        }
-        return;
-    }
-
-    /**
-     * @param resource $nsData Results of searching for all Number-System-uses-Conversions data
-     */
-    private function identifyNumberSystem($nsData): void {
-        $counts = [];
-        while (($row = pg_fetch_assoc($nsData)) !== false) {
-            if (!isset($this->numberSystems[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]])) {
-                $check = true;
-                $counts[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]] = 0;
-            } else {
-                $check = $this->numberSystems[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]];
-            }
-            $counts[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]] += 1;
-            if (!$check) continue; // this will never be true again, so don't bother
-            $check = $check && $this->conversionsUsed[$row[HexaplaNumSysUsesConv::CONVERSION_ID]];
-            $this->numberSystems[$row[HexaplaNumSysUsesConv::NUMBER_SYSTEM_ID]] = $check;
-        }
-        $newConversions = [];
-        foreach ($this->conversionsUsed as $convId => $convUsed) {
-            if ($convUsed) {
-                $newConversions[] = $convId;
-            }
-        }
-        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
-            echo 'Number System info! ';
-            print_r($newConversions);
-        }
-        foreach ($this->numberSystems as $nsId => $isUsed) {
-            if ($isUsed) {
-                $criteria['ns_id'] = $nsId;
-                //$associatedConversions = getCount($db, LOC_NS_USES_CONV_TABLE(), $criteria);
-                $associatedConversions = $counts[$nsId];
-                if ($associatedConversions == count($newConversions)) {
-                    $this->officialNumberSystem = $nsId;
-                    break;
-                }
-            }
-        }
-        if (!isset($this->officialNumberSystem)) {
-            $needNew = false;
-            foreach ($this->conversionsUsed as $convUsed) {
-                if ($convUsed) {
-                    $needNew = true;
-                    break;
-                }
-            }
-            if (!$needNew) {
-                $this->officialNumberSystem = 1; // Standard
-            } else {
-                $db = getDbConnection();
-                $insertArray['name'] = $this->title->getName();
-                $newNsId = putData($db, LOC_NS_TABLE(), $insertArray);
-                unset($insertArray);
-                $insertArray['ns_id'] = $newNsId;
-                foreach ($newConversions as $convId) {
-                    $insertArray['conversion_id'] = $convId;
-                    pg_insert($db, LOC_NS_USES_CONV_TABLE(), $insertArray);
-                }
-                $this->officialNumberSystem = $newNsId;
-            }
-        }
-        return;
-    }
-
-    /**
-     *
-     */
-    public function upload(): void {/*
-        // If we're missing critical data, ask the user for it
-        // Step 1: Identify number system
-        //$this->evaluateTests(getData($db, LOC_CONV_TEST_TABLE()));
-        //$this->discernConversions(getData($db, LOC_CONV_USES_TEST_TABLE()));
-        //$this->identifyNumberSystem(getData($db, LOC_NS_USES_CONV_TABLE()));
-        //if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo 'Number System: ' . $this->officialNumberSystem . "\n";
-        // Step 2: Upload source metadata
-        $columns['id'] = true;
-        $criteria['name'] = $this->copyright->getPublisher();
-        $publisherSearch = getData($db, HexaplaTables::SOURCE_PUBLISHER, $columns, $criteria);
-        $row = pg_fetch_assoc($publisherSearch);
-        if ($row === false) {
-            $publisherId = putData($db, HexaplaTables::SOURCE_PUBLISHER, $criteria);
-        } else {
-            $publisherId = $row['id'];
-        }
-        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo "Publisher ID: " . ($publisherId === false ? "false" : $publisherId) . "\n";
-
-        $srcArray['publisher_id'] = $publisherId;
-        $srcArray['lang_id'] = 3; // how do we know this?
-        $srcArray['allows_actions'] = CAN_READ() + CAN_NOTE() + CAN_FOCUS() + CAN_DIFF(); // handle when diffing isn't allowed
-        $srcArray['copyright'] = $this->copyright->getRights();
-        $srcArray['user_id'] = CURRENT_USER(); // document owner/uploader
-        $srcArray['source_id'] = 1;
-        $versionId = putData($db, HexaplaTables::SOURCE_VERSION, $srcArray);
-        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) echo "Version ID: " . ($versionId === false ? "false" : $versionId) . "\n";
-        free($srcArray);
-        free($columns);
-        free($criteria);
-        $srcArray['version_id'] = $versionId;
-        $srcArray['term'] = $this->title->getName();
-        pg_insert($db, HexaplaTables::SOURCE_VERSION_TERM, $srcArray);
-        foreach ($this->title->getAbbreviations() as $abbr) {
-            $srcArray['term'] = $abbr;
-            pg_insert($db, HexaplaTables::SOURCE_VERSION_TERM, $srcArray);
-        }
-        free($srcArray);
-        // Step 3: Identify location IDs & upload data
-        $quickIndex = [];
-        $conversions = [];
-        foreach ($this->conversionsUsed as $convId => $isUsed) {
-            if ($isUsed) {
-                $conversions[] = $convId;
-            }
-        }
-        $indexedConversions = getConversionsByDisplayRef($conversions);
-        free($conversions);
-        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
-            echo "Indexed conversions: ";
-            print_r($indexedConversions);
-        }*/
-        /** @var hexaWord $word *//*
-        $i = 0;
-        foreach ($this->wordList as $book => $bookContents) {
-            foreach ($bookContents as $chapter => $chapterContents) {
-                foreach ($chapterContents as $verse => $verseContents) {
-                    foreach ($verseContents as $position => $word) {
-                        $ref = getStandardizedReference($db, $word->getReference());
-                        $word->setLocationId(locationWithIndex($db, $ref, $quickIndex, $indexedConversions));
-                        if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
-                            if ($i % 100 === 0) {
-                                print_r($word);
-                            }
-                        }
-                        $word->upload($db, $versionId);
-                        $i++;
-                    }
-                }
-            }
-        }
-        free($this->wordList);*/
-        /** @var hexaNote $note *//*
-        foreach ($this->nonCanonicalText as $note) {
-            $ref = getStandardizedReference($db, $word->getReference());
-            $note->setLocationId(locationWithIndex($db, $ref, $quickIndex, $indexedConversions));
-            $crossRef = $note->getCrossRef();
-            $note->setCrossRefId(locationWithIndex($db, $crossRef, $quickIndex, $indexedConversions));
-            $note->upload($db, $versionId);
-        }
-        free($this->nonCanonicalText);
-        free($quickIndex);
-        free($indexedConversions);*/
-    }
-
-    /**
-     * @param resource $testData Results of searching for all Conversion Test data
-     */
-    private function evaluateTests($testData): void {
-        while (($row = pg_fetch_assoc($testData)) !== false) {
-            $repeatBecauseEsther = rowIsEsther($row);
-            $reversedEstherOne = false;
-            $reversedEstherTwo = false;
-            $reversedBoth = false;
-            do {
-                if (isset($this->testResults[$row['id']]) && $this->testResults[$row['id']] === false && $repeatBecauseEsther) {
-                    // this will only happen if we've already run the test once
-                    // the first run was with both original names (e.g., Esther and Esther)
-                    // the second run is with name 1 reversed and name 2 normal (e.g., Esther (Greek) and Esther)
-                    // the third run is with name 1 reversed and name 2 reversed (e.g., Esther (Greek) and Esther (Greek))
-                    // the fourth run is with name 1 normal and name 2 reversed (e.g., Esther and Esther (Greek))
-                    // if ANY of these return true, the test is considered true
-                    if (bookIsEsther($row['book1name']) && !$reversedEstherOne) {
-                        $row['book1name'] = reverseEsther($row['book1name']);
-                        $reversedEstherOne = true;
-                    } elseif (bookIsEsther($row['book2name']) && !$reversedEstherTwo) {
-                        $row['book2name'] = reverseEsther($row['book2name']);
-                        $reversedEstherTwo = true;
-                    } elseif (bookIsEsther($row['book1name']) && bookIsEsther($row['book2name']) && !$reversedBoth) {
-                        $row['book1name'] = reverseEsther($row['book1name']);
-                        $reversedBoth = true;
-                    } else {
-                        break;
-                    }
-                }
-                $reverse = false;
-                $greater = true;
-                switch ($row['testtype']) {
-                    case 'Last':
-                        $this->testResults[$row['id']] =
-                            ($this->lastVerse($row['book1name'], $row['chapter1num']) == $row['verse1num']);
-                        break;
-                    /** @noinspection PhpMissingBreakStatementInspection */
-                    case 'NotExist':
-                        $reverse = true;
-                    case 'Exist':
-                        $this->testResults[$row['id']] =
-                            $this->verseExists($row['book1name'], $row['chapter1num'], $row['verse1num']);
-                        if ($reverse) $this->testResults[$row['id']] = !$this->testResults[$row['id']];
-                        break;
-                    /** @noinspection PhpMissingBreakStatementInspection */
-                    case 'LessThan':
-                        $greater = false;
-                    case 'GreaterThan':
-                        $this->testResults[$row['id']] =
-                            $this->lengthComparison($row['book1name'], $row['chapter1num'], $row['verse1num'],
-                                $row['book2name'], $row['chapter2num'], $row['verse2num'], $greater,
-                                $row['multiplier1'], $row['multiplier2']);
-                        break;
-                    default:
-                        $this->testResults[$row['id']] = false;
-                }
-            } while ($repeatBecauseEsther && !$this->testResults[$row['id']]);
-            if ($GLOBALS['DEBUG'] && $GLOBALS['VERBOSE']) {
-                if (in_array($row['id'], array(250, 1085, 1086, 1219))) {
-                    echo 'Test info! ';
-                    print_r($row);
-                    echo 'Test results: ';
-                    print_r($this->testResults[$row['id']]);
-                    echo "\n";
-                }
-            }
-        }
-        return;
-    }
-
-    /**
-     * Returns the last verse (technically, the count of verses) in the given book & chapter combo
-     * @param string $book The proper name of the book
-     * @param int $chapter The chapter number
-     * @return int The highest verse number in the chapter
-     */
-    private function lastVerse($book, $chapter): int {
-        $maxVerse = -1;
-        if (isset($this->wordList[$book])) {
-            if (isset($this->wordList[$book][$chapter])) {
-                foreach ($this->wordList[$book][$chapter] as $verse => $words) {
-                    if ($verse > $maxVerse) {
-                        $maxVerse = $verse;
-                    }
-                }
-            }
-        }
-        return $maxVerse;
-    }
-
-    /**
-     * Determines whether the given verse exists in this text
-     * @param string $book The proper name of the book
-     * @param int $chapter The chapter number
-     * @param int $verse The verse number
-     * @return bool True if the verse exists; false otherwise
-     */
-    private function verseExists($book, $chapter, $verse): bool {
-        return isset($this->wordList[$book][$chapter][$verse]);
-    }
-
-    /**
-     * Determines whether one verse is longer than another
-     * @param string $book1 The proper name of the book of the first verse to compare
-     * @param int $chapter1 The chapter number of the first verse to compare
-     * @param int $verse1 The verse number of the first verse to compare
-     * @param string $book2 The proper name of the book of the second verse to compare
-     * @param int $chapter2 The chapter number of the second verse to compare
-     * @param int $verse2 The verse number of the second verse to compare
-     * @param bool $oneGreater Set to true if the first verse should be longer than the second; set to false for the reverse
-     * @param float $oneMultiplier Length multiplier for the first verse
-     * @param float $twoMultiplier Length multiplier for the second verse
-     * @return bool True if both verses exist and the requested length comparison fits; false otherwise
-     */
-    private function lengthComparison(string $book1, int $chapter1, int $verse1,
-                                     string $book2, int $chapter2, int $verse2,
-                                     bool $oneGreater = true,
-                                     float $oneMultiplier = 1, float $twoMultiplier = 1): bool {
-        /** @var hexaWord $word1 */
-        $words1 = $this->getWord($book1, $chapter1, $verse1);
-        /** @var hexaWord $word2 */
-        $words2 = $this->getWord($book2, $chapter2, $verse2);
-        if (is_null($words1) || is_null($words2)) {
-            return false;
-        }
-        $length1 = 0;
-        $length2 = 0;
-        foreach ($words1 as $word1) {
-            $length1 += $word1->getTotalLength();
-        }
-        foreach ($words2 as $word2) {
-            $length2 += $word2->getTotalLength();
-        }
-        $length1 *= $oneMultiplier;
-        $length2 *= $twoMultiplier;
-        if ($oneGreater) {
-            return $length1 > $length2;
-        } else {
-            return $length2 > $length1;
-        }
-    }
-
-    /**
-     * @param $book
-     * @param $chapter
-     * @param $verse
-     * @return hexaWord|array|null
-     */
-    private function getWord($book, $chapter, $verse, $position = -1) {
-        if (isset($this->wordList[$book])) {
-            if (isset($this->wordList[$book][$chapter])) {
-                if (isset($this->wordList[$book][$chapter][$verse])) {
-                    if ($position >= 0 && isset($this->wordList[$book][$chapter][$verse][$position])) {
-                        return $this->wordList[$book][$chapter][$verse][$position]; // this specific word
-                    } elseif ($position < 0) {
-                        return $this->wordList[$book][$chapter][$verse]; // all words in this verse
-                    }
-                }
-            }
-        }
-        return null; // word/verse does not exist
     }
 }

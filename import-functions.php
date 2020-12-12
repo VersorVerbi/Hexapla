@@ -1,17 +1,20 @@
 <?php
 
+use JetBrains\PhpStorm\Pure;
+
 /**
  * Using an XML values array (output of xml_parse_into_struct), returns a specific value set as defined by
  * a given indices array.
- * @uses array_key_exists(), xml_get_value(), array_slice()
  * @param array $xmlArray Values output from xml_parse_into_struct or some sub-array thereof
  * @param array $indices List of indices to reach lower levels of the values array in the order they occur, e.g.,
  *                       if you want to reach $xmlArray[3]['attributes']['TYPE'], the $indices array should be:
  *                       [3,'attributes','TYPE']
  * @param mixed $ret Output variable; set to either the array or the value at the node desired
  * @return int 1 if there was an error ($xmlArray is missing a given index), 0 if successful
+ * @uses array_key_exists(), xml_get_value(), array_slice()
  */
-function xml_get_value($xmlArray, $indices, &$ret) {
+function xml_get_value(array $xmlArray, array $indices, mixed &$ret): int
+{
     if (!array_key_exists($indices[0], $xmlArray)) {
         return 1;
     } elseif (count($indices) > 1) {
@@ -25,13 +28,14 @@ function xml_get_value($xmlArray, $indices, &$ret) {
 /**
  * Using a subnode of an XML values array (output of xml_parse_into_struct), returns a specific attribute from that
  * node's attributes.
- * @uses array_key_exists(), xml_get_value()
  * @param array $xmlArray A node of an XML array that has or should have attributes
  * @param string $attr The name of the attribute we want to retrieve
  * @param string $ret The value of the requested attribute
  * @return int 1 if there was an error (no attributes on the node or attribute not found), 0 if successful
+ * @uses array_key_exists(), xml_get_value()
  */
-function xml_get_attribute($xmlArray, $attr, &$ret) {
+function xml_get_attribute(array $xmlArray, string $attr, string &$ret): int
+{
     if (!array_key_exists('attributes', $xmlArray)) {
         return 1;
     } else {
@@ -40,25 +44,27 @@ function xml_get_attribute($xmlArray, $attr, &$ret) {
 }
 
 /**
- * @uses xml_get_value()
  * @param array $xmlArray
  * @param array $indices
  * @param mixed $targetRet
  * @return bool
+ * @uses xml_get_value()
  */
-function xml_value_is($xmlArray, $indices, $targetRet) {
+function xml_value_is(array $xmlArray, array $indices, mixed $targetRet): bool
+{
     xml_get_value($xmlArray, $indices, $ret);
     return ($ret === $targetRet);
 }
 
 /**
- * @uses xml_get_attribute()
  * @param array $xmlArray
  * @param string $attr
  * @param mixed $targetRet
  * @return bool
+ * @uses xml_get_attribute()
  */
-function xml_attribute_is($xmlArray, $attr, $targetRet) {
+function xml_attribute_is(array $xmlArray, string $attr, mixed $targetRet): bool
+{
     xml_get_attribute($xmlArray, $attr, $ret);
     return ($ret === $targetRet);
 }
@@ -66,13 +72,14 @@ function xml_attribute_is($xmlArray, $attr, $targetRet) {
 /**
  * Using a subnode of an XML values array (output of xml_parse_into_struct), returns an array of attribute values from
  * that node's attributes.
- * @uses xml_get_attribute(), count()
  * @param array $xmlArray A node of an XML array that has or should have attributes
  * @param array $attrList An array of attribute names to retrieve
  * @param array $arrayRet An array of attribute values in the format $array['attrName']=attrValue
  * @return int 1 if there was an error (none of the requested attributes existed), 0 if successful at least once
+ * @uses xml_get_attribute(), count()
  */
-function xml_get_attribute_set($xmlArray, $attrList, &$arrayRet) {
+function xml_get_attribute_set(array $xmlArray, array $attrList, array &$arrayRet): int
+{
     $arrayRet = [];
     foreach ($attrList as $attr) {
         if (xml_get_attribute($xmlArray, $attr, $ret) === 0) {
@@ -89,26 +96,29 @@ function xml_get_attribute_set($xmlArray, $attrList, &$arrayRet) {
 /**
  * @return string Pattern for identifying word strings in regex (internationally capable)
  */
-function wordRegexPattern() {
+function wordRegexPattern(): string
+{
     return '(?:\p{L}|\p{M}|[\'-])+';
 }
 
 /**
  * @return string Pattern for identifying non-word strings (excluding spaces) in regex (internationally capable)
  */
-function nonwordRegexPattern() {
+function nonwordRegexPattern(): string
+{
     // TODO: account for weird punctuation like 'right quotation apostrophe' instead of regular apostrophe (we remove characters from words based on this regex rather than the one above)
     return '(?:\p{P}|\p{N}+|\p{S})';
 }
 
 /**
  * Given a string, determines whether that string is a properly formatted Strong's Number
- * @uses preg_match(), intval(), utf8_substr()
  * @param string $strNum The string to check
  * @return bool True if the given string is a Strong's Number; false otherwise
+ * @uses preg_match(), intval(), utf8_substr()
  */
-function isStrongsNumber($strNum) {
-    $matchesPattern = preg_match('/^(H|G)\d{1,4}$/u', $strNum) !== false;
+function isStrongsNumber(string $strNum): bool
+{
+    $matchesPattern = preg_match('/^([HG])\d{1,4}$/u', $strNum) !== false;
     if (!$matchesPattern) {
         return false;
     }
@@ -127,7 +137,8 @@ function isStrongsNumber($strNum) {
  * @param array $array A numerical array
  * @return int|null The last index in the array, -1 if the array is empty, or null if the array is associative
  */
-function getLastIndex(array $array) {
+function getLastIndex(array $array): ?int
+{
     if (count($array) === 0) {
         return -1;
     }
@@ -138,12 +149,13 @@ function getLastIndex(array $array) {
     return key($array);
 }
 
-function noWordSeparatorWritingSystems() {
+function noWordSeparatorWritingSystems(): string
+{
     return '/\p{Devanagari}|\p{Ethiopic}|\p{Gujarati}|\p{Han}|\p{Hanunoo}|\p{Hiragana}|\p{Katakana}|\p{Khmer}|\p{Lao}|\p{Myanmar}|\p{Runic}|\p{Tai_le}|\p{Balinese}|\p{Batak}|\p{Javanese}|\p{Vai}|\p{Thai}|\p{Yi}/u';
 }
 
 class HexaplaErrorLog {
-    private $logFile;
+    private string $logFile;
 
     public function __construct($fileName) {
         $this->logFile = $fileName;
@@ -153,7 +165,7 @@ class HexaplaErrorLog {
      * @param HexaplaException $exception
      * @param string $extraMessage
      */
-    public function log($exception, $extraMessage = '') {
+    public function log(HexaplaException $exception, $extraMessage = '') {
         file_put_contents($this->logFile,
             date('Y-m-d H:i:s e') . ' ' .
             get_class($exception) . ': ' .
@@ -170,7 +182,7 @@ class HexaplaErrorLog {
  */
 class HexaplaException extends Exception{
     /** @var array $locals */
-    private $locals;
+    private array $locals;
 
     /**
      * HexaplaException constructor.
@@ -179,7 +191,7 @@ class HexaplaException extends Exception{
      * @param Throwable|null $previous
      * @param array $locals
      */
-    public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
+    #[Pure] public function __construct($message = "", $code = 0, Throwable $previous = null, $locals = []) {
         $this->locals = $locals;
         parent::__construct($message, $code, $previous);
     }
@@ -188,29 +200,30 @@ class HexaplaException extends Exception{
      * @param Throwable $e
      * @return HexaplaException
      */
-    public static function toHexaplaException($e) {
+    public static function toHexaplaException(Throwable $e): HexaplaException {
         return new HexaplaException($e->getMessage(), $e->getCode(), $e->getPrevious());
     }
 
     /**
      * @return string
      */
-    public function getLocals() {
+    public function getLocals(): string
+    {
         return print_r($this->locals, true);
     }
 }
 
 class PerformanceLogger {
     /** @var string $logFile */
-    private $logFile;
+    private string $logFile;
     /** @var int $lastLog */
-    private $lastLog;
+    private int $lastLog;
     /** @var bool $isActive */
     private $isActive;
     /** @var bool $verbose */
-    private $verbose;
+    private bool $verbose;
     /** @var DateTime $veryBeginning */
-    private $veryBeginning;
+    private DateTime $veryBeginning;
 
     public function __construct($logFile, $isActive = true) {
         $this->logFile = $logFile;
@@ -234,7 +247,7 @@ class PerformanceLogger {
             ($this->verbose ? print_r($backtrace[1], true) . "\n" : '') .
             'Memory Usage: ' . memory_get_usage() . ' / ' . memory_get_usage(true) . "\n",
             ($first ? 0 : FILE_APPEND));
-        if (!$GLOBALS['DEBUG'] && $micros > 1000 && strpos($msg, "Conversions") === false && strpos($msg, " days,") === false && strpos($msg, "existingDataCheck") === false) {
+        if (!$GLOBALS['DEBUG'] && $micros > 1000 && !str_contains($msg, "Conversions") && !str_contains($msg, " days,") && !str_contains($msg, "existingDataCheck")) {
             throw new HexaplaException("taking too long --> ", -1, null, debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2));
         }
         $this->lastLog = microtime(true) * 1000;
@@ -256,7 +269,8 @@ class PerformanceLogger {
     }
 }
 
-function stripStrongsNums($strNum) {
+#[Pure] function stripStrongsNums($strNum): string
+{
     if (is_numeric($strNum)) {
         // TODO: assume Greek for now
         $strNum = 'G' . $strNum;

@@ -1,7 +1,7 @@
 <?php
 
 function usfx_import($simpleXml) {
-  $lang = $simpleXml->languageCode; // either 2-letter ISO code or 3-letter Ethnologue code, plus optional dialect indicator
+  /*$lang = $simpleXml->languageCode; // either 2-letter ISO code or 3-letter Ethnologue code, plus optional dialect indicator
   $books = $simpleXml->book;
   foreach ($books as $book) {
     $bookId = $book->id;
@@ -64,5 +64,5 @@ function usfx_import($simpleXml) {
     // ve = milestone marking end of a verse; content is comment
     // cp = chapter starting point... again? synonymous with 'c'
     // f = footnote
-  }
+  }*/
 }
