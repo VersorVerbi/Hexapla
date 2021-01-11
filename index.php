@@ -31,12 +31,12 @@ switch($page) {
     <meta charset="UTF-8" />
     <title>Modern Hexapla</title>
     <link type="text/css" rel="stylesheet" href="styles/icofont.min.css" />
-    <link type="text/css" rel="stylesheet" href="styles/leather-bound.css" />
+    <link type="text/css" rel="stylesheet" href="styles/jonah.css" />
     <script type="text/javascript" src="scripts/functions.js"></script>
     <script type="text/javascript" src="scripts/nav-and-search.js"></script>
     <script type="text/javascript" src="scripts/tl-config.js"></script>
 </head>
-<body class="dark">
+<body class="light">
     <div id="wrap">
         <?php include "header.php"; ?>
         <?php include "translation-controller.php"; ?>

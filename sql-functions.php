@@ -3,9 +3,9 @@
 use JetBrains\PhpStorm\Pure;
 
 require_once "dbconnect.php";
-require_once "import-functions.php";
 require_once "general-functions.php";
 require_once "lib/portable-utf8.php";
+require_once "HexaplaException.php";
 
 /**
  * @param resource|null $pgConnection Connection to the PostgreSQL database; returns it if not set
@@ -33,7 +33,7 @@ function getIdRows(&$pgConnection, string $tableName, array $searchCriteria = []
  * @return false|resource Results of the SQL query; use pg_fetch functions to get individual rows
  * @uses checkPgConnection(), is_null(), strlen(), pg_query_params()
  */
-function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = []): ?bool
+function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = [])
 {
     checkPgConnection($pgConnection);
     if (is_null($tableName) || strlen($tableName) === 0) {
@@ -203,7 +203,7 @@ function putData(&$db, string $tableName, array $insertArray, string $idColumn =
  * @param array $updates
  * @param array $criteria
  * @param string $idColumn
- * @return bool|mixed
+ * @return mixed (bool|mixed)
  */
 function update(&$db, string $tableName, array $updates, $criteria = [], $idColumn = HexaplaStandardColumns::ID): mixed
 {
@@ -299,9 +299,9 @@ function updateStrongs(array $insertArray, $insertUpdateResult, string $idColumn
  * @param $translations
  * @param $alternatives
  * @param $title
- * @return false|resource|null
+ * @return mixed (false|resource|null)
  */
-function fullSearch(&$db, $reference, $translations, &$alternatives, &$title): ?bool
+function fullSearch(&$db, $reference, $translations, &$alternatives, &$title): mixed
 {
     checkPgConnection($db);
     $alternatives = [];
@@ -342,13 +342,37 @@ function fullSearch(&$db, $reference, $translations, &$alternatives, &$title): ?
 
 /**
  * @param resource $db
- * @return false|resource
+ * @return array
  */
-function getVersions(&$db): bool
+function getVersions(&$db): array
 {
     checkPgConnection($db);
-    $sql = "SELECT source_version.id, lang_id, \"language\".name AS lang, allows_actions, array_agg(CONCAT(source_version_term.term,'|',source_version_term.flag)) AS terms FROM source_version JOIN \"language\" ON lang_id = \"language\".id JOIN source_version_term ON source_version.id = version_id GROUP BY source_version.id, lang_id, lang, allows_actions ORDER BY lang_id;";
-    return pg_query($sql);
+    begin($db);
+    pg_query($db, "SELECT translation_list('tcursor');");
+    $result = pg_query($db, "FETCH ALL IN tcursor;");
+    commit($db);
+    if ($result === false) {
+        return [];
+    }
+    $translations = [];
+    while (($row = pg_fetch_assoc($result)) !== false) {
+        $row['terms'] = terms_array($row['terms']);
+        $translations[] = $row;
+    }
+    return $translations;
+}
+
+function getVersionNames(&$db, $tList) {
+    checkPgConnection($db);
+    $terms = [];
+    $termResource = getData($db,
+        HexaplaTables::SOURCE_VERSION_TERM,
+        [HexaplaSourceVersionTerm::VERSION_ID, HexaplaSourceVersionTerm::TERM],
+        [HexaplaSourceVersionTerm::VERSION_ID => $tList, HexaplaSourceVersionTerm::FLAG => HexaplaTermFlag::PRIMARY]);
+    while (($row = pg_fetch_assoc($termResource)) !== false) {
+        $terms[$row[HexaplaSourceVersionTerm::VERSION_ID]] = $row[HexaplaSourceVersionTerm::TERM];
+    }
+    return $terms;
 }
 
 /**
@@ -527,6 +551,11 @@ class SortDirection {
 
 class NoOppositeTypeException extends HexaplaException {
 }
+
+class LangDirection {
+    const LTR = 'ltr';
+    const RTL = 'rtl';
+}
 #endregion
 
 #region Database Column Classes
@@ -614,7 +643,9 @@ class HexaplaLangParse implements HexaplaStandardColumns, HexaplaLemmaColumns {
     const MISC_FEATURES = 'misc_features';
 }
 class HexaplaLangStrongs implements HexaplaStandardColumns, HexaplaLemmaColumns {}
-class HexaplaLanguage implements  HexaplaStandardColumns, HexaplaNameColumns {}
+class HexaplaLanguage implements  HexaplaStandardColumns, HexaplaNameColumns {
+    const DIRECTION = 'direction';
+}
 class HexaplaLocTest implements HexaplaStandardColumns {
     const BOOK_1_NAME = 'book1name';
     const CHAPTER_1_NUM = 'chapter1num';

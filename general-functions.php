@@ -305,3 +305,34 @@ function reverseEsther(string $bookName): string
     if ($val === 'NULL') return true;
     return false;
 }
+
+/**
+ * @param string $targetId
+ * @param array $versionList
+ * @return array|null
+ */
+function getVersionFromList($targetId, $versionList) {
+    foreach ($versionList as $version) {
+        if ($version['id'] === $targetId) {
+            return $version;
+        }
+    }
+    return null;
+}
+
+function makeDraggableVersion($versionObject) {
+    return "<div id='" . $versionObject['id'] . "' class='transl' draggable='true' data-lang='" . $versionObject['lang'] ."'>" . $versionObject['terms']['Primary'][0] . (isset($versionObject['terms']['Abbreviation']) ? " (" . $versionObject['terms']['Abbreviation'][0] . ")" : "") . "</div>";
+}
+
+function piece($stringList, $delimiter, $target) {
+    $list = explode($delimiter, $stringList);
+    if (!isset($list[$target - 1])) {
+        return null;
+    }
+    return $list[$target - 1];
+}
+
+function inStringList($target, $stringList, $delimiter) {
+    $list = explode($delimiter, $stringList);
+    return in_array($target, $list);
+}

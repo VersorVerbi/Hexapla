@@ -2,8 +2,19 @@
 @use "sass:list";
 @use "sass:math";
 @function intdiv($dividend, $divisor) {
-  @return math.floor($dividend / $divisor);
+  $returnUnits: $dividend / no-units($dividend); // 1 units, e.g., 1px, 1em
+  $dividend: no-units($dividend);
+  $divisor: no-units($divisor);
+  @return math.floor($dividend / $divisor) * $returnUnits;
 }
+@function no-units($value) {
+  @if (not unitless($value)) {
+    @return $value / ($value * 0 + 1);
+  } @else {
+    @return $value;
+  }
+}
+$effectivelyMaxInt: 2147483647;
 
 //#region Theme Establishment
 $borderColor: black;
@@ -68,7 +79,7 @@ $lightLinks: #001fc5;
     background-color: map.get($colorMap, 'translationBg');
   }
 
-  .modal-content {
+  .popup {
     background-color: map.get($colorMap, 'modalBg');
     border-color: map.get($colorMap, 'modalBorder');
   }
@@ -79,6 +90,11 @@ $lightLinks: #001fc5;
 
   #loading {
     background-color: map.get($colorMap, 'loadBg');
+  }
+
+  .of2 .hovered, .of3 .hovered, .of4 .hovered, .of5 .hovered, .of6 .hovered {
+    background-color: map.get($colorMap, 'sameHover');
+    color: map.get($colorMap, 'sameHoverFont');
   }
 }
 
@@ -155,7 +171,7 @@ body {
                  'menuColor': $dark2, 'menuBorderColor': $dark15, 'menuFontColor': $dark15,
                  'menuButtonHoverColor': $dark3, 'translationBorder': $dark10, 'translationBg': $dark2,
                  'modalBg': $dark3, 'modalBorder': $dark15, 'fontColor': $dark15, 'buttonFontColor': $dark1-5,
-                 'loadBg': rgba($dark15, 0.7), 'links': $darkLinks);
+                 'loadBg': rgba($dark15, 0.7), 'links': $darkLinks, 'sameHover': $dark15, 'sameHoverFont': $dark1-5);
     @include colors($colorMap);
 
     $highlightMap: (2: #45632f, 3: #495d6b, 4: #755426, 5: #6b5559, 6: #5c5d2e);
@@ -168,7 +184,7 @@ body {
             'menuColor': $light2, 'menuBorderColor': $light15, 'menuFontColor': $light15,
             'menuButtonHoverColor': $light3, 'translationBorder': $light10, 'translationBg': $light2,
             'modalBg': $light3, 'modalBorder': $light15, 'fontColor': $light15, 'buttonFontColor': $light15,
-            'loadBg': rgba($light15, 0.7), 'links': $lightLinks);
+            'loadBg': rgba($light15, 0.7), 'links': $lightLinks, 'sameHover': $light15, 'sameHoverFont': $light1-5);
     @include colors($colorMap);
 
     $highlightMap: (2: #70c531, 3: #7cb7dc, 4: #f29e0f, 5: #d6a3ac, 6: #b5b634);
@@ -188,6 +204,7 @@ $sitePadding: 40px;
 $siteBottomPadding: 5px;
 
 $pageWidth: 95%;
+$pageMargin: 50px;
 //#endregion
 
 //#region Header / Nav / Search
@@ -195,6 +212,7 @@ $headerWidth: 60%;
 $headerSize: 1.5em;
 $headerBigMargin: 10px;
 $headerLittleMargin: 5px;
+$headerHeight: 90px;
 
 $searchHeight: 30px;
 $searchPadding: 5px;
@@ -207,11 +225,12 @@ $searchButtonMargin: 5px;
 $menuBorderWidth: 1px;
 
 $tabSize: 40px;
-$tabIconSize: #{$tabSize / 2};
+$tabIconSize: intdiv($tabSize, 2);
+$tabIconPosition: $tabSize - $tabIconSize;
 $tabRightOffset: 1px;
 $tabBorderRadius: 5px;
 $tabTopSpace: 8px;
-$tabBetweenSpace: #{$tabTopSpace / 2};
+$tabBetweenSpace: intdiv($tabTopSpace, 2);
 $tabSpaceToNextTop: #{$tabSize + $tabBetweenSpace + (2 * $menuBorderWidth)};
 $tabDictPosition: #{$tabTopSpace + $tabSpaceToNextTop};
 $tabRefsPosition: #{$tabDictPosition + $tabSpaceToNextTop};
@@ -228,6 +247,24 @@ $menuListItemBigSpace: 5px;
 $menuListItemLittleSpace: 2px;
 $menuChangeTime: 1s;
 $menuButtonChangeTime: 0.25s;
+
+$menuButtonZIndex: #{$effectivelyMaxInt - 1};
+$menuTabZIndex: #{$menuButtonZIndex - 1};
+$menuActivatedZIndex: #{$menuTabZIndex - 1};
+$menuDeactivatedZIndex: #{$menuActivatedZIndex - 1};
+//#endregion
+
+//#region Popup variables
+$popupWidth: 750px;
+$popupHeight: 425px;
+$popupBorderRadius: 10px;
+$tboxGridBoxPadding: 10px;
+//#endregion
+
+//#region Body variables
+$sectionPadding: 5px;
+$noticeLeftMargin: -6px;
+$noticeBottomMargin: -$sectionPadding;
 //#endregion
 
 //#region Main tags
@@ -254,13 +291,22 @@ body {
 }
 
 #page {
-  margin: 50px auto;
+  margin: $pageMargin auto;
   width: $pageWidth;
-}
 
-#page h3 {
-  margin: $headerBigMargin auto $headerLittleMargin auto;
-  width: $headerWidth;
+  &.results {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: start;
+    justify-content: center;
+    margin: $pageMargin auto 0 auto;
+  }
+
+  h3 {
+    margin: $headerBigMargin auto $headerLittleMargin auto;
+    width: $headerWidth;
+  }
 }
 //#endregion
 
@@ -312,8 +358,8 @@ h4 {
 }
 
 .miniButton {
-  width: #{$searchButtonWidth / 2};
-  height: #{$searchButtonWidth / 2};
+  width: intdiv($searchButtonWidth, 2);
+  height: intdiv($searchButtonWidth, 2);
   padding: 0;
 
   [class *= " icofont-"],[class ^= "icofont-"] {
@@ -321,6 +367,14 @@ h4 {
     position: relative;
     top: -2px;
   }
+}
+
+#header {
+  height: $headerHeight;
+}
+
+#tlConHeader {
+  height: 40px;
 }
 
 #header, #tlConHeader {
@@ -354,7 +408,7 @@ h4 {
   position: fixed;
   left: calc(50% - 150px);
   top: calc(50% - 150px);
-  z-index: 50;
+  z-index: $effectivelyMaxInt;
 }
 
 .dark {
@@ -382,12 +436,12 @@ h4 {
 }
 
 .tab-button {
-  width: $tabIconSize;
-  height: $tabIconSize;
+  //width: $tabIconSize;
+  //height: $tabIconSize;
   position: absolute;
-  right: #{($tabSize - $tabIconSize) / 2 + $tabRightOffset};
-  top: #{($tabSize - $tabIconSize) / 2};
-  z-index: 99;
+  right: intdiv($tabIconPosition, 2) + $tabRightOffset;
+  top: intdiv($tabIconPosition, 2);
+  z-index: $menuButtonZIndex;
   margin: auto;
 }
 
@@ -405,7 +459,7 @@ h4 {
 
 .menu-tab {
   position: fixed;
-  z-index: 98;
+  z-index: $menuTabZIndex;
   right: -$tabRightOffset;
   width: #{$tabSize + $tabRightOffset};
   height: $tabSize;
@@ -420,11 +474,11 @@ h4 {
 }
 
 #dict-btn-wrap {
-  top: $tabDictPosition;
+  //top: $tabDictPosition;
 }
 
 #crossref-btn-wrap {
-  top: $tabRefsPosition;
+  //top: $tabRefsPosition;
 }
 
 .sidebar {
@@ -432,7 +486,7 @@ h4 {
   top: 0;
   bottom: 0;
   left: 100%;
-  z-index: 96;
+  z-index: $menuDeactivatedZIndex;
   transition: transform 1s;
   width: $sidebarWidth;
   border-left: $menuBorderWidth solid;
@@ -440,7 +494,7 @@ h4 {
 }
 
 .sidebar.activated {
-  z-index: 97;
+  z-index: $menuActivatedZIndex;
 }
 
 #menu ul {
@@ -491,7 +545,7 @@ h4 {
   bottom: $sidebarBottomSpace;
   height: $sidebarBottomSize;
   text-align: center;
-  z-index: 98;
+  z-index: $menuTabZIndex;
 }
 //#endregion
 
@@ -589,6 +643,7 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   animation: fadeIn 0.3s ease-in-out;
 }
 
+//#region Outdated code -- remove when confirmed unused
 .modal {
   position: fixed;
   z-index: 50;
@@ -621,6 +676,8 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   margin-top: 5px;
   margin-right: 5px;
 }
+//#endregion
+
 
 @-webkit-keyframes fadeIn {
   0% {
@@ -683,7 +740,7 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 @for $b from 1 through 6 {
   @if ($b <= 3) {
     .of#{$b} {
-      width: #{1194px / $b};
+      width: intdiv(1194px, $b);
     }
   } @else if ($b == 5) {
     .of#{$b}:nth-child(-n + 2) {
@@ -694,14 +751,46 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
     }
   } @else {
     .of#{$b} {
-      width: #{1194px / ($b / 2)};
+      width: intdiv(1194px, intdiv($b, 2));
     }
   }
 
   .of#{$b} {
     height: calc((90% - 1.5em) / (1 + #{intdiv($b, 4)}));
-    border: 1px solid $borderColor;
+    border: 1px solid black; //TODO: color?
+    margin: -0.5px;
+    overflow: hidden;
+    padding: $sectionPadding 0 $sectionPadding $sectionPadding;
+    box-sizing: border-box;
+    direction: ltr;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+    .rtl {
+      direction: rtl;
+    }
+
+    .textArea {
+      height: 100%;
+      overflow-y: auto;
+      padding-right: $sectionPadding;
+    }
   }
+}
+//TODO: figure out why there's a vertical collapse
+// TODO: scroll shadow!
+.resultNotice {
+  width: calc(100% + #{$sectionPadding - $noticeLeftMargin});
+  padding: $sectionPadding;
+  box-sizing: border-box;
+  border-top: 1px solid black; //TODO: color!
+  background-color: yellow; // TODO: color!
+  order: 99;
+  margin-left: $noticeLeftMargin;
+  margin-bottom: $noticeBottomMargin;
 }
 //#endregion
 
@@ -724,11 +813,25 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 }
 //#endregion
 
-//TODO: Programmatically resolve @media tags for different screen sizes
-
 /* -------------------- */
 /* --- MEDIA CLASSES -- */
 /* -------------------- */
+$screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000px, 3000px, 4000px, 5000px;
+@each $height in $screenHeights {
+  @media screen and (min-height: $height) {
+    .results {
+      height: #{$height - $headerHeight - $pageMargin};
+    }
+  }
+}
+
+@media screen and (max-height: list.nth($screenHeights, 1)) {
+  .results {
+    height: 100%; // this will make child divs size by content
+  }
+}
+
+
 @media screen and (min-width: 2000px) {
   body {
     background-image: $largeBackground;
@@ -753,124 +856,15 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   }
 }
 
-@media screen and (min-width: 1064px) and (max-width: 1250px) {
-  #wrap {
-    width: 1000px;
-  }
-
-  .of1 {
-    width: 994px;
-  }
-  .of2, .of5#first, .of5#second, .of4 {
-    width: 497px;
-  }
-  .of3, .of5, .of6 {
-    width: 331.3px;
-  }
-}
-
 @media screen and (max-width: 800px) {
   body {
     background-image: url("../images/bg_800.png");
   }
 }
 
-@media screen and (min-width: 800px) and (max-width: 1063px) {
-  body {
-    min-height: 100%;
-    max-height: 200%;
-  }
-
-  #wrap {
-    width: 700px;
-  }
-
-  .of1, .of3#first, .of5#first {
-    width: 694px;
-    padding-right: 1px;
-  }
-  .of2, .of3, .of4, .of5, .of6, .of5#second {
-    width: 347px;
-    padding-right: 0;
-  }
-  .of5, .of6 {
-    height: calc((85% - 1.5em) / 3);
-  }
-  .of3 {
-    border-bottom: 0;
-  }
-  .of3#second {
-    clear: both;
-    border-bottom: 1px solid black;
-  }
-  .of3#first {
-    border-right: 1px solid black;
-  }
-  .of3#third {
-    border-bottom: 1px solid black;
-  }
-  .of5#first, .of5#third {
-    border-right: 1px solid black;
-    border-bottom: none;
-    clear: none;
-  }
-  .of5#second {
-    border-right: none;
-    clear: both;
-  }
-  .of5#fourth {
-    clear: both;
-  }
-  .of6#second, .of6#fourth {
-    border-right: 1px solid black;
-    border-bottom: none;
-    clear: none;
-  }
-  .of6#third {
-    border-right: none;
-    clear: both;
-  }
-  .of6#fifth {
-    clear: both;
-  }
-}
-
 @media screen and (max-width: 600px) {
   body {
     background-image: url("../images/bg_600.png");
-  }
-}
-
-@media screen and (min-width: 400px) and (max-width: 799px) {
-  #wrap {
-    width: 390px;
-    min-height: 95%;
-    height: auto;
-    max-height: 200%;
-  }
-
-  #innerwrap {
-    min-height: 100%;
-    height: auto;
-    max-height: 200%;
-  }
-
-  .of1, .of2, .of3, .of4, .of5, .of6 {
-    width: 384px;
-    clear: both;
-    border-top: 1px solid black;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-    border-bottom: none;
-    height: calc((90% - 1.5em) / 3);
-  }
-  .of5#first, .of5#second {
-    width: 384px;
-    clear: both;
-    padding-right: 0;
-  }
-  .of1, .of2#second, .of3#third, .of4#fourth, .of5#fifth, .of6#sixth {
-    border-bottom: 1px solid black;
   }
 }
 
@@ -883,20 +877,19 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 //#region Popup
 .popup {
   position: fixed;
-  left: calc(50% - 375px);
-  top: calc(50% - 200px);
-  z-index: 500;
-  background-color: black;
-  border-radius: 10px;
-  width: 750px;
-  height: 400px;
+  left: calc(50% - #{intdiv($popupWidth, 2)});
+  top: calc(50% - #{intdiv($popupHeight, 2)});
+  z-index: intdiv($effectivelyMaxInt, 2);
+  border-radius: $popupBorderRadius;
+  width: $popupWidth;
+  height: $popupHeight;
 }
 
 #translationController {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 10px;
+  padding: $tboxGridBoxPadding;
 
   #tlConHeader {
     flex-basis: 100%;
@@ -919,6 +912,8 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
       flex-basis: 33%;
       height: 50%;
       text-align: center;
+      box-sizing: border-box;
+      padding: $tboxGridBoxPadding;
 
       &.occupied {
         outline: aliceblue solid 1px;
@@ -933,6 +928,10 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
         @include verticalAlign(relative);
       }
     }
+
+    .transl {
+      display: inline-block;
+    }
   }
 
   #translList {
@@ -940,10 +939,22 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
     flex-basis: 33%;
     overflow-y: auto;
     overflow-x: hidden;
+
+    .transl {
+      display: list-item;
+      list-style-type: circle;
+      margin-left: 25px;
+    }
   }
 
-  .transl {
-    display: inline-block;
+  .langGroup {
+    text-align: center;
+
+    &::before, &::after {
+      content: '—';
+      margin-left: 10px;
+      margin-right: 10px;
+    }
   }
 }
 
@@ -955,3 +966,7 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   }
 }
 //#endregion
+
+
+
+// TODO: have RTL languages actually go RTL

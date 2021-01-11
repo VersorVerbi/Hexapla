@@ -24,10 +24,17 @@ async function doSearch(event) {
         }
     }
     let ts = translations.split('^');
-    let translationCheckId = 't' + ts[0];
-    let translationCheck = document.getElementById(translationCheckId);
-    // TODO: how are we handling adding/removing translations?
-    if (translationCheck === null) {
+    let hasAllTranslations = true;
+    for (let t = 0; t < ts.length; t++) {
+        let translationCheckId = 't' + ts[t];
+        let translationCheck = document.getElementById(translationCheckId);
+        if (translationCheck === null) {
+            hasAllTranslations = false;
+            break;
+        }
+    }
+    // TODO: handle when we have more translation boxes than requested translations
+    if (!hasAllTranslations) {
         let newParents = await fetch('results.php?translations=' + translations, {
             method: 'POST',
             mode: 'same-origin',
@@ -35,7 +42,9 @@ async function doSearch(event) {
             body: ''
         });
         newParents.text().then(async data => {
-            document.getElementById('page').innerHTML = data;
+            let pg = document.getElementById('page');
+            pg.classList.add('hidden');
+            pg.innerHTML = data;
             document.getElementById('loading').classList.remove('hidden');
             await completeSearch(formData);
         })
@@ -43,7 +52,7 @@ async function doSearch(event) {
         document.getElementById('loading').classList.remove('hidden');
         // we only need to empty things here because the above creates new boxes whole-cloth
         for (let t = 0; t < ts.length; t++) {
-            emptyBox(document.getElementById('t' + ts[t]));
+            emptyBox(document.getElementById('t' + ts[t]).getElementsByClassName('textArea')[0]);
         }
         await completeSearch(formData);
     }
@@ -59,7 +68,10 @@ async function completeSearch(formData) {
     searchResults.json().then(data => {
         let results = data;
         for (let i = 0; i < Object.keys(results).length - 2; i++) { // leave room for 'alts' and 'title'
-            let parent = document.getElementById(results[i]['parent']);
+            let parent = document.getElementById(results[i]['parent']).getElementsByClassName('textArea')[0];
+            if (results[i]['rtl'] && !parent.classList.contains('rtl')) {
+                parent.classList.add('rtl');
+            }
             let span = document.createElement('span');
             if (results[i]['class'].length > 0) span.classList.add(results[i]['class']);
             if (results[i]['space-before']) {
@@ -101,7 +113,9 @@ async function completeSearch(formData) {
                 });
             }
         }
-
+        let pg = document.getElementById('page');
+        pg.classList.add('results');
+        pg.classList.remove('hidden');
         document.getElementById('loading').classList.add('hidden');
     });
 }

@@ -3,7 +3,7 @@ dbconnect.php
 infoprinter.php
 .idea/encodings.xml
 .idea/codeStyles/codeStyleConfig.xml
-developer-functions.php
+importers/developer-functions.php
 oldcode/strongs-greek-spellings.dic
 oldcode/strongs-hebrew-spellings.dic
 oldcode/greekStrongs.csv

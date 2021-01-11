@@ -1,18 +1,14 @@
 <?php
-include "sql-functions.php";
-$versionsResource = getVersions($db);
-?>
-<pre>
-<?php
-while (($row = pg_fetch_assoc($versionsResource)) !== false) {
-    $row['terms'] = terms_array($row['terms']);
-    print_r($row); echo "<br />";
+require_once "sql-functions.php";
+$versionsList = getVersions($db);
+if (isset($_GET['t'])) {
+    $tList = $_GET['t'];
+} elseif ($currentUser->useSavedTl()) {
+    $tList = $currentUser->savedTls();
+} else {
+    $tList = $_COOKIE['hexaTlCookie'];
 }
-// TODO: check $_GET for specified translations
-// TODO: check user settings for "always" or "last"
-// TODO: check cookies for last use
 ?>
-</pre>
 <div id="translationController" class="popup hidden">
     <div id="tlConHeader">
         <h3>Translation Grid</h3>
@@ -21,32 +17,42 @@ while (($row = pg_fetch_assoc($versionsResource)) !== false) {
         </button>
     </div>
     <div id="translGrid">
-        <div id="tl1" class="tlBox"></div>
-        <div id="tl2" class="tlBox"></div>
-        <div id="tl3" class="tlBox"></div>
-        <div id="tl4" class="tlBox"></div>
-        <div id="tl5" class="tlBox"></div>
-        <div id="tl6" class="tlBox"></div>
+        <?php
+        for ($t = 1; $t < 7; $t++) {
+            echo "<div id='tl$t' class='tlBox";
+            if (!is_null($version = getVersionFromList(piece($tList, '^', $t), $versionsList))) {
+                echo " occupied'>";
+                echo makeDraggableVersion($version);
+            } else {
+                echo "'>";
+            }
+            echo "</div>";
+        }
+        ?>
     </div>
     <div id="translList">
         <h4>Available Translations</h4>
-        <div id='kjv' class="transl" draggable="true">KJV</div>
+        <?php
+            $lastLang = '';
+            foreach ($versionsList as $version) {
+                if ($version['lang'] !== $lastLang) {
+                    echo "<div class='langGroup'>" . $version['lang'] . "</div>";
+                    $lastLang = $version['lang'];
+                }
+                if (!inStringList($version['id'], $tList, '^')) {
+                    echo makeDraggableVersion($version);
+                }
+            }
+        ?>
     </div>
 </div>
 
 <script type="text/javascript">
     let draggables = document.querySelectorAll('[draggable="true"]');
     for (let d = 0; d < draggables.length; d++) {
-        draggables[d].addEventListener('dragstart', ev => {
-            ev.dataTransfer.setData('text/plain', ev.target.id);
-            ev.dataTransfer.setData('text/html', ev.target.outerHTML);
-            ev.dataTransfer.dropEffect = 'move';
-            ev.target.classList.add('pickedUp');
-        });
+        draggables[d].addEventListener('dragstart', draggableStart);
     }
-    let dropZone = document.getElementById('translGrid');
-    dropZone.addEventListener('dragenter', potentialTl);
-    dropZone.addEventListener('dragexit', nomoreTl);
-    dropZone.addEventListener('drop', addTl);
-    dropZone.addEventListener('dragover', ev => { ev.preventDefault(); });
+    dropZoneSetup(document.getElementById('translGrid'), potentialTl, nomoreTl, addTl, ev => { ev.preventDefault(); });
+    dropZoneSetup(document.getElementById('translList'), potentialRemoveTl, keepTl, removeTl, ev => { ev.preventDefault(); });
+
 </script>

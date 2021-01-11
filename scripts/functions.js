@@ -1,5 +1,6 @@
 function substr_count(haystack, needle) {
-    return (haystack.match('/' + needle + '/g') || []).length;
+    let re = new RegExp(needle, 'g');
+    return (haystack.match(re) || []).length;
 }
 
 function emptyBox(box) { // per benchmarking, this is the fastest way to clear children, at least in FF and Chrome at the time
@@ -9,6 +10,8 @@ function emptyBox(box) { // per benchmarking, this is the fastest way to clear c
         kid = box.firstChild;
     }
 }
+
+
 
 function highlightWords(className) {
     let words = document.getElementsByClassName(className);
