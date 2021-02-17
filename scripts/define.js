@@ -37,7 +37,6 @@ async function define() {
         body: form
     });
     definitions.text().then(data => {
-        console.log(data);
         // TODO: put definitions in sidebar and show sidebar
     });
 }

@@ -150,7 +150,7 @@ function putData(&$db, string $tableName, array $insertArray, string $idColumn =
             if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
             $columnArray[] = $column;
         }
-        $columns = '(' . pg_implode(',', $columnArray) . ')';
+        $columns = '(' . pg_implode(',', $columnArray, $db) . ')';
         foreach ($insertArray as $row) {
             $valueChunk = '';
             foreach ($columnArray as $column) {
@@ -382,6 +382,30 @@ function getVersionData(&$db, $tList) {
     return $results;
 }
 
+function getLanguageOfVersion(&$db, $versionId) {
+    checkPgConnection($db);
+    $langResource = getData($db, HexaplaTables::SOURCE_VERSION, [HexaplaSourceVersion::LANGUAGE_ID], [HexaplaSourceVersion::ID => $versionId]);
+    $langRow = pg_fetch_assoc($langResource);
+    if ($langRow === null) {
+        return null;
+    }
+    return $langRow[HexaplaSourceVersion::LANGUAGE_ID];
+}
+
+function getStrongsDefinition(&$db, $strongArray) {
+    checkPgConnection($db);
+    $sql = "SELECT " . pg_implode(",", [HexaplaLangLemma::STRONG_ID, HexaplaLangLemma::UNICODE_VALUE, HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::DEFINITION], $db);
+    $sql .= " FROM " . HexaplaTables::LANG_DEFINITION . " JOIN " . HexaplaTables::LANG_LEMMA . " ON " . HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
+    $sql .= " WHERE " . HexaplaLangLemma::STRONG_ID . " IN (";
+    $sql .= pg_implode(',', $strongArray, $db, true);
+    $sql .= ");";
+    $result = pg_query($db, $sql);
+    while (($row = pg_fetch_assoc($result)) !== false) {
+        // TODO: do the thing
+    }
+    return; // TODO: the thing
+}
+
 /**
  * @param resource $db
  */
@@ -401,18 +425,20 @@ function commit($db) {
 /**
  * @param string $glue
  * @param array $array
+ * @param resource $db
  * @param boolean $literal
  * @return string
  */
-function pg_implode(string $glue, array $array, $literal = false): string
+function pg_implode(string $glue, array $array, $db, $literal = false): string
 {
+    checkPgConnection($db);
     if ($literal) {
         $formattedArray = array_map(function ($item) {
-            return pg_escape_literal($item);
+            return pg_escape_literal($db, $item);
         }, $array);
     } else {
         $formattedArray = array_map(function ($item) {
-            return pg_escape_identifier($item);
+            return pg_escape_identifier($db, $item);
         }, $array);
     }
     return implode($glue, $formattedArray);
