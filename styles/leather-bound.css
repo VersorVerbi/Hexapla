@@ -47,8 +47,11 @@ body.dark .popup {
   background-color: #6e5431;
   border-color: #e5daaf;
 }
-body.dark [class*=" icofont-"], body.dark [class^=icofont-] {
+body.dark .icoButton [class*=" icofont-"], body.dark .icoButton [class^=icofont-] {
   color: #352a1d;
+}
+body.dark .icoButton[disabled] [class*=" icofont-"], body.dark .icoButton[disabled] [class^=icofont-] {
+  color: rgba(53, 42, 29, 0.5) !important;
 }
 body.dark #loading {
   background-color: rgba(229, 218, 175, 0.7);
@@ -1032,6 +1035,21 @@ body.dark .diff6L .diff5L .diff4L .diff3L {
 body.dark .diff6L .diff5L .diff4L .diff3L .diff2L {
   background-color: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #495d6b, #45632f);
 }
+body .resultNotice {
+  color: black;
+}
+body .resultNotice a {
+  color: #001fc5;
+}
+body .resultNotice.noticeFyi {
+  background-color: #d8f1f8;
+}
+body .resultNotice.noticeWarning {
+  background-color: #fdf146;
+}
+body .resultNotice.noticeError {
+  background-color: #fbe8e4;
+}
 body.light {
   background-color: #624a2e;
   color: #2f251a;
@@ -1080,8 +1098,11 @@ body.light .popup {
   background-color: #b2913a;
   border-color: #2f251a;
 }
-body.light [class*=" icofont-"], body.light [class^=icofont-] {
+body.light .icoButton [class*=" icofont-"], body.light .icoButton [class^=icofont-] {
   color: #2f251a;
+}
+body.light .icoButton[disabled] [class*=" icofont-"], body.light .icoButton[disabled] [class^=icofont-] {
+  color: rgba(47, 37, 26, 0.5) !important;
 }
 body.light #loading {
   background-color: rgba(47, 37, 26, 0.7);
@@ -2086,6 +2107,9 @@ body {
   margin: auto;
   overflow: auto;
 }
+#wrap.permaMenu {
+  right: 150px;
+}
 
 #page {
   margin: 50px auto;
@@ -2146,6 +2170,12 @@ h4 {
 }
 .icoButton [class*=" icofont-"], .icoButton [class^=icofont-] {
   font-size: 1.25em;
+}
+.icoButton [class*=" icofont-"].tinyMod, .icoButton [class^=icofont-].tinyMod {
+  position: relative;
+  font-size: 0.9em;
+  top: 0.3em;
+  left: -0.3em;
 }
 
 .miniButton {
@@ -2212,33 +2242,12 @@ h4 {
   display: none !important;
 }
 
-.active .sidebar, .active .menu-tab {
+#menuwrap.active .sidebar, #menuwrap.active .menu-tab {
   transform: translate3d(-300px, 0, 0);
 }
-
-.tab-button {
-  position: absolute;
-  right: 11px;
-  top: 10px;
-  z-index: 2147483646;
-  margin: auto;
-}
-
-#menu-button {
-  background-image: url("../images/menubutton.svg");
-}
-
-#dict-button {
-  background-image: url("../images/dictbutton.svg");
-}
-
-#ref-button {
-  background-image: url("../images/crossref.svg");
-}
-
-.menu-tab {
+#menuwrap .menu-tab {
   position: fixed;
-  z-index: 2147483646-1;
+  z-index: 2147483645;
   right: -1px;
   width: 41px;
   height: 40px;
@@ -2246,29 +2255,54 @@ h4 {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border: 1px solid;
+  cursor: pointer;
 }
-
-#menu-btn-wrap {
+#menuwrap .menu-tab.activated {
+  border-right-color: transparent;
+}
+#menuwrap .menu-tab#menu-btn-wrap {
   top: 8px;
 }
-
-.sidebar {
+#menuwrap .menu-tab#dict-btn-wrap {
+  top: 54px;
+}
+#menuwrap .menu-tab#crossref-btn-wrap {
+  top: 100px;
+}
+#menuwrap .menu-tab .tab-button {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 11px;
+  top: 10px;
+  z-index: 2147483646;
+  margin: auto;
+}
+#menuwrap .sidebar {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 100%;
-  z-index: 2147483646-1-1-1;
+  z-index: 2147483643;
   transition: transform 1s;
   width: 300px;
   border-left: 1px solid;
   padding-top: 1em;
 }
-
-.sidebar.activated {
-  z-index: 2147483646-1-1;
+#menuwrap .sidebar.activated {
+  z-index: 2147483644;
 }
-
-#menu ul {
+#menuwrap .sidebar a {
+  vertical-align: middle;
+  display: inline-block;
+  width: 100%;
+  margin: auto;
+  text-decoration: none;
+}
+#menuwrap .sidebar a:active, #menuwrap .sidebar a:hover, #menuwrap .sidebar a:visited {
+  text-decoration: none;
+}
+#menuwrap .sidebar#menu ul {
   list-style-type: none;
   width: 280px;
   right: 0;
@@ -2276,8 +2310,7 @@ h4 {
   position: absolute;
   margin-top: 0;
 }
-
-#menu ul li {
+#menuwrap .sidebar#menu ul li {
   width: 100%;
   padding-left: 5px;
   padding-top: 2px;
@@ -2286,37 +2319,42 @@ h4 {
   transition: background 0.25s ease-in;
   right: 0;
 }
-
-.sidebar a {
-  vertical-align: middle;
-  display: inline-block;
-  width: 100%;
-  margin: auto;
-  text-decoration: none;
-}
-
-#menu ul li input, #menu ul li label {
+#menuwrap .sidebar#menu ul li input, #menuwrap .sidebar#menu ul li label {
   vertical-align: middle;
   position: relative;
 }
-
-.sidebar a:active, .sidebar a:hover, .sidebar a:visited {
-  text-decoration: none;
-}
-
-#dictionary, #crossref {
+#menuwrap .sidebar#dictionary, #menuwrap .sidebar#crossref {
   margin-bottom: 50px;
   padding-left: 20px;
   overflow-y: auto;
   overflow-x: hidden;
 }
-
-#menubottom {
+#menuwrap .sidebar#menubottom {
   top: unset;
   bottom: 20px;
   height: 30px;
   text-align: center;
-  z-index: 2147483646-1;
+  z-index: 2147483645;
+}
+
+.dark #menu-button {
+  background-image: url("../images/menubutton_dark.svg");
+}
+.dark #dict-button {
+  background-image: url("../images/dictbutton_dark.svg");
+}
+.dark #ref-button {
+  background-image: url("../images/crossref_dark.svg");
+}
+
+.light #menu-button {
+  background-image: url("../images/menubutton_light.svg");
+}
+.light #dict-button {
+  background-image: url("../images/dictbutton_light.svg");
+}
+.light #ref-button {
+  background-image: url("../images/crossref_light.svg");
 }
 
 #addtl, .del, .promote, #prevPsg, #nextPsg {
@@ -2510,25 +2548,6 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 .of1 {
   height: calc((90% - 1.5em) / (1 + 0));
-  border: 1px solid black;
-  margin: -0.5px;
-  overflow: hidden;
-  padding: 5px 0 5px 5px;
-  box-sizing: border-box;
-  direction: ltr;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-}
-.of1 .rtl {
-  direction: rtl;
-}
-.of1 .textArea {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 5px;
 }
 
 .of2 {
@@ -2537,25 +2556,6 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 .of2 {
   height: calc((90% - 1.5em) / (1 + 0));
-  border: 1px solid black;
-  margin: -0.5px;
-  overflow: hidden;
-  padding: 5px 0 5px 5px;
-  box-sizing: border-box;
-  direction: ltr;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-}
-.of2 .rtl {
-  direction: rtl;
-}
-.of2 .textArea {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 5px;
 }
 
 .of3 {
@@ -2564,25 +2564,6 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 .of3 {
   height: calc((90% - 1.5em) / (1 + 0));
-  border: 1px solid black;
-  margin: -0.5px;
-  overflow: hidden;
-  padding: 5px 0 5px 5px;
-  box-sizing: border-box;
-  direction: ltr;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-}
-.of3 .rtl {
-  direction: rtl;
-}
-.of3 .textArea {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 5px;
 }
 
 .of4 {
@@ -2591,25 +2572,6 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 .of4 {
   height: calc((90% - 1.5em) / (1 + 1));
-  border: 1px solid black;
-  margin: -0.5px;
-  overflow: hidden;
-  padding: 5px 0 5px 5px;
-  box-sizing: border-box;
-  direction: ltr;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-}
-.of4 .rtl {
-  direction: rtl;
-}
-.of4 .textArea {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 5px;
 }
 
 .of5:nth-child(-n+2) {
@@ -2622,25 +2584,6 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 .of5 {
   height: calc((90% - 1.5em) / (1 + 1));
-  border: 1px solid black;
-  margin: -0.5px;
-  overflow: hidden;
-  padding: 5px 0 5px 5px;
-  box-sizing: border-box;
-  direction: ltr;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-}
-.of5 .rtl {
-  direction: rtl;
-}
-.of5 .textArea {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 5px;
 }
 
 .of6 {
@@ -2649,6 +2592,9 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
 .of6 {
   height: calc((90% - 1.5em) / (1 + 1));
+}
+
+.version {
   border: 1px solid black;
   margin: -0.5px;
   overflow: hidden;
@@ -2661,13 +2607,21 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   flex-wrap: nowrap;
   justify-content: space-between;
 }
-.of6 .rtl {
+.version h4 {
+  height: 35px;
+  flex-shrink: 0;
+}
+.version .rtl {
   direction: rtl;
 }
-.of6 .textArea {
+.version .textArea {
   height: 100%;
   overflow-y: auto;
   padding-right: 5px;
+}
+.version .icoButton {
+  position: absolute;
+  right: 5px;
 }
 
 .resultNotice {

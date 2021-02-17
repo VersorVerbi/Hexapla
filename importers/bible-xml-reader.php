@@ -373,7 +373,7 @@ class HexaplaStandardMetadata {
         $columns[] = HexaplaSourceVersion::ID;
         $criteria[HexaplaSourceVersion::COPYRIGHT] = $this->copyright->__toString();
         $criteria[HexaplaSourceVersion::LANGUAGE_ID] = 4; //$this->language; // TODO: We haven't resolved this anywhere
-        $criteria[HexaplaSourceVersion::ALLOWS_ACTIONS] = CAN_READ() + CAN_NOTE() + CAN_FOCUS() + CAN_DIFF(); // TODO: handle when diffing isn't allowed
+        $criteria[HexaplaSourceVersion::ALLOWS_ACTIONS] = HexaplaPermissions::READ + HexaplaPermissions::NOTE + HexaplaPermissions::FOCUS + HexaplaPermissions::DIFF; // TODO: handle when diffing isn't allowed
         $criteria[HexaplaSourceVersion::PUBLISHER_ID] = $publisherId;
         $criteria[HexaplaSourceVersion::SOURCE_ID] = 1; // i.e., the Bible
         $check = getData($db, HexaplaTables::SOURCE_VERSION, $columns, $criteria);

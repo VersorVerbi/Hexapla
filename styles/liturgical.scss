@@ -13,6 +13,9 @@ $dark4-5: null;
 $dark7: null;
 $dark10: null;
 $dark15: #FFF;
+$noticeColor: null;
+$warningColor: null;
+$errorColor: null;
 
 $greenTheme: #228B22;
 $greenL1-5: #c4d8c2;
@@ -29,6 +32,9 @@ $greenD4-5: #258523;
 $greenD7: #63a45c;
 $greenD10: #95be90;
 $greenD15: #cedfcd;
+$greenError: #fdc6bb;
+$greenWarning: #ecdf1c;
+$greenNotice: #34dfe2;
 
 $purpleTheme: #800080;
 $purpleL1-5: #dccfdb;
@@ -45,6 +51,9 @@ $purpleD4-5: #9d5e99;
 $purpleD7: #b287ae;
 $purpleD10: #c5abc3;
 $purpleD15: #e1d7e0;
+$purpleError: #fbd6ce;
+$purpleWarning: #f0e218;
+$purpleNotice: #d7fafb;
 
 $roseTheme: #ff6699;
 $roseL1-5: #f9c6d3;
@@ -61,6 +70,9 @@ $roseD4-5: #b55572;
 $roseD7: #f26392;
 $roseD10: #fc94b2;
 $roseD15: #f9cfda;
+$roseError: #ff9e8b;
+$roseWarning: #ecdf1c;
+$roseNotice: #d2fafb;
 
 $redTheme: #ff0000;
 $redL1-5: #fdc6bb;
@@ -77,6 +89,9 @@ $redD4-5: #e51e0e;
 $redD7: #ff5f45;
 $redD10: #ff9782;
 $redD15: #fcd1c7;
+$redError: #ff9e8a;
+$redWarning: #ebde1c;
+$redNotice: #d0fafb;
 
 $goldTheme: #FFD700;
 $goldL1-5: #f7d00e;
@@ -93,6 +108,9 @@ $goldD4-5: #83742f;
 $goldD7: #ab942e;
 $goldD10: #cfb127;
 $goldD15: #ffd80e;
+$goldError: #ff7070;
+$goldWarning: #ffff40;
+$goldNotice: #80ffff;
 
 $largeBackground: url('../images/parishtest.jpg');
 $mediumBackground: $largeBackground;
@@ -100,15 +118,15 @@ $smallBackground: $mediumBackground;
 $tinyBackground: $smallBackground;
 $backgroundTop: 0;
 
-$greens: 'green', $greenTheme, $greenL1-5, $greenL2, $greenL3, $greenL4-5, $greenL7, $greenL10, $greenL15, $greenD1-5, $greenD2, $greenD3, $greenD4-5, $greenD7, $greenD10, $greenD15;
-$reds: 'red', $redTheme, $redL1-5, $redL2, $redL3, $redL4-5, $redL7, $redL10, $redL15, $redD1-5, $redD2, $redD3, $redD4-5, $redD7, $redD10, $redD15;
-$roses: 'rose', $roseTheme, $roseL1-5, $roseL2, $roseL3, $roseL4-5, $roseL7, $roseL10, $roseL15, $roseD1-5, $roseD2, $roseD3, $roseD4-5, $roseD7, $roseD10, $roseD15;
-$golds: 'gold', $goldTheme, $goldL1-5, $goldL2, $goldL3, $goldL4-5, $goldL7, $goldL10, $goldL15, $goldD1-5, $goldD2, $goldD3, $goldD4-5, $goldD7, $goldD10, $goldD15;
-$purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5, $purpleL7, $purpleL10, $purpleL15, $purpleD1-5, $purpleD2, $purpleD3, $purpleD4-5, $purpleD7, $purpleD10, $purpleD15;
+$greens: 'green', $greenTheme, $greenL1-5, $greenL2, $greenL3, $greenL4-5, $greenL7, $greenL10, $greenL15, $greenD1-5, $greenD2, $greenD3, $greenD4-5, $greenD7, $greenD10, $greenD15, $greenError, $greenWarning, $greenNotice;
+$reds: 'red', $redTheme, $redL1-5, $redL2, $redL3, $redL4-5, $redL7, $redL10, $redL15, $redD1-5, $redD2, $redD3, $redD4-5, $redD7, $redD10, $redD15, $redError, $redWarning, $redNotice;
+$roses: 'rose', $roseTheme, $roseL1-5, $roseL2, $roseL3, $roseL4-5, $roseL7, $roseL10, $roseL15, $roseD1-5, $roseD2, $roseD3, $roseD4-5, $roseD7, $roseD10, $roseD15, $roseError, $roseWarning, $roseNotice;
+$golds: 'gold', $goldTheme, $goldL1-5, $goldL2, $goldL3, $goldL4-5, $goldL7, $goldL10, $goldL15, $goldD1-5, $goldD2, $goldD3, $goldD4-5, $goldD7, $goldD10, $goldD15, $goldError, $goldWarning, $goldNotice;
+$purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5, $purpleL7, $purpleL10, $purpleL15, $purpleD1-5, $purpleD2, $purpleD3, $purpleD4-5, $purpleD7, $purpleD10, $purpleD15, $purpleError, $purpleWarning, $purpleNotice;
 
 @import "style";
 
-@each $bodyClass, $thm, $l1-5, $l2, $l3, $l4-5, $l7, $l10, $l15, $d1-5, $d2, $d3, $d4-5, $d7, $d10, $d15 in $greens, $reds, $roses, $golds, $purples {
+@each $bodyClass, $thm, $l1-5, $l2, $l3, $l4-5, $l7, $l10, $l15, $d1-5, $d2, $d3, $d4-5, $d7, $d10, $d15, $e, $w, $n in $greens, $reds, $roses, $golds, $purples {
   body.#{$bodyClass} {
     &.dark {
       $colorMap: ('background': $thm, 'siteBackground': rgba($d1-5, 0.9),
@@ -129,5 +147,7 @@ $purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5
               'loadBg': rgba($l15, 0.7), 'links': $lightLinks, 'sameHover': $l15, 'sameHoverFont': $l1-5);
       @include colors($colorMap);
     }
+
+    @include noticeColors($n, $w, $e, $lightLinks);
   }
 }

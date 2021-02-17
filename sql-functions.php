@@ -362,17 +362,24 @@ function getVersions(&$db): array
     return $translations;
 }
 
-function getVersionNames(&$db, $tList) {
+function getVersionData(&$db, $tList) {
     checkPgConnection($db);
-    $terms = [];
+    $results = [];
     $termResource = getData($db,
         HexaplaTables::SOURCE_VERSION_TERM,
         [HexaplaSourceVersionTerm::VERSION_ID, HexaplaSourceVersionTerm::TERM],
         [HexaplaSourceVersionTerm::VERSION_ID => $tList, HexaplaSourceVersionTerm::FLAG => HexaplaTermFlag::PRIMARY]);
     while (($row = pg_fetch_assoc($termResource)) !== false) {
-        $terms[$row[HexaplaSourceVersionTerm::VERSION_ID]] = $row[HexaplaSourceVersionTerm::TERM];
+        $results[$row[HexaplaSourceVersionTerm::VERSION_ID]]['term'] = $row[HexaplaSourceVersionTerm::TERM];
     }
-    return $terms;
+    $dataResource = getData($db, HexaplaTables::SOURCE_VERSION,
+        [HexaplaSourceVersion::ID, HexaplaSourceVersion::ALLOWS_ACTIONS, HexaplaSourceVersion::LANGUAGE_ID],
+        [HexaplaSourceVersion::ID => $tList]);
+    while (($row = pg_fetch_assoc($dataResource)) !== false) {
+        $results[$row[HexaplaSourceVersion::ID]]['perm'] = $row[HexaplaSourceVersion::ALLOWS_ACTIONS];
+        $results[$row[HexaplaSourceVersion::ID]]['lang'] = $row[HexaplaSourceVersion::LANGUAGE_ID];
+    }
+    return $results;
 }
 
 /**
@@ -555,6 +562,15 @@ class NoOppositeTypeException extends HexaplaException {
 class LangDirection {
     const LTR = 'ltr';
     const RTL = 'rtl';
+}
+
+class HexaplaPermissions {
+    const READ = 1;
+    const NOTE = 2;
+    const DIFF = 4;
+    const FOCUS = 8;
+    const UPLOAD = 16;
+    const PARSE = 32;
 }
 #endregion
 

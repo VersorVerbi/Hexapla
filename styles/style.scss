@@ -23,6 +23,29 @@ $warningBorder: darkred;
 $darkLinks: #a9b8d4;
 $lightLinks: #001fc5;
 
+@mixin noticeColors($fyi, $warning, $error, $links) {
+  .resultNotice {
+    // these backgrounds are always light, so the font is always black
+    color: black;
+
+    a {
+      color: $links;
+    }
+
+    &.noticeFyi {
+      background-color: $fyi;
+    }
+
+    &.noticeWarning {
+      background-color: $warning;
+    }
+
+    &.noticeError {
+      background-color: $error;
+    }
+  }
+}
+
 @mixin colors($colorMap) {
   background-color: map.get($colorMap, 'background');
   color: map.get($colorMap, 'fontColor');
@@ -84,8 +107,16 @@ $lightLinks: #001fc5;
     border-color: map.get($colorMap, 'modalBorder');
   }
 
-  [class *= " icofont-"],[class ^= "icofont-"] {
-    color: map.get($colorMap, 'buttonFontColor');
+  .icoButton {
+    [class *= " icofont-"], [class ^= "icofont-"] {
+      color: map.get($colorMap, 'buttonFontColor');
+    }
+
+    &[disabled] {
+      [class *= " icofont-"], [class ^= "icofont-"] {
+        color: rgba(map.get($colorMap, 'buttonFontColor'), 0.5) !important;
+      }
+    }
   }
 
   #loading {
@@ -178,6 +209,8 @@ body {
     @include highlights($highlightMap);
   }
 
+  @include noticeColors($noticeColor, $warningColor, $errorColor, $lightLinks);
+
   &.light {
     $colorMap: ('background': $themeSource, 'siteBackground': rgba($light1-5, 0.9),
             'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
@@ -231,9 +264,9 @@ $tabRightOffset: 1px;
 $tabBorderRadius: 5px;
 $tabTopSpace: 8px;
 $tabBetweenSpace: intdiv($tabTopSpace, 2);
-$tabSpaceToNextTop: #{$tabSize + $tabBetweenSpace + (2 * $menuBorderWidth)};
-$tabDictPosition: #{$tabTopSpace + $tabSpaceToNextTop};
-$tabRefsPosition: #{$tabDictPosition + $tabSpaceToNextTop};
+$tabSpaceToNextTop: $tabSize + $tabBetweenSpace + (2 * $menuBorderWidth);
+$tabDictPosition: $tabTopSpace + $tabSpaceToNextTop;
+$tabRefsPosition: $tabDictPosition + $tabSpaceToNextTop;
 
 $sidebarWidth: 300px;
 $sidebarTopPadding: 1em;
@@ -248,10 +281,10 @@ $menuListItemLittleSpace: 2px;
 $menuChangeTime: 1s;
 $menuButtonChangeTime: 0.25s;
 
-$menuButtonZIndex: #{$effectivelyMaxInt - 1};
-$menuTabZIndex: #{$menuButtonZIndex - 1};
-$menuActivatedZIndex: #{$menuTabZIndex - 1};
-$menuDeactivatedZIndex: #{$menuActivatedZIndex - 1};
+$menuButtonZIndex: $effectivelyMaxInt - 1;
+$menuTabZIndex: $menuButtonZIndex - 1;
+$menuActivatedZIndex: $menuTabZIndex - 1;
+$menuDeactivatedZIndex: $menuActivatedZIndex - 1;
 //#endregion
 
 //#region Popup variables
@@ -288,6 +321,10 @@ body {
   padding: $sitePadding $sitePadding $siteBottomPadding $sitePadding;
   margin: auto;
   overflow: auto;
+
+  &.permaMenu {
+    right: intdiv($sidebarWidth, 2);
+  }
 }
 
 #page {
@@ -354,6 +391,13 @@ h4 {
 
   [class *= " icofont-"],[class ^= "icofont-"] {
     font-size: 1.25em;
+
+    &.tinyMod {
+      position: relative;
+      font-size: 0.9em;
+      top: 0.3em;
+      left: -0.3em;
+    }
   }
 }
 
@@ -430,122 +474,151 @@ h4 {
 }
 //#endregion
 
+// TODO: style the menu for different screen sizes
+
 //#region Menu
-.active .sidebar, .active .menu-tab {
-  transform: translate3d(-$sidebarWidth, 0, 0);
+#menuwrap {
+  &.active {
+    .sidebar, .menu-tab {
+      transform: translate3d(-$sidebarWidth, 0, 0);
+    }
+  }
+
+  .menu-tab {
+    position: fixed;
+    z-index: $menuTabZIndex;
+    right: -$tabRightOffset;
+    width: #{$tabSize + $tabRightOffset};
+    height: $tabSize;
+    transition: transform $menuChangeTime;
+    border-top-left-radius: $tabBorderRadius;
+    border-bottom-left-radius: $tabBorderRadius;
+    border: $menuBorderWidth solid;
+    cursor: pointer;
+
+    &.activated {
+      border-right-color: transparent;
+    }
+
+    &#menu-btn-wrap {
+      top: $tabTopSpace;
+    }
+
+    &#dict-btn-wrap {
+      top: $tabDictPosition;
+    }
+
+    &#crossref-btn-wrap {
+      top: $tabRefsPosition;
+    }
+
+    .tab-button {
+      width: $tabIconSize;
+      height: $tabIconSize;
+      position: absolute;
+      right: intdiv($tabIconPosition, 2) + $tabRightOffset;
+      top: intdiv($tabIconPosition, 2);
+      z-index: $menuButtonZIndex;
+      margin: auto;
+    }
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    z-index: $menuDeactivatedZIndex;
+    transition: transform 1s;
+    width: $sidebarWidth;
+    border-left: $menuBorderWidth solid;
+    padding-top: $sidebarTopPadding;
+
+    &.activated {
+      z-index: $menuActivatedZIndex;
+    }
+
+    a {
+      vertical-align: middle;
+      display: inline-block;
+      width: 100%;
+      margin: auto;
+      text-decoration: none;
+
+      &:active, &:hover, &:visited {
+        text-decoration: none;
+      }
+    }
+
+    &#menu {
+      ul {
+        list-style-type: none;
+        width: $menuListWidth;
+        right: 0;
+        padding: 0;
+        position: absolute;
+        margin-top: 0;
+
+        li {
+          width: 100%;
+          padding-left: $menuListItemBigSpace;
+          padding-top: $menuListItemLittleSpace;
+          padding-bottom: $menuListItemLittleSpace;
+          margin-top: $menuListItemBigSpace;
+          transition: background $menuButtonChangeTime ease-in;
+          right: 0;
+
+          input, label {
+            vertical-align: middle;
+            position: relative;
+          }
+        }
+      }
+    }
+
+    &#dictionary, &#crossref {
+      margin-bottom: $sidebarBottomMargin;
+      padding-left: $sidebarLeftPadding;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    &#menubottom {
+      top: unset;
+      bottom: $sidebarBottomSpace;
+      height: $sidebarBottomSize;
+      text-align: center;
+      z-index: $menuTabZIndex;
+    }
+  }
 }
 
-.tab-button {
-  //width: $tabIconSize;
-  //height: $tabIconSize;
-  position: absolute;
-  right: intdiv($tabIconPosition, 2) + $tabRightOffset;
-  top: intdiv($tabIconPosition, 2);
-  z-index: $menuButtonZIndex;
-  margin: auto;
+.dark {
+  #menu-button {
+    background-image: url("../images/menubutton_dark.svg");
+  }
+
+  #dict-button {
+    background-image: url("../images/dictbutton_dark.svg");
+  }
+
+  #ref-button {
+    background-image: url("../images/crossref_dark.svg");
+  }
 }
 
-#menu-button {
-  background-image: url("../images/menubutton.svg");
-}
+.light {
+  #menu-button {
+    background-image: url("../images/menubutton_light.svg");
+  }
 
-#dict-button {
-  background-image: url("../images/dictbutton.svg");
-}
+  #dict-button {
+    background-image: url("../images/dictbutton_light.svg");
+  }
 
-#ref-button {
-  background-image: url("../images/crossref.svg");
-}
-
-.menu-tab {
-  position: fixed;
-  z-index: $menuTabZIndex;
-  right: -$tabRightOffset;
-  width: #{$tabSize + $tabRightOffset};
-  height: $tabSize;
-  transition: transform $menuChangeTime;
-  border-top-left-radius: $tabBorderRadius;
-  border-bottom-left-radius: $tabBorderRadius;
-  border: $menuBorderWidth solid;
-}
-
-#menu-btn-wrap {
-  top: $tabTopSpace;
-}
-
-#dict-btn-wrap {
-  //top: $tabDictPosition;
-}
-
-#crossref-btn-wrap {
-  //top: $tabRefsPosition;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 100%;
-  z-index: $menuDeactivatedZIndex;
-  transition: transform 1s;
-  width: $sidebarWidth;
-  border-left: $menuBorderWidth solid;
-  padding-top: $sidebarTopPadding;
-}
-
-.sidebar.activated {
-  z-index: $menuActivatedZIndex;
-}
-
-#menu ul {
-  list-style-type: none;
-  width: $menuListWidth;
-  right: 0;
-  padding: 0;
-  position: absolute;
-  margin-top: 0;
-}
-
-#menu ul li {
-  width: 100%;
-  padding-left: $menuListItemBigSpace;
-  padding-top: $menuListItemLittleSpace;
-  padding-bottom: $menuListItemLittleSpace;
-  margin-top: $menuListItemBigSpace;
-  transition: background $menuButtonChangeTime ease-in;
-  right: 0;
-}
-
-.sidebar a {
-  vertical-align: middle;
-  display: inline-block;
-  width: 100%;
-  margin: auto;
-  text-decoration: none;
-}
-
-#menu ul li input, #menu ul li label {
-  vertical-align: middle;
-  position: relative;
-}
-
-.sidebar a:active, .sidebar a:hover, .sidebar a:visited {
-  text-decoration: none;
-}
-
-#dictionary, #crossref {
-  margin-bottom: $sidebarBottomMargin;
-  padding-left: $sidebarLeftPadding;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-#menubottom {
-  top: unset;
-  bottom: $sidebarBottomSpace;
-  height: $sidebarBottomSize;
-  text-align: center;
-  z-index: $menuTabZIndex;
+  #ref-button {
+    background-image: url("../images/crossref_light.svg");
+  }
 }
 //#endregion
 
@@ -757,31 +830,44 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 
   .of#{$b} {
     height: calc((90% - 1.5em) / (1 + #{intdiv($b, 4)}));
-    border: 1px solid black; //TODO: color?
-    margin: -0.5px;
-    overflow: hidden;
-    padding: $sectionPadding 0 $sectionPadding $sectionPadding;
-    box-sizing: border-box;
-    direction: ltr;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-
-    .rtl {
-      direction: rtl;
-    }
-
-    .textArea {
-      height: 100%;
-      overflow-y: auto;
-      padding-right: $sectionPadding;
-    }
   }
 }
-//TODO: figure out why there's a vertical collapse
-// TODO: scroll shadow!
+
+.version {
+  border: 1px solid black; //TODO: color?
+  margin: -0.5px;
+  overflow: hidden;
+  padding: $sectionPadding 0 $sectionPadding $sectionPadding;
+  box-sizing: border-box;
+  direction: ltr;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  h4 {
+    height: $searchButtonWidth;
+    flex-shrink: 0;
+  }
+
+  .rtl {
+    direction: rtl;
+  }
+
+  .textArea {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: $sectionPadding;
+    // TODO: scroll shadow!
+  }
+
+  .icoButton {
+    position: absolute;
+    right: 5px;
+  }
+}
+
 .resultNotice {
   width: calc(100% + #{$sectionPadding - $noticeLeftMargin});
   padding: $sectionPadding;
@@ -966,7 +1052,3 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
   }
 }
 //#endregion
-
-
-
-// TODO: have RTL languages actually go RTL

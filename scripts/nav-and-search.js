@@ -103,19 +103,15 @@ async function completeSearch(formData) {
         if (hasMultiTransl) {
             let spans = document.getElementsByTagName('span');
             for (let s = 0; s < spans.length; s++) {
-                spans[s].addEventListener('mouseover', function () {
-                    let className = this.classList.item(0);
-                    highlightWords(className);
-                });
-                spans[s].addEventListener('mouseout', function () {
-                    let className = this.classList.item(0);
-                    clearWords(className);
-                });
+                spans[s].addEventListener('mouseover', showHideStrongs.bind(spans[s], true));
+                spans[s].addEventListener('mouseout', showHideStrongs.bind(spans[s], false));
             }
         }
         let pg = document.getElementById('page');
         pg.classList.add('results');
         pg.classList.remove('hidden');
         document.getElementById('loading').classList.add('hidden');
+
+        addDefiners();
     });
 }
