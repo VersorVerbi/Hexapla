@@ -18,7 +18,7 @@ if ($langId === null) {
     die(); // TODO: use error handling instead?
 }
 
-
+$definitions = getStrongsDefinition($db, $sourceWords);
 
 
 /* TODO:

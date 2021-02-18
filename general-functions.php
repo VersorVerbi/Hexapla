@@ -336,3 +336,8 @@ function inStringList($target, $stringList, $delimiter) {
     $list = explode($delimiter, $stringList);
     return in_array($target, $list);
 }
+
+function hebrewTransliterate($hebrewString) {
+    // TODO: update this to linux filepaths
+    return exec("\"C:\\Program Files\\nodejs\\node\" -e \"console.log(require('C:/xampp/node_modules/hebrew-transliteration').transliterate('" . $hebrewString . "', { isSimple: true }))\"");
+}

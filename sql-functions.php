@@ -6,6 +6,7 @@ require_once "dbconnect.php";
 require_once "general-functions.php";
 require_once "lib/portable-utf8.php";
 require_once "HexaplaException.php";
+require_once "betacode-functions.php";
 
 /**
  * @param resource|null $pgConnection Connection to the PostgreSQL database; returns it if not set
@@ -393,17 +394,36 @@ function getLanguageOfVersion(&$db, $versionId) {
 }
 
 function getStrongsDefinition(&$db, $strongArray) {
+    $definitions = [];
     checkPgConnection($db);
     $sql = "SELECT " . pg_implode(",", [HexaplaLangLemma::STRONG_ID, HexaplaLangLemma::UNICODE_VALUE, HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::DEFINITION], $db);
     $sql .= " FROM " . HexaplaTables::LANG_DEFINITION . " JOIN " . HexaplaTables::LANG_LEMMA . " ON " . HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
     $sql .= " WHERE " . HexaplaLangLemma::STRONG_ID . " IN (";
-    $sql .= pg_implode(',', $strongArray, $db, true);
+    $sql .= pg_implode(',', array_unique($strongArray), $db, true);
     $sql .= ");";
     $result = pg_query($db, $sql);
     while (($row = pg_fetch_assoc($result)) !== false) {
-        // TODO: do the thing
+        $definitions[$row[HexaplaLangLemma::STRONG_ID]]['unicode'] = $row[HexaplaLangLemma::UNICODE_VALUE];
+        $definitions[$row[HexaplaLangLemma::STRONG_ID]]['defn'] = $row[HexaplaLangDefinition::DEFINITION];
     }
-    return; // TODO: the thing
+    return $definitions;
+}
+
+function getLiteralDefinition(&$db, $wordArray, $langId) {
+    $definitions = [];
+    $betacode = [];
+    for ($w = 0; $w < count($wordArray); $w++) {
+        $betacode[$w] = utf8_strtolower(uniString2Betacode($wordArray[$w]));
+    }
+    checkPgConnection($db);
+    $sql = "SELECT " . pg_implode(",", [HexaplaLangParse::FORM, HexaplaLangLemma::UNICODE_VALUE, HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::DEFINITION], $db);
+    $sql .= " FROM " . HexaplaTables::LANG_DEFINITION . " JOIN " . HexaplaTables::LANG_LEMMA . " ON " . HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
+    $sql .= " JOIN " . HexaplaTables::LANG_PARSE . " ON " . HexaplaTables::LANG_PARSE . "." . HexaplaLangParse::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
+    $sql .= " WHERE " . HexaplaLangParse::FORM . " IN (" . pg_implode(",", $betacod, $db, true) . ");";
+    $result = pg_query($db, $sql);
+    while (($row = pg_fetch_assoc($result)) !== false) {
+        // TODO: finish
+    }
 }
 
 /**
