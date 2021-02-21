@@ -396,34 +396,74 @@ function getLanguageOfVersion(&$db, $versionId) {
 function getStrongsDefinition(&$db, $strongArray) {
     $definitions = [];
     checkPgConnection($db);
-    $sql = "SELECT " . pg_implode(",", [HexaplaLangLemma::STRONG_ID, HexaplaLangLemma::UNICODE_VALUE, HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::DEFINITION], $db);
+    $sql = "SELECT " . pg_implode(",", [HexaplaLangLemma::STRONG_ID, HexaplaLangLemma::UNICODE_VALUE], $db) . "," . HexaplaTables::LANG_DEFINITION . "." . pg_escape_identifier($db, HexaplaLangDefinition::DEFINITION);
     $sql .= " FROM " . HexaplaTables::LANG_DEFINITION . " JOIN " . HexaplaTables::LANG_LEMMA . " ON " . HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
     $sql .= " WHERE " . HexaplaLangLemma::STRONG_ID . " IN (";
     $sql .= pg_implode(',', array_unique($strongArray), $db, true);
     $sql .= ");";
     $result = pg_query($db, $sql);
     while (($row = pg_fetch_assoc($result)) !== false) {
-        $definitions[$row[HexaplaLangLemma::STRONG_ID]]['unicode'] = $row[HexaplaLangLemma::UNICODE_VALUE];
+        $definitions[$row[HexaplaLangLemma::STRONG_ID]]['lemma'] = $row[HexaplaLangLemma::UNICODE_VALUE];
         $definitions[$row[HexaplaLangLemma::STRONG_ID]]['defn'] = $row[HexaplaLangDefinition::DEFINITION];
     }
     return $definitions;
 }
 
-function getLiteralDefinition(&$db, $wordArray, $langId) {
+function getLiteralDefinition(&$db, $wordArray, $langId): array {
+    //TODO: can we transition this logic into a PostgreSQL function? Too frequent code updates to handle new data here
+
     $definitions = [];
+    $wordArray = array_unique($wordArray);
     $betacode = [];
+    $itsRoman = $itsGreek = false;
+    if (in_array($langId, ['1','3'])) {
+        $itsRoman = true;
+    } elseif ($langId == '2') {
+        $itsGreek = true;
+    } // else...
+    // TODO: if Greek... --> get unicode + dictionary defn
     for ($w = 0; $w < count($wordArray); $w++) {
         $betacode[$w] = utf8_strtolower(uniString2Betacode($wordArray[$w]));
     }
+    // TODO: else if Hebrew / Arabic / ... ? --> get unicode + dictionary defn?
+    // TODO: else if English / Latin / Roman scirpt --> get unmarked + ... lemma defn?
     checkPgConnection($db);
-    $sql = "SELECT " . pg_implode(",", [HexaplaLangParse::FORM, HexaplaLangLemma::UNICODE_VALUE, HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::DEFINITION], $db);
-    $sql .= " FROM " . HexaplaTables::LANG_DEFINITION . " JOIN " . HexaplaTables::LANG_LEMMA . " ON " . HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
+    $valueCheckChunk = " LIKE ANY(ARRAY[" . pg_implode(",", $betacode, $db, true) . "])";
+
+    $sql = "SELECT " . pg_implode(",", [HexaplaLangParse::FORM, HexaplaLangParse::EXPANDED_FORM, HexaplaLangParse::BARE_FORM], $db);
+    if ($itsRoman) {
+        $sql .= "," . pg_escape_identifier($db, HexaplaLangLemma::UNMARKED_VALUE);
+        $sql .= "," . HexaplaTables::LANG_LEMMA . "." . pg_escape_identifier($db, HexaplaLangLemma::DEFINITION);
+    } elseif ($itsGreek) {
+        $sql .= "," . pg_escape_identifier($db, HexaplaLangLemma::UNICODE_VALUE);
+        $sql .= "," . HexaplaTables::LANG_DEFINITION . "." . pg_escape_identifier($db, HexaplaLangDefinition::DEFINITION);
+    }
+    $sql .= " FROM ";
+    if ($itsGreek) {
+        $sql .= HexaplaTables::LANG_DEFINITION . " JOIN " . HexaplaTables::LANG_LEMMA . " ON " . HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
+    } elseif ($itsRoman) {
+        $sql .= HexaplaTables::LANG_LEMMA;
+    }
     $sql .= " JOIN " . HexaplaTables::LANG_PARSE . " ON " . HexaplaTables::LANG_PARSE . "." . HexaplaLangParse::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
-    $sql .= " WHERE " . HexaplaLangParse::FORM . " IN (" . pg_implode(",", $betacod, $db, true) . ");";
+    $sql .= " WHERE " . HexaplaLangParse::FORM . $valueCheckChunk ." OR " . HexaplaLangParse::BARE_FORM . $valueCheckChunk . " OR " . HexaplaLangParse::EXPANDED_FORM . $valueCheckChunk . ";";
+
     $result = pg_query($db, $sql);
     while (($row = pg_fetch_assoc($result)) !== false) {
-        // TODO: finish
+        // find key
+        $lemma = ($itsRoman ? $row[HexaplaLangLemma::UNMARKED_VALUE] : $row[HexaplaLangLemma::UNICODE_VALUE]);
+        for ($w = 0; $w < count($betacode); $w++) {
+            if (in_array($betacode[$w], [$row[HexaplaLangParse::FORM], $row[HexaplaLangParse::BARE_FORM], $row[HexaplaLangParse::EXPANDED_FORM]]) && !array_key_exists($wordArray[$w], $definitions)) {
+                $definitions[$wordArray[$w]]['lemma'] = $lemma;
+                $definitions[$wordArray[$w]]['defn'] = $row[HexaplaLangDefinition::DEFINITION];
+            }
+        }
     }
+    for ($w = 0; $w < count($wordArray); $w++) {
+        if (!array_key_exists($wordArray[$w], $definitions)) {
+            // TODO: get definition from somewhere else?
+        }
+    }
+    return $definitions;
 }
 
 /**
@@ -453,11 +493,11 @@ function pg_implode(string $glue, array $array, $db, $literal = false): string
 {
     checkPgConnection($db);
     if ($literal) {
-        $formattedArray = array_map(function ($item) {
+        $formattedArray = array_map(function ($item) use ($db) {
             return pg_escape_literal($db, $item);
         }, $array);
     } else {
-        $formattedArray = array_map(function ($item) {
+        $formattedArray = array_map(function ($item) use ($db) {
             return pg_escape_identifier($db, $item);
         }, $array);
     }
@@ -698,7 +738,7 @@ class HexaplaLangLemma implements HexaplaStandardColumns, HexaplaValueColumns, H
 }
 class HexaplaLangParse implements HexaplaStandardColumns, HexaplaLemmaColumns {
     const MORPH_CODE = 'morph_code';
-    const EXPANDED_FROM = 'expanded_from';
+    const EXPANDED_FORM = 'expanded_form';
     const FORM = 'form';
     const BARE_FORM = 'bare_form';
     const DIALECTS = 'dialects';

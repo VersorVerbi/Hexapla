@@ -54,15 +54,20 @@ switch($page) {
 
 
 <?php
-
 /* TODO list
     - add/remove notices with JS --> call JS functions when appropriate (when is it appropriate besides diffing?)
     - add diff --> add button and code to run diff code | include byWord and caseSensitive options
-    - add sidebar
-    - add click->dictionary+toggle for words
+    - add sidebar --> enable all functionality
+    - add click->dictionary+toggle for words --> finish getting data from all sources
     - reload/add more translations
     - add page content + how can I help? page
     - dynamic theming
     - handle commentary text
     - add user functionality
+        -> user notes
+            --> associate with all verses -- load all in order if viewing >1 verse, but then have to save all for all verses
+            --> if save notes to 10 verses, then update for 1 verse, must update for all 10
+            --> add it from translation config screen
+            --> WYSIWYG editor
+        -> qualifications - contributions?
 */

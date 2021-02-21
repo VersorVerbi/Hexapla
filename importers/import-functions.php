@@ -3,6 +3,7 @@
 use JetBrains\PhpStorm\Pure;
 
 require_once "../sql-functions.php";
+require_once "../general-functions.php";
 require_once "../HexaplaException.php";
 
 /**
@@ -94,23 +95,6 @@ function xml_get_attribute_set(array $xmlArray, array $attrList, array &$arrayRe
     } else {
         return 0;
     }
-}
-
-/**
- * @return string Pattern for identifying word strings in regex (internationally capable)
- */
-function wordRegexPattern(): string
-{
-    return '(?:\p{L}|\p{M}|[\'-])+';
-}
-
-/**
- * @return string Pattern for identifying non-word strings (excluding spaces) in regex (internationally capable)
- */
-function nonwordRegexPattern(): string
-{
-    // TODO: account for weird punctuation like 'right quotation apostrophe' instead of regular apostrophe (we remove characters from words based on this regex rather than the one above)
-    return '(?:\p{P}|\p{N}+|\p{S})';
 }
 
 /**

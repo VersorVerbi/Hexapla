@@ -29,14 +29,48 @@ async function define() {
     form.append('sourceWords', JSON.stringify(sourceWords));
     form.append('tid', translationId);
     form.append('text', this.innerText);
+    //let input = JSON.stringify({'sourceWords': sourceWords, 'tid': translationId, 'text': this.innerText});
 
-    let definitions = await fetch('define.php', {
+    let definitions = await fetch('/Hexapla/define.php', { // TODO: correct this root-relative URL later
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
         body: form
     });
-    definitions.text().then(data => {
-        // TODO: put definitions in sidebar and show sidebar
+    let curDefns = document.getElementById('curLangDefn');
+    emptyBox(curDefns, 'curLangTitle');
+    let sourceDefns = document.getElementById('sourceLangDefn');
+    emptyBox(sourceDefns, 'sourceLangTitle');
+    definitions.json().then(data => { // .text().then(data => { console.log(data); });
+        if (data['literalLang'] !== null) {
+            if (data['literalLang']['dir'] === 'rtl') { // TODO: is this right?
+                curDefns.classList.add('rtl');
+            }
+            document.getElementById('curLangTitle').innerText = data['literalLang']['name'];
+            let definitionList = document.createElement('dl');
+            createDefinitionObjects(data['literal'], definitionList);
+            curDefns.appendChild(definitionList);
+        }
+        if (data['source']) {
+            if (Object.keys(data['source']).length > 0) {
+                let definitionList = document.createElement('dl');
+                createDefinitionObjects(data['source'], definitionList);
+                curDefns.appendChild(definitionList);
+            }
+        }
+        showSidebar('dictionary');
     });
+}
+
+function createDefinitionObjects(oList, dList) {
+    for (let prop in oList) {
+        if (oList.hasOwnProperty(prop)) {
+            let item = document.createElement('dt');
+            item.innerText = prop + ': ' + oList[prop]['lemma'];
+            let defn = document.createElement('dd');
+            defn.innerText = oList[prop]['defn'];
+            dList.appendChild(item);
+            dList.appendChild(defn);
+        }
+    }
 }

@@ -341,3 +341,20 @@ function hebrewTransliterate($hebrewString) {
     // TODO: update this to linux filepaths
     return exec("\"C:\\Program Files\\nodejs\\node\" -e \"console.log(require('C:/xampp/node_modules/hebrew-transliteration').transliterate('" . $hebrewString . "', { isSimple: true }))\"");
 }
+
+/**
+ * @return string Pattern for identifying word strings in regex (internationally capable)
+ */
+function wordRegexPattern(): string
+{
+    return '(?:\p{L}|\p{M}|[\'-])+';
+}
+
+/**
+ * @return string Pattern for identifying non-word strings (excluding spaces) in regex (internationally capable)
+ */
+function nonwordRegexPattern(): string
+{
+    // TODO: account for weird punctuation like 'right quotation apostrophe' instead of regular apostrophe (we remove characters from words based on this regex rather than the one above)
+    return '(?:\p{P}|\p{N}+|\p{S})';
+}

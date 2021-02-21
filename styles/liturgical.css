@@ -2285,8 +2285,11 @@ h4 {
 #menuwrap .sidebar#dictionary, #menuwrap .sidebar#crossref {
   margin-bottom: 50px;
   padding-left: 20px;
+  padding-right: 20px;
   overflow-y: auto;
   overflow-x: hidden;
+  box-sizing: border-box;
+  width: 300px;
 }
 #menuwrap .sidebar#menubottom {
   top: unset;

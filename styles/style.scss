@@ -579,8 +579,11 @@ h4 {
     &#dictionary, &#crossref {
       margin-bottom: $sidebarBottomMargin;
       padding-left: $sidebarLeftPadding;
+      padding-right: $sidebarLeftPadding;
       overflow-y: auto;
       overflow-x: hidden;
+      box-sizing: border-box;
+      width: $sidebarWidth;
     }
 
     &#menubottom {

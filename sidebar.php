@@ -34,7 +34,7 @@
         </div>
         <hr />
         <div id="sourceLangDefn">
-            <h3 id="sourceLangTitle"></h3>
+            <h3 id="sourceLangTitle">Source Language</h3>
         </div>
     </div>
     <div class="sidebar" id="crossref">

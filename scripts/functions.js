@@ -3,9 +3,15 @@ function substr_count(haystack, needle) {
     return (haystack.match(re) || []).length;
 }
 
-function emptyBox(box) { // per benchmarking, this is the fastest way to clear children, at least in FF and Chrome at the time
+function emptyBox(box, except = null) { // per benchmarking, this is the fastest way to clear children, at least in FF and Chrome at the time
     let kid = box.firstChild;
     while (kid) {
+        while (except !== null && kid.id === except) {
+            kid = kid.nextSibling;
+            if (!kid) {
+                return;
+            }
+        }
         kid.remove();
         kid = box.firstChild;
     }

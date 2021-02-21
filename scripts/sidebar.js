@@ -7,15 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 hideMenu();
                 return;
             }
-            let currentlyActive = document.getElementsByClassName('activated');
-            for (let c = currentlyActive.length - 1; c >= 0; c--) {
-                currentlyActive[c].classList.remove('activated');
-            }
-            let target = this.dataset.mnu;
-            let targetSidebar = document.getElementById(target);
-            document.getElementById('menuwrap').classList.add('active');
-            targetSidebar.classList.add('activated');
-            this.classList.add('activated');
+            showMenu(this);
         });
     }
 
@@ -49,4 +41,20 @@ function hideMenu() {
             menus[m].classList.remove('activated');
         }
     }, 1000);
+}
+
+function showSidebar(sidebarName) {
+    showMenu(document.querySelector('[data-mnu=' + sidebarName + ']'));
+}
+
+function showMenu(tab) {
+    let currentlyActive = document.getElementsByClassName('activated');
+    for (let c = currentlyActive.length - 1; c >= 0; c--) {
+        currentlyActive[c].classList.remove('activated');
+    }
+    let target = tab.dataset.mnu;
+    let targetSidebar = document.getElementById(target);
+    document.getElementById('menuwrap').classList.add('active');
+    targetSidebar.classList.add('activated');
+    tab.classList.add('activated');
 }
