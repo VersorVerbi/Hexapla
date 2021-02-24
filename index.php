@@ -63,6 +63,7 @@ switch($page) {
     - add page content + how can I help? page
     - dynamic theming
     - handle commentary text
+    - crossrefs
     - add user functionality
         -> user notes
             --> associate with all verses -- load all in order if viewing >1 verse, but then have to save all for all verses

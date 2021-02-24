@@ -31,10 +31,13 @@ function getIdRows(&$pgConnection, string $tableName, array $searchCriteria = []
  * @param array $columns Array of column names as strings to get data from
  * @param array $searchCriteria Associative array where the key is the column name and the value is the search string
  * @param array $sortColumns
+ * @param array $joinData
+ * @param bool $stringsUseLike
+ * @param bool $allOr
  * @return false|resource Results of the SQL query; use pg_fetch functions to get individual rows
  * @uses checkPgConnection(), is_null(), strlen(), pg_query_params()
  */
-function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = [])
+function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = [], array $joinData = [], $stringsUseLike = false, $allOr = false)
 {
     checkPgConnection($pgConnection);
     if (is_null($tableName) || strlen($tableName) === 0) {
@@ -46,34 +49,42 @@ function getData(&$pgConnection, string $tableName, array $columns = [], array $
         // get all
         $sql .= '*';
     } else {
-        foreach ($columns as $coln) {
-            if ($c++ !== 0) {
-                $sql .= ', ';
-            }
-            $sql .= pg_escape_identifier($coln);
+        $sql .= pg_implode(',', $columns, $pgConnection);
+    }
+    $sql .= ' FROM public.' . pg_escape_identifier($pgConnection, $tableName);
+    if (count($joinData) > 0) {
+        foreach ($joinData as $tableJoin) {
+            $sql .= ' JOIN ' . pg_escape_identifier($pgConnection, $tableJoin[HexaplaJoin::JOIN_TO]);
+            $sql .= ' ON ' . pg_escape_identifier($pgConnection, $tableJoin[HexaplaJoin::ON_LEFT_TABLE]) . '.' . pg_escape_identifier($pgConnection, $tableJoin[HexaplaJoin::ON_LEFT]);
+            $sql .= ' = ' . pg_escape_identifier($pgConnection, $tableJoin[HexaplaJoin::ON_RIGHT_TABLE]) . '.' . pg_escape_identifier($pgConnection, $tableJoin[HexaplaJoin::ON_RIGHT]);
         }
     }
-    $sql .= ' FROM public.' . pg_escape_identifier($tableName);
     if (count($searchCriteria) > 0) {
         $i = 1;
         foreach($searchCriteria as $coln => $value) {
             if ($i++ === 1) {
                 $sql .= ' WHERE ';
+            } elseif ($allOr) {
+                $sql .= ' OR ';
             } else {
                 $sql .= ' AND ';
             }
+            $sql .= my_escape_column($pgConnection, $coln);
             if (is_array($value)) {
-                $sql .= pg_escape_identifier($coln) . ' IN (';
-                $subs = "";
-                foreach ($value as $subvalue) {
-                    $subs .= ',' . pg_escape_literal($subvalue);
+                if (!$stringsUseLike || numericOnly($value)) {
+                    $sql .= ' IN (' . pg_implode(',', $value, $pgConnection, true) . ')';
+                } else {
+                    $sql .= ' LIKE ANY(ARRAY[' . pg_implode(',', $value, $pgConnection, true) . '])';
                 }
-                $sql .= substr($subs,1) . ')';
             } elseif (is_null($value)) {
-                $sql .= pg_escape_identifier($coln) . ' IS NULL';
+                $sql .= ' IS NULL';
                 unset($searchCriteria[$coln]);
             } else {
-                $sql .= $coln . '=' . pg_escape_literal($value);
+                if (!$stringsUseLike || numericOnly($value)) {
+                    $sql .= '=' . pg_escape_literal($pgConnection, $value);
+                } else {
+                    $sql .= ' LIKE ' . pg_escape_literal($pgConnection, $value);
+                }
             }
         }
     }
@@ -86,11 +97,21 @@ function getData(&$pgConnection, string $tableName, array $columns = [], array $
             if ($i++ > 1) {
                 $sql .= ', ';
             }
-            $sql .= pg_escape_identifier($coln) . $direction;
+            $sql .= my_escape_column($pgConnection, $coln) . $direction;
         }
     }
     $sql .= ';';
     return pg_query($pgConnection, $sql);
+}
+
+function my_escape_column($pgConnection, $coln): string {
+    $colTbl = '';
+    if (str_contains($coln, '.')) {
+        $split = explode('.', $coln);
+        $colTbl = $split[0];
+        $coln = $split[1];
+    }
+    return (strlen($colTbl) > 0 ? pg_escape_identifier($pgConnection, $colTbl) . '.' : '') . pg_escape_identifier($pgConnection, $coln);
 }
 
 /**
@@ -393,15 +414,16 @@ function getLanguageOfVersion(&$db, $versionId) {
     return $langRow[HexaplaSourceVersion::LANGUAGE_ID];
 }
 
-function getStrongsDefinition(&$db, $strongArray) {
+function getStrongsDefinition(&$db, $strongArray): array {
     $definitions = [];
     checkPgConnection($db);
-    $sql = "SELECT " . pg_implode(",", [HexaplaLangLemma::STRONG_ID, HexaplaLangLemma::UNICODE_VALUE], $db) . "," . HexaplaTables::LANG_DEFINITION . "." . pg_escape_identifier($db, HexaplaLangDefinition::DEFINITION);
-    $sql .= " FROM " . HexaplaTables::LANG_DEFINITION . " JOIN " . HexaplaTables::LANG_LEMMA . " ON " . HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
-    $sql .= " WHERE " . HexaplaLangLemma::STRONG_ID . " IN (";
-    $sql .= pg_implode(',', array_unique($strongArray), $db, true);
-    $sql .= ");";
-    $result = pg_query($db, $sql);
+    $result = getData($db, HexaplaTables::LANG_DEFINITION,
+        [HexaplaLangLemma::STRONG_ID, HexaplaLangLemma::UNICODE_VALUE, HexaplaTables::LANG_DEFINITION . '.' . HexaplaLangDefinition::DEFINITION],
+        [HexaplaLangLemma::STRONG_ID => array_unique($strongArray)],
+        [],
+        [new HexaplaJoin(HexaplaTables::LANG_LEMMA,
+            HexaplaTables::LANG_DEFINITION, HexaplaLangDefinition::LEMMA_ID,
+            HexaplaTables::LANG_LEMMA, HexaplaLangLemma::ID)]);
     while (($row = pg_fetch_assoc($result)) !== false) {
         $definitions[$row[HexaplaLangLemma::STRONG_ID]]['lemma'] = $row[HexaplaLangLemma::UNICODE_VALUE];
         $definitions[$row[HexaplaLangLemma::STRONG_ID]]['defn'] = $row[HexaplaLangDefinition::DEFINITION];
@@ -416,11 +438,26 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     $wordArray = array_unique($wordArray);
     $betacode = [];
     $itsRoman = $itsGreek = false;
+    $targetTable = '';
+    $targetColumns = [HexaplaLangParse::FORM, HexaplaLangParse::EXPANDED_FORM, HexaplaLangParse::BARE_FORM];
+    $joinData = [];
     if (in_array($langId, ['1','3'])) {
         $itsRoman = true;
+        $targetTable = HexaplaTables::LANG_LEMMA;
+        $targetColumns[] = HexaplaLangLemma::UNMARKED_VALUE;
+        $targetColumns[] = HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::DEFINITION;
     } elseif ($langId == '2') {
         $itsGreek = true;
+        $targetTable = HexaplaTables::LANG_DEFINITION;
+        $targetColumns[] = HexaplaLangLemma::UNICODE_VALUE;
+        $targetColumns[] = HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::DEFINITION;
+        $joinData[] = new HexaplaJoin(HexaplaTables::LANG_LEMMA,
+            HexaplaTables::LANG_DEFINITION, HexaplaLangDefinition::LEMMA_ID,
+            HexaplaTables::LANG_LEMMA, HexaplaLangLemma::ID);
     } // else...
+    $joinData[] = new HexaplaJoin(HexaplaTables::LANG_PARSE,
+        HexaplaTables::LANG_LEMMA, HexaplaLangLemma::ID,
+        HexaplaTables::LANG_PARSE, HexaplaLangParse::LEMMA_ID);
     // TODO: if Greek... --> get unicode + dictionary defn
     for ($w = 0; $w < count($wordArray); $w++) {
         $betacode[$w] = utf8_strtolower(uniString2Betacode($wordArray[$w]));
@@ -428,9 +465,10 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     // TODO: else if Hebrew / Arabic / ... ? --> get unicode + dictionary defn?
     // TODO: else if English / Latin / Roman scirpt --> get unmarked + ... lemma defn?
     checkPgConnection($db);
-    $valueCheckChunk = " LIKE ANY(ARRAY[" . pg_implode(",", $betacode, $db, true) . "])";
+    $searchCriteria = [HexaplaLangParse::FORM => $betacode, HexaplaLangParse::BARE_FORM => $betacode, HexaplaLangParse::EXPANDED_FORM => $betacode];
+    //$valueCheckChunk = " LIKE ANY(ARRAY[" . pg_implode(",", $betacode, $db, true) . "])";
 
-    $sql = "SELECT " . pg_implode(",", [HexaplaLangParse::FORM, HexaplaLangParse::EXPANDED_FORM, HexaplaLangParse::BARE_FORM], $db);
+    /*$sql = "SELECT " . pg_implode(",", [HexaplaLangParse::FORM, HexaplaLangParse::EXPANDED_FORM, HexaplaLangParse::BARE_FORM], $db);
     if ($itsRoman) {
         $sql .= "," . pg_escape_identifier($db, HexaplaLangLemma::UNMARKED_VALUE);
         $sql .= "," . HexaplaTables::LANG_LEMMA . "." . pg_escape_identifier($db, HexaplaLangLemma::DEFINITION);
@@ -448,6 +486,8 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     $sql .= " WHERE " . HexaplaLangParse::FORM . $valueCheckChunk ." OR " . HexaplaLangParse::BARE_FORM . $valueCheckChunk . " OR " . HexaplaLangParse::EXPANDED_FORM . $valueCheckChunk . ";";
 
     $result = pg_query($db, $sql);
+    */
+    $result = getData($db, $targetTable, $targetColumns, $searchCriteria, [], $joinData, true, true);
     while (($row = pg_fetch_assoc($result)) !== false) {
         // find key
         $lemma = ($itsRoman ? $row[HexaplaLangLemma::UNMARKED_VALUE] : $row[HexaplaLangLemma::UNICODE_VALUE]);
@@ -464,6 +504,31 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
         }
     }
     return $definitions;
+}
+
+function getStrongsCrossRefs(&$db, $strongArray, $translId): array {
+    $crossRefs = [];
+    // get term -> primary_term_id -> section_id -> subsection_id -> location -> strong's
+    return $crossRefs;
+}
+
+function getLiteralCrossRefs(&$db, $wordArray, $translId): array {
+    $crossRefs = [];
+
+    return $crossRefs;
+}
+
+function numericOnly($val) {
+    if (is_array($val)) {
+        foreach ($val as $item) {
+            if (!is_numeric($item)) {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        return is_numeric($val);
+    }
 }
 
 /**
@@ -498,7 +563,7 @@ function pg_implode(string $glue, array $array, $db, $literal = false): string
         }, $array);
     } else {
         $formattedArray = array_map(function ($item) use ($db) {
-            return pg_escape_identifier($db, $item);
+            return my_escape_column($db, $item);
         }, $array);
     }
     return implode($glue, $formattedArray);
@@ -562,6 +627,24 @@ function terms_array(string $aggregateString): array
 }
 
 #region Database Table & Enum Classes
+class HexaplaJoin extends ArrayObject {
+    const JOIN_TO = 'table';
+    const ON_LEFT_TABLE = 'leftTbl';
+    const ON_LEFT = 'left';
+    const ON_RIGHT_TABLE = 'rightTbl';
+    const ON_RIGHT = 'right';
+
+    function __construct($joinTo, $leftTable, $onLeft, $rightTable, $onRight)
+    {
+        $array = [self::JOIN_TO => $joinTo,
+            self::ON_LEFT_TABLE => $leftTable, self::ON_LEFT => $onLeft,
+            self::ON_RIGHT_TABLE => $rightTable, self::ON_RIGHT => $onRight];
+        $flags = 0;
+        $iteratorClass = "ArrayIterator";
+        parent::__construct($array, $flags, $iteratorClass);
+    }
+}
+
 class HexaplaTables {
     const TEXT_VALUE = 'text_value';
     const TEXT_STRONGS = 'text_strongs';

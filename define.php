@@ -11,17 +11,19 @@ $text = $_POST['text'];
 $literalWords = explode(' ', preg_replace('/' . nonwordRegexPattern() . '/u', '', $text));
 
 // get language from translation ID
-$langId = getLanguageOfVersion($db, substr($translationId, 1));
+$langId = getLanguageOfVersion($db, $translationId);
 if ($langId === null) {
     die(); // TODO: use error handling instead?
 }
 
 if (count($sourceWords) > 0) {
     $output['source'] = getStrongsDefinition($db, $sourceWords);
+    $output['sourceCross'] = getStrongsCrossRefs($db, $sourceWords, $translationId);
 }
-
+// TODO: move cross-references into a separate async so we don't have to wait for it before opening definitions
 if (count($literalWords) > 0) {
     $output['literal'] = getLiteralDefinition($db, $literalWords, $langId);
+    $output['litCross'] = getLiteralCrossRefs($db, $literalWords, $langId, $translationId);
 }
 
 $langData = getData($db, HexaplaTables::LANGUAGE, [HexaplaLanguage::NAME, HexaplaLanguage::DIRECTION], [HexaplaLanguage::ID => $langId]);

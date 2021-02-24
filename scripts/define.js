@@ -27,9 +27,8 @@ async function define() {
 
     let form = new FormData();
     form.append('sourceWords', JSON.stringify(sourceWords));
-    form.append('tid', translationId);
+    form.append('tid', translationId.substring(1));
     form.append('text', this.innerText);
-    //let input = JSON.stringify({'sourceWords': sourceWords, 'tid': translationId, 'text': this.innerText});
 
     let definitions = await fetch('/Hexapla/define.php', { // TODO: correct this root-relative URL later
         method: 'POST',
@@ -55,7 +54,7 @@ async function define() {
             if (Object.keys(data['source']).length > 0) {
                 let definitionList = document.createElement('dl');
                 createDefinitionObjects(data['source'], definitionList);
-                curDefns.appendChild(definitionList);
+                sourceDefns.appendChild(definitionList);
             }
         }
         showSidebar('dictionary');
