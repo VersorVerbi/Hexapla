@@ -7,6 +7,7 @@ require_once "general-functions.php";
 require_once "lib/portable-utf8.php";
 require_once "HexaplaException.php";
 require_once "betacode-functions.php";
+require_once "api-functions.php";
 
 /**
  * @param resource|null $pgConnection Connection to the PostgreSQL database; returns it if not set
@@ -433,6 +434,7 @@ function getStrongsDefinition(&$db, $strongArray): array {
 
 function getLiteralDefinition(&$db, $wordArray, $langId): array {
     //TODO: can we transition this logic into a PostgreSQL function? Too frequent code updates to handle new data here
+    checkPgConnection($db);
 
     $definitions = [];
     $wordArray = array_unique($wordArray);
@@ -458,35 +460,16 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     $joinData[] = new HexaplaJoin(HexaplaTables::LANG_PARSE,
         HexaplaTables::LANG_LEMMA, HexaplaLangLemma::ID,
         HexaplaTables::LANG_PARSE, HexaplaLangParse::LEMMA_ID);
-    // TODO: if Greek... --> get unicode + dictionary defn
-    for ($w = 0; $w < count($wordArray); $w++) {
-        $betacode[$w] = utf8_strtolower(uniString2Betacode($wordArray[$w]));
-    }
-    // TODO: else if Hebrew / Arabic / ... ? --> get unicode + dictionary defn?
-    // TODO: else if English / Latin / Roman scirpt --> get unmarked + ... lemma defn?
-    checkPgConnection($db);
-    $searchCriteria = [HexaplaLangParse::FORM => $betacode, HexaplaLangParse::BARE_FORM => $betacode, HexaplaLangParse::EXPANDED_FORM => $betacode];
-    //$valueCheckChunk = " LIKE ANY(ARRAY[" . pg_implode(",", $betacode, $db, true) . "])";
-
-    /*$sql = "SELECT " . pg_implode(",", [HexaplaLangParse::FORM, HexaplaLangParse::EXPANDED_FORM, HexaplaLangParse::BARE_FORM], $db);
-    if ($itsRoman) {
-        $sql .= "," . pg_escape_identifier($db, HexaplaLangLemma::UNMARKED_VALUE);
-        $sql .= "," . HexaplaTables::LANG_LEMMA . "." . pg_escape_identifier($db, HexaplaLangLemma::DEFINITION);
-    } elseif ($itsGreek) {
-        $sql .= "," . pg_escape_identifier($db, HexaplaLangLemma::UNICODE_VALUE);
-        $sql .= "," . HexaplaTables::LANG_DEFINITION . "." . pg_escape_identifier($db, HexaplaLangDefinition::DEFINITION);
-    }
-    $sql .= " FROM ";
     if ($itsGreek) {
-        $sql .= HexaplaTables::LANG_DEFINITION . " JOIN " . HexaplaTables::LANG_LEMMA . " ON " . HexaplaTables::LANG_DEFINITION . "." . HexaplaLangDefinition::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
-    } elseif ($itsRoman) {
-        $sql .= HexaplaTables::LANG_LEMMA;
+        for ($w = 0; $w < count($wordArray); $w++) {
+            $betacode[$w] = utf8_strtolower(uniString2Betacode($wordArray[$w]));
+        }
+    } else {
+        $betacode = $wordArray;
     }
-    $sql .= " JOIN " . HexaplaTables::LANG_PARSE . " ON " . HexaplaTables::LANG_PARSE . "." . HexaplaLangParse::LEMMA_ID . " = " . HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID;
-    $sql .= " WHERE " . HexaplaLangParse::FORM . $valueCheckChunk ." OR " . HexaplaLangParse::BARE_FORM . $valueCheckChunk . " OR " . HexaplaLangParse::EXPANDED_FORM . $valueCheckChunk . ";";
-
-    $result = pg_query($db, $sql);
-    */
+    // FIXME: add lang id to parse table and filter by that
+    // FIXME: get MOST LIKLEY lemma... somehow
+    $searchCriteria = [HexaplaLangParse::FORM => $betacode, HexaplaLangParse::BARE_FORM => $betacode, HexaplaLangParse::EXPANDED_FORM => $betacode];
     $result = getData($db, $targetTable, $targetColumns, $searchCriteria, [], $joinData, true, true);
     while (($row = pg_fetch_assoc($result)) !== false) {
         // find key
@@ -500,25 +483,56 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     }
     for ($w = 0; $w < count($wordArray); $w++) {
         if (!array_key_exists($wordArray[$w], $definitions)) {
-            // TODO: get definition from somewhere else?
+            $definitions[$wordArray[$w]] = getDefinitionAPI($wordArray[$w], $langId);
         }
     }
     return $definitions;
 }
 
 function getStrongsCrossRefs(&$db, $strongArray, $translId): array {
+    checkPgConnection($db);
     $crossRefs = [];
-    // get term -> primary_term_id -> section_id -> subsection_id -> location -> strong's
+    $verses = [];
+    $query = "SELECT get_strong_cross_refs(" . pg_implode(',', $strongArray, $db, true) . "," . pg_escape_literal($db, $translId) . ");";
+    $results = pg_query($db, $query);
+    while (($row = pg_fetch_row($results)) !== false) {
+        $result = resolveMore($row[0]);
+        $verses[$result[6]][$result[1]] = [$result[2], $result[4], $result[5]];
+        if (preg_match(strongsListPattern($strongArray), ';' . $result[5] . ';')) {
+            $verses[$result[6]]['target'][] = $result[1];
+        }
+    }
+    foreach ($verses as $ref => $verse) {
+        foreach ($verse['target'] as $targetPosition) {
+            $crossRef = [];
+            $pos = max([$targetPosition - 4, 0]);
+            $wordCount = 0;
+
+            while ($verse[$pos][1] !== HexaplaPunctuation::NOT) {
+                if ($pos < 0) die();
+                $pos--;
+            }
+            while ($wordCount < 7) {
+                if (!isset($verse[$pos])) break;
+                $crossRef[$pos] = $verse[$pos];
+                if ($verse[$pos][1] === HexaplaPunctuation::NOT) $wordCount++;
+                $pos++;
+            }
+            $crossRef['target'] = $targetPosition;
+            $crossRef['ref'] = $ref;
+            $crossRefs[] = $crossRef;
+        }
+    }
     return $crossRefs;
 }
 
-function getLiteralCrossRefs(&$db, $wordArray, $translId): array {
+function getLiteralCrossRefs(&$db, $wordArray, $langId, $translId): array {
     $crossRefs = [];
 
     return $crossRefs;
 }
 
-function numericOnly($val) {
+#[Pure] function numericOnly($val) {
     if (is_array($val)) {
         foreach ($val as $item) {
             if (!is_numeric($item)) {

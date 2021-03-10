@@ -588,6 +588,7 @@ h4 {
 
     &#menubottom {
       top: unset;
+      padding-top: unset;
       bottom: $sidebarBottomSpace;
       height: $sidebarBottomSize;
       text-align: center;
@@ -1055,3 +1056,12 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
   }
 }
 //#endregion
+
+.crossRefWord {
+  font-weight: bolder;
+  color: red;
+}
+.etymology {
+  font-style: italic;
+  font-size: 0.8em;
+}

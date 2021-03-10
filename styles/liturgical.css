@@ -2293,6 +2293,7 @@ h4 {
 }
 #menuwrap .sidebar#menubottom {
   top: unset;
+  padding-top: unset;
   bottom: 20px;
   height: 30px;
   text-align: center;
@@ -2798,6 +2799,16 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 }
 [draggable=true]:active {
   cursor: grabbing;
+}
+
+.crossRefWord {
+  font-weight: bolder;
+  color: red;
+}
+
+.etymology {
+  font-style: italic;
+  font-size: 0.8em;
 }
 
 body.green.dark {
