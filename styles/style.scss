@@ -22,6 +22,10 @@ $searchPlaceholderColor: #555;
 $warningBorder: darkred;
 $darkLinks: #a9b8d4;
 $lightLinks: #001fc5;
+$brightSideBorder: rgba(255,255,255,0.5);
+$darkSideBorder: rgba(0,0,0,0.5);
+$hoverBrightBorder: rgba(125, 180, 255, 0.5);
+$hoverDarkBorder: rgba(0, 50, 150, 0.5);
 
 @mixin noticeColors($fyi, $warning, $error, $links) {
   .resultNotice {
@@ -127,6 +131,16 @@ $lightLinks: #001fc5;
     background-color: map.get($colorMap, 'sameHover');
     color: map.get($colorMap, 'sameHoverFont');
   }
+
+  #scroll-together-label {
+    span, span::before, span::after {
+      border-color: map.get($colorMap, 'animationBorders');
+    }
+
+    span::before, span::after {
+      background-color: map.get($colorMap, 'animationBorders');
+    }
+  }
 }
 
 @mixin highlights($highlightMap) {
@@ -202,7 +216,8 @@ body {
                  'menuColor': $dark2, 'menuBorderColor': $dark15, 'menuFontColor': $dark15,
                  'menuButtonHoverColor': $dark3, 'translationBorder': $dark10, 'translationBg': $dark2,
                  'modalBg': $dark3, 'modalBorder': $dark15, 'fontColor': $dark15, 'buttonFontColor': $dark1-5,
-                 'loadBg': rgba($dark15, 0.7), 'links': $darkLinks, 'sameHover': $dark15, 'sameHoverFont': $dark1-5);
+                 'loadBg': rgba($dark15, 0.7), 'links': $darkLinks, 'sameHover': $dark15, 'sameHoverFont': $dark1-5,
+                 'animationBorders': $brightSideBorder);
     @include colors($colorMap);
 
     $highlightMap: (2: #45632f, 3: #495d6b, 4: #755426, 5: #6b5559, 6: #5c5d2e);
@@ -217,7 +232,8 @@ body {
             'menuColor': $light2, 'menuBorderColor': $light15, 'menuFontColor': $light15,
             'menuButtonHoverColor': $light3, 'translationBorder': $light10, 'translationBg': $light2,
             'modalBg': $light3, 'modalBorder': $light15, 'fontColor': $light15, 'buttonFontColor': $light15,
-            'loadBg': rgba($light15, 0.7), 'links': $lightLinks, 'sameHover': $light15, 'sameHoverFont': $light1-5);
+            'loadBg': rgba($light15, 0.7), 'links': $lightLinks, 'sameHover': $light15, 'sameHoverFont': $light1-5,
+            'animationBorders': $darkSideBorder);
     @include colors($colorMap);
 
     $highlightMap: (2: #70c531, 3: #7cb7dc, 4: #f29e0f, 5: #d6a3ac, 6: #b5b634);
@@ -285,6 +301,10 @@ $menuButtonZIndex: $effectivelyMaxInt - 1;
 $menuTabZIndex: $menuButtonZIndex - 1;
 $menuActivatedZIndex: $menuTabZIndex - 1;
 $menuDeactivatedZIndex: $menuActivatedZIndex - 1;
+
+$scrollIconBorderRadius: 5px;
+$scrollIconSidePosition: 1px;
+$scrollIconScrolledPosition: 11px;
 //#endregion
 
 //#region Popup variables
@@ -550,6 +570,10 @@ h4 {
       }
     }
 
+    &#menu, &#dictionary, &#crossref {
+      margin-top: $sidebarBottomMargin;
+    }
+
     &#menu {
       ul {
         list-style-type: none;
@@ -593,6 +617,22 @@ h4 {
       height: $sidebarBottomSize;
       text-align: center;
       z-index: $menuTabZIndex;
+    }
+
+    &#menutop {
+      top: $sidebarBottomSpace;
+      height: $sidebarBottomSize;
+      text-align: left;
+      z-index: $menuTabZIndex;
+      bottom: unset;
+      padding-top: unset;
+      padding-left: 1em;
+      padding-right: 1em;
+      border: none;
+      margin-left: 1px;
+      display: flex;
+      width: $sidebarWidth;
+      box-sizing: border-box;
     }
   }
 }
@@ -1064,4 +1104,91 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
 .etymology {
   font-style: italic;
   font-size: 0.8em;
+}
+.toggleRecorder {
+  display: none;
+}
+
+@mixin buttonLook {
+  border-left: 2px solid $brightSideBorder;
+  border-top: 2px solid $brightSideBorder;
+  border-right: 2px solid $darkSideBorder;
+  border-bottom: 2px solid $darkSideBorder;
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  text-align: center;
+  position: relative;
+  margin: 0 2px;
+
+  &:hover {
+    border-color: $hoverBrightBorder $hoverDarkBorder $hoverDarkBorder $hoverBrightBorder;
+    background-color: rgba(100,200,255,.2);
+  }
+
+  &.clicked {
+    border-color: $darkSideBorder $brightSideBorder $brightSideBorder $darkSideBorder;
+    background-color: rgba(255,255,255,0.1);
+
+    &:hover {
+      border-color: $hoverDarkBorder $hoverBrightBorder $hoverBrightBorder $hoverDarkBorder;
+      background-color: rgba(180,225,255,.1);
+    }
+  }
+}
+
+.toggle {
+  @include buttonLook;
+}
+
+#scroll-together-label {
+  span {
+    display: inline-block;
+    border: 1px solid;
+    width: 12px;
+    height: 18px;
+    border-radius: $scrollIconBorderRadius;
+    position: relative;
+  }
+
+  span::before, span::after {
+    content: '';
+    border: 1px solid;
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: $scrollIconBorderRadius;
+    transition: top 0.5s;
+    position: absolute;
+    top: 2px;
+  }
+
+  span::before {
+    left: $scrollIconSidePosition;
+  }
+
+  span::after {
+    right: $scrollIconSidePosition;
+  }
+
+  &:hover span::before {
+    top: $scrollIconScrolledPosition;
+  }
+
+  &.clicked:hover span::after {
+    top: $scrollIconScrolledPosition;
+  }
+}
+
+.topButtons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  .sidebarButton {
+    @include buttonLook;
+  }
 }

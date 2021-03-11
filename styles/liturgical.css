@@ -44,6 +44,12 @@ body.dark .of2 .hovered, body.dark .of3 .hovered, body.dark .of4 .hovered, body.
   background-color: #FFF;
   color: #000;
 }
+body.dark #scroll-together-label span, body.dark #scroll-together-label span::before, body.dark #scroll-together-label span::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+body.dark #scroll-together-label span::before, body.dark #scroll-together-label span::after {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 body.dark .diff2L, body.dark .diff2R {
   background-color: #45632f;
 }
@@ -1069,6 +1075,12 @@ body.light #loading {
 body.light .of2 .hovered, body.light .of3 .hovered, body.light .of4 .hovered, body.light .of5 .hovered, body.light .of6 .hovered {
   background-color: #000;
   color: #FFF;
+}
+body.light #scroll-together-label span, body.light #scroll-together-label span::before, body.light #scroll-together-label span::after {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+body.light #scroll-together-label span::before, body.light #scroll-together-label span::after {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 body.light .diff2L, body.light .diff2R {
   background-color: #70c531;
@@ -2261,6 +2273,9 @@ h4 {
 #menuwrap .sidebar a:active, #menuwrap .sidebar a:hover, #menuwrap .sidebar a:visited {
   text-decoration: none;
 }
+#menuwrap .sidebar#menu, #menuwrap .sidebar#dictionary, #menuwrap .sidebar#crossref {
+  margin-top: 50px;
+}
 #menuwrap .sidebar#menu ul {
   list-style-type: none;
   width: 280px;
@@ -2298,6 +2313,21 @@ h4 {
   height: 30px;
   text-align: center;
   z-index: 2147483645;
+}
+#menuwrap .sidebar#menutop {
+  top: 20px;
+  height: 30px;
+  text-align: left;
+  z-index: 2147483645;
+  bottom: unset;
+  padding-top: unset;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: none;
+  margin-left: 1px;
+  display: flex;
+  width: 300px;
+  box-sizing: border-box;
 }
 
 .dark #menu-button {
@@ -2811,6 +2841,103 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   font-size: 0.8em;
 }
 
+.toggleRecorder {
+  display: none;
+}
+
+.toggle {
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  text-align: center;
+  position: relative;
+  margin: 0 2px;
+}
+.toggle:hover {
+  border-color: rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5) rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5);
+  background-color: rgba(100, 200, 255, 0.2);
+}
+.toggle.clicked {
+  border-color: rgba(0, 0, 0, 0.5) rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.toggle.clicked:hover {
+  border-color: rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5) rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5);
+  background-color: rgba(180, 225, 255, 0.1);
+}
+
+#scroll-together-label span {
+  display: inline-block;
+  border: 1px solid;
+  width: 12px;
+  height: 18px;
+  border-radius: 5px;
+  position: relative;
+}
+#scroll-together-label span::before, #scroll-together-label span::after {
+  content: "";
+  border: 1px solid;
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 5px;
+  transition: top 0.5s;
+  position: absolute;
+  top: 2px;
+}
+#scroll-together-label span::before {
+  left: 1px;
+}
+#scroll-together-label span::after {
+  right: 1px;
+}
+#scroll-together-label:hover span::before {
+  top: 11px;
+}
+#scroll-together-label.clicked:hover span::after {
+  top: 11px;
+}
+
+.topButtons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.topButtons .sidebarButton {
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  text-align: center;
+  position: relative;
+  margin: 0 2px;
+}
+.topButtons .sidebarButton:hover {
+  border-color: rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5) rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5);
+  background-color: rgba(100, 200, 255, 0.2);
+}
+.topButtons .sidebarButton.clicked {
+  border-color: rgba(0, 0, 0, 0.5) rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.topButtons .sidebarButton.clicked:hover {
+  border-color: rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5) rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5);
+  background-color: rgba(180, 225, 255, 0.1);
+}
+
 body.green.dark {
   background-color: #228B22;
   color: #cedfcd;
@@ -2872,6 +2999,12 @@ body.green.dark .of2 .hovered, body.green.dark .of3 .hovered, body.green.dark .o
   background-color: #cedfcd;
   color: #1d3119;
 }
+body.green.dark #scroll-together-label span, body.green.dark #scroll-together-label span::before, body.green.dark #scroll-together-label span::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+body.green.dark #scroll-together-label span::before, body.green.dark #scroll-together-label span::after {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 body.green.light {
   background-color: #228B22;
   color: #1a2b17;
@@ -2932,6 +3065,12 @@ body.green.light #loading {
 body.green.light .of2 .hovered, body.green.light .of3 .hovered, body.green.light .of4 .hovered, body.green.light .of5 .hovered, body.green.light .of6 .hovered {
   background-color: #1a2b17;
   color: #c4d8c2;
+}
+body.green.light #scroll-together-label span, body.green.light #scroll-together-label span::before, body.green.light #scroll-together-label span::after {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+body.green.light #scroll-together-label span::before, body.green.light #scroll-together-label span::after {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 body.green .resultNotice {
   color: black;
@@ -3010,6 +3149,12 @@ body.red.dark .of2 .hovered, body.red.dark .of3 .hovered, body.red.dark .of4 .ho
   background-color: #fcd1c7;
   color: #4a1f17;
 }
+body.red.dark #scroll-together-label span, body.red.dark #scroll-together-label span::before, body.red.dark #scroll-together-label span::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+body.red.dark #scroll-together-label span::before, body.red.dark #scroll-together-label span::after {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 body.red.light {
   background-color: #ff0000;
   color: #411c15;
@@ -3070,6 +3215,12 @@ body.red.light #loading {
 body.red.light .of2 .hovered, body.red.light .of3 .hovered, body.red.light .of4 .hovered, body.red.light .of5 .hovered, body.red.light .of6 .hovered {
   background-color: #411c15;
   color: #fdc6bb;
+}
+body.red.light #scroll-together-label span, body.red.light #scroll-together-label span::before, body.red.light #scroll-together-label span::after {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+body.red.light #scroll-together-label span::before, body.red.light #scroll-together-label span::after {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 body.red .resultNotice {
   color: black;
@@ -3148,6 +3299,12 @@ body.rose.dark .of2 .hovered, body.rose.dark .of3 .hovered, body.rose.dark .of4 
   background-color: #f9cfda;
   color: #3e252b;
 }
+body.rose.dark #scroll-together-label span, body.rose.dark #scroll-together-label span::before, body.rose.dark #scroll-together-label span::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+body.rose.dark #scroll-together-label span::before, body.rose.dark #scroll-together-label span::after {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 body.rose.light {
   background-color: #ff6699;
   color: #352126;
@@ -3208,6 +3365,12 @@ body.rose.light #loading {
 body.rose.light .of2 .hovered, body.rose.light .of3 .hovered, body.rose.light .of4 .hovered, body.rose.light .of5 .hovered, body.rose.light .of6 .hovered {
   background-color: #352126;
   color: #f9c6d3;
+}
+body.rose.light #scroll-together-label span, body.rose.light #scroll-together-label span::before, body.rose.light #scroll-together-label span::after {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+body.rose.light #scroll-together-label span::before, body.rose.light #scroll-together-label span::after {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 body.rose .resultNotice {
   color: black;
@@ -3286,6 +3449,12 @@ body.gold.dark .of2 .hovered, body.gold.dark .of3 .hovered, body.gold.dark .of4 
   background-color: #ffd80e;
   color: #302c1a;
 }
+body.gold.dark #scroll-together-label span, body.gold.dark #scroll-together-label span::before, body.gold.dark #scroll-together-label span::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+body.gold.dark #scroll-together-label span::before, body.gold.dark #scroll-together-label span::after {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 body.gold.light {
   background-color: #FFD700;
   color: #2a2717;
@@ -3346,6 +3515,12 @@ body.gold.light #loading {
 body.gold.light .of2 .hovered, body.gold.light .of3 .hovered, body.gold.light .of4 .hovered, body.gold.light .of5 .hovered, body.gold.light .of6 .hovered {
   background-color: #2a2717;
   color: #f7d00e;
+}
+body.gold.light #scroll-together-label span, body.gold.light #scroll-together-label span::before, body.gold.light #scroll-together-label span::after {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+body.gold.light #scroll-together-label span::before, body.gold.light #scroll-together-label span::after {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 body.gold .resultNotice {
   color: black;
@@ -3424,6 +3599,12 @@ body.purple.dark .of2 .hovered, body.purple.dark .of3 .hovered, body.purple.dark
   background-color: #e1d7e0;
   color: #481946;
 }
+body.purple.dark #scroll-together-label span, body.purple.dark #scroll-together-label span::before, body.purple.dark #scroll-together-label span::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+body.purple.dark #scroll-together-label span::before, body.purple.dark #scroll-together-label span::after {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 body.purple.light {
   background-color: #800080;
   color: #3e183c;
@@ -3484,6 +3665,12 @@ body.purple.light #loading {
 body.purple.light .of2 .hovered, body.purple.light .of3 .hovered, body.purple.light .of4 .hovered, body.purple.light .of5 .hovered, body.purple.light .of6 .hovered {
   background-color: #3e183c;
   color: #dccfdb;
+}
+body.purple.light #scroll-together-label span, body.purple.light #scroll-together-label span::before, body.purple.light #scroll-together-label span::after {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+body.purple.light #scroll-together-label span::before, body.purple.light #scroll-together-label span::after {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 body.purple .resultNotice {
   color: black;

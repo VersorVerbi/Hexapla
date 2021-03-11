@@ -106,3 +106,15 @@ function swapAddButton(btn) {
     }
     return remove;
 }
+
+function toggleButton() {
+    toggleClass(this, 'clicked');
+}
+
+function toggleClass(element, className) {
+    if (element.classList.contains(className)) {
+        element.classList.remove(className);
+    } else {
+        element.classList.add(className);
+    }
+}

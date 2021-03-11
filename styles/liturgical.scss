@@ -134,7 +134,8 @@ $purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5
               'menuColor': $d2, 'menuBorderColor': $d15, 'menuFontColor': $d15,
               'menuButtonHoverColor': $d3, 'translationBorder': $d10, 'translationBg': $d2,
               'modalBg': $d3, 'modalBorder': $d15, 'fontColor': $d15, 'buttonFontColor': $d1-5,
-              'loadBg': rgba($d15, 0.7), 'links': $darkLinks, 'sameHover': $d15, 'sameHoverFont': $d1-5);
+              'loadBg': rgba($d15, 0.7), 'links': $darkLinks, 'sameHover': $d15, 'sameHoverFont': $d1-5,
+              'animationBorders': $brightSideBorder);
       @include colors($colorMap);
     }
 
@@ -144,7 +145,8 @@ $purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5
               'menuColor': $l2, 'menuBorderColor': $l15, 'menuFontColor': $l15,
               'menuButtonHoverColor': $l3, 'translationBorder': $l10, 'translationBg': $l2,
               'modalBg': $l3, 'modalBorder': $l15, 'fontColor': $l15, 'buttonFontColor': $l1-5,
-              'loadBg': rgba($l15, 0.7), 'links': $lightLinks, 'sameHover': $l15, 'sameHoverFont': $l1-5);
+              'loadBg': rgba($l15, 0.7), 'links': $lightLinks, 'sameHover': $l15, 'sameHoverFont': $l1-5,
+              'animationBorders': $darkSideBorder);
       @include colors($colorMap);
     }
 

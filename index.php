@@ -71,4 +71,6 @@ switch($page) {
             --> add it from translation config screen
             --> WYSIWYG editor
         -> qualifications - contributions?
+    - permalinks
+    - accessibility
 */

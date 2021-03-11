@@ -60,6 +60,12 @@ body.dark .of2 .hovered, body.dark .of3 .hovered, body.dark .of4 .hovered, body.
   background-color: #e5daaf;
   color: #352a1d;
 }
+body.dark #scroll-together-label span, body.dark #scroll-together-label span::before, body.dark #scroll-together-label span::after {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+body.dark #scroll-together-label span::before, body.dark #scroll-together-label span::after {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 body.dark .diff2L, body.dark .diff2R {
   background-color: #45632f;
 }
@@ -1110,6 +1116,12 @@ body.light #loading {
 body.light .of2 .hovered, body.light .of3 .hovered, body.light .of4 .hovered, body.light .of5 .hovered, body.light .of6 .hovered {
   background-color: #2f251a;
   color: #e2d39b;
+}
+body.light #scroll-together-label span, body.light #scroll-together-label span::before, body.light #scroll-together-label span::after {
+  border-color: rgba(0, 0, 0, 0.5);
+}
+body.light #scroll-together-label span::before, body.light #scroll-together-label span::after {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 body.light .diff2L, body.light .diff2R {
   background-color: #70c531;
@@ -2302,6 +2314,9 @@ h4 {
 #menuwrap .sidebar a:active, #menuwrap .sidebar a:hover, #menuwrap .sidebar a:visited {
   text-decoration: none;
 }
+#menuwrap .sidebar#menu, #menuwrap .sidebar#dictionary, #menuwrap .sidebar#crossref {
+  margin-top: 50px;
+}
 #menuwrap .sidebar#menu ul {
   list-style-type: none;
   width: 280px;
@@ -2339,6 +2354,21 @@ h4 {
   height: 30px;
   text-align: center;
   z-index: 2147483645;
+}
+#menuwrap .sidebar#menutop {
+  top: 20px;
+  height: 30px;
+  text-align: left;
+  z-index: 2147483645;
+  bottom: unset;
+  padding-top: unset;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: none;
+  margin-left: 1px;
+  display: flex;
+  width: 300px;
+  box-sizing: border-box;
 }
 
 .dark #menu-button {
@@ -2850,6 +2880,103 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 .etymology {
   font-style: italic;
   font-size: 0.8em;
+}
+
+.toggleRecorder {
+  display: none;
+}
+
+.toggle {
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  text-align: center;
+  position: relative;
+  margin: 0 2px;
+}
+.toggle:hover {
+  border-color: rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5) rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5);
+  background-color: rgba(100, 200, 255, 0.2);
+}
+.toggle.clicked {
+  border-color: rgba(0, 0, 0, 0.5) rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.toggle.clicked:hover {
+  border-color: rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5) rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5);
+  background-color: rgba(180, 225, 255, 0.1);
+}
+
+#scroll-together-label span {
+  display: inline-block;
+  border: 1px solid;
+  width: 12px;
+  height: 18px;
+  border-radius: 5px;
+  position: relative;
+}
+#scroll-together-label span::before, #scroll-together-label span::after {
+  content: "";
+  border: 1px solid;
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 5px;
+  transition: top 0.5s;
+  position: absolute;
+  top: 2px;
+}
+#scroll-together-label span::before {
+  left: 1px;
+}
+#scroll-together-label span::after {
+  right: 1px;
+}
+#scroll-together-label:hover span::before {
+  top: 11px;
+}
+#scroll-together-label.clicked:hover span::after {
+  top: 11px;
+}
+
+.topButtons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.topButtons .sidebarButton {
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  text-align: center;
+  position: relative;
+  margin: 0 2px;
+}
+.topButtons .sidebarButton:hover {
+  border-color: rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5) rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5);
+  background-color: rgba(100, 200, 255, 0.2);
+}
+.topButtons .sidebarButton.clicked {
+  border-color: rgba(0, 0, 0, 0.5) rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.topButtons .sidebarButton.clicked:hover {
+  border-color: rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5) rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5);
+  background-color: rgba(180, 225, 255, 0.1);
 }
 
 /*# sourceMappingURL=leather-bound.css.map */
