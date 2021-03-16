@@ -372,3 +372,14 @@ function strongsListPattern($strongArray) {
     }
     return '/' . implode('|', $patternArray) . '/';
 }
+
+function toTitleCase($str) {
+    $output = [];
+    $arr = explode(' ', $str);
+    foreach($arr as $word) {
+        $newWord = strtoupper($word[0]);
+        $newWord .= substr($word, 1);
+        $output[] = $newWord;
+    }
+    return implode(' ', $output);
+}

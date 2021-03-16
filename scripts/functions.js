@@ -118,3 +118,10 @@ function toggleClass(element, className) {
         element.classList.add(className);
     }
 }
+
+function fetchLiturgicalColor() {
+    let target = '/Hexapla/liturgical-color.php?date='; // TODO: relative path
+    let date = new Date();
+    target = target + date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+    return fetch(target).then(result => result.text());
+}

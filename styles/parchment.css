@@ -2,6 +2,11 @@
 body.dark {
   background-color: #976d43;
   color: #e0d9d1;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.dark a {
   color: #a9b8d4;
@@ -39,10 +44,6 @@ body.dark #menu ul li {
 body.dark #menu ul li:hover {
   background-color: #705337;
 }
-body.dark div.del span, body.dark div.promote span, body.dark #addtl span, body.dark #prevPsg span, body.dark #nextPsg span {
-  border-color: #c3b09b;
-  background-color: #4e3c2a;
-}
 body.dark .popup {
   background-color: #705337;
   border-color: #e0d9d1;
@@ -65,6 +66,16 @@ body.dark #scroll-together-label span, body.dark #scroll-together-label span::be
 }
 body.dark #scroll-together-label span::before, body.dark #scroll-together-label span::after {
   background-color: rgba(255, 255, 255, 0.5);
+}
+body.dark .version {
+  background-color: #352a1f;
+}
+body.dark .textArea {
+  background: linear-gradient(#352a1f, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #352a1f;
 }
 body.dark .diff2L, body.dark .diff2R {
   background-color: #45632f;
@@ -1059,6 +1070,11 @@ body .resultNotice.noticeError {
 body.light {
   background-color: #976d43;
   color: #2f251b;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.light a {
   color: #001fc5;
@@ -1096,10 +1112,6 @@ body.light #menu ul li {
 body.light #menu ul li:hover {
   background-color: #ae9071;
 }
-body.light div.del span, body.light div.promote span, body.light #addtl span, body.light #prevPsg span, body.light #nextPsg span {
-  border-color: #523f2c;
-  background-color: #c7b5a2;
-}
 body.light .popup {
   background-color: #ae9071;
   border-color: #2f251b;
@@ -1122,6 +1134,16 @@ body.light #scroll-together-label span, body.light #scroll-together-label span::
 }
 body.light #scroll-together-label span::before, body.light #scroll-together-label span::after {
   background-color: rgba(0, 0, 0, 0.5);
+}
+body.light .version {
+  background-color: #dad2c7;
+}
+body.light .textArea {
+  background: linear-gradient(#dad2c7, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #dad2c7;
 }
 body.light .diff2L, body.light .diff2R {
   background-color: #70c531;
@@ -2977,6 +2999,67 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 .topButtons .sidebarButton.clicked:hover {
   border-color: rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5) rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5);
   background-color: rgba(180, 225, 255, 0.1);
+}
+
+body.themeChange {
+  transition-property: background-color, color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange a {
+  transition-property: color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #wrap {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .search {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #searchbox::placeholder {
+  transition-property: color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .menu-tab {
+  transition-property: background-color, color, border-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .menu-tab .tab-button {
+  transition-property: background-image !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .sidebar {
+  transition-property: background-color, color, border-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #menu ul li {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .popup {
+  transition-property: background-color, border-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .icoButton {
+  transition-property: color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #loading {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .version {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .textArea {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #scroll-together-label span, body.themeChange #scroll-together-label span::before, body.themeChange #scroll-together-label span::after {
+  transition-property: border-color, background-color !important;
+  transition-duration: 1500ms !important;
 }
 
 /*# sourceMappingURL=parchment.css.map */

@@ -1,21 +1,21 @@
 $themeSource: #000;
 $light1-5: #FFF;
-$light2: null;
-$light3: null;
-$light4-5: null;
-$light7: null;
-$light10: null;
+$light2: #EEE;
+$light3: #DDD;
+$light4-5: #BBB;
+$light7: #888;
+$light10: #555;
 $light15: #000;
 $dark1-5: #000;
-$dark2: null;
-$dark3: null;
-$dark4-5: null;
-$dark7: null;
-$dark10: null;
+$dark2: #111;
+$dark3: #222;
+$dark4-5: #444;
+$dark7: #888;
+$dark10: #AAA;
 $dark15: #FFF;
-$noticeColor: null;
-$warningColor: null;
-$errorColor: null;
+$noticeColor: #9BF;
+$warningColor: #FF9;
+$errorColor: #F99;
 
 $greenTheme: #228B22;
 $greenL1-5: #c4d8c2;
@@ -135,7 +135,7 @@ $purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5
               'menuButtonHoverColor': $d3, 'translationBorder': $d10, 'translationBg': $d2,
               'modalBg': $d3, 'modalBorder': $d15, 'fontColor': $d15, 'buttonFontColor': $d1-5,
               'loadBg': rgba($d15, 0.7), 'links': $darkLinks, 'sameHover': $d15, 'sameHoverFont': $d1-5,
-              'animationBorders': $brightSideBorder);
+              'animationBorders': $brightSideBorder, 'resultBackground': $d1-5);
       @include colors($colorMap);
     }
 
@@ -144,9 +144,9 @@ $purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5
               'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
               'menuColor': $l2, 'menuBorderColor': $l15, 'menuFontColor': $l15,
               'menuButtonHoverColor': $l3, 'translationBorder': $l10, 'translationBg': $l2,
-              'modalBg': $l3, 'modalBorder': $l15, 'fontColor': $l15, 'buttonFontColor': $l1-5,
+              'modalBg': $l3, 'modalBorder': $l15, 'fontColor': $l15, 'buttonFontColor': $l15,
               'loadBg': rgba($l15, 0.7), 'links': $lightLinks, 'sameHover': $l15, 'sameHoverFont': $l1-5,
-              'animationBorders': $darkSideBorder);
+              'animationBorders': $darkSideBorder, 'resultBackground': $l1-5);
       @include colors($colorMap);
     }
 

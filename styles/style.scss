@@ -26,6 +26,7 @@ $brightSideBorder: rgba(255,255,255,0.5);
 $darkSideBorder: rgba(0,0,0,0.5);
 $hoverBrightBorder: rgba(125, 180, 255, 0.5);
 $hoverDarkBorder: rgba(0, 50, 150, 0.5);
+$shadowColor: rgba(0, 0, 0, 0.1);
 
 @mixin noticeColors($fyi, $warning, $error, $links) {
   .resultNotice {
@@ -101,10 +102,11 @@ $hoverDarkBorder: rgba(0, 50, 150, 0.5);
     }
   }
 
+  /* Are these even used?
   div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
     border-color: map.get($colorMap, 'translationBorder');
     background-color: map.get($colorMap, 'translationBg');
-  }
+  }*/
 
   .popup {
     background-color: map.get($colorMap, 'modalBg');
@@ -140,6 +142,21 @@ $hoverDarkBorder: rgba(0, 50, 150, 0.5);
     span::before, span::after {
       background-color: map.get($colorMap, 'animationBorders');
     }
+  }
+
+  .version {
+    background-color: map.get($colorMap, 'resultBackground');
+  }
+
+  //noinspection CssReplaceWithShorthandSafely
+  .textArea {
+    background:
+            linear-gradient(map.get($colorMap, 'resultBackground'), transparent),
+            radial-gradient($shadowColor, transparent);
+    background-size: 100% 80%, 100% 15px;
+    background-attachment: local, scroll;
+    background-repeat: no-repeat;
+    background-color: map.get($colorMap, 'resultBackground');
   }
 }
 
@@ -217,7 +234,7 @@ body {
                  'menuButtonHoverColor': $dark3, 'translationBorder': $dark10, 'translationBg': $dark2,
                  'modalBg': $dark3, 'modalBorder': $dark15, 'fontColor': $dark15, 'buttonFontColor': $dark1-5,
                  'loadBg': rgba($dark15, 0.7), 'links': $darkLinks, 'sameHover': $dark15, 'sameHoverFont': $dark1-5,
-                 'animationBorders': $brightSideBorder);
+                 'animationBorders': $brightSideBorder, 'resultBackground': $dark1-5);
     @include colors($colorMap);
 
     $highlightMap: (2: #45632f, 3: #495d6b, 4: #755426, 5: #6b5559, 6: #5c5d2e);
@@ -233,7 +250,7 @@ body {
             'menuButtonHoverColor': $light3, 'translationBorder': $light10, 'translationBg': $light2,
             'modalBg': $light3, 'modalBorder': $light15, 'fontColor': $light15, 'buttonFontColor': $light15,
             'loadBg': rgba($light15, 0.7), 'links': $lightLinks, 'sameHover': $light15, 'sameHoverFont': $light1-5,
-            'animationBorders': $darkSideBorder);
+            'animationBorders': $darkSideBorder, 'resultBackground': $light1-5);
     @include colors($colorMap);
 
     $highlightMap: (2: #70c531, 3: #7cb7dc, 4: #f29e0f, 5: #d6a3ac, 6: #b5b634);
@@ -1190,5 +1207,76 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
 
   .sidebarButton {
     @include buttonLook;
+  }
+}
+
+@mixin themeTransition($propertyList) {
+  $props: ();
+  @each $p in $propertyList {
+    $props: append($props, $p, comma);
+  }
+  transition-property: $props !important;
+  transition-duration: 1500ms !important;
+}
+
+body.themeChange {
+  @include themeTransition(background-color color);
+
+  a {
+    @include themeTransition(color);
+  }
+
+  #wrap {
+    @include themeTransition(background-color);
+  }
+
+  .search {
+    @include themeTransition(background-color);
+  }
+
+  #searchbox::placeholder {
+    @include themeTransition(color);
+  }
+
+  .menu-tab {
+    @include themeTransition(background-color color border-color);
+
+    .tab-button {
+      @include themeTransition(background-image);
+    }
+  }
+
+  .sidebar {
+    @include themeTransition(background-color color border-color);
+  }
+
+  #menu ul li {
+    @include themeTransition(background-color);
+  }
+
+  .popup {
+    @include themeTransition(background-color border-color);
+  }
+
+  .icoButton {
+    @include themeTransition(color);
+  }
+
+  #loading {
+    @include themeTransition(background-color);
+  }
+
+  .version {
+    @include themeTransition(background-color);
+  }
+
+  .textArea {
+    @include themeTransition(background-color);
+  }
+
+  #scroll-together-label {
+    span, span::before, span::after {
+      @include themeTransition(border-color background-color);
+    }
   }
 }

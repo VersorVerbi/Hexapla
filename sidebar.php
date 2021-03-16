@@ -1,11 +1,11 @@
 <div id="menuwrap">
-    <div class="menu-tab" id="menu-btn-wrap" data-mnu="menu">
+    <div class="menu-tab" id="menu-btn-wrap" data-mnu="menu" title="Options">
         <span class="tab-button" id="menu-button"></span>
     </div>
-    <div class="menu-tab" id="dict-btn-wrap" data-mnu="dictionary">
+    <div class="menu-tab" id="dict-btn-wrap" data-mnu="dictionary" title="Dictionary">
         <span class="tab-button" id="dict-button"></span>
     </div>
-    <div class="menu-tab" id="crossref-btn-wrap" data-mnu="crossref">
+    <div class="menu-tab" id="crossref-btn-wrap" data-mnu="crossref" title="Cross-References">
         <span class="tab-button" id="ref-button"></span>
     </div>
     <div class="sidebar" id="menutop">
@@ -23,6 +23,21 @@
                 <span>Show differences by:</span><br />
                 <input type="radio" name="diff-by-word" id="word-diff" value="word-diff" /><label for="word-diff">Word</label>
                 <input type="radio" name="diff-by-word" id="char-diff" value="char-diff" checked /><label for="char-diff">Character</label>
+            </li>
+            <li>
+                <label for="theme-selection">Theme: </label>
+                <select id="theme-selection" name="theme-selection">
+                    <?php
+                    foreach($GLOBALS['themes'] as $thm) {
+                        echo "<option value=\"$thm\" " . ($thm === $GLOBALS['themes'][getCookie(HexaplaCookies::THEME)] ? 'selected' : '') . ">" . toTitleCase($thm) . "</option>";
+                    }
+                    ?>
+                </select>
+            </li>
+            <li>
+                <span>Shade: </span>
+                <input type="radio" name="shade-selection" id="dark-shade" value="dark" <?php echo ($GLOBALS['shades'][getCookie(HexaplaCookies::SHADE)] === 'dark' ? 'checked' : ''); ?> /><label for="dark-shade">Dark</label>
+                <input type="radio" name="shade-selection" id="light-shade" value="light" <?php echo ($GLOBALS['shades'][getCookie(HexaplaCookies::SHADE)] === 'light' ? 'checked' : ''); ?> /><label for="light-shade">Light</label>
             </li>
             <!-- TODO: add option to keep diff turned on? -->
             <!-- TODO: add option for which document group to loop through -->

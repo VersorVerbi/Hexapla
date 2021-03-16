@@ -61,6 +61,34 @@ document.addEventListener("DOMContentLoaded", function() {
             label.title = "Treat case as a difference between versions";
         }
     });
+
+    let shadePickers = document.querySelectorAll('input[name="shade-selection"]');
+    for (let s = 0; s < shadePickers.length; s++) {
+        shadePickers[s].addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('themeChange');
+                document.body.classList.remove(...shadeList);
+                document.body.classList.add(this.value);
+                fetch('/Hexapla/cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then( // TODO: path
+                    () => setTimeout(() => document.body.classList.remove('themeChange'), 100));
+            }
+        });
+    }
+
+    // FIXME: figure out why some elements (notably transitioned elements like sidebar) don't transition colors
+
+    document.getElementById('theme-selection').addEventListener('change', function() {
+        document.body.classList.add('themeChange');
+        document.getElementById('themeCss').href = "styles/" + this.value + ".css";
+        fetch('/Hexapla/cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then( // TODO: path
+            () => {
+                if (this.value === 'liturgical') {
+                    fetchLiturgicalColor()
+                        .then(className => document.body.classList.add(className))
+                        .catch(() => document.body.classList.add('green'));
+                }
+            }).finally(() => setTimeout(() => document.body.classList.remove('themeChange'), 100));
+    });
 });
 
 function hideMenu() {

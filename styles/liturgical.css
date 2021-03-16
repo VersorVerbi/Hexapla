@@ -2,6 +2,11 @@
 body.dark {
   background-color: #000;
   color: #FFF;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.dark a {
   color: #a9b8d4;
@@ -16,9 +21,14 @@ body.dark #searchbox::placeholder {
   color: #555;
 }
 body.dark .menu-tab {
+  background-color: #111;
   border-color: #FFF;
 }
+body.dark .menu-tab .activator {
+  border-right-color: #111;
+}
 body.dark .sidebar {
+  background-color: #111;
   color: #FFF;
   border-color: #FFF;
 }
@@ -28,7 +38,14 @@ body.dark .sidebar a {
 body.dark .sidebar a:hover, body.dark .sidebar a:visited, body.dark .sidebar a:active {
   color: #FFF;
 }
+body.dark #menu ul li {
+  background-color: #111;
+}
+body.dark #menu ul li:hover {
+  background-color: #222;
+}
 body.dark .popup {
+  background-color: #222;
   border-color: #FFF;
 }
 body.dark .icoButton [class*=" icofont-"], body.dark .icoButton [class^=icofont-] {
@@ -49,6 +66,16 @@ body.dark #scroll-together-label span, body.dark #scroll-together-label span::be
 }
 body.dark #scroll-together-label span::before, body.dark #scroll-together-label span::after {
   background-color: rgba(255, 255, 255, 0.5);
+}
+body.dark .version {
+  background-color: #000;
+}
+body.dark .textArea {
+  background: linear-gradient(#000, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #000;
 }
 body.dark .diff2L, body.dark .diff2R {
   background-color: #45632f;
@@ -1031,9 +1058,23 @@ body .resultNotice {
 body .resultNotice a {
   color: #001fc5;
 }
+body .resultNotice.noticeFyi {
+  background-color: #9BF;
+}
+body .resultNotice.noticeWarning {
+  background-color: #FF9;
+}
+body .resultNotice.noticeError {
+  background-color: #F99;
+}
 body.light {
   background-color: #000;
   color: #000;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.light a {
   color: #001fc5;
@@ -1048,9 +1089,14 @@ body.light #searchbox::placeholder {
   color: #555;
 }
 body.light .menu-tab {
+  background-color: #EEE;
   border-color: #000;
 }
+body.light .menu-tab .activator {
+  border-right-color: #EEE;
+}
 body.light .sidebar {
+  background-color: #EEE;
   color: #000;
   border-color: #000;
 }
@@ -1060,7 +1106,14 @@ body.light .sidebar a {
 body.light .sidebar a:hover, body.light .sidebar a:visited, body.light .sidebar a:active {
   color: #000;
 }
+body.light #menu ul li {
+  background-color: #EEE;
+}
+body.light #menu ul li:hover {
+  background-color: #DDD;
+}
 body.light .popup {
+  background-color: #DDD;
   border-color: #000;
 }
 body.light .icoButton [class*=" icofont-"], body.light .icoButton [class^=icofont-] {
@@ -1081,6 +1134,16 @@ body.light #scroll-together-label span, body.light #scroll-together-label span::
 }
 body.light #scroll-together-label span::before, body.light #scroll-together-label span::after {
   background-color: rgba(0, 0, 0, 0.5);
+}
+body.light .version {
+  background-color: #FFF;
+}
+body.light .textArea {
+  background: linear-gradient(#FFF, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #FFF;
 }
 body.light .diff2L, body.light .diff2R {
   background-color: #70c531;
@@ -2938,9 +3001,75 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   background-color: rgba(180, 225, 255, 0.1);
 }
 
+body.themeChange {
+  transition-property: background-color, color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange a {
+  transition-property: color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #wrap {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .search {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #searchbox::placeholder {
+  transition-property: color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .menu-tab {
+  transition-property: background-color, color, border-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .menu-tab .tab-button {
+  transition-property: background-image !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .sidebar {
+  transition-property: background-color, color, border-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #menu ul li {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .popup {
+  transition-property: background-color, border-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .icoButton {
+  transition-property: color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #loading {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .version {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange .textArea {
+  transition-property: background-color !important;
+  transition-duration: 1500ms !important;
+}
+body.themeChange #scroll-together-label span, body.themeChange #scroll-together-label span::before, body.themeChange #scroll-together-label span::after {
+  transition-property: border-color, background-color !important;
+  transition-duration: 1500ms !important;
+}
+
 body.green.dark {
   background-color: #228B22;
   color: #cedfcd;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.green.dark a {
   color: #a9b8d4;
@@ -2978,10 +3107,6 @@ body.green.dark #menu ul li {
 body.green.dark #menu ul li:hover {
   background-color: #2b6625;
 }
-body.green.dark div.del span, body.green.dark div.promote span, body.green.dark #addtl span, body.green.dark #prevPsg span, body.green.dark #nextPsg span {
-  border-color: #95be90;
-  background-color: #254721;
-}
 body.green.dark .popup {
   background-color: #2b6625;
   border-color: #cedfcd;
@@ -3005,9 +3130,24 @@ body.green.dark #scroll-together-label span, body.green.dark #scroll-together-la
 body.green.dark #scroll-together-label span::before, body.green.dark #scroll-together-label span::after {
   background-color: rgba(255, 255, 255, 0.5);
 }
+body.green.dark .version {
+  background-color: #1d3119;
+}
+body.green.dark .textArea {
+  background: linear-gradient(#1d3119, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #1d3119;
+}
 body.green.light {
   background-color: #228B22;
   color: #1a2b17;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.green.light a {
   color: #001fc5;
@@ -3045,19 +3185,15 @@ body.green.light #menu ul li {
 body.green.light #menu ul li:hover {
   background-color: #63a45c;
 }
-body.green.light div.del span, body.green.light div.promote span, body.green.light #addtl span, body.green.light #prevPsg span, body.green.light #nextPsg span {
-  border-color: #274b21;
-  background-color: #9cc197;
-}
 body.green.light .popup {
   background-color: #63a45c;
   border-color: #1a2b17;
 }
 body.green.light .icoButton [class*=" icofont-"], body.green.light .icoButton [class^=icofont-] {
-  color: #c4d8c2;
+  color: #1a2b17;
 }
 body.green.light .icoButton[disabled] [class*=" icofont-"], body.green.light .icoButton[disabled] [class^=icofont-] {
-  color: rgba(196, 216, 194, 0.5) !important;
+  color: rgba(26, 43, 23, 0.5) !important;
 }
 body.green.light #loading {
   background-color: rgba(26, 43, 23, 0.7);
@@ -3071,6 +3207,16 @@ body.green.light #scroll-together-label span, body.green.light #scroll-together-
 }
 body.green.light #scroll-together-label span::before, body.green.light #scroll-together-label span::after {
   background-color: rgba(0, 0, 0, 0.5);
+}
+body.green.light .version {
+  background-color: #c4d8c2;
+}
+body.green.light .textArea {
+  background: linear-gradient(#c4d8c2, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #c4d8c2;
 }
 body.green .resultNotice {
   color: black;
@@ -3091,6 +3237,11 @@ body.green .resultNotice.noticeError {
 body.red.dark {
   background-color: #ff0000;
   color: #fcd1c7;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.red.dark a {
   color: #a9b8d4;
@@ -3128,10 +3279,6 @@ body.red.dark #menu ul li {
 body.red.dark #menu ul li:hover {
   background-color: #a62d1c;
 }
-body.red.dark div.del span, body.red.dark div.promote span, body.red.dark #addtl span, body.red.dark #prevPsg span, body.red.dark #nextPsg span {
-  border-color: #ff9782;
-  background-color: #6f281c;
-}
 body.red.dark .popup {
   background-color: #a62d1c;
   border-color: #fcd1c7;
@@ -3155,9 +3302,24 @@ body.red.dark #scroll-together-label span, body.red.dark #scroll-together-label 
 body.red.dark #scroll-together-label span::before, body.red.dark #scroll-together-label span::after {
   background-color: rgba(255, 255, 255, 0.5);
 }
+body.red.dark .version {
+  background-color: #4a1f17;
+}
+body.red.dark .textArea {
+  background: linear-gradient(#4a1f17, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #4a1f17;
+}
 body.red.light {
   background-color: #ff0000;
   color: #411c15;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.red.light a {
   color: #001fc5;
@@ -3195,19 +3357,15 @@ body.red.light #menu ul li {
 body.red.light #menu ul li:hover {
   background-color: #ff6045;
 }
-body.red.light div.del span, body.red.light div.promote span, body.red.light #addtl span, body.red.light #prevPsg span, body.red.light #nextPsg span {
-  border-color: #76291c;
-  background-color: #ff9e8a;
-}
 body.red.light .popup {
   background-color: #ff6045;
   border-color: #411c15;
 }
 body.red.light .icoButton [class*=" icofont-"], body.red.light .icoButton [class^=icofont-] {
-  color: #fdc6bb;
+  color: #411c15;
 }
 body.red.light .icoButton[disabled] [class*=" icofont-"], body.red.light .icoButton[disabled] [class^=icofont-] {
-  color: rgba(253, 198, 187, 0.5) !important;
+  color: rgba(65, 28, 21, 0.5) !important;
 }
 body.red.light #loading {
   background-color: rgba(65, 28, 21, 0.7);
@@ -3221,6 +3379,16 @@ body.red.light #scroll-together-label span, body.red.light #scroll-together-labe
 }
 body.red.light #scroll-together-label span::before, body.red.light #scroll-together-label span::after {
   background-color: rgba(0, 0, 0, 0.5);
+}
+body.red.light .version {
+  background-color: #fdc6bb;
+}
+body.red.light .textArea {
+  background: linear-gradient(#fdc6bb, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #fdc6bb;
 }
 body.red .resultNotice {
   color: black;
@@ -3241,6 +3409,11 @@ body.red .resultNotice.noticeError {
 body.rose.dark {
   background-color: #ff6699;
   color: #f9cfda;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.rose.dark a {
   color: #a9b8d4;
@@ -3278,10 +3451,6 @@ body.rose.dark #menu ul li {
 body.rose.dark #menu ul li:hover {
   background-color: #864558;
 }
-body.rose.dark div.del span, body.rose.dark div.promote span, body.rose.dark #addtl span, body.rose.dark #prevPsg span, body.rose.dark #nextPsg span {
-  border-color: #fc94b2;
-  background-color: #5b333e;
-}
 body.rose.dark .popup {
   background-color: #864558;
   border-color: #f9cfda;
@@ -3305,9 +3474,24 @@ body.rose.dark #scroll-together-label span, body.rose.dark #scroll-together-labe
 body.rose.dark #scroll-together-label span::before, body.rose.dark #scroll-together-label span::after {
   background-color: rgba(255, 255, 255, 0.5);
 }
+body.rose.dark .version {
+  background-color: #3e252b;
+}
+body.rose.dark .textArea {
+  background: linear-gradient(#3e252b, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #3e252b;
+}
 body.rose.light {
   background-color: #ff6699;
   color: #352126;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.rose.light a {
   color: #001fc5;
@@ -3345,19 +3529,15 @@ body.rose.light #menu ul li {
 body.rose.light #menu ul li:hover {
   background-color: #f26392;
 }
-body.rose.light div.del span, body.rose.light div.promote span, body.rose.light #addtl span, body.rose.light #prevPsg span, body.rose.light #nextPsg span {
-  border-color: #603541;
-  background-color: #fc9bb7;
-}
 body.rose.light .popup {
   background-color: #f26392;
   border-color: #352126;
 }
 body.rose.light .icoButton [class*=" icofont-"], body.rose.light .icoButton [class^=icofont-] {
-  color: #f9c6d3;
+  color: #352126;
 }
 body.rose.light .icoButton[disabled] [class*=" icofont-"], body.rose.light .icoButton[disabled] [class^=icofont-] {
-  color: rgba(249, 198, 211, 0.5) !important;
+  color: rgba(53, 33, 38, 0.5) !important;
 }
 body.rose.light #loading {
   background-color: rgba(53, 33, 38, 0.7);
@@ -3371,6 +3551,16 @@ body.rose.light #scroll-together-label span, body.rose.light #scroll-together-la
 }
 body.rose.light #scroll-together-label span::before, body.rose.light #scroll-together-label span::after {
   background-color: rgba(0, 0, 0, 0.5);
+}
+body.rose.light .version {
+  background-color: #f9c6d3;
+}
+body.rose.light .textArea {
+  background: linear-gradient(#f9c6d3, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #f9c6d3;
 }
 body.rose .resultNotice {
   color: black;
@@ -3391,6 +3581,11 @@ body.rose .resultNotice.noticeError {
 body.gold.dark {
   background-color: #FFD700;
   color: #ffd80e;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.gold.dark a {
   color: #a9b8d4;
@@ -3428,10 +3623,6 @@ body.gold.dark #menu ul li {
 body.gold.dark #menu ul li:hover {
   background-color: #64592a;
 }
-body.gold.dark div.del span, body.gold.dark div.promote span, body.gold.dark #addtl span, body.gold.dark #prevPsg span, body.gold.dark #nextPsg span {
-  border-color: #cfb127;
-  background-color: #463f22;
-}
 body.gold.dark .popup {
   background-color: #64592a;
   border-color: #ffd80e;
@@ -3455,9 +3646,24 @@ body.gold.dark #scroll-together-label span, body.gold.dark #scroll-together-labe
 body.gold.dark #scroll-together-label span::before, body.gold.dark #scroll-together-label span::after {
   background-color: rgba(255, 255, 255, 0.5);
 }
+body.gold.dark .version {
+  background-color: #302c1a;
+}
+body.gold.dark .textArea {
+  background: linear-gradient(#302c1a, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #302c1a;
+}
 body.gold.light {
   background-color: #FFD700;
   color: #2a2717;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.gold.light a {
   color: #001fc5;
@@ -3495,19 +3701,15 @@ body.gold.light #menu ul li {
 body.gold.light #menu ul li:hover {
   background-color: #ab942e;
 }
-body.gold.light div.del span, body.gold.light div.promote span, body.gold.light #addtl span, body.gold.light #prevPsg span, body.gold.light #nextPsg span {
-  border-color: #4a4224;
-  background-color: #d4b525;
-}
 body.gold.light .popup {
   background-color: #ab942e;
   border-color: #2a2717;
 }
 body.gold.light .icoButton [class*=" icofont-"], body.gold.light .icoButton [class^=icofont-] {
-  color: #f7d00e;
+  color: #2a2717;
 }
 body.gold.light .icoButton[disabled] [class*=" icofont-"], body.gold.light .icoButton[disabled] [class^=icofont-] {
-  color: rgba(247, 208, 14, 0.5) !important;
+  color: rgba(42, 39, 23, 0.5) !important;
 }
 body.gold.light #loading {
   background-color: rgba(42, 39, 23, 0.7);
@@ -3521,6 +3723,16 @@ body.gold.light #scroll-together-label span, body.gold.light #scroll-together-la
 }
 body.gold.light #scroll-together-label span::before, body.gold.light #scroll-together-label span::after {
   background-color: rgba(0, 0, 0, 0.5);
+}
+body.gold.light .version {
+  background-color: #f7d00e;
+}
+body.gold.light .textArea {
+  background: linear-gradient(#f7d00e, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #f7d00e;
 }
 body.gold .resultNotice {
   color: black;
@@ -3541,6 +3753,11 @@ body.gold .resultNotice.noticeError {
 body.purple.dark {
   background-color: #800080;
   color: #e1d7e0;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.purple.dark a {
   color: #a9b8d4;
@@ -3578,10 +3795,6 @@ body.purple.dark #menu ul li {
 body.purple.dark #menu ul li:hover {
   background-color: #8d358a;
 }
-body.purple.dark div.del span, body.purple.dark div.promote span, body.purple.dark #addtl span, body.purple.dark #prevPsg span, body.purple.dark #nextPsg span {
-  border-color: #c5abc3;
-  background-color: #70116f;
-}
 body.purple.dark .popup {
   background-color: #8d358a;
   border-color: #e1d7e0;
@@ -3605,9 +3818,24 @@ body.purple.dark #scroll-together-label span, body.purple.dark #scroll-together-
 body.purple.dark #scroll-together-label span::before, body.purple.dark #scroll-together-label span::after {
   background-color: rgba(255, 255, 255, 0.5);
 }
+body.purple.dark .version {
+  background-color: #481946;
+}
+body.purple.dark .textArea {
+  background: linear-gradient(#481946, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #481946;
+}
 body.purple.light {
   background-color: #800080;
   color: #3e183c;
+  /* Are these even used?
+  div.del span, div.promote span, #addtl span, #prevPsg span, #nextPsg span {
+    border-color: map.get($colorMap, 'translationBorder');
+    background-color: map.get($colorMap, 'translationBg');
+  }*/
 }
 body.purple.light a {
   color: #001fc5;
@@ -3645,19 +3873,15 @@ body.purple.light #menu ul li {
 body.purple.light #menu ul li:hover {
   background-color: #b287ae;
 }
-body.purple.light div.del span, body.purple.light div.promote span, body.purple.light #addtl span, body.purple.light #prevPsg span, body.purple.light #nextPsg span {
-  border-color: #770c76;
-  background-color: #c9b0c6;
-}
 body.purple.light .popup {
   background-color: #b287ae;
   border-color: #3e183c;
 }
 body.purple.light .icoButton [class*=" icofont-"], body.purple.light .icoButton [class^=icofont-] {
-  color: #dccfdb;
+  color: #3e183c;
 }
 body.purple.light .icoButton[disabled] [class*=" icofont-"], body.purple.light .icoButton[disabled] [class^=icofont-] {
-  color: rgba(220, 207, 219, 0.5) !important;
+  color: rgba(62, 24, 60, 0.5) !important;
 }
 body.purple.light #loading {
   background-color: rgba(62, 24, 60, 0.7);
@@ -3671,6 +3895,16 @@ body.purple.light #scroll-together-label span, body.purple.light #scroll-togethe
 }
 body.purple.light #scroll-together-label span::before, body.purple.light #scroll-together-label span::after {
   background-color: rgba(0, 0, 0, 0.5);
+}
+body.purple.light .version {
+  background-color: #dccfdb;
+}
+body.purple.light .textArea {
+  background: linear-gradient(#dccfdb, transparent), radial-gradient(rgba(0, 0, 0, 0.1), transparent);
+  background-size: 100% 80%, 100% 15px;
+  background-attachment: local, scroll;
+  background-repeat: no-repeat;
+  background-color: #dccfdb;
 }
 body.purple .resultNotice {
   color: black;
