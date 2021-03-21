@@ -1,5 +1,7 @@
 async function doSearch(event) {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
     let formData = new FormData(document.getElementById('searchform'));
     let translations, currentSearch, newSearch;
     for (let dataPair of formData.entries()) {
@@ -11,16 +13,27 @@ async function doSearch(event) {
             newSearch = dataPair[1];
         }
     }
-    if (translations.length === 0) {
-        translations = '1';
-        formData.set('translations', translations);
-    }
-    if (currentSearch.length !== 0) {
+    if (newSearch.length === 0 && currentSearch.length > 0) {
         let currentSplit = currentSearch.split('|');
-        let srch = currentSplit[0];
-        let tls = currentSplit[1];
-        if (translations === tls && newSearch === srch) {
-            return; // nothing has changed
+        newSearch = currentSplit[0];
+        translations = currentSplit[1];
+        if (translations.length === 0) translations = '1';
+        formData.set('translations', translations);
+        formData.set('searchbox', newSearch);
+        document.getElementById('translations').value = translations;
+        document.getElementById('searchbox').value = newSearch;
+    } else {
+        if (translations.length === 0) {
+            translations = '1';
+            formData.set('translations', translations);
+        }
+        if (currentSearch.length !== 0) {
+            let currentSplit = currentSearch.split('|');
+            let srch = currentSplit[0];
+            let tls = currentSplit[1];
+            if (translations === tls && newSearch === srch) {
+                return; // nothing has changed
+            }
         }
     }
     let ts = translations.split('^');
@@ -47,7 +60,7 @@ async function doSearch(event) {
             pg.innerHTML = data;
             document.getElementById('loading').classList.remove('hidden');
             await completeSearch(formData);
-        })
+        });
     } else {
         document.getElementById('loading').classList.remove('hidden');
         // we only need to empty things here because the above creates new boxes whole-cloth
@@ -56,6 +69,7 @@ async function doSearch(event) {
         }
         await completeSearch(formData);
     }
+    document.getElementById('currentSearch').value = newSearch + '|' + translations;
 }
 
 async function completeSearch(formData) {
@@ -67,7 +81,7 @@ async function completeSearch(formData) {
     });
     searchResults.json().then(data => {
         let results = data;
-        for (let i = 0; i < Object.keys(results).length - 2; i++) { // leave room for 'alts' and 'title'
+        for (let i = 0; i < Object.keys(results).length - 3; i++) { // leave room for 'alts' and 'title' and 'myNotes'
             let parent = document.getElementById(results[i]['parent']).getElementsByClassName('textArea')[0];
             if (results[i]['rtl'] && !parent.classList.contains('rtl')) {
                 parent.classList.add('rtl');
@@ -113,5 +127,15 @@ async function completeSearch(formData) {
         document.getElementById('loading').classList.add('hidden');
 
         addDefiners();
+
+        // rerun this if we added a notes section
+        init_tinymce('textarea', formData.get('currentTinyMCETheme'));
     });
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('getPermalink').addEventListener('click', function() {
+        let curSearch = document.getElementById('currentSearch').value.split('|');
+        window.location.search = 'page=search&search=' + curSearch[0] + '&vers=' + curSearch[1];
+    });
+});

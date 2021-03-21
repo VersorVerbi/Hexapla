@@ -1,17 +1,21 @@
 <?php
 
-class userSettings
+class UserSettings
 {
     // TODO: complete
     const USE_SAVED_TRANSLATIONS = 'saved';
     const USE_LAST_TRANSLATIONS = 'last';
 
-    private $tlSetting;
-    private $tlList;
+    private string $tlSetting;
+    private string $tlList;
+    private int $allowsBehavior;
+    private int $id;
 
     function __construct() {
         $this->tlSetting = self::USE_SAVED_TRANSLATIONS;
         $this->tlList = '1^2^3^4';
+        $this->allowsBehavior = 1;
+        $this->id = 1;
     }
 
     public function set_tlSetting($setting) {
@@ -29,4 +33,16 @@ class userSettings
     public function savedTls() {
         return $this->tlList;
     }
+
+    public function canWriteNotes() {
+        return $this->allowsBehavior & AllowedBehaviors::CAN_WRITE_NOTES;
+    }
+
+    public function id() {
+        return $this->id;
+    }
+}
+
+class AllowedBehaviors {
+    const CAN_WRITE_NOTES = 1;
 }

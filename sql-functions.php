@@ -45,7 +45,6 @@ function getData(&$pgConnection, string $tableName, array $columns = [], array $
         return null;
     }
     $sql = 'SELECT ';
-    $c = 0;
     if (count($columns) == 0) {
         // get all
         $sql .= '*';
@@ -333,6 +332,7 @@ function fullSearch(&$db, $reference, $translations, &$alternatives, &$title): m
     $resolutionResult = pg_query($db, $resolutionSql);
     if (($resolRow = pg_fetch_assoc($resolutionResult)) !== false) {
         $data = resolveMore($resolRow['resolve_reference']);
+        // [0: book_id, 1: chapter_start, 2: chapter_end, 3: verse_start, 4: verse_end, 5: display_start, 6: display_end, 7: priority]
         $searchSql = "SELECT public.full_search(" . pg_escape_literal($db, $data[0]) .
             ',' . pg_escape_literal($db, $data[1]) . ',' . pg_escape_literal($db, $data[2]) .
             ',' . pg_escape_literal($db, $data[3]) . ',' . pg_escape_literal($db, $data[4]) .
@@ -489,12 +489,14 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     return $definitions;
 }
 
-function getStrongsCrossRefs(&$db, $strongArray, $translId): array {
+function getStrongsCrossRefs(&$db, $strongData, $translId): array {
     checkPgConnection($db);
+    $strongArray = array_keys($strongData);
     $crossRefs = [];
     $verses = [];
     $query = "SELECT get_strong_cross_refs(" . pg_implode(',', $strongArray, $db, true) . "," . pg_escape_literal($db, $translId) . ");";
     $results = pg_query($db, $query);
+    // structure: [text_id, text_position, text_value, location_id, punctuation, strongs_list, reference]
     while (($row = pg_fetch_row($results)) !== false) {
         $result = resolveMore($row[0]);
         $verses[$result[6]][$result[1]] = [$result[2], $result[4], $result[5]];
@@ -509,7 +511,7 @@ function getStrongsCrossRefs(&$db, $strongArray, $translId): array {
             $wordCount = 0;
 
             while ($verse[$pos][1] !== HexaplaPunctuation::NOT) {
-                if ($pos < 0) die();
+                if ($pos < 0) die(); // FIXME: what if a quotation mark is the first thing?
                 $pos--;
             }
             while ($wordCount < 7) {

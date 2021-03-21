@@ -927,6 +927,10 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
     position: absolute;
     right: 5px;
   }
+
+  &#my-notes-container {
+    padding-right: $sectionPadding;
+  }
 }
 
 .resultNotice {
@@ -1081,26 +1085,38 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
     }
   }
 
-  #translList {
+  #translOptions {
+    display: flex;
     flex-grow: 1;
     flex-basis: 33%;
-    overflow-y: auto;
-    overflow-x: hidden;
+    flex-direction: column;
 
-    .transl {
-      display: list-item;
-      list-style-type: circle;
-      margin-left: 25px;
+    #translList {
+      flex-basis: 90%;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .transl {
+        display: list-item;
+        list-style-type: circle;
+        margin-left: 25px;
+      }
     }
-  }
 
-  .langGroup {
-    text-align: center;
+    .langGroup {
+      text-align: center;
 
-    &::before, &::after {
-      content: '—';
-      margin-left: 10px;
-      margin-right: 10px;
+      &::before, &::after {
+        content: '—';
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+
+    .fullToggle {
+      // put in the middle but leave it at inline-block
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 }
@@ -1159,6 +1175,12 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
 
 .toggle {
   @include buttonLook;
+}
+
+.fullToggle {
+  @include buttonLook;
+  width: unset;
+  padding: 5px;
 }
 
 #scroll-together-label {

@@ -125,3 +125,33 @@ function fetchLiturgicalColor() {
     target = target + date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
     return fetch(target).then(result => result.text());
 }
+
+function joinObj(obj, withPropLabel) {
+    let str = '';
+    let i = 0;
+    for (let prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            if (withPropLabel) {
+                str += prop + ': ';
+            }
+            str += obj[prop];
+        }
+        if (i++ > 0) str += ',';
+    }
+    str.substring(0, str.length - 2);
+    return str;
+}
+
+function init_tinymce(selector, skin) {
+    tinymce.init({ selector: selector,
+        menu: {
+            myNotes: {title: 'My Notes', items: 'newdocument' },
+        },
+        menubar: 'myNotes | edit format',
+        height: '100%',
+        resize: false,
+        skin_url: '/Hexapla/styles/skins/ui/' + skin,
+        skin: skin,
+        content_css: skin,
+    });
+}

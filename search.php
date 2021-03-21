@@ -1,21 +1,51 @@
 <?php
 session_start();
-include_once "sql-functions.php";
+require_once "sql-functions.php";
+require_once "dbconnect.php";
 
 $search = $_POST['searchbox'];
 $translationList = $_POST['translations'];
+$getNotes = false;
+
+$tListArray = explode('^',$translationList);
+if (in_array('notes', $tListArray)) {
+    $tListArray = array_diff($tListArray, ['notes']);
+    $translationList = implode('^', $tListArray);
+    $getNotes = true;
+}
 
 $results = fullSearch($db, $search, $translationList, $alternatives, $title);
 $output = [];
+$locationIds = [];
 
 while (($row = pg_fetch_array($results, NULL, PGSQL_NUM)) !== false) {
     $data = resolveMore($row[0]);
+    // [0: text_id, 1: position, 2: value, 3: location_id, 4: punctuation, 5: version_id, 6: strong_id, 7: lang_direction]
     $chunk['parent'] = 't' . $data[5];
     $chunk['class'] = $data[6];
     $chunk['val'] = $data[2];
     $chunk['space-before'] = ($data[4] !== HexaplaPunctuation::CLOSING);
     $chunk['rtl'] = ($data[7] === LangDirection::RTL);
     $output[] = $chunk;
+    $locationIds[] = $data[3];
+}
+
+$locationIds = array_unique($locationIds);
+
+if ($getNotes) {
+    $notesResource = getData($db,
+        HexaplaTables::USER_NOTES,
+        [HexaplaUserNotes::ID, HexaplaUserNotes::VALUE],
+        [HexaplaUserNotes::USER_ID => $currentUser->id(), HexaplaUserNotesLocation::LOCATION_ID => $locationIds],
+        [],
+        [new HexaplaJoin(HexaplaTables::USER_NOTES_LOCATION,
+            HexaplaTables::USER_NOTES, HexaplaUserNotes::ID,
+            HexaplaTables::USER_NOTES_LOCATION, HexaplaUserNotesLocation::NOTE_ID)]);
+    $userNotes = [];
+    while (($noteRow = pg_fetch_assoc($notesResource)) !== false) {
+        $userNotes[$noteRow[HexaplaUserNotes::ID]] = $noteRow[HexaplaUserNotes::VALUE];
+    }
+    $output['myNotes'] = $userNotes;
 }
 
 unset($_SESSION['alts']);

@@ -17,4 +17,5 @@ function setHexCookie($name, $value) {
 class HexaplaCookies {
     const THEME = 'hexaplaTheme';
     const SHADE = 'hexaplaShade';
+    const LAST_TRANSLATIONS = 'hexaplaTls';
 }

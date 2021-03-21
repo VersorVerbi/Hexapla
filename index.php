@@ -1,6 +1,13 @@
 <?php
 require_once "sql-functions.php";
 require_once "cookie-functions.php";
+require_once "dbconnect.php";
+
+if ($currentUser->useSavedTl()) {
+    $tls = $currentUser->savedTls();
+} elseif ($currentUser->useLastTl()) {
+    $tls = getCookie(HexaplaCookies::LAST_TRANSLATIONS);
+}
 
 if (!isset($_GET['page'])) {
     $page = 'home';
@@ -19,7 +26,9 @@ switch($page) {
         $toLoad = 'home-page.html';
         break;
     case 'search':
-        $toLoad = 'results.php';
+        $search = $_GET['search'];
+        $tls = $_GET['vers']; // TODO: handle abbreviation listings in addition to id listings
+        $toLoad = "results.php";
         break;
     default:
         $toLoad = 'error404.html';
@@ -43,6 +52,8 @@ if (is_numeric($preferredShade) && ($preferredShade >= 0 || $preferredShade < co
     $shade = $GLOBALS['shades'][$shadeNo];
     setHexCookie(HexaplaCookies::SHADE, $shadeNo);
 }
+
+$tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
 ?>
 
 <!DOCTYPE html>
@@ -74,9 +85,10 @@ if (is_numeric($preferredShade) && ($preferredShade >= 0 || $preferredShade < co
     <script type="text/javascript" src="scripts/tl-config.js"></script>
     <script type="text/javascript" src="scripts/diff.js"></script>
     <script type="text/javascript" src="scripts/sidebar.js"></script>
+    <script src="https://cdn.tiny.cloud/1/ptcuvqtdffo2fe0pjk54wmk1wa867jqad8psipzfqv6wvvtm/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <noscript>
         <style type="text/css">
-            .noJS {
+            .jsOnly {
                 display: none !important;
             }
         </style>
@@ -92,6 +104,22 @@ if (is_numeric($preferredShade) && ($preferredShade >= 0 || $preferredShade < co
     </div>
     <?php include "sidebar.php"; ?>
     <div id="loading" class="hidden"></div>
+    <script type="text/javascript">
+        <?php if (isset($search)) {
+        ?>
+        let curSearchInput = document.getElementById('currentSearch');
+        if (curSearchInput.value === '') {
+            document.getElementById('currentSearch').value = <?php echo json_encode($search . "|" . $tls); ?>;
+            doSearch();
+        }
+        <?php
+        }
+        ?>
+
+        init_tinymce('textarea', <?php echo json_encode($tinySkin); ?>);
+
+        document.getElementById('currentTinyMCETheme').value = <?php echo json_encode($tinySkin); ?>;
+    </script>
 </body>
 </html>
 
@@ -104,17 +132,18 @@ if (is_numeric($preferredShade) && ($preferredShade >= 0 || $preferredShade < co
     - add click->dictionary+toggle for words --> finish getting data from all sources
     - reload, add more translations
     - add page content + how can I help? page
-    - dynamic theming --> random for users w/ no cookies, no login | liturgical implementation
     - handle commentary text
-    - crossrefs --> literal | add lemma to Strong's title
+    - crossrefs --> literal
     - add user functionality
         -> user notes
             --> associate with all verses -- load all in order if viewing >1 verse, but then have to save all for all verses
-            --> if save notes to 10 verses, then update for 1 verse, must update for all 10
+            --> if save notes to 10 verses, then notes_on_loc lists all 10 for that verse ID and we just update the note once
             --> add it from translation config screen
             --> WYSIWYG editor
         -> qualifications - contributions?
-    - permalinks
+        -> save data on navigate? --> window.onbeforeunload / window.addEventListener('beforeunload',...) JS event -- and maybe very rarely/periodically on element.input event?
+    - permalinks --> translation permalinks->tl-config screen
     - accessibility
     - noJS versions of everything
+    - TinyMCE skins: make hovers not gray, make dark-theme backgrounds not dark for the DOCUMENT portion, add higher-contrast borders to lighter themes?; use remove() -> init() when changing themes (but don't lose entered content!)
 */

@@ -40,16 +40,7 @@ function keepTl(ev) {
     // TODO: cancel signifier if we add one
 }
 
-function removeTl(ev) {
-    ev.preventDefault();
-    let sourceId = ev.dataTransfer.getData('text/plain');
-    let source = document.getElementById(sourceId);
-    source.parentNode.classList.remove('occupied');
-    source.parentNode.removeChild(source);
-    let dropObject = document.createElement('div');
-    dropObject.innerHTML = ev.dataTransfer.getData('text/html');
-    dropObject = dropObject.firstChild;
-    let langTarget = dropObject.dataset.lang;
+function returnVersion(dropObject, langTarget) {
     let list = document.getElementById('translList');
     let options = list.getElementsByTagName('div');
     let inLang = false;
@@ -67,8 +58,25 @@ function removeTl(ev) {
     if (o === options.length) {
         list.appendChild(dropObject);
     }
-    dropObject.removeEventListener('dragstart', draggableStart);
-    dropObject.addEventListener('dragstart', draggableStart);
+}
+
+function removeTl(ev) {
+    ev.preventDefault();
+    let sourceId = ev.dataTransfer.getData('text/plain');
+    let source = document.getElementById(sourceId);
+    source.parentNode.classList.remove('occupied');
+    source.parentNode.removeChild(source);
+    if (sourceId === 'notes') {
+        document.getElementById('show-notes').click();
+    } else {
+        let dropObject = document.createElement('div');
+        dropObject.innerHTML = ev.dataTransfer.getData('text/html');
+        dropObject = dropObject.firstChild;
+        let langTarget = dropObject.dataset.lang;
+        returnVersion(dropObject, langTarget);
+        dropObject.removeEventListener('dragstart', draggableStart);
+        dropObject.addEventListener('dragstart', draggableStart);
+    }
 }
 
 function nomoreTl(ev) {

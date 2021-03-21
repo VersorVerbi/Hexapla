@@ -35,7 +35,7 @@ async function define() {
     emptyBox(curDefns, 'curLangTitle');
     let sourceDefns = document.getElementById('sourceLangDefn');
     emptyBox(sourceDefns, 'sourceLangTitle');
-    let crossRefsDiv = document.getElementById('crossref'); // TODO: is this right?
+    let crossRefsDiv = document.getElementById('crossref');
     emptyBox(crossRefsDiv);
 
     let wordSetup = await fetch('/Hexapla/word-setup.php', { // TODO: correct this root-relative URL later
@@ -88,7 +88,7 @@ async function define() {
             if (crData['source'].length > 0) {
                 let sourceSection = document.createElement('div');
                 let sourceTitle = document.createElement('h3');
-                sourceTitle.innerText = sourceWords.join(', ');
+                sourceTitle.innerText = joinObj(sourceWords, true);
                 sourceSection.appendChild(sourceTitle);
                 let refList = document.createElement('dl');
                 for (let s = 0; s < crData['source'].length; s++) {

@@ -2679,6 +2679,9 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   position: absolute;
   right: 5px;
 }
+.version#my-notes-container {
+  padding-right: 5px;
+}
 
 .resultNotice {
   width: calc(100% + 11px);
@@ -2867,24 +2870,33 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
 #translationController #translGrid .transl {
   display: inline-block;
 }
-#translationController #translList {
+#translationController #translOptions {
+  display: flex;
   flex-grow: 1;
   flex-basis: 33%;
+  flex-direction: column;
+}
+#translationController #translOptions #translList {
+  flex-basis: 90%;
   overflow-y: auto;
   overflow-x: hidden;
 }
-#translationController #translList .transl {
+#translationController #translOptions #translList .transl {
   display: list-item;
   list-style-type: circle;
   margin-left: 25px;
 }
-#translationController .langGroup {
+#translationController #translOptions .langGroup {
   text-align: center;
 }
-#translationController .langGroup::before, #translationController .langGroup::after {
+#translationController #translOptions .langGroup::before, #translationController #translOptions .langGroup::after {
   content: "—";
   margin-left: 10px;
   margin-right: 10px;
+}
+#translationController #translOptions .fullToggle {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 [draggable=true] {
@@ -2932,6 +2944,36 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   background-color: rgba(255, 255, 255, 0.1);
 }
 .toggle.clicked:hover {
+  border-color: rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5) rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5);
+  background-color: rgba(180, 225, 255, 0.1);
+}
+
+.fullToggle {
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  text-align: center;
+  position: relative;
+  margin: 0 2px;
+  width: unset;
+  padding: 5px;
+}
+.fullToggle:hover {
+  border-color: rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5) rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5);
+  background-color: rgba(100, 200, 255, 0.2);
+}
+.fullToggle.clicked {
+  border-color: rgba(0, 0, 0, 0.5) rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.fullToggle.clicked:hover {
   border-color: rgba(0, 50, 150, 0.5) rgba(125, 180, 255, 0.5) rgba(125, 180, 255, 0.5) rgba(0, 50, 150, 0.5);
   background-color: rgba(180, 225, 255, 0.1);
 }
