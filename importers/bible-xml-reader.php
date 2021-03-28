@@ -380,7 +380,7 @@ class HexaplaStandardMetadata {
         if (($row = pg_fetch_assoc($check)) !== false) {
             $versionId = $row[HexaplaSourceVersion::ID];
         } else {
-            $criteria[HexaplaSourceVersion::USER_ID] = CURRENT_USER(); // i.e., uploader
+            $criteria[HexaplaSourceVersion::USER_ID] = 1; // i.e., uploader
             $versionId = putData($db, HexaplaTables::SOURCE_VERSION, $criteria);
         }
         free($criteria);

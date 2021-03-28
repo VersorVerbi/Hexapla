@@ -43,6 +43,7 @@
             <!-- TODO: add option to keep diff turned on? -->
             <!-- TODO: add option for which document group to loop through -->
             <!-- TODO: add cookies / user settings to handle these -->
+            <!-- TODO: add note export button (w/ popup) here -->
             <hr />
             <h4>Navigation</h4>
             <li><a href="">About Us</a></li>

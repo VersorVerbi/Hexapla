@@ -10,7 +10,6 @@ use JetBrains\PhpStorm\Pure;
 include_once "import-functions.php";
 include_once "../general-functions.php";
 include_once "../sql-functions.php";
-include_once "../user-functions.php";
 include_once "osis-reader.php";
 require_once "import-classes.php";
 

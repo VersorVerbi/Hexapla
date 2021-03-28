@@ -920,7 +920,6 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
     height: 100%;
     overflow-y: auto;
     padding-right: $sectionPadding;
-    // TODO: scroll shadow!
   }
 
   .icoButton {
@@ -938,7 +937,6 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   padding: $sectionPadding;
   box-sizing: border-box;
   border-top: 1px solid black; //TODO: color!
-  background-color: yellow; // TODO: color!
   order: 99;
   margin-left: $noticeLeftMargin;
   margin-bottom: $noticeBottomMargin;

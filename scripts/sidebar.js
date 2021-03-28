@@ -69,8 +69,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.body.classList.add('themeChange');
                 document.body.classList.remove(...shadeList);
                 document.body.classList.add(this.value);
-                fetch('/Hexapla/cookies.php?name=hexaplaTheme').then(data => data.text().then(doShadeSwap.bind(null, this.value)));
-                fetch('/Hexapla/cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then( // TODO: path
+                fetch('/Hexapla/cookies.php?name=hexaplaTheme').then(data => data.text().then(doShadeSwap.bind(null, this.value))); // RELATIVE-URL
+                fetch('/Hexapla/cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then( // RELATIVE-URL
                     () => setTimeout(() => document.body.classList.remove('themeChange'), 100));
             }
         });
@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('theme-selection').addEventListener('change', function() {
         document.body.classList.add('themeChange');
         document.getElementById('themeCss').href = "styles/" + this.value + ".css";
-        fetch('/Hexapla/cookies.php?name=hexaplaShade').then(data => data.text().then(doThemeSwap.bind(null, this.value)));
-        fetch('/Hexapla/cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then( // TODO: path
+        fetch('/Hexapla/cookies.php?name=hexaplaShade').then(data => data.text().then(doThemeSwap.bind(null, this.value))); // RELATIVE-URL
+        fetch('/Hexapla/cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then( // RELATIVE-URL
             () => {
                 if (this.value === 'liturgical') {
                     fetchLiturgicalColor()

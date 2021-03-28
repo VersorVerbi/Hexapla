@@ -514,7 +514,7 @@
 .tinymce-mobile-dropup.tinymce-mobile-dropup-open:not(.tinymce-mobile-dropup-growing) {
   flex-grow: 1;
 }
-/* TODO min-height for device size and orientation */
+
 .tinymce-mobile-ios-container .tinymce-mobile-dropup:not(.tinymce-mobile-dropup-closed) {
   min-height: 200px;
 }

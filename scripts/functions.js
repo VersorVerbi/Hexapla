@@ -123,7 +123,7 @@ function toggleClass(element, className) {
 }
 
 function fetchLiturgicalColor() {
-    let target = '/Hexapla/liturgical-color.php?date='; // TODO: relative path
+    let target = '/Hexapla/liturgical-color.php?date='; // RELATIVE-URL
     let date = new Date();
     target = target + date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
     return fetch(target).then(result => result.text());
@@ -161,7 +161,7 @@ async function saveNote(locIds, noteText, noteId = null, lastSaveElement) {
     if (noteId !== null) {
         frm.append('note_id', noteId);
     }
-    let saveOperation = await fetch('/Hexapla/save-notes.php', {// FIXME: correct this root-relative URL later
+    let saveOperation = await fetch('/Hexapla/save-notes.php', { // RELATIVE-URL
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
@@ -222,6 +222,6 @@ function saveNoteSync(locIds, noteText, noteId = null) {
     }
 
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/Hexapla/save-notes.php', false); // TODO: url
+    xhr.open('POST', '/Hexapla/save-notes.php', false); // RELATIVE-URL
     xhr.send(frm);
 }

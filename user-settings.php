@@ -12,7 +12,7 @@ class UserSettings
     private int $id;
 
     function __construct() {
-        $this->tlSetting = self::USE_SAVED_TRANSLATIONS;
+        $this->tlSetting = self::USE_LAST_TRANSLATIONS;
         $this->tlList = '1^2^3^4';
         $this->allowsBehavior = 1;
         $this->id = 1;
@@ -45,4 +45,8 @@ class UserSettings
 
 class AllowedBehaviors {
     const CAN_WRITE_NOTES = 1;
+    const CAN_DIFF = 2;
+    const CAN_FOCUS = 4;
+    const CAN_UPLOAD = 8;
+    const CAN_PARSE = 16;
 }

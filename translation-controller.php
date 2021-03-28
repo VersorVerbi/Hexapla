@@ -68,7 +68,13 @@ if (isset($_GET['t'])) {
     dropZoneSetup(document.getElementById('translList'), potentialRemoveTl, keepTl, removeTl, ev => { ev.preventDefault(); });
 
 
-    document.getElementById('show-notes-label').title = "Use one of the version spaces to enter my own notes on each passage";
+    let notesLabel = document.getElementById('show-notes-label');
+    if (document.getElementById('show-notes').checked) {
+        notesLabel.title = "Stop showing my notes";
+        notesLabel.classList.add('clicked');
+    } else {
+        notesLabel.title = "Use one of the version spaces to enter my own notes on each passage";
+    }
     document.getElementById('show-notes').addEventListener('change', function() {
         let label = document.getElementById('show-notes-label');
         if (this.checked) {
@@ -104,3 +110,4 @@ if (isset($_GET['t'])) {
 
 <?php
 // FIXME: adding >6 translations just removes them irretrievably from the translation list
+// TODO: removing a middle translation should slide everything else up (except notes)

@@ -115,5 +115,4 @@ function draggableStart(ev) {
     ev.target.classList.add('pickedUp');
 }
 
-//TODO: include "notes" option and make it available based on whether logged in
 //TODO: otherwise handle the translation list

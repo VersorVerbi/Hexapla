@@ -26,10 +26,3 @@ if (($row = pg_fetch_assoc($langData)) !== false) {
 }
 
 echo json_encode($output);
-
-/* TODO:
-    - use sourceWords to get definition from Strong's ID -> lemma -> definition
-    - if current lang is Greek (or Hebrew/Latin/...?) use word form search -> lemma -> definition
-    - if no definition in database, get from external API and add to database --> keep in mind that caching may not be permitted by API
-    - echo json_encode'd array of definitions w/ dictionary info, lang info, and definition
-*/

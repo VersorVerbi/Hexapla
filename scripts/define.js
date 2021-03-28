@@ -38,7 +38,7 @@ async function define() {
     let crossRefsDiv = document.getElementById('crossref');
     emptyBox(crossRefsDiv);
 
-    let wordSetup = await fetch('/Hexapla/word-setup.php', { // TODO: correct this root-relative URL later
+    let wordSetup = await fetch('/Hexapla/word-setup.php', { // RELATIVE-URL
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
@@ -50,13 +50,13 @@ async function define() {
         newForm.append('tid', wordData['tid']);
         newForm.append('literalWords', JSON.stringify(wordData['literalWords']));
         newForm.append('langId', wordData['langId']);
-        let definitions = await fetch('/Hexapla/define.php', { // FIXME: correct this root-relative URL later
+        let definitions = await fetch('/Hexapla/define.php', { // RELATIVE-URL
             method: 'POST',
             mode: 'same-origin',
             redirect: 'error',
             body: newForm
         });
-        let crossRefs = await fetch('/Hexapla/cross-refs.php', { // FIXME: correct this root-relative URL later
+        let crossRefs = await fetch('/Hexapla/cross-refs.php', { // RELATIVE-URL
             method: 'POST',
             mode: 'same-origin',
             redirect: 'error',
@@ -64,7 +64,7 @@ async function define() {
         });
         definitions.json().then(defnData => { // text().then(defnData => console.log(defnData));/*
             if (defnData['literalLang'] !== null) { // TODO: handle Oxford API data
-                if (defnData['literalLang']['dir'] === 'rtl') { // TODO: is this right?
+                if (defnData['literalLang']['dir'] === 'rtl') {
                     curDefns.classList.add('rtl');
                 }
                 document.getElementById('curLangTitle').innerText = defnData['literalLang']['name'];

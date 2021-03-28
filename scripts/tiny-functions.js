@@ -15,9 +15,9 @@ function init_tinymce(selector, skin) {
         menubar: 'myNotes | edit format',
         height: '100%',
         resize: false,
-        skin_url: '/Hexapla/styles/skins/ui/' + skin,
+        skin_url: '/Hexapla/styles/skins/ui/' + skin, // RELATIVE-URL
         skin: skin,
-        content_css: '/Hexapla/styles/skins/content/' + skin + '/content.css',
+        content_css: '/Hexapla/styles/skins/content/' + skin + '/content.css', // RELATIVE-URL
         setup: editor => {
             editor.on('input', () => {
                 editor.save();

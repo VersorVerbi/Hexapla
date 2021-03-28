@@ -148,33 +148,6 @@ function getVerseId(&$db, $chapterId, $verse): int {
 }
 
 /**
- * @param resource|null $db
- * @param string $reference Should be the STANDARDIZED reference of the verse
- * @param array $indexArray
- * @param array $conversionIndex
- * @return int
- * @throws HexaplaException
- */
-function locationWithIndex(&$db, string $reference, array &$indexArray, array $conversionIndex): int
-{
-    if (str_contains($reference, "Esther 10")) {
-        print_r($reference);
-        print_r($indexArray[$reference]);
-        print_r($conversionIndex[$reference]);
-    }
-    if (isset($indexArray[$reference])) {
-        return $indexArray[$reference];
-    } elseif (isset($conversionIndex[$reference])) {
-        // TODO: This requires $ref and source data to have the same string format -- will this be done?
-        $refId = implode(',', $conversionIndex[$reference]);
-    } else {
-        $refId = getLocation($db, $reference);
-    }
-    $indexArray[$reference] = $refId;
-    return $refId;
-}
-
-/**
  * @param $convList
  * @return array
  */
@@ -338,7 +311,7 @@ function inStringList($target, $stringList, $delimiter) {
 }
 
 function hebrewTransliterate($hebrewString) {
-    // TODO: update this to linux filepaths
+    // RELATIVE-URL: update this to linux filepaths
     return exec("\"C:\\Program Files\\nodejs\\node\" -e \"console.log(require('C:/xampp/node_modules/hebrew-transliteration').transliterate('" . $hebrewString . "', { isSimple: true }))\"");
 }
 
