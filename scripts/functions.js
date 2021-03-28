@@ -45,7 +45,10 @@ function showHideStrongs(show, evt) {
 }
 
 function showNotice(translationId, noticeHTML, noticeLevel) {
-    let noticeDiv = document.querySelector('#t' + translationId + ' .resultNotice');
+    if (translationId !== 'my-notes-container') {
+        translationId = 't' + translationId;
+    }
+    let noticeDiv = document.querySelector('#' + translationId + ' .resultNotice');
     noticeDiv.innerHTML = noticeHTML;
     noticeDiv.classList.add(noticeClasses(noticeLevel));
     noticeDiv.classList.remove('hidden');
@@ -126,7 +129,7 @@ function fetchLiturgicalColor() {
     return fetch(target).then(result => result.text());
 }
 
-function joinObj(obj, withPropLabel) {
+function joinObj(obj, withPropLabel, separator = ',') {
     let str = '';
     let i = 0;
     for (let prop in obj) {
@@ -136,22 +139,89 @@ function joinObj(obj, withPropLabel) {
             }
             str += obj[prop];
         }
-        if (i++ > 0) str += ',';
+        if (i++ > 0) str += separator;
     }
     str.substring(0, str.length - 2);
     return str;
 }
 
-function init_tinymce(selector, skin) {
-    tinymce.init({ selector: selector,
-        menu: {
-            myNotes: {title: 'My Notes', items: 'newdocument' },
-        },
-        menubar: 'myNotes | edit format',
-        height: '100%',
-        resize: false,
-        skin_url: '/Hexapla/styles/skins/ui/' + skin,
-        skin: skin,
-        content_css: skin,
+function toTitleCase(str) {
+    let arr = str.split(' ');
+    let output = '';
+    for (let i = 0; i < arr.length; i++) {
+        output += arr[i].substring(0, 1).toUpperCase() + arr[i].substring(1) + ' ';
+    }
+    return output.substring(0, output.length - 1);
+}
+
+async function saveNote(locIds, noteText, noteId = null, lastSaveElement) {
+    let frm = new FormData();
+    frm.append('loc_id', locIds);
+    frm.append('note', noteText);
+    if (noteId !== null) {
+        frm.append('note_id', noteId);
+    }
+    let saveOperation = await fetch('/Hexapla/save-notes.php', {// FIXME: correct this root-relative URL later
+        method: 'POST',
+        mode: 'same-origin',
+        redirect: 'error',
+        body: frm
     });
+    saveOperation.json().then(data => {
+        if (data) {
+            lastSaveElement.innerText = new Date().toTimeString();
+            lastSaveElement.id = 'autosave_time';
+            let outer = document.createElement('span');
+            outer.innerText = 'Autosaved at ';
+            outer.appendChild(lastSaveElement);
+            showNotice('my-notes-container', outer.outerHTML, 1);
+            document.getElementById('currentNoteId').value = data;
+        } else {
+            showAutosaveError();
+        }
+    }).catch(() => {
+        showAutosaveError();
+    });
+}
+
+function autosave(synchronous) {
+    let input = document.getElementById('my-notes');
+    if (input) {
+        if (input.value.length > 0) {
+            let loc_ids = document.getElementById('currentLocationIds').value;
+            if (loc_ids.length === 0) {
+                if (!synchronous) showAutosaveError();
+            } else {
+                let note_id = document.getElementById('currentNoteId').value;
+                if (note_id.length === 0) note_id = null;
+                if (!synchronous) {
+                    let last_saved = document.getElementById('autosave_time');
+                    if (!last_saved) last_saved = document.createElement('span');
+                    saveNote(loc_ids, input.value, note_id, last_saved);
+                } else {
+                    saveNoteSync(loc_ids, input.value, note_id);
+                }
+            }
+        }
+        if (!synchronous) setTimeout(autosave, 300000);
+    }
+}
+
+function showAutosaveError() {
+    showNotice('my-notes-container',
+        'Autosave has <strong>failed</strong>. Please copy your notes to a secure location until our system is working again.',
+        3);
+}
+
+function saveNoteSync(locIds, noteText, noteId = null) {
+    let frm = new FormData();
+    frm.append('loc_id', locIds);
+    frm.append('note', noteText);
+    if (noteId !== null) {
+        frm.append('note_id', noteId);
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/Hexapla/save-notes.php', false); // TODO: url
+    xhr.send(frm);
 }

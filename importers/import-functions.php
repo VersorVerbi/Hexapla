@@ -34,11 +34,11 @@ function xml_get_value(array $xmlArray, array $indices, mixed &$ret): int
  * node's attributes.
  * @param array $xmlArray A node of an XML array that has or should have attributes
  * @param string $attr The name of the attribute we want to retrieve
- * @param string $ret The value of the requested attribute
+ * @param string|null $ret The value of the requested attribute
  * @return int 1 if there was an error (no attributes on the node or attribute not found), 0 if successful
  * @uses array_key_exists(), xml_get_value()
  */
-function xml_get_attribute(array $xmlArray, string $attr, string &$ret): int
+function xml_get_attribute(array $xmlArray, string $attr, string|null &$ret): int
 {
     if (!array_key_exists('attributes', $xmlArray)) {
         return 1;
@@ -78,11 +78,11 @@ function xml_attribute_is(array $xmlArray, string $attr, mixed $targetRet): bool
  * that node's attributes.
  * @param array $xmlArray A node of an XML array that has or should have attributes
  * @param array $attrList An array of attribute names to retrieve
- * @param array $arrayRet An array of attribute values in the format $array['attrName']=attrValue
+ * @param array|null $arrayRet An array of attribute values in the format $array['attrName']=attrValue
  * @return int 1 if there was an error (none of the requested attributes existed), 0 if successful at least once
  * @uses xml_get_attribute(), count()
  */
-function xml_get_attribute_set(array $xmlArray, array $attrList, array &$arrayRet): int
+function xml_get_attribute_set(array $xmlArray, array $attrList, array|null &$arrayRet): int
 {
     $arrayRet = [];
     foreach ($attrList as $attr) {

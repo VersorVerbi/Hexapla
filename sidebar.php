@@ -29,6 +29,7 @@
                 <select id="theme-selection" name="theme-selection">
                     <?php
                     foreach($GLOBALS['themes'] as $thm) {
+                        // FIXME: fix when the cookie is null?
                         echo "<option value=\"$thm\" " . ($thm === $GLOBALS['themes'][getCookie(HexaplaCookies::THEME)] ? 'selected' : '') . ">" . toTitleCase($thm) . "</option>";
                     }
                     ?>

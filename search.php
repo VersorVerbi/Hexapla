@@ -2,6 +2,10 @@
 session_start();
 require_once "sql-functions.php";
 require_once "dbconnect.php";
+/**
+ * @var UserSettings $currentUser
+ * @var resource $db
+ */
 
 $search = $_POST['searchbox'];
 $translationList = $_POST['translations'];
@@ -31,6 +35,7 @@ while (($row = pg_fetch_array($results, NULL, PGSQL_NUM)) !== false) {
 }
 
 $locationIds = array_unique($locationIds);
+$output['loc_id'] = implode('^', $locationIds);
 
 if ($getNotes) {
     $notesResource = getData($db,

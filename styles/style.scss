@@ -1090,11 +1090,13 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
     flex-grow: 1;
     flex-basis: 33%;
     flex-direction: column;
+    max-height: 90%;
 
     #translList {
       flex-basis: 90%;
       overflow-y: auto;
       overflow-x: hidden;
+      margin-bottom: 10px;
 
       .transl {
         display: list-item;

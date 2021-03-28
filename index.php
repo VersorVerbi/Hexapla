@@ -2,6 +2,10 @@
 require_once "sql-functions.php";
 require_once "cookie-functions.php";
 require_once "dbconnect.php";
+/**
+ * @var UserSettings $currentUser
+ * @var resource $db
+ */
 
 if ($currentUser->useSavedTl()) {
     $tls = $currentUser->savedTls();
@@ -80,6 +84,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
                 .finally(() => setTimeout(() => document.body.classList.remove('themeChange'), 100));
         }
     </script>
+    <script type="text/javascript" src="scripts/tiny-functions.js"></script>
     <script type="text/javascript" src="scripts/define.js"></script>
     <script type="text/javascript" src="scripts/nav-and-search.js"></script>
     <script type="text/javascript" src="scripts/tl-config.js"></script>
@@ -116,7 +121,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
         }
         ?>
 
-        init_tinymce('textarea', <?php echo json_encode($tinySkin); ?>);
+        init_tinymce('#my-notes', <?php echo json_encode($tinySkin); ?>);
 
         document.getElementById('currentTinyMCETheme').value = <?php echo json_encode($tinySkin); ?>;
     </script>
@@ -132,18 +137,16 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - add click->dictionary+toggle for words --> finish getting data from all sources
     - reload, add more translations
     - add page content + how can I help? page
-    - handle commentary text
-    - crossrefs --> literal
+    - handle commentary text --> display it too
+    - crossrefs -> literal
     - add user functionality
         -> user notes
-            --> associate with all verses -- load all in order if viewing >1 verse, but then have to save all for all verses
             --> if save notes to 10 verses, then notes_on_loc lists all 10 for that verse ID and we just update the note once
-            --> add it from translation config screen
-            --> WYSIWYG editor
+            --> export functionality
         -> qualifications - contributions?
-        -> save data on navigate? --> window.onbeforeunload / window.addEventListener('beforeunload',...) JS event -- and maybe very rarely/periodically on element.input event?
+        -> also remove/destroy the tinymce so we can init a new one after loading new text
     - permalinks --> translation permalinks->tl-config screen
     - accessibility
     - noJS versions of everything
-    - TinyMCE skins: make hovers not gray, make dark-theme backgrounds not dark for the DOCUMENT portion, add higher-contrast borders to lighter themes?; use remove() -> init() when changing themes (but don't lose entered content!)
+    - some sort of test suite?
 */

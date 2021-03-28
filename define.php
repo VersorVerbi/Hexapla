@@ -1,6 +1,10 @@
 <?php
 
 require_once "sql-functions.php";
+/**
+ * @var UserSettings $currentUser
+ * @var resource $db
+ */
 
 $sourceWords = json_decode($_POST['sourceWords']);
 $translationId = $_POST['tid'];

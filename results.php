@@ -1,5 +1,9 @@
 <?php
 require_once "sql-functions.php";
+/**
+ * @var UserSettings $currentUser
+ * @var resource $db
+ */
 
 if (isset($_GET['translations'])) {
     $ts = explode('^', $_GET['translations']);
@@ -32,6 +36,7 @@ if (isset($_GET['translations'])) {
     <form id="my-notes-form" style="height: 100%;">
         <textarea id="my-notes" name="my-notes"></textarea>
     </form>
+    <div class="resultNotice hidden"></div>
 </div>
             <?php
         }

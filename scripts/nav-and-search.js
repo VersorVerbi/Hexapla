@@ -2,6 +2,8 @@ async function doSearch(event) {
     if (event) {
         event.preventDefault();
     }
+    killTheTinyMouse();
+    autosave(true);
     let formData = new FormData(document.getElementById('searchform'));
     let translations, currentSearch, newSearch;
     for (let dataPair of formData.entries()) {
@@ -60,6 +62,12 @@ async function doSearch(event) {
             pg.innerHTML = data;
             document.getElementById('loading').classList.remove('hidden');
             await completeSearch(formData);
+
+            setTimeout(autosave, 300000); // 5 minute autosave
+            window.addEventListener('beforeunload', () => {
+                killTheTinyMouse();
+                autosave(true);
+            });
         });
     } else {
         document.getElementById('loading').classList.remove('hidden');
@@ -81,7 +89,7 @@ async function completeSearch(formData) {
     });
     searchResults.json().then(data => {
         let results = data;
-        for (let i = 0; i < Object.keys(results).length - 3; i++) { // leave room for 'alts' and 'title' and 'myNotes'
+        for (let i = 0; i < Object.keys(results).length - 4; i++) { // leave room for 'alts' and 'title' and 'myNotes' and 'loc_id'
             let parent = document.getElementById(results[i]['parent']).getElementsByClassName('textArea')[0];
             if (results[i]['rtl'] && !parent.classList.contains('rtl')) {
                 parent.classList.add('rtl');
@@ -128,8 +136,24 @@ async function completeSearch(formData) {
 
         addDefiners();
 
-        // rerun this if we added a notes section
-        init_tinymce('textarea', formData.get('currentTinyMCETheme'));
+        let noteHolder = document.getElementById('my-notes');
+        if (noteHolder) {
+            noteHolder.value = joinObj(data.myNotes, false, '');
+            let maxId = 0;
+            for(let prop in data.myNotes) {
+                if (data.myNotes.hasOwnProperty(prop)) {
+                    if (prop > maxId) {
+                        maxId = prop;
+                    }
+                }
+            }
+            document.getElementById('currentNoteId').value = maxId;
+
+            // rerun this if we added a notes section
+            init_tinymce('#my-notes', formData.get('currentTinyMCETheme'));
+        }
+
+        document.getElementById('currentLocationIds').value = results['loc_id'];
     });
 }
 

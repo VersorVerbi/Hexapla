@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.body.classList.add('themeChange');
                 document.body.classList.remove(...shadeList);
                 document.body.classList.add(this.value);
+                fetch('/Hexapla/cookies.php?name=hexaplaTheme').then(data => data.text().then(doShadeSwap.bind(null, this.value)));
                 fetch('/Hexapla/cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then( // TODO: path
                     () => setTimeout(() => document.body.classList.remove('themeChange'), 100));
             }
@@ -80,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('theme-selection').addEventListener('change', function() {
         document.body.classList.add('themeChange');
         document.getElementById('themeCss').href = "styles/" + this.value + ".css";
+        fetch('/Hexapla/cookies.php?name=hexaplaShade').then(data => data.text().then(doThemeSwap.bind(null, this.value)));
         fetch('/Hexapla/cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then( // TODO: path
             () => {
                 if (this.value === 'liturgical') {
@@ -119,4 +121,12 @@ function showMenu(tab) {
     document.getElementById('menuwrap').classList.add('active');
     targetSidebar.classList.add('activated');
     tab.classList.add('activated');
+}
+
+function doShadeSwap(shadeName, themeId) {
+    swapTinySkins(themeList[themeId], shadeName);
+}
+
+function doThemeSwap(themeName, shadeId) {
+    swapTinySkins(themeName, shadeList[shadeId]);
 }

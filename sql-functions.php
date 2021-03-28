@@ -157,10 +157,10 @@ function getCount(&$pgConnection, $tableName, $searchCriteria = []): int {
  * @param resource $db
  * @param string $tableName
  * @param array $insertArray
- * @param string $idColumn
+ * @param string|null $idColumn
  * @return bool|resource
  */
-function putData(&$db, string $tableName, array $insertArray, string $idColumn = HexaplaStandardColumns::ID): bool|string
+function putData(&$db, string $tableName, array $insertArray, string|null $idColumn = HexaplaStandardColumns::ID): bool|string
 {
     checkPgConnection($db);
     $sql = 'INSERT INTO public.' . pg_escape_identifier($db, $tableName) . ' ';

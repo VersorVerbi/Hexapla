@@ -1,6 +1,12 @@
 <?php
 require_once "dbconnect.php";
 require_once "sql-functions.php";
+/**
+ * @var UserSettings $currentUser
+ * @var resource $db
+ */
+
+
 $versionsList = getVersions($db);
 if (isset($_GET['t'])) {
     $tList = $_GET['t'];

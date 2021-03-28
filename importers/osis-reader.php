@@ -10,7 +10,7 @@ class OSISReader extends BibleXMLReader {
     /**
      * Override
      * @param array $args
-     * @return bool|void
+     * @return bool
      */
     public function read($args = []): bool
     {
@@ -223,7 +223,7 @@ class OSISReader extends BibleXMLReader {
      * @throws HexaplaException
      */
     public function exportAndUpload(&$db) {
-        // TODO: Handle notes / non-canonical text as well -- or specifically exclude them
+        // TODO: Handle UPDATING notes / non-canonical text as well
         $this->existingDataCheck($db);
         //$this->perfLog->activate();
         $this->perfLog->log("start exportAndUpload");
@@ -251,17 +251,29 @@ class OSISReader extends BibleXMLReader {
             if ($extraVerbose) $this->perfLog->log("parse into struct");
             $key = 0;
             $words = [];
+            $notes = [];
+            $inNote = false;
             for ($w = 0; $w < count($values); $w++) {
                 if (xml_get_value($values[$w], array(OsisProperties::VALUE), $text) === 1) { // 1 = error
                     continue;
                 }
-                if (xml_value_is($values[$w], array(OsisProperties::TAG), utf8_strtoupper(OsisTags::VERSE))) {
-                    $text = utf8_trim($text);
-                    if (utf8_strlen($text) > 0) {
-                        foreach (preg_split("/\s+/u", $text) as $textPiece) {
-                            createHexaWords($textPiece, $verse['reference'], $key, $words);
-                        }
+                if (xml_value_is($values[$w], array(OsisProperties::TAG), utf8_strtoupper(OsisTags::NOTE))) {
+                    if (xml_value_is($values[$w], array(OsisProperties::TYPE), 'open')) {
+                        $inNote = true;
+                        $this->splitAndCreateWords($text, $verse['reference'], $key, $notes, true);
+                    } elseif (xml_value_is($values[$w], array(OsisProperties::TYPE), 'close')) {
+                        $inNote = false;
+                    } else { // cData
+                        $this->splitAndCreateWords($text, $verse['reference'], $key, $notes, true);
                     }
+                } elseif ($inNote) {
+                    if (xml_value_is($values[$w], array(OsisProperties::TAG), utf8_strtoupper(OsisTags::CATCH_WORD)) &&
+                        !xml_value_is($values[$w], array(OsisProperties::TYPE), 'close')) {
+                        $text = '<strong>' . utf8_trim($text) . '</strong>';
+                    }
+                    $this->splitAndCreateWords($text, $verse['reference'], $key, $notes, true);
+                } elseif (xml_value_is($values[$w], array(OsisProperties::TAG), utf8_strtoupper(OsisTags::VERSE))) {
+                    $this->splitAndCreateWords($text, $verse['reference'], $key, $words);
                 } else {
                     $strong = $this->workAnalyzer->getStrongsNumber($values[$w]);
                     createHexaWords($text, $verse['reference'], $key, $words, $strong);
@@ -279,6 +291,28 @@ class OSISReader extends BibleXMLReader {
                 $locId = getLocation($db, $verse['reference']);
             }
             if ($extraVerbose) $this->perfLog->log("location ID retrieval");
+            $noteRefs = $noteTexts = [];
+            /** @var hexaNote $note */
+            foreach($notes as $note) {
+                free($criteria);
+                $criteria[HexaplaVersionColumns::VERSION_ID] = $this->version; // this works for NoteText and NoteCrossRef
+                $note->setLocationId($locId);
+                $note->toCriteria($criteria);
+                if ($note->hasText()) {
+                    $noteTexts[] = $criteria;
+                } else {
+                    $noteRefs[] = $criteria;
+                }
+            }
+            if (count($noteTexts) > 0) {
+                putData($db, HexaplaTables::NOTE_TEXT, $noteTexts);
+            }
+            if (count($noteRefs) > 0) {
+                putData($db, HexaplaTables::NOTE_CROSSREF, $noteRefs);
+            }
+            free($noteTexts);
+            free($noteRefs);
+            free($notes);
             $insertCollection = [];
             /** @var hexaWord $word */
             foreach ($words as $word) {
@@ -474,6 +508,27 @@ class OSISReader extends BibleXMLReader {
         }
         return $done;
     }
+
+    /**
+     * @param bool|string $text
+     * @param $reference
+     * @param int $key
+     * @param array $words
+     * @param bool $isNote
+     */
+    public function splitAndCreateWords(bool|string $text, $reference, int &$key, array &$words, bool $isNote = false): void
+    {
+        $text = utf8_trim($text);
+        if (utf8_strlen($text) > 0) {
+            if ($isNote) {
+                $words[] = new hexaNote($reference, $text);
+            } else {
+                foreach (preg_split("/\s+/u", $text) as $textPiece) {
+                    createHexaWords($textPiece, $reference, $key, $words);
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -536,6 +591,7 @@ class osisWorkAnalyzer {
             $this->strongWorks = false;
             $this->strongAttr = false;
         }
+
     }
 
     /**
@@ -610,6 +666,8 @@ class OsisTags {
     const VERSE = 'verse';
     const WORK = 'work';
     const WORK_PREFIX = 'workPrefix';
+    const NOTE = 'note';
+    const CATCH_WORD = 'catchword';
 }
 
 class OsisAttributes {
@@ -631,6 +689,7 @@ class OsisProperties {
     const ATTRIBUTES = 'attributes';
     const TAG = 'tag';
     const VALUE = 'value';
+    const TYPE = 'type';
 }
 
 /**

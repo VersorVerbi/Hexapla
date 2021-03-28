@@ -2,10 +2,10 @@
 
 use JetBrains\PhpStorm\Pure;
 
-include_once "sql-functions.php";
-include_once "general-functions.php";
+include_once "../sql-functions.php";
+include_once "../general-functions.php";
 include_once "import-functions.php";
-include_once "lib/portable-utf8.php";
+include_once "../lib/portable-utf8.php";
 
 /**
  * Class BibleXMLReader
@@ -35,10 +35,10 @@ abstract class BibleXMLReader extends XMLReader {
     /** @var int */
     private int $options;
     /** @var array $conversionResults This should be a pseudo-numeric associative array with keys as conversion record IDs from the database and values as true (if that conversion applies) or false (if it doesn't) */
-    private array $conversionResults;
-    private bool $beganTransaction;
-    private int $lastBook;
-    private int $lastChapter;
+    private array $conversionResults = [];
+    private bool $beganTransaction = false;
+    private int|string $lastBook = -1;
+    private int|string $lastChapter = -1;
 
     /**
      * @param string $URI
@@ -50,7 +50,7 @@ abstract class BibleXMLReader extends XMLReader {
         $this->encoding = $encoding;
         $this->options = $options;
         $this->file = $URI;
-        return parent::open($URI, $encoding, $options);
+        return $this->open($URI, $encoding, $options);
     }
 
     public function close($final = false): bool

@@ -1,6 +1,10 @@
 <?php
 
 require_once "sql-functions.php";
+/**
+ * @var UserSettings $currentUser
+ * @var resource $db
+ */
 
 $output = [];
 

@@ -2,7 +2,17 @@
 
 require_once "dbconnect.php";
 require_once "general-functions.php";
+/**
+ * @var string $oxfordAppID
+ * @var string $oxfordAppKey
+ * @var resource $db
+ */
 
+/**
+ * @param $word
+ * @param $langId
+ * @return array|false
+ */
 function getDefinitionAPI($word, $langId) {
     global $oxfordAppID, $oxfordAppKey;
     if ($langId === '1') {
