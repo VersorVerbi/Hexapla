@@ -53,29 +53,25 @@ if (isset($_GET['t'])) {
                 }
             ?>
         </div>
-        <div id="showNotesContainer" class="<?php if (!$currentUser->canWriteNotes()) echo "hidden"; ?>">
-            <input type="checkbox" class="toggleRecorder" id="show-notes" name="show-notes" /><label for="show-notes" id="show-notes-label" class="fullToggle">Include My Notes</label>
+        <div id="showNotesContainer" class="<?php echo (!$currentUser->canWriteNotes() ? 'hidden': ''); ?>">
+            <input
+                    type="checkbox"
+                    class="toggleRecorder"
+                    id="show-notes"
+                    name="show-notes"
+                <?php echo (inStringList('notes', $tList, '^') ? 'checked' : ''); ?>/>
+            <label
+                    for="show-notes"
+                    id="show-notes-label"
+                    class="fullToggle">
+                Include My Notes
+            </label>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    let draggables = document.querySelectorAll('[draggable="true"]');
-    for (let d = 0; d < draggables.length; d++) {
-        draggables[d].addEventListener('dragstart', draggableStart);
-    }
-    dropZoneSetup(document.getElementById('translGrid'), potentialTl, nomoreTl, addTl, ev => { ev.preventDefault(); });
-    dropZoneSetup(document.getElementById('translList'), potentialRemoveTl, keepTl, removeTl, ev => { ev.preventDefault(); });
-
-
-    let notesLabel = document.getElementById('show-notes-label');
-    if (document.getElementById('show-notes').checked) {
-        notesLabel.title = "Stop showing my notes";
-        notesLabel.classList.add('clicked');
-    } else {
-        notesLabel.title = "Use one of the version spaces to enter my own notes on each passage";
-    }
-    document.getElementById('show-notes').addEventListener('change', function() {
+    function addRemoveNotes() {
         let label = document.getElementById('show-notes-label');
         if (this.checked) {
             let targetSpot = document.getElementById('tl6');
@@ -105,7 +101,26 @@ if (isset($_GET['t'])) {
             }
             label.title = "Use one of the version spaces to enter my own notes on each passage";
         }
-    });
+    }
+
+    let draggables = document.querySelectorAll('[draggable="true"]');
+    for (let d = 0; d < draggables.length; d++) {
+        draggables[d].addEventListener('dragstart', draggableStart);
+    }
+    dropZoneSetup(document.getElementById('translGrid'), potentialTl, nomoreTl, addTl, ev => { ev.preventDefault(); });
+    dropZoneSetup(document.getElementById('translList'), potentialRemoveTl, keepTl, removeTl, ev => { ev.preventDefault(); });
+
+
+    let notesLabel = document.getElementById('show-notes-label');
+    let notes = document.getElementById('show-notes');
+    if (notes.checked) {
+        notesLabel.title = "Stop showing my notes";
+        notesLabel.classList.add('clicked');
+        addRemoveNotes.call(notes);
+    } else {
+        notesLabel.title = "Use one of the version spaces to enter my own notes on each passage";
+    }
+    notes.addEventListener('change', addRemoveNotes.bind(notes));
 </script>
 
 <?php

@@ -6,6 +6,7 @@ class hexaPunctuation extends hexaWord {
     /** @var bool If true, follows the previous text exactly (no space before); if false, precedes the following
      *            text exactly (no space after). */
     private bool $endingPunctuation;
+    const OPENERS = ['<', '(', '[', '{', '«','‘','“'];
 
     /**
      * hexaPunctuation constructor.
@@ -16,7 +17,7 @@ class hexaPunctuation extends hexaWord {
      * @param string $lemma
      * @param bool $endingPunctuation
      */
-    #[Pure] #[Pure] public function __construct(string $myRef, string $val, int $myPos, $strongs = '', $lemma = '', $endingPunctuation = true) {
+    #[Pure] public function __construct(string $myRef, string $val, int $myPos, $strongs = '', $lemma = '', $endingPunctuation = true) {
         $this->endingPunctuation = $endingPunctuation;
         parent::__construct($myRef, $val, $myPos, $strongs, $lemma);
     }

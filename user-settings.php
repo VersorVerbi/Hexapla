@@ -10,16 +10,21 @@ class UserSettings
     private string $tlList;
     private int $allowsBehavior;
     private int $id;
+    private bool $diffByWord;
+    private bool $caseSensitiveDiff;
 
-    function __construct() {
+    public function __construct() {
         $this->tlSetting = self::USE_LAST_TRANSLATIONS;
         $this->tlList = '1^2^3^4';
         $this->allowsBehavior = 1;
         $this->id = 1;
+        $this->diffByWord = true;
+        $this->caseSensitiveDiff = false;
     }
 
     public function set_tlSetting($setting) {
         $this->tlSetting = $setting;
+        $this->save();
     }
 
     public function useSavedTl() {
@@ -40,6 +45,28 @@ class UserSettings
 
     public function id() {
         return $this->id;
+    }
+
+    public function diffsByWord() {
+        return $this->diffByWord;
+    }
+
+    public function diffsCaseSens() {
+        return $this->caseSensitiveDiff;
+    }
+
+    public function set_diffsByWord($value) {
+        $this->diffByWord = $value;
+        $this->save();
+    }
+
+    public function set_diffsCaseSens($value) {
+        $this->caseSensitiveDiff = $value;
+        $this->save();
+    }
+
+    private function save() {
+        // TODO: update database
     }
 }
 

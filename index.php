@@ -13,6 +13,9 @@ if ($currentUser->useSavedTl()) {
     $tls = getCookie(HexaplaCookies::LAST_TRANSLATIONS);
 }
 
+setHexCookie(HexaplaCookies::DIFF_BY_WORD, $currentUser->diffsByWord());
+setHexCookie(HexaplaCookies::DIFF_CASE_SENSITIVE, $currentUser->diffsCaseSens());
+
 if (!isset($_GET['page'])) {
     $page = 'home';
 } else {
@@ -31,7 +34,19 @@ switch($page) {
         break;
     case 'search':
         $search = $_GET['search'];
-        $tls = $_GET['vers']; // TODO: handle abbreviation listings in addition to id listings
+        if (isset($_GET['vers'])) {
+            $tls = $_GET['vers'];
+        } else {
+            $tls = $_GET['versions'];
+            $tls = explode('^', $tls);
+            $tlRes = getData($db, HexaplaTables::SOURCE_VERSION_TERM, [HexaplaSourceVersionTerm::VERSION_ID], [HexaplaSourceVersionTerm::TERM => $tls, HexaplaSourceVersionTerm::FLAG => HexaplaTermFlag::ABBREVIATION]);
+            free($tls);
+            $tls = [];
+            while (($tlRow = pg_fetch_assoc($tlRes)) !== false) {
+                $tls[] = $tlRow[HexaplaSourceVersionTerm::VERSION_ID];
+            }
+            $tls = implode('^', $tls);
+        }
         $toLoad = "results.php";
         break;
     default:
@@ -118,6 +133,10 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
             doSearch();
         }
         <?php
+        } else {
+        ?>
+        document.getElementById('translations').value = <?php echo json_encode($tls); ?>;
+        <?php
         }
         ?>
 
@@ -131,22 +150,24 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
 
 <?php
 /* TODO list
-    - add/remove notices with JS --> call JS functions when appropriate (when is it appropriate besides diffing?)
-    - add diff --> add button and code to run diff code | include byWord and caseSensitive options | add way to turn OFF diffing
+    - add/remove notices with JS --> call JS functions when appropriate (when is it appropriate besides diffing?) [need to turn off notices when turning off diffing]
+    - add diff --> add button and code to run diff code | add way to turn OFF diffing
     - add sidebar --> enable all functionality
     - add click->dictionary+toggle for words --> finish getting data from all sources
     - reload, add more translations
     - add page content + how can I help? page
     - handle commentary text --> display it too
-    - crossrefs -> literal
+    - crossrefs -> literal [depends on getting accurate lemmas / variants]
     - add user functionality
         -> user notes
+            --> delete notes subsumed into new note
             --> if save notes to 10 verses, then notes_on_loc lists all 10 for that verse ID and we just update the note once
             --> export functionality
         -> qualifications - contributions?
-        -> also remove/destroy the tinymce so we can init a new one after loading new text
     - permalinks --> translation permalinks->tl-config screen
     - accessibility
     - noJS versions of everything
     - some sort of test suite?
+    - sometimes opener punctuation has a space after it?
+    - admin pages
 */

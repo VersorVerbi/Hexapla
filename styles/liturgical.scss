@@ -1,21 +1,4 @@
-$themeSource: #000;
-$light1-5: #FFF;
-$light2: #EEE;
-$light3: #DDD;
-$light4-5: #BBB;
-$light7: #888;
-$light10: #555;
-$light15: #000;
-$dark1-5: #000;
-$dark2: #111;
-$dark3: #222;
-$dark4-5: #444;
-$dark7: #888;
-$dark10: #AAA;
-$dark15: #FFF;
-$noticeColor: #9BF;
-$warningColor: #FF9;
-$errorColor: #F99;
+// TODO: use scope instead of many different variable names?
 
 $greenTheme: #228B22;
 $greenL1-5: #c4d8c2;
@@ -125,6 +108,62 @@ $golds: 'gold', $goldTheme, $goldL1-5, $goldL2, $goldL3, $goldL4-5, $goldL7, $go
 $purples: 'purple', $purpleTheme, $purpleL1-5, $purpleL2, $purpleL3, $purpleL4-5, $purpleL7, $purpleL10, $purpleL15, $purpleD1-5, $purpleD2, $purpleD3, $purpleD4-5, $purpleD7, $purpleD10, $purpleD15, $purpleError, $purpleWarning, $purpleNotice;
 
 @import "style";
+
+
+body {
+  $themeSource: #000;
+  $light1-5: #FFF;
+  $light2: #EEE;
+  $light3: #DDD;
+  $light4-5: #BBB;
+  $light7: #888;
+  $light10: #555;
+  $light15: #000;
+  $dark1-5: #000;
+  $dark2: #111;
+  $dark3: #222;
+  $dark4-5: #444;
+  $dark7: #888;
+  $dark10: #AAA;
+  $dark15: #FFF;
+  $noticeColor: #9BF;
+  $warningColor: #FF9;
+  $errorColor: #F99;
+
+  &.dark {
+    $colorMap: ('background': $themeSource, 'siteBackground': rgba($dark1-5, 0.9),
+            'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
+            'menuColor': $dark2, 'menuBorderColor': $dark15, 'menuFontColor': $dark15,
+            'menuButtonHoverColor': $dark3, 'translationBorder': $dark10, 'translationBg': $dark2,
+            'modalBg': $dark3, 'modalBorder': $dark15, 'fontColor': $dark15, 'buttonFontColor': $dark1-5,
+            'loadBg': rgba($dark15, 0.7), 'links': $darkLinks, 'sameHover': $dark15, 'sameHoverFont': $dark1-5,
+            'animationBorders': $brightSideBorder, 'resultBackground': $dark1-5);
+    @include colors($colorMap);
+
+    $highlightMap: (2: #45632f, 3: #495d6b, 4: #755426, 5: #6b5559, 6: #5c5d2e);
+    @include highlights($highlightMap);
+  }
+
+  @include noticeColors($noticeColor, $warningColor, $errorColor, $lightLinks);
+
+  &.light {
+    $colorMap: ('background': $themeSource, 'siteBackground': rgba($light1-5, 0.9),
+            'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
+            'menuColor': $light2, 'menuBorderColor': $light15, 'menuFontColor': $light15,
+            'menuButtonHoverColor': $light3, 'translationBorder': $light10, 'translationBg': $light2,
+            'modalBg': $light3, 'modalBorder': $light15, 'fontColor': $light15, 'buttonFontColor': $light15,
+            'loadBg': rgba($light15, 0.7), 'links': $lightLinks, 'sameHover': $light15, 'sameHoverFont': $light1-5,
+            'animationBorders': $darkSideBorder, 'resultBackground': $light1-5);
+    @include colors($colorMap);
+
+    $highlightMap: (2: #70c531, 3: #7cb7dc, 4: #f29e0f, 5: #d6a3ac, 6: #b5b634);
+    @include highlights($highlightMap);
+  }
+
+  &.cvd {
+    @include highlights(null);
+  }
+}
 
 @each $bodyClass, $thm, $l1-5, $l2, $l3, $l4-5, $l7, $l10, $l15, $d1-5, $d2, $d3, $d4-5, $d7, $d10, $d15, $e, $w, $n in $greens, $reds, $roses, $golds, $purples {
   body.#{$bodyClass} {

@@ -1,44 +1,58 @@
+async function getDiffCookies() {
+    let output = {};
+    return fetch('/Hexapla/cookies.php?name=hexaplaWord') // RELATIVE-URL
+        .then(result => result.text().then(data1 => {
+            output.word = +data1;
+            return output;
+        }))
+        .then(() =>
+            fetch('/Hexapla/cookies.php?name=hexaplaCaseSens') // RELATIVE-URL
+                .then(result => result.text().then(data2 => {
+                    output.case = +data2;
+                    return output;
+                }))
+        );
+}
+
 function addDiff(button) {
     let remove = swapAddButton(button);
     // TODO: finish this
 }
 
-function diffAll(byWord = false, caseSensitive = false) {
-    let versions = document.getElementsByClassName('version');
-    let baseVersion, baseLang;
-    let diffs = 2;
-    for (let v = 0; v < versions.length; v++) {
-        let diffBtn = versions[v].getElementsByTagName('button')[0];
-        if (typeof baseVersion === 'undefined') {
-            if (versions[v].dataset.canDiff > 0) {
-                baseVersion = versions[v].getElementsByClassName('textArea')[0];
-                baseLang = versions[v].dataset.lang;
-                swapAddButton(diffBtn);
+function diffAll() {
+    getDiffCookies().then(cookies => {
+        let versions = document.getElementsByClassName('version');
+        let baseVersion, baseLang;
+        let diffs = 2;
+        for (let v = 0; v < versions.length; v++) {
+            let diffBtn = versions[v].getElementsByTagName('button')[0];
+            if (typeof baseVersion === 'undefined') {
+                if (versions[v].dataset.canDiff > 0) {
+                    baseVersion = versions[v].getElementsByClassName('textArea')[0];
+                    baseLang = versions[v].dataset.lang;
+                    swapAddButton(diffBtn);
+                } else {
+                    showNotice(versions[v].id.substring(1), "This version is not allowed to be diffed. <a href=''>Why?</a>", 2);
+                    diffBtn.disabled = true;
+                }
             } else {
-                showNotice(versions[v].id.substring(1), "This version is not allowed to be diffed. <a href=''>Why?</a>", 2);
-                diffBtn.disabled = true;
-            }
-        } else {
-            // noinspection JSUnusedAssignment
-            if (versions[v].dataset.lang !== baseLang) {
-                showNotice(versions[v].id.substring(1), "We can only show differences in a single language. To switch from #lang1 to #lang2, click <a href=''>here</a>.", 2);
-                diffBtn.disabled = true;
-            } else {
-                let textArea = versions[v].getElementsByClassName('textArea')[0];
                 // noinspection JSUnusedAssignment
-                let results = diff(baseVersion, textArea, byWord, caseSensitive, 'diff' + diffs + 'L', 'diff' + diffs++ + 'R');
-                // noinspection JSUnusedAssignment
-                baseVersion.innerHTML = results[0].innerHTML;
-                textArea.innerHTML = results[1].innerHTML;
-                swapAddButton(diffBtn);
+                if (versions[v].dataset.lang !== baseLang) {
+                    showNotice(versions[v].id.substring(1), "We can only show differences in a single language. To switch from #lang1 to #lang2, click <a href=''>here</a>.", 2);
+                    diffBtn.disabled = true;
+                } else {
+                    let textArea = versions[v].getElementsByClassName('textArea')[0];
+                    // noinspection JSUnusedAssignment
+                    let results = diff(baseVersion, textArea, cookies.word, cookies.case, 'diff' + diffs + 'L', 'diff' + diffs++ + 'R');
+                    // noinspection JSUnusedAssignment
+                    baseVersion.innerHTML = results[0].innerHTML;
+                    textArea.innerHTML = results[1].innerHTML;
+                    swapAddButton(diffBtn);
+                }
             }
         }
-    }
-    let spans = document.getElementsByTagName('span');
-    for (let s = 0; s < spans.length; s++) {
-        spans[s].addEventListener('mouseover', showHideStrongs.bind(spans[s], true));
-        spans[s].addEventListener('mouseout', showHideStrongs.bind(spans[s], false));
-    }
+        resetWordHovers();
+    });
 }
 
 

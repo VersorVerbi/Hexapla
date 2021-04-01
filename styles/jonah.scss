@@ -25,5 +25,41 @@ $backgroundTop: 0;
 
 @import "style";
 
+body {
+  &.dark {
+    $colorMap: ('background': $themeSource, 'siteBackground': rgba($dark1-5, 0.9),
+            'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
+            'menuColor': $dark2, 'menuBorderColor': $dark15, 'menuFontColor': $dark15,
+            'menuButtonHoverColor': $dark3, 'translationBorder': $dark10, 'translationBg': $dark2,
+            'modalBg': $dark3, 'modalBorder': $dark15, 'fontColor': $dark15, 'buttonFontColor': $dark1-5,
+            'loadBg': rgba($dark15, 0.7), 'links': $darkLinks, 'sameHover': $dark15, 'sameHoverFont': $dark1-5,
+            'animationBorders': $brightSideBorder, 'resultBackground': $dark1-5);
+    @include colors($colorMap);
+
+    $highlightMap: (2: #45632f, 3: #495d6b, 4: #755426, 5: #6b5559, 6: #5c5d2e);
+    @include highlights($highlightMap);
+  }
+
+  @include noticeColors($noticeColor, $warningColor, $errorColor, $lightLinks);
+
+  &.light {
+    $colorMap: ('background': $themeSource, 'siteBackground': rgba($light1-5, 0.9),
+            'searchBorderColor': $borderColor, 'searchPlaceholderColor': $searchPlaceholderColor,
+            'menuColor': $light2, 'menuBorderColor': $light15, 'menuFontColor': $light15,
+            'menuButtonHoverColor': $light3, 'translationBorder': $light10, 'translationBg': $light2,
+            'modalBg': $light3, 'modalBorder': $light15, 'fontColor': $light15, 'buttonFontColor': $light15,
+            'loadBg': rgba($light15, 0.7), 'links': $lightLinks, 'sameHover': $light15, 'sameHoverFont': $light1-5,
+            'animationBorders': $darkSideBorder, 'resultBackground': $light1-5);
+    @include colors($colorMap);
+
+    $highlightMap: (2: #70c531, 3: #7cb7dc, 4: #f29e0f, 5: #d6a3ac, 6: #b5b634);
+    @include highlights($highlightMap);
+  }
+
+  &.cvd {
+    @include highlights(null);
+  }
+}
+
 // #a9b8d4 -- links for $dark1-5
 // #001fc5 -- links for $light1-5

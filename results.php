@@ -24,7 +24,7 @@ if (isset($_GET['translations'])) {
      data-can-diff="<?php echo $versionData[$t]['perm'] & HexaplaPermissions::DIFF; ?>"
      data-lang="<?php echo $versionData[$t]['lang']; ?>">
     <h4><?php echo $versionData[$t]['term'];?></h4>
-    <button id="diff<?php echo $t; ?>" class="icoButton" title="Show differences" onclick="addDiff(this)"><span class="icofont-opposite"></span><span class="tinyMod icofont-plus"></span></button>
+    <button id="diff<?php echo $t; ?>" class="icoButton diffButton" title="Show differences" onclick="addDiff(this)"><span class="icofont-opposite"></span><span class="tinyMod icofont-plus"></span></button>
     <div class="textArea"></div>
     <div class="resultNotice hidden"></div>
 </div>

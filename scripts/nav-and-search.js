@@ -123,11 +123,7 @@ async function completeSearch(formData) {
             }
         }
         if (hasMultiTransl) {
-            let spans = document.getElementsByTagName('span');
-            for (let s = 0; s < spans.length; s++) {
-                spans[s].addEventListener('mouseover', showHideStrongs.bind(spans[s], true));
-                spans[s].addEventListener('mouseout', showHideStrongs.bind(spans[s], false));
-            }
+            resetWordHovers();
         }
         let pg = document.getElementById('page');
         pg.classList.add('results');
@@ -163,3 +159,11 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.search = 'page=search&search=' + curSearch[0] + '&vers=' + curSearch[1];
     });
 });
+
+function resetWordHovers() {
+    let spans = document.getElementsByTagName('span');
+    for (let s = 0; s < spans.length; s++) {
+        spans[s].addEventListener('mouseover', showHideStrongs.bind(spans[s], true));
+        spans[s].addEventListener('mouseout', showHideStrongs.bind(spans[s], false));
+    }
+}

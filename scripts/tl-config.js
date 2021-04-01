@@ -99,6 +99,8 @@ function closeTlConfig() {
     }
     document.getElementById('translations').value = translationArray.join('^');
     // TODO: handle refresh? re-search?
+
+    fetch('/Hexapla/cookies.php?set&name=hexaplaTls&value=' + translationArray.join('^'));
 }
 
 function dropZoneSetup(zone, onEnter, onExit, onDrop, onOver) {

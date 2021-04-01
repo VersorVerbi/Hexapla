@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let label = document.getElementById('case-sensitive-diff-label');
         if (this.checked) {
             // TODO: do the thing
+            // TODO: add user setting API that sets cookies and updates database for these settings?
             label.title = "Ignore case when showing differences between versions";
         } else {
             // TODO: undo the thing

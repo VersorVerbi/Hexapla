@@ -762,7 +762,12 @@ class osisMetadataOptions {
 function createHexaWords(string $word, string $verseId, int &$key, array &$verseWords, string $strongsNum = ''): void {
     $nonWordPattern = nonwordRegexPattern();
     if (preg_match("/^($nonWordPattern)+$/u", $word, $matches) === 1) {
-        $newWord = new hexaPunctuation($verseId, $matches[0], $key++); // assume this is ending punctuation
+        if (in_array($matches[0], hexaPunctuation::OPENERS)) {
+            $ending = false;
+        } else {
+            $ending = true;
+        }
+        $newWord = new hexaPunctuation($verseId, $matches[0], $key++, '', '', $ending);
         $verseWords[] = $newWord;
         return;
     }

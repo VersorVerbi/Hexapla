@@ -1,3 +1,8 @@
+<?php
+require_once "dbconnect.php";
+/** @var UserSettings $currentUser */
+?>
+
 <div id="menuwrap">
     <div class="menu-tab" id="menu-btn-wrap" data-mnu="menu" title="Options">
         <span class="tab-button" id="menu-button"></span>
@@ -11,7 +16,7 @@
     <div class="sidebar" id="menutop">
         <input class="toggleRecorder" id="pin-sidebar" type="checkbox" name="pin-sidebar" /><label for="pin-sidebar" id="pin-sidebar-label" class="toggle"><span class="icofont-tack-pin"></span></label>
         <input class="toggleRecorder" id="scroll-together" type="checkbox" name="scroll-together" /><label for="scroll-together" id="scroll-together-label" class="toggle"><span></span></label>
-        <input class="toggleRecorder" id="case-sensitive-diff" type="checkbox" name="case-sensitive-diff" /><label for="case-sensitive-diff" id="case-sensitive-diff-label" class="toggle">Aa</label>
+        <input class="toggleRecorder" id="case-sensitive-diff" type="checkbox" name="case-sensitive-diff" <?php echo ($currentUser->diffsCaseSens() ? 'checked' : ''); ?> /><label for="case-sensitive-diff" id="case-sensitive-diff-label" class="toggle <?php echo ($currentUser->diffsCaseSens() ? 'clicked' : ''); ?>">Aa</label>
         <div class="topButtons"><div id="do-login" class="sidebarButton" title="Log In"><span class="icofont-login"></span></div></div>
     </div>
     <div class="sidebar" id="menu">
@@ -21,8 +26,8 @@
             <h4>Options</h4>
             <li>
                 <span>Show differences by:</span><br />
-                <input type="radio" name="diff-by-word" id="word-diff" value="word-diff" /><label for="word-diff">Word</label>
-                <input type="radio" name="diff-by-word" id="char-diff" value="char-diff" checked /><label for="char-diff">Character</label>
+                <input type="radio" name="diff-by-word" id="word-diff" value="word-diff" <?php echo ($currentUser->diffsByWord() ? 'checked' : ''); ?> /><label for="word-diff">Word</label>
+                <input type="radio" name="diff-by-word" id="char-diff" value="char-diff" <?php echo ($currentUser->diffsByWord() ? '' : 'checked'); ?>/><label for="char-diff">Character</label>
             </li>
             <li>
                 <label for="theme-selection">Theme: </label>
