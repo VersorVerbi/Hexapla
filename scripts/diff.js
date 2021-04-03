@@ -16,29 +16,68 @@ async function getDiffCookies() {
 
 function addDiff(button) {
     let remove = swapAddButton(button);
-    // TODO: finish this
+    let section = button.closest('.version');
+    if (remove) {
+        turnOffDiffing(section, [section]);
+        // TODO: remove diff#L/R from companion version
+        // TODO: what happens if this is the base version?
+    } else {
+        getDiffCookies().then(cookies => {
+
+            resetWordHovers();
+        });
+        // TODO: rework this + diffAll to be more explicit on which versions are involved (e.g., class names)
+        //      then simplify both so this makes more sense
+    }
+}
+
+function turnOffDiffing(parentElement, versions) {
+    let removeArray = ['diff2L', 'diff2R', 'diff3L', 'diff3R', 'diff4L', 'diff4R', 'diff5L', 'diff5R', 'diff6L', 'diff6R'];
+    let removeQuery = '.' + removeArray.join(', .');
+    let diffedWords = parentElement.querySelectorAll(removeQuery);
+    for (let w = 0; w < diffedWords.length; w++) {
+        diffedWords[w].classList.remove(...removeArray);
+    }
+    for (let v = 0; v < versions.length; v++) {
+        hideNotice(versions[v].id);
+    }
+    let diffButtons = parentElement.getElementsByClassName('diffButton');
+    for (let b = 0; b < diffButtons.length; b++) {
+        diffButtons[b].disabled = false; // TODO: is this ever "always on" for versions that don't allow diffing?
+        if (diffButtons[b].getElementsByClassName('icofont-minus').length) swapAddButton(diffButtons[b]);
+    }
 }
 
 function diffAll() {
+    let diffedStuff = document.querySelectorAll('#my-notes-container, .version .diffButton .icofont-minus, .version .diffButton[disabled]');
+    let versions = document.querySelectorAll('.version');
+    if (diffedStuff.length === versions.length) { // if diff is turned on everywhere, turn it off
+        turnOffDiffing(document, versions);
+        return;
+    } // otherwise, turn it on everywhere
     getDiffCookies().then(cookies => {
         let versions = document.getElementsByClassName('version');
         let baseVersion, baseLang;
         let diffs = 2;
         for (let v = 0; v < versions.length; v++) {
             let diffBtn = versions[v].getElementsByTagName('button')[0];
+            let id = versions[v].id;
+            if (id === 'my-notes-container') {
+                continue;
+            }
             if (typeof baseVersion === 'undefined') {
                 if (versions[v].dataset.canDiff > 0) {
                     baseVersion = versions[v].getElementsByClassName('textArea')[0];
                     baseLang = versions[v].dataset.lang;
                     swapAddButton(diffBtn);
                 } else {
-                    showNotice(versions[v].id.substring(1), "This version is not allowed to be diffed. <a href=''>Why?</a>", 2);
+                    showNotice(id, "This version is not allowed to be diffed. <a href=''>Why?</a>", 2);
                     diffBtn.disabled = true;
                 }
             } else {
                 // noinspection JSUnusedAssignment
                 if (versions[v].dataset.lang !== baseLang) {
-                    showNotice(versions[v].id.substring(1), "We can only show differences in a single language. To switch from #lang1 to #lang2, click <a href=''>here</a>.", 2);
+                    showNotice(id, "We can only show differences in a single language. To switch from #lang1 to #lang2, click <a href=''>here</a>.", 2);
                     diffBtn.disabled = true;
                 } else {
                     let textArea = versions[v].getElementsByClassName('textArea')[0];

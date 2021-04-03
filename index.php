@@ -157,7 +157,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - reload, add more translations
     - add page content + how can I help? page
     - handle commentary text --> display it too
-    - crossrefs -> literal [depends on getting accurate lemmas / variants]
+    - crossrefs -> literal [accurate lemmas -> variants now available, just do this next]
     - add user functionality
         -> user notes
             --> delete notes subsumed into new note
@@ -170,4 +170,6 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - some sort of test suite?
     - sometimes opener punctuation has a space after it?
     - admin pages
+    - disable buttons that don't do anything on the current screen + change button font color when disabled
+    - make sure language codes are in the database -- base lang code for all record in public."language", but dialect codes for each version?
 */

@@ -45,9 +45,6 @@ function showHideStrongs(show, evt) {
 }
 
 function showNotice(translationId, noticeHTML, noticeLevel) {
-    if (translationId !== 'my-notes-container') {
-        translationId = 't' + translationId;
-    }
     let noticeDiv = document.querySelector('#' + translationId + ' .resultNotice');
     noticeDiv.innerHTML = noticeHTML;
     noticeDiv.classList.add(noticeClasses(noticeLevel));
@@ -55,7 +52,7 @@ function showNotice(translationId, noticeHTML, noticeLevel) {
 }
 
 function hideNotice(translationId) {
-    let noticeDiv = document.querySelector('#t' + translationId + ' .resultNotice');
+    let noticeDiv = document.querySelector('#' + translationId + ' .resultNotice');
     noticeDiv.classList.add('hidden');
     noticeDiv.classList.remove(...noticeClasses());
 }

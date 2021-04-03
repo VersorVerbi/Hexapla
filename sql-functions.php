@@ -441,7 +441,10 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     $betacode = [];
     $itsRoman = $itsGreek = false;
     $targetTable = '';
-    $targetColumns = [HexaplaLangParse::FORM, HexaplaLangParse::EXPANDED_FORM, HexaplaLangParse::BARE_FORM];
+    $targetColumns = [HexaplaLangParse::FORM, HexaplaLangParse::EXPANDED_FORM, HexaplaLangParse::BARE_FORM,
+        HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::MAX_OCCURRENCES,
+        HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::DOCUMENT_COUNT,
+        HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID];
     $joinData = [];
     if (in_array($langId, ['1','3'])) {
         $itsRoman = true;
@@ -460,6 +463,9 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     $joinData[] = new HexaplaJoin(HexaplaTables::LANG_PARSE,
         HexaplaTables::LANG_LEMMA, HexaplaLangLemma::ID,
         HexaplaTables::LANG_PARSE, HexaplaLangParse::LEMMA_ID);
+    $sortData = [HexaplaLangLemma::MAX_OCCURRENCES => SortDirection::DESCENDING,
+        HexaplaLangLemma::DOCUMENT_COUNT => SortDirection::DESCENDING,
+        HexaplaLangLemma::ID => SortDirection::ASCENDING];
     if ($itsGreek) {
         for ($w = 0; $w < count($wordArray); $w++) {
             $betacode[$w] = utf8_strtolower(uniString2Betacode($wordArray[$w]));
@@ -468,16 +474,19 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
         $betacode = $wordArray;
     }
     // FIXME: add lang id to parse table and filter by that
-    // FIXME: get MOST LIKLEY lemma... somehow
     $searchCriteria = [HexaplaLangParse::FORM => $betacode, HexaplaLangParse::BARE_FORM => $betacode, HexaplaLangParse::EXPANDED_FORM => $betacode];
-    $result = getData($db, $targetTable, $targetColumns, $searchCriteria, [], $joinData, true, true);
+    $result = getData($db, $targetTable, $targetColumns, $searchCriteria, $sortData, $joinData, true, true);
     while (($row = pg_fetch_assoc($result)) !== false) {
         // find key
         $lemma = ($itsRoman ? $row[HexaplaLangLemma::UNMARKED_VALUE] : $row[HexaplaLangLemma::UNICODE_VALUE]);
         for ($w = 0; $w < count($betacode); $w++) {
-            if (in_array($betacode[$w], [$row[HexaplaLangParse::FORM], $row[HexaplaLangParse::BARE_FORM], $row[HexaplaLangParse::EXPANDED_FORM]]) && !array_key_exists($wordArray[$w], $definitions)) {
-                $definitions[$wordArray[$w]]['lemma'] = $lemma;
-                $definitions[$wordArray[$w]]['defn'] = $row[HexaplaLangDefinition::DEFINITION];
+            if (in_array($betacode[$w], [$row[HexaplaLangParse::FORM], $row[HexaplaLangParse::BARE_FORM], $row[HexaplaLangParse::EXPANDED_FORM]])) {
+                if (!array_key_exists($wordArray[$w], $definitions)) {
+                    $definitions[$wordArray[$w]]['lemma'] = $lemma;
+                    $definitions[$wordArray[$w]]['defn'] = $row[HexaplaLangDefinition::DEFINITION];
+                } else {
+                    $definitions[$wordArray[$w]]['alternates'][] = [$lemma, $row[HexaplaLangDefinition::DEFINITION]];
+                }
             }
         }
     }
@@ -834,6 +843,9 @@ class HexaplaLangLemma implements HexaplaStandardColumns, HexaplaValueColumns, H
     const UNMARKED_VALUE = 'unmarked_value';
     const UNICODE_VALUE = 'unicode_value';
     const UNMARKED_UNICODE_VALUE = 'unmarked_unicode';
+    const MAX_OCCURRENCES = 'max_occ';
+    const DOCUMENT_COUNT = 'doc_count';
+    const IDF = 'idf';
 }
 class HexaplaLangParse implements HexaplaStandardColumns, HexaplaLemmaColumns {
     const MORPH_CODE = 'morph_code';
