@@ -54,10 +54,10 @@ function getLemmaAPI($word, $langId) {
         curl_setopt($curl, CURLOPT_HTTPHEADER, ['app_id: ' . $oxfordAppID, 'app_key: ' . $oxfordAppKey]);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $lemmaResult = curl_exec($curl);
+        curl_close($curl);
         if ($lemmaResult === false) return false;
         $lemmaResult = json_decode($lemmaResult);
         return $lemmaResult['results'][0]['lexicalEntries'][0]['inflectionOf'][0]['id'];
-        curl_close($curl);
     }
 }
 

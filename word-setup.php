@@ -10,13 +10,17 @@ $sourceWords = json_decode($_POST['sourceWords']);
 $translationId = $_POST['tid'];
 $text = $_POST['text'];
 
-$strongsResource = getData($db, HexaplaTables::LANG_LEMMA, [HexaplaLangLemma::STRONG_ID, HexaplaLangLemma::UNICODE_VALUE], [HexaplaLangLemma::STRONG_ID => $sourceWords]);
-if ($strongsResource === false || ($row = pg_fetch_assoc($strongsResource)) === false) {
-    $sourceArray = $sourceWords;
+if (count($sourceWords) > 0) {
+    $strongsResource = getData($db, HexaplaTables::LANG_LEMMA, [HexaplaLangLemma::STRONG_ID, HexaplaLangLemma::UNICODE_VALUE], [HexaplaLangLemma::STRONG_ID => $sourceWords]);
+    if ($strongsResource === false || ($row = pg_fetch_assoc($strongsResource)) === false) {
+        $sourceArray = $sourceWords;
+    } else {
+        do {
+            $sourceArray[$row[HexaplaLangLemma::STRONG_ID]] = $row[HexaplaLangLemma::UNICODE_VALUE];
+        } while (($row = pg_fetch_assoc($strongsResource)) !== false);
+    }
 } else {
-    do {
-        $sourceArray[$row[HexaplaLangLemma::STRONG_ID]] = $row[HexaplaLangLemma::UNICODE_VALUE];
-    } while (($row = pg_fetch_assoc($strongsResource)) !== false);
+    $sourceArray = [];
 }
 
 // convert text to array of words

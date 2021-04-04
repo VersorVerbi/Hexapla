@@ -98,14 +98,14 @@ function hideMenu() {
     let menu = document.getElementsByClassName('active')[0];
     if (menu) {
         menu.classList.remove('active');
+        // delay this so it doesn't disappear in front of the user
+        setTimeout(function () {
+            let menus = document.getElementsByClassName('activated');
+            for (let m = 0; m < menus.length; m++) {
+                menus[m].classList.remove('activated');
+            }
+        }, 1000);
     }
-    // delay this so it doesn't disappear in front of the user
-    setTimeout(function () {
-        let menus = document.getElementsByClassName('activated');
-        for (let m = 0; m < menus.length; m++) {
-            menus[m].classList.remove('activated');
-        }
-    }, 1000);
 }
 
 function showSidebar(sidebarName) {
@@ -130,4 +130,23 @@ function doShadeSwap(shadeName, themeId) {
 
 function doThemeSwap(themeName, shadeId) {
     swapTinySkins(themeName, shadeList[shadeId]);
+}
+
+function tabNotify(sidebarName) {
+    let tab = document.querySelector('[data-mnu=' + sidebarName + ']');
+    tab.classList.add('menu-notify');
+    setTimeout(function() {
+        this.classList.remove('menu-notify');
+    }.bind(tab), 1000);
+}
+
+function sidebarLoading(sidebarName) {
+    let sb = document.getElementById(sidebarName);
+    let loader = sb.getElementsByClassName('sidebarLoad')[0];
+    if (!loader) {
+        loader = document.createElement('div');
+        loader.classList.add('sidebarLoad','hidden');
+        sb.appendChild(loader);
+    }
+    toggleClass(loader, 'hidden'); //FIXME: this is going to fail eventually, you know
 }

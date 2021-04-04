@@ -142,6 +142,8 @@ body {
 
     $highlightMap: (2: #45632f, 3: #495d6b, 4: #755426, 5: #6b5559, 6: #5c5d2e);
     @include highlights($highlightMap);
+
+    @include tabNotification($noticeColor, $dark2);
   }
 
   @include noticeColors($noticeColor, $warningColor, $errorColor, $lightLinks);
@@ -158,6 +160,8 @@ body {
 
     $highlightMap: (2: #70c531, 3: #7cb7dc, 4: #f29e0f, 5: #d6a3ac, 6: #b5b634);
     @include highlights($highlightMap);
+
+    @include tabNotification($noticeColor, $light2);
   }
 
   &.cvd {
@@ -176,7 +180,11 @@ body {
               'loadBg': rgba($d15, 0.7), 'links': $darkLinks, 'sameHover': $d15, 'sameHoverFont': $d1-5,
               'animationBorders': $brightSideBorder, 'resultBackground': $d1-5);
       @include colors($colorMap);
+
+      @include tabNotification($n, $d2);
     }
+
+    @include noticeColors($n, $w, $e, $lightLinks);
 
     &.light {
       $colorMap: ('background': $thm, 'siteBackground': rgba($l1-5, 0.9),
@@ -187,6 +195,8 @@ body {
               'loadBg': rgba($l15, 0.7), 'links': $lightLinks, 'sameHover': $l15, 'sameHoverFont': $l1-5,
               'animationBorders': $darkSideBorder, 'resultBackground': $l1-5);
       @include colors($colorMap);
+
+      @include tabNotification($n, $l2);
     }
 
     @include noticeColors($n, $w, $e, $lightLinks);

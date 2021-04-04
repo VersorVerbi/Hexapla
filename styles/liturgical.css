@@ -143,11 +143,11 @@ h4 {
   z-index: 2147483647;
 }
 
-.dark #loading {
+.dark #loading, .dark .sidebarLoad {
   background-image: url("../images/bookloading.gif");
 }
 
-.light #loading {
+.light #loading, .light .sidebarLoad {
   background-image: url("../images/bookloading_light.gif");
 }
 
@@ -157,6 +157,15 @@ h4 {
 
 #menuwrap.active .sidebar, #menuwrap.active .menu-tab {
   transform: translate3d(-300px, 0, 0);
+}
+#menuwrap .sidebarLoad {
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50px;
+  z-index: 2147483647;
 }
 #menuwrap .menu-tab {
   position: fixed;
@@ -1039,7 +1048,7 @@ body.dark .icoButton [class*=" icofont-"], body.dark .icoButton [class^=icofont-
 body.dark .icoButton[disabled] [class*=" icofont-"], body.dark .icoButton[disabled] [class^=icofont-] {
   color: rgba(0, 0, 0, 0.5) !important;
 }
-body.dark #loading {
+body.dark #loading, body.dark .sidebarLoad {
   background-color: rgba(255, 255, 255, 0.7);
 }
 body.dark .of2 .hovered, body.dark .of3 .hovered, body.dark .of4 .hovered, body.dark .of5 .hovered, body.dark .of6 .hovered {
@@ -2037,6 +2046,32 @@ body.dark .diff6L .diff5L .diff4L .diff3L {
 body.dark .diff6L .diff5L .diff4L .diff3L .diff2L {
   background-color: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #495d6b, #45632f);
 }
+@keyframes tab-alert {
+  0% {
+    background-color: #9BF;
+  }
+  30% {
+    background-color: #9BF;
+  }
+  33% {
+    background-color: #111;
+  }
+  50% {
+    background-color: #111;
+  }
+  52% {
+    background-color: #9BF;
+  }
+  67% {
+    background-color: #9BF;
+  }
+  100% {
+    background-color: #111;
+  }
+}
+body.dark .menu-notify {
+  animation: ease-out tab-alert 1s;
+}
 body .resultNotice {
   color: black;
 }
@@ -2107,7 +2142,7 @@ body.light .icoButton [class*=" icofont-"], body.light .icoButton [class^=icofon
 body.light .icoButton[disabled] [class*=" icofont-"], body.light .icoButton[disabled] [class^=icofont-] {
   color: rgba(0, 0, 0, 0.5) !important;
 }
-body.light #loading {
+body.light #loading, body.light .sidebarLoad {
   background-color: rgba(0, 0, 0, 0.7);
 }
 body.light .of2 .hovered, body.light .of3 .hovered, body.light .of4 .hovered, body.light .of5 .hovered, body.light .of6 .hovered {
@@ -3105,6 +3140,32 @@ body.light .diff6L .diff5L .diff4L .diff3L {
 body.light .diff6L .diff5L .diff4L .diff3L .diff2L {
   background-color: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #7cb7dc, #70c531);
 }
+@keyframes tab-alert {
+  0% {
+    background-color: #9BF;
+  }
+  30% {
+    background-color: #9BF;
+  }
+  33% {
+    background-color: #EEE;
+  }
+  50% {
+    background-color: #EEE;
+  }
+  52% {
+    background-color: #9BF;
+  }
+  67% {
+    background-color: #9BF;
+  }
+  100% {
+    background-color: #EEE;
+  }
+}
+body.light .menu-notify {
+  animation: ease-out tab-alert 1s;
+}
 body.green.dark {
   background-color: #228B22;
   color: #cedfcd;
@@ -3160,7 +3221,7 @@ body.green.dark .icoButton [class*=" icofont-"], body.green.dark .icoButton [cla
 body.green.dark .icoButton[disabled] [class*=" icofont-"], body.green.dark .icoButton[disabled] [class^=icofont-] {
   color: rgba(29, 49, 25, 0.5) !important;
 }
-body.green.dark #loading {
+body.green.dark #loading, body.green.dark .sidebarLoad {
   background-color: rgba(206, 223, 205, 0.7);
 }
 body.green.dark .of2 .hovered, body.green.dark .of3 .hovered, body.green.dark .of4 .hovered, body.green.dark .of5 .hovered, body.green.dark .of6 .hovered {
@@ -3182,6 +3243,47 @@ body.green.dark .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #1d3119;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #34dfe2;
+  }
+  30% {
+    background-color: #34dfe2;
+  }
+  33% {
+    background-color: #254721;
+  }
+  50% {
+    background-color: #254721;
+  }
+  52% {
+    background-color: #34dfe2;
+  }
+  67% {
+    background-color: #34dfe2;
+  }
+  100% {
+    background-color: #254721;
+  }
+}
+body.green.dark .menu-notify {
+  animation: ease-out tab-alert 1s;
+}
+body.green .resultNotice {
+  color: black;
+}
+body.green .resultNotice a {
+  color: #001fc5;
+}
+body.green .resultNotice.noticeFyi {
+  background-color: #34dfe2;
+}
+body.green .resultNotice.noticeWarning {
+  background-color: #ecdf1c;
+}
+body.green .resultNotice.noticeError {
+  background-color: #fdc6bb;
 }
 body.green.light {
   background-color: #228B22;
@@ -3238,7 +3340,7 @@ body.green.light .icoButton [class*=" icofont-"], body.green.light .icoButton [c
 body.green.light .icoButton[disabled] [class*=" icofont-"], body.green.light .icoButton[disabled] [class^=icofont-] {
   color: rgba(26, 43, 23, 0.5) !important;
 }
-body.green.light #loading {
+body.green.light #loading, body.green.light .sidebarLoad {
   background-color: rgba(26, 43, 23, 0.7);
 }
 body.green.light .of2 .hovered, body.green.light .of3 .hovered, body.green.light .of4 .hovered, body.green.light .of5 .hovered, body.green.light .of6 .hovered {
@@ -3260,6 +3362,32 @@ body.green.light .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #c4d8c2;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #34dfe2;
+  }
+  30% {
+    background-color: #34dfe2;
+  }
+  33% {
+    background-color: #9cc197;
+  }
+  50% {
+    background-color: #9cc197;
+  }
+  52% {
+    background-color: #34dfe2;
+  }
+  67% {
+    background-color: #34dfe2;
+  }
+  100% {
+    background-color: #9cc197;
+  }
+}
+body.green.light .menu-notify {
+  animation: ease-out tab-alert 1s;
 }
 body.green .resultNotice {
   color: black;
@@ -3332,7 +3460,7 @@ body.red.dark .icoButton [class*=" icofont-"], body.red.dark .icoButton [class^=
 body.red.dark .icoButton[disabled] [class*=" icofont-"], body.red.dark .icoButton[disabled] [class^=icofont-] {
   color: rgba(74, 31, 23, 0.5) !important;
 }
-body.red.dark #loading {
+body.red.dark #loading, body.red.dark .sidebarLoad {
   background-color: rgba(252, 209, 199, 0.7);
 }
 body.red.dark .of2 .hovered, body.red.dark .of3 .hovered, body.red.dark .of4 .hovered, body.red.dark .of5 .hovered, body.red.dark .of6 .hovered {
@@ -3354,6 +3482,47 @@ body.red.dark .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #4a1f17;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #d0fafb;
+  }
+  30% {
+    background-color: #d0fafb;
+  }
+  33% {
+    background-color: #6f281c;
+  }
+  50% {
+    background-color: #6f281c;
+  }
+  52% {
+    background-color: #d0fafb;
+  }
+  67% {
+    background-color: #d0fafb;
+  }
+  100% {
+    background-color: #6f281c;
+  }
+}
+body.red.dark .menu-notify {
+  animation: ease-out tab-alert 1s;
+}
+body.red .resultNotice {
+  color: black;
+}
+body.red .resultNotice a {
+  color: #001fc5;
+}
+body.red .resultNotice.noticeFyi {
+  background-color: #d0fafb;
+}
+body.red .resultNotice.noticeWarning {
+  background-color: #ebde1c;
+}
+body.red .resultNotice.noticeError {
+  background-color: #ff9e8a;
 }
 body.red.light {
   background-color: #ff0000;
@@ -3410,7 +3579,7 @@ body.red.light .icoButton [class*=" icofont-"], body.red.light .icoButton [class
 body.red.light .icoButton[disabled] [class*=" icofont-"], body.red.light .icoButton[disabled] [class^=icofont-] {
   color: rgba(65, 28, 21, 0.5) !important;
 }
-body.red.light #loading {
+body.red.light #loading, body.red.light .sidebarLoad {
   background-color: rgba(65, 28, 21, 0.7);
 }
 body.red.light .of2 .hovered, body.red.light .of3 .hovered, body.red.light .of4 .hovered, body.red.light .of5 .hovered, body.red.light .of6 .hovered {
@@ -3432,6 +3601,32 @@ body.red.light .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #fdc6bb;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #d0fafb;
+  }
+  30% {
+    background-color: #d0fafb;
+  }
+  33% {
+    background-color: #ff9e8a;
+  }
+  50% {
+    background-color: #ff9e8a;
+  }
+  52% {
+    background-color: #d0fafb;
+  }
+  67% {
+    background-color: #d0fafb;
+  }
+  100% {
+    background-color: #ff9e8a;
+  }
+}
+body.red.light .menu-notify {
+  animation: ease-out tab-alert 1s;
 }
 body.red .resultNotice {
   color: black;
@@ -3504,7 +3699,7 @@ body.rose.dark .icoButton [class*=" icofont-"], body.rose.dark .icoButton [class
 body.rose.dark .icoButton[disabled] [class*=" icofont-"], body.rose.dark .icoButton[disabled] [class^=icofont-] {
   color: rgba(62, 37, 43, 0.5) !important;
 }
-body.rose.dark #loading {
+body.rose.dark #loading, body.rose.dark .sidebarLoad {
   background-color: rgba(249, 207, 218, 0.7);
 }
 body.rose.dark .of2 .hovered, body.rose.dark .of3 .hovered, body.rose.dark .of4 .hovered, body.rose.dark .of5 .hovered, body.rose.dark .of6 .hovered {
@@ -3526,6 +3721,47 @@ body.rose.dark .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #3e252b;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #d2fafb;
+  }
+  30% {
+    background-color: #d2fafb;
+  }
+  33% {
+    background-color: #5b333e;
+  }
+  50% {
+    background-color: #5b333e;
+  }
+  52% {
+    background-color: #d2fafb;
+  }
+  67% {
+    background-color: #d2fafb;
+  }
+  100% {
+    background-color: #5b333e;
+  }
+}
+body.rose.dark .menu-notify {
+  animation: ease-out tab-alert 1s;
+}
+body.rose .resultNotice {
+  color: black;
+}
+body.rose .resultNotice a {
+  color: #001fc5;
+}
+body.rose .resultNotice.noticeFyi {
+  background-color: #d2fafb;
+}
+body.rose .resultNotice.noticeWarning {
+  background-color: #ecdf1c;
+}
+body.rose .resultNotice.noticeError {
+  background-color: #ff9e8b;
 }
 body.rose.light {
   background-color: #ff6699;
@@ -3582,7 +3818,7 @@ body.rose.light .icoButton [class*=" icofont-"], body.rose.light .icoButton [cla
 body.rose.light .icoButton[disabled] [class*=" icofont-"], body.rose.light .icoButton[disabled] [class^=icofont-] {
   color: rgba(53, 33, 38, 0.5) !important;
 }
-body.rose.light #loading {
+body.rose.light #loading, body.rose.light .sidebarLoad {
   background-color: rgba(53, 33, 38, 0.7);
 }
 body.rose.light .of2 .hovered, body.rose.light .of3 .hovered, body.rose.light .of4 .hovered, body.rose.light .of5 .hovered, body.rose.light .of6 .hovered {
@@ -3604,6 +3840,32 @@ body.rose.light .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #f9c6d3;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #d2fafb;
+  }
+  30% {
+    background-color: #d2fafb;
+  }
+  33% {
+    background-color: #fc9bb7;
+  }
+  50% {
+    background-color: #fc9bb7;
+  }
+  52% {
+    background-color: #d2fafb;
+  }
+  67% {
+    background-color: #d2fafb;
+  }
+  100% {
+    background-color: #fc9bb7;
+  }
+}
+body.rose.light .menu-notify {
+  animation: ease-out tab-alert 1s;
 }
 body.rose .resultNotice {
   color: black;
@@ -3676,7 +3938,7 @@ body.gold.dark .icoButton [class*=" icofont-"], body.gold.dark .icoButton [class
 body.gold.dark .icoButton[disabled] [class*=" icofont-"], body.gold.dark .icoButton[disabled] [class^=icofont-] {
   color: rgba(48, 44, 26, 0.5) !important;
 }
-body.gold.dark #loading {
+body.gold.dark #loading, body.gold.dark .sidebarLoad {
   background-color: rgba(255, 216, 14, 0.7);
 }
 body.gold.dark .of2 .hovered, body.gold.dark .of3 .hovered, body.gold.dark .of4 .hovered, body.gold.dark .of5 .hovered, body.gold.dark .of6 .hovered {
@@ -3698,6 +3960,47 @@ body.gold.dark .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #302c1a;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #80ffff;
+  }
+  30% {
+    background-color: #80ffff;
+  }
+  33% {
+    background-color: #463f22;
+  }
+  50% {
+    background-color: #463f22;
+  }
+  52% {
+    background-color: #80ffff;
+  }
+  67% {
+    background-color: #80ffff;
+  }
+  100% {
+    background-color: #463f22;
+  }
+}
+body.gold.dark .menu-notify {
+  animation: ease-out tab-alert 1s;
+}
+body.gold .resultNotice {
+  color: black;
+}
+body.gold .resultNotice a {
+  color: #001fc5;
+}
+body.gold .resultNotice.noticeFyi {
+  background-color: #80ffff;
+}
+body.gold .resultNotice.noticeWarning {
+  background-color: #ffff40;
+}
+body.gold .resultNotice.noticeError {
+  background-color: #ff7070;
 }
 body.gold.light {
   background-color: #FFD700;
@@ -3754,7 +4057,7 @@ body.gold.light .icoButton [class*=" icofont-"], body.gold.light .icoButton [cla
 body.gold.light .icoButton[disabled] [class*=" icofont-"], body.gold.light .icoButton[disabled] [class^=icofont-] {
   color: rgba(42, 39, 23, 0.5) !important;
 }
-body.gold.light #loading {
+body.gold.light #loading, body.gold.light .sidebarLoad {
   background-color: rgba(42, 39, 23, 0.7);
 }
 body.gold.light .of2 .hovered, body.gold.light .of3 .hovered, body.gold.light .of4 .hovered, body.gold.light .of5 .hovered, body.gold.light .of6 .hovered {
@@ -3776,6 +4079,32 @@ body.gold.light .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #f7d00e;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #80ffff;
+  }
+  30% {
+    background-color: #80ffff;
+  }
+  33% {
+    background-color: #d4b525;
+  }
+  50% {
+    background-color: #d4b525;
+  }
+  52% {
+    background-color: #80ffff;
+  }
+  67% {
+    background-color: #80ffff;
+  }
+  100% {
+    background-color: #d4b525;
+  }
+}
+body.gold.light .menu-notify {
+  animation: ease-out tab-alert 1s;
 }
 body.gold .resultNotice {
   color: black;
@@ -3848,7 +4177,7 @@ body.purple.dark .icoButton [class*=" icofont-"], body.purple.dark .icoButton [c
 body.purple.dark .icoButton[disabled] [class*=" icofont-"], body.purple.dark .icoButton[disabled] [class^=icofont-] {
   color: rgba(72, 25, 70, 0.5) !important;
 }
-body.purple.dark #loading {
+body.purple.dark #loading, body.purple.dark .sidebarLoad {
   background-color: rgba(225, 215, 224, 0.7);
 }
 body.purple.dark .of2 .hovered, body.purple.dark .of3 .hovered, body.purple.dark .of4 .hovered, body.purple.dark .of5 .hovered, body.purple.dark .of6 .hovered {
@@ -3870,6 +4199,47 @@ body.purple.dark .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #481946;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #d7fafb;
+  }
+  30% {
+    background-color: #d7fafb;
+  }
+  33% {
+    background-color: #70116f;
+  }
+  50% {
+    background-color: #70116f;
+  }
+  52% {
+    background-color: #d7fafb;
+  }
+  67% {
+    background-color: #d7fafb;
+  }
+  100% {
+    background-color: #70116f;
+  }
+}
+body.purple.dark .menu-notify {
+  animation: ease-out tab-alert 1s;
+}
+body.purple .resultNotice {
+  color: black;
+}
+body.purple .resultNotice a {
+  color: #001fc5;
+}
+body.purple .resultNotice.noticeFyi {
+  background-color: #d7fafb;
+}
+body.purple .resultNotice.noticeWarning {
+  background-color: #f0e218;
+}
+body.purple .resultNotice.noticeError {
+  background-color: #fbd6ce;
 }
 body.purple.light {
   background-color: #800080;
@@ -3926,7 +4296,7 @@ body.purple.light .icoButton [class*=" icofont-"], body.purple.light .icoButton 
 body.purple.light .icoButton[disabled] [class*=" icofont-"], body.purple.light .icoButton[disabled] [class^=icofont-] {
   color: rgba(62, 24, 60, 0.5) !important;
 }
-body.purple.light #loading {
+body.purple.light #loading, body.purple.light .sidebarLoad {
   background-color: rgba(62, 24, 60, 0.7);
 }
 body.purple.light .of2 .hovered, body.purple.light .of3 .hovered, body.purple.light .of4 .hovered, body.purple.light .of5 .hovered, body.purple.light .of6 .hovered {
@@ -3948,6 +4318,32 @@ body.purple.light .textArea {
   background-attachment: local, scroll;
   background-repeat: no-repeat;
   background-color: #dccfdb;
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #d7fafb;
+  }
+  30% {
+    background-color: #d7fafb;
+  }
+  33% {
+    background-color: #c9b0c6;
+  }
+  50% {
+    background-color: #c9b0c6;
+  }
+  52% {
+    background-color: #d7fafb;
+  }
+  67% {
+    background-color: #d7fafb;
+  }
+  100% {
+    background-color: #c9b0c6;
+  }
+}
+body.purple.light .menu-notify {
+  animation: ease-out tab-alert 1s;
 }
 body.purple .resultNotice {
   color: black;

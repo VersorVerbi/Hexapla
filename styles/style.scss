@@ -125,7 +125,7 @@ $shadowColor: rgba(0, 0, 0, 0.1);
     }
   }
 
-  #loading {
+  #loading, .sidebarLoad {
     background-color: map.get($colorMap, 'loadBg');
   }
 
@@ -301,6 +301,21 @@ $noticeLeftMargin: -6px;
 $noticeBottomMargin: -$sectionPadding;
 //#endregion
 
+@mixin tabNotification($alertColor, $backgroundColor) {
+  @keyframes tab-alert {
+    0%    {background-color: $alertColor; }
+    30%   {background-color: $alertColor; }
+    33%   {background-color: $backgroundColor; }
+    50%   {background-color: $backgroundColor; }
+    52%   {background-color: $alertColor; }
+    67%   {background-color: $alertColor; }
+    100%  {background-color: $backgroundColor; }
+  }
+  .menu-notify {
+    animation: ease-out tab-alert 1s;
+  }
+}
+
 //#region Main tags
 body {
   padding: 0;
@@ -457,13 +472,13 @@ h4 {
 }
 
 .dark {
-  #loading {
+  #loading, .sidebarLoad {
     background-image: url("../images/bookloading.gif");
   }
 }
 
 .light {
-  #loading {
+  #loading, .sidebarLoad {
     background-image: url("../images/bookloading_light.gif");
   }
 }
@@ -483,6 +498,16 @@ h4 {
     .sidebar, .menu-tab {
       transform: translate3d(-$sidebarWidth, 0, 0);
     }
+  }
+
+  .sidebarLoad {
+    width: 100%;
+    height: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px;
+    z-index: $effectivelyMaxInt;
   }
 
   .menu-tab {

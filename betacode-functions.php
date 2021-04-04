@@ -68,14 +68,14 @@ function betaString2Unicode(string $str): string
 /**
  * Resets our array of boolean checks that help us track our current betacode chunk, adds the current betacode chunk
  * (if it exists) to our output array, and returns the given character as the start of a new chunk.
- * @param $checks array Array of booleans to indicate we do or do not have a given character type in our betacode chunk
+ * @param $checks array|null Array of booleans to indicate we do or do not have a given character type in our betacode chunk
  * @param $char string Single betacode character
  * @param $curOutStr string The string as we have calculated it so far
  * @param $betaOut array Array of betacode chunks we have identified so far
  * @return string The $char variable we were given at the start
  * @uses strlen()
  */
-function resetBeta(array &$checks, string $char, string $curOutStr, array &$betaOut): string
+function resetBeta(array|null &$checks, string $char, string $curOutStr, array &$betaOut): string
 {
     $checks['alpha'] = false;
     $checks['breathing'] = false;

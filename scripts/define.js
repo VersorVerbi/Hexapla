@@ -8,7 +8,28 @@ function addDefiners() {
     }
 }
 
-async function define() {
+function addReferences(referenceData, sectionDiv) {
+    let refList = document.createElement('dl');
+    for (let s = 0; s < referenceData.length; s++) {
+        let ref = document.createElement('dt');
+        ref.innerText = referenceData[s]['ref'];
+        let txt = document.createElement('dd');
+        for (let p = 0; p < referenceData[s]['target'] + 10; p++) {
+            if (referenceData[s][p] === undefined) continue;
+            let span = document.createElement('span');
+            if (referenceData[s][p][1] === 'Opening' || referenceData[s][p][1] === 'NotPunctuation') span.innerText = ' ';
+            span.innerText += referenceData[s][p][0];
+            if (parseInt(referenceData[s]['target']) === p) span.classList.add('crossRefWord');
+            txt.appendChild(span);
+        }
+        refList.appendChild(ref);
+        refList.appendChild(txt);
+    }
+    sectionDiv.appendChild(refList);
+}
+
+async function define(ev) {
+    ev.stopPropagation();
     document.getElementById('loading').classList.remove('hidden');
     let classes = this.classList;
     let sourceWords = [];
@@ -38,13 +59,13 @@ async function define() {
     let crossRefsDiv = document.getElementById('crossref');
     emptyBox(crossRefsDiv);
 
-    let wordSetup = await fetch('/Hexapla/word-setup.php', { // RELATIVE-URL
+    let wordSetup = fetch('/Hexapla/word-setup.php', { // RELATIVE-URL
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
         body: form
     });
-    wordSetup.json().then(async wordData => {
+    wordSetup.then(wordResult => wordResult.json().then(async wordData => {
         let newForm = new FormData();
         newForm.append('sourceWords', JSON.stringify(wordData['sourceWords']));
         newForm.append('tid', wordData['tid']);
@@ -56,12 +77,13 @@ async function define() {
             redirect: 'error',
             body: newForm
         });
-        let crossRefs = await fetch('/Hexapla/cross-refs.php', { // RELATIVE-URL
+        let crossRefs = fetch('/Hexapla/cross-refs.php', { // RELATIVE-URL
             method: 'POST',
             mode: 'same-origin',
             redirect: 'error',
             body: newForm
         });
+        sidebarLoading('crossref');
         definitions.json().then(defnData => { // text().then(defnData => console.log(defnData));/*
             if (defnData['literalLang'] !== null) { // TODO: handle Oxford API data
                 if (defnData['literalLang']['dir'] === 'rtl') {
@@ -71,53 +93,49 @@ async function define() {
                 let definitionList = document.createElement('dl');
                 createDefinitionObjects(defnData['literal'], definitionList);
                 curDefns.appendChild(definitionList);
+                curDefns.classList.remove('hidden');
             }
             if (defnData['source']) {
                 if (Object.keys(defnData['source']).length > 0) {
                     let definitionList = document.createElement('dl');
                     createDefinitionObjects(defnData['source'], definitionList);
                     sourceDefns.appendChild(definitionList);
+                    sourceDefns.classList.remove('hidden');
                 }
             }
             document.getElementById('loading').classList.add('hidden');
             showSidebar('dictionary');
         });
-        crossRefs.json().then(crData => { // text().then(crData => console.log(crData));/*
-            // FIXME: exclude current verse(s)
-            // TODO: add links to other verses
-            if (crData['source'].length > 0) {
-                let sourceSection = document.createElement('div');
-                let sourceTitle = document.createElement('h3');
-                sourceTitle.innerText = joinObj(sourceWords, true);
-                sourceSection.appendChild(sourceTitle);
-                let refList = document.createElement('dl');
-                for (let s = 0; s < crData['source'].length; s++) {
-                    let ref = document.createElement('dt');
-                    ref.innerText = crData['source'][s]['ref'];
-                    let txt = document.createElement('dd');
-                    for (let p = 0; p < crData['source'][s]['target'] + 10; p++) {
-                        if (crData['source'][s][p] === undefined) continue;
-                        let span = document.createElement('span');
-                        if (crData['source'][s][p][1] === 'Opening' || crData['source'][s][p][1] === 'NotPunctuation') span.innerText = ' ';
-                        span.innerText += crData['source'][s][p][0];
-                        if (parseInt(crData['source'][s]['target']) === p) span.classList.add('crossRefWord');
-                        txt.appendChild(span);
-                    }
-                    refList.appendChild(ref);
-                    refList.appendChild(txt);
+        crossRefs.then(crResult => {
+            crResult.text().then(txt => {
+                console.log(txt)
+                let crData = JSON.parse(txt);
+                // FIXME: exclude current verse(s)
+                // TODO: add links to other verses
+                if (crData['source'].length > 0) {
+                    let sourceSection = document.createElement('div');
+                    let sourceTitle = document.createElement('h3');
+                    sourceTitle.innerText = joinObj(sourceWords, true);
+                    sourceSection.appendChild(sourceTitle);
+                    addReferences(crData['source'], sourceSection);
+                    crossRefsDiv.appendChild(sourceSection);
                 }
-                sourceSection.appendChild(refList);
-                crossRefsDiv.appendChild(sourceSection);
-            }
-            if (crData['literal'].length > 0 && crData['source'].length > 0) {
-                crossRefsDiv.appendChild(document.createElement('hr'));
-            }
-            if (crData['literal'].length > 0) {
-
-            }
-            // TODO: put the data in the cross-refs section
+                if (crData['literal'].length > 0 && crData['source'].length > 0) {
+                    crossRefsDiv.appendChild(document.createElement('hr'));
+                }
+                if (crData['literal'].length > 0) {
+                    let literalSection = document.createElement('div');
+                    let literalTitle = document.createElement('h3');
+                    literalTitle.innerText = wordData['literalWords'].join(', ');
+                    literalSection.appendChild(literalTitle);
+                    addReferences(crData['literal'], literalSection);
+                    crossRefsDiv.appendChild(literalSection);
+                }
+                sidebarLoading('crossref');
+                tabNotify('crossref');
+            });
         });
-    });
+    }));
 }
 
 function createDefinitionObjects(oList, dList) {

@@ -143,11 +143,11 @@ h4 {
   z-index: 2147483647;
 }
 
-.dark #loading {
+.dark #loading, .dark .sidebarLoad {
   background-image: url("../images/bookloading.gif");
 }
 
-.light #loading {
+.light #loading, .light .sidebarLoad {
   background-image: url("../images/bookloading_light.gif");
 }
 
@@ -157,6 +157,15 @@ h4 {
 
 #menuwrap.active .sidebar, #menuwrap.active .menu-tab {
   transform: translate3d(-300px, 0, 0);
+}
+#menuwrap .sidebarLoad {
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50px;
+  z-index: 2147483647;
 }
 #menuwrap .menu-tab {
   position: fixed;
@@ -1039,7 +1048,7 @@ body.dark .icoButton [class*=" icofont-"], body.dark .icoButton [class^=icofont-
 body.dark .icoButton[disabled] [class*=" icofont-"], body.dark .icoButton[disabled] [class^=icofont-] {
   color: rgba(53, 42, 31, 0.5) !important;
 }
-body.dark #loading {
+body.dark #loading, body.dark .sidebarLoad {
   background-color: rgba(224, 217, 209, 0.7);
 }
 body.dark .of2 .hovered, body.dark .of3 .hovered, body.dark .of4 .hovered, body.dark .of5 .hovered, body.dark .of6 .hovered {
@@ -2037,6 +2046,32 @@ body.dark .diff6L .diff5L .diff4L .diff3L {
 body.dark .diff6L .diff5L .diff4L .diff3L .diff2L {
   background-color: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #495d6b, #45632f);
 }
+@keyframes tab-alert {
+  0% {
+    background-color: #a4e4f7;
+  }
+  30% {
+    background-color: #a4e4f7;
+  }
+  33% {
+    background-color: #4e3c2a;
+  }
+  50% {
+    background-color: #4e3c2a;
+  }
+  52% {
+    background-color: #a4e4f7;
+  }
+  67% {
+    background-color: #a4e4f7;
+  }
+  100% {
+    background-color: #4e3c2a;
+  }
+}
+body.dark .menu-notify {
+  animation: ease-out tab-alert 1s;
+}
 body .resultNotice {
   color: black;
 }
@@ -2107,7 +2142,7 @@ body.light .icoButton [class*=" icofont-"], body.light .icoButton [class^=icofon
 body.light .icoButton[disabled] [class*=" icofont-"], body.light .icoButton[disabled] [class^=icofont-] {
   color: rgba(47, 37, 27, 0.5) !important;
 }
-body.light #loading {
+body.light #loading, body.light .sidebarLoad {
   background-color: rgba(47, 37, 27, 0.7);
 }
 body.light .of2 .hovered, body.light .of3 .hovered, body.light .of4 .hovered, body.light .of5 .hovered, body.light .of6 .hovered {
@@ -3104,6 +3139,32 @@ body.light .diff6L .diff5L .diff4L .diff3L {
 }
 body.light .diff6L .diff5L .diff4L .diff3L .diff2L {
   background-color: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #7cb7dc, #70c531);
+}
+@keyframes tab-alert {
+  0% {
+    background-color: #a4e4f7;
+  }
+  30% {
+    background-color: #a4e4f7;
+  }
+  33% {
+    background-color: #c7b5a2;
+  }
+  50% {
+    background-color: #c7b5a2;
+  }
+  52% {
+    background-color: #a4e4f7;
+  }
+  67% {
+    background-color: #a4e4f7;
+  }
+  100% {
+    background-color: #c7b5a2;
+  }
+}
+body.light .menu-notify {
+  animation: ease-out tab-alert 1s;
 }
 
 /*# sourceMappingURL=parchment.css.map */

@@ -6,7 +6,7 @@ class hexaPunctuation extends hexaWord {
     /** @var bool If true, follows the previous text exactly (no space before); if false, precedes the following
      *            text exactly (no space after). */
     private bool $endingPunctuation;
-    const OPENERS = ['<', '(', '[', '{', '«','‘','“'];
+    const OPENERS = ['<', '(', '[', '{', '«','‘','“',"⸂","⸀"];
 
     /**
      * hexaPunctuation constructor.

@@ -38,6 +38,8 @@ body {
 
     $highlightMap: (2: #45632f, 3: #495d6b, 4: #755426, 5: #6b5559, 6: #5c5d2e);
     @include highlights($highlightMap);
+
+    @include tabNotification($noticeColor, $dark2);
   }
 
   @include noticeColors($noticeColor, $warningColor, $errorColor, $lightLinks);
@@ -54,6 +56,8 @@ body {
 
     $highlightMap: (2: #70c531, 3: #7cb7dc, 4: #f29e0f, 5: #d6a3ac, 6: #b5b634);
     @include highlights($highlightMap);
+
+    @include tabNotification($noticeColor, $light2);
   }
 
   &.cvd {

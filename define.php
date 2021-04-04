@@ -25,6 +25,4 @@ if (($row = pg_fetch_assoc($langData)) !== false) {
     $output['literalLang'] = null;
 }
 
-?> <script>console.log(<?php echo json_encode($output); ?></script> <?php
-
 echo json_encode($output);

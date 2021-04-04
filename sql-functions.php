@@ -501,7 +501,6 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
 function getStrongsCrossRefs(&$db, $strongData, $translId): array {
     checkPgConnection($db);
     $strongArray = array_keys($strongData);
-    $crossRefs = [];
     $verses = [];
     $query = "SELECT get_strong_cross_refs(" . pg_implode(',', $strongArray, $db, true) . "," . pg_escape_literal($db, $translId) . ");";
     $results = pg_query($db, $query);
@@ -513,14 +512,102 @@ function getStrongsCrossRefs(&$db, $strongData, $translId): array {
             $verses[$result[6]]['target'][] = $result[1];
         }
     }
+    return verseListToCrossRefs($verses);
+}
+
+function getLemmaDB(&$db, $form, $langId) {
+    $sql = "SELECT " . my_escape_column($db, HexaplaLangParse::LEMMA_ID) . " FROM " .
+        "public." . pg_escape_identifier($db, HexaplaTables::LANG_PARSE) . " JOIN " .
+        "public." . pg_escape_identifier($db, HexaplaTables::LANG_LEMMA) . " ON " .
+        my_escape_column($db, HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID) . " = " .
+        my_escape_column($db, HexaplaTables::LANG_PARSE . "." . HexaplaLangParse::LEMMA_ID) . " WHERE " .
+        "(" . my_escape_column($db, HexaplaLangParse::EXPANDED_FORM) . " ILIKE " . pg_escape_literal($form) . " OR " .
+        my_escape_column($db, HexaplaLangParse::FORM) . " ILIKE " . pg_escape_literal($form) . " OR " .
+        my_escape_column($db, HexaplaLangParse::BARE_FORM) . " ILIKE " . pg_escape_literal($form) . ") AND " .
+        my_escape_column($db, HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::LANGUAGE_ID) . " = " .
+        pg_escape_literal($langId) . " ORDER BY " . my_escape_column($db, HexaplaLangLemma::MAX_OCCURRENCES) . " DESC, " .
+        my_escape_column($db, HexaplaLangLemma::DOCUMENT_COUNT) . " DESC, " .
+        my_escape_column($db, HexaplaLangParse::LEMMA_ID) . " ASC LIMIT 1;";
+    return pg_query($db, $sql);
+}
+
+function getLiteralCrossRefs(&$db, $wordArray, $langId, $translId): array {
+    $crossRefs = $lemmas = $variants = $results = [];
+    $res = null;
+    checkPgConnection($db);
+    if ($langId == '1') { // English
+        foreach($wordArray as $word) {
+            $lemmas[$word] = getLemmaAPI($word, $langId);
+            $variants[$word] = getInflectionsAPI($lemmas[$word], $langId);
+            $variantList = implode(';', $variants[$word]);
+            $sql = "SELECT get_literal_cross_refs(" . pg_escape_literal($db, $word) . "," .
+                pg_escape_literal($db, $translId) . "," . pg_escape_literal($db, $langId) . "," .
+                pg_escape_literal($db, -1) . "," . pg_escape_literal($db, $variantList) . ");";
+            $res = pg_query($db, $sql);
+            // TODO: how to identify lemma-based words when we don't have lemma IDs?
+        }
+    } elseif ($langId == '2') { // Greek
+        foreach($wordArray as $word) {
+            $lemmaResult = getLemmaDB($db, uniString2Betacode($word), $langId);
+            if (($lemmaRow = pg_fetch_assoc($lemmaResult)) !== false) {
+                $lemmas[$word] = $lemmaRow[HexaplaLangParse::LEMMA_ID];
+            } else {
+                // TODO: throw error
+                throw new HexaplaException('dat done failed yo');
+            }
+            $variantResult = getData($db, HexaplaTables::LANG_PARSE,
+                [HexaplaLangParse::FORM],
+                [HexaplaLangParse::LEMMA_ID => $lemmas[$word]]);
+            while (($variantRow = pg_fetch_assoc($variantResult)) !== false) {
+                $variants[$word][] = betaString2Unicode($variantRow[HexaplaLangParse::FORM]);
+            }
+            $variantList = implode(';', $variants[$word]);
+            $sql = "SELECT get_literal_cross_refs(" . pg_escape_literal($db, $word) . "," .
+                pg_escape_literal($db, $translId) . "," . pg_escape_literal($db, $langId) . "," .
+                pg_escape_literal($db, $lemmas[$word]) . "," . pg_escape_literal($db, $variantList) . ");";
+            $res = pg_query($db, $sql);
+        }
+    } else { // everything else
+        foreach($wordArray as $word) {
+            $sql = "SELECT get_literal_cross_refs(" . pg_escape_literal($db, $word) . "," .
+                pg_escape_literal($db, $translId) . "," . pg_escape_literal($db, $langId) . ");";
+            $res = pg_query($db, $sql);
+        }
+    }
+    if (!is_null($res)) {
+        // structure: [text_id, text_position, text_value, location_id, punctuation, lemma_id | null, reference]
+        while (($row = pg_fetch_row($res)) !== false) {
+            $result = resolveMore($row[0]);
+            $verses[$result[6]][$result[1]] = [$result[2], $result[4], $result[5]];
+            if (utf8_strlen($result[5]) > 0) {
+                $verses[$result[6]]['target'][] = $result[1];
+            }
+        }
+        $crossRefs = verseListToCrossRefs($verses);
+    }
+
+    // get lemmas
+    // get variants
+    // get locations of all variants
+    return $crossRefs;
+}
+
+/**
+ * @param array $verses
+ * @param array $crossRefs
+ * @return array
+ */
+function verseListToCrossRefs(array $verses): array
+{
+    $crossRefs = [];
     foreach ($verses as $ref => $verse) {
         foreach ($verse['target'] as $targetPosition) {
             $crossRef = [];
             $pos = max([$targetPosition - 4, 0]);
             $wordCount = 0;
 
-            while ($verse[$pos][1] !== HexaplaPunctuation::NOT) {
-                if ($pos < 0) die(); // FIXME: what if a quotation mark is the first thing?
+            while ($verse[$pos][1] !== HexaplaPunctuation::NOT && $pos > 0) {
+                if ($pos < 0) die();
                 $pos--;
             }
             while ($wordCount < 7) {
@@ -537,13 +624,7 @@ function getStrongsCrossRefs(&$db, $strongData, $translId): array {
     return $crossRefs;
 }
 
-function getLiteralCrossRefs(&$db, $wordArray, $langId, $translId): array {
-    $crossRefs = [];
-
-    return $crossRefs;
-}
-
-#[Pure] function numericOnly($val) {
+#[Pure] function numericOnly($val): bool {
     if (is_array($val)) {
         foreach ($val as $item) {
             if (!is_numeric($item)) {
@@ -839,7 +920,7 @@ class HexaplaLangDefinition implements HexaplaStandardColumns, HexaplaLangColumn
     const DICTIONARY_ID = 'dict_id';
 }
 class HexaplaLangDictionary implements HexaplaStandardColumns, HexaplaLangColumns, HexaplaNameColumns {}
-class HexaplaLangLemma implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaDefiningColumns, HexaplaStrongColumns {
+class HexaplaLangLemma implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaDefiningColumns, HexaplaStrongColumns, HexaplaLangColumns {
     const UNMARKED_VALUE = 'unmarked_value';
     const UNICODE_VALUE = 'unicode_value';
     const UNMARKED_UNICODE_VALUE = 'unmarked_unicode';

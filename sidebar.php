@@ -20,6 +20,7 @@ require_once "dbconnect.php";
         <div class="topButtons"><div id="do-login" class="sidebarButton" title="Log In"><span class="icofont-login"></span></div></div>
     </div>
     <div class="sidebar" id="menu">
+        <div class="sidebarLoad hidden"></div>
         <ul>
             <li><a href="javascript:void(0)">Advanced Search</a></li>
             <hr />
@@ -59,6 +60,7 @@ require_once "dbconnect.php";
         </ul>
     </div>
     <div class="sidebar" id="dictionary">
+        <div class="sidebarLoad hidden"></div>
         <div id="curLangDefn" class="hidden">
             <h3 id="curLangTitle"></h3>
         </div>
@@ -68,6 +70,7 @@ require_once "dbconnect.php";
         </div>
     </div>
     <div class="sidebar" id="crossref">
+        <div class="sidebarLoad hidden"></div>
 
     </div>
     <div class="sidebar" id="sidecover">
