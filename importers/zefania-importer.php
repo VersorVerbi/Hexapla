@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 function import_zefania($simpleXml) {
   /*$attr = $simpleXml->attributes();
   $_IMPORTDATA['name'] = $attr->biblename;

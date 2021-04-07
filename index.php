@@ -1,4 +1,6 @@
 <?php
+
+namespace Hexapla;
 require_once "sql-functions.php";
 require_once "cookie-functions.php";
 require_once "dbconnect.php";
@@ -157,7 +159,6 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - reload, add more translations
     - add page content + how can I help? page
     - handle commentary text --> display it too
-    - crossrefs -> literal [accurate lemmas -> variants now available, just do this next]
     - add user functionality
         -> user notes
             --> delete notes subsumed into new note

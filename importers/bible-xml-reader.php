@@ -1,6 +1,9 @@
 <?php
 
+namespace Hexapla;
+
 use JetBrains\PhpStorm\Pure;
+use XMLReader, Throwable;
 
 include_once "../sql-functions.php";
 include_once "../general-functions.php";

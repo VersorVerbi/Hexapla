@@ -63,7 +63,7 @@
 }
 .tox-tinymce {
   border: 1px solid #cccccc;
-  border-radius: 0px;
+  border-radius: 0;
   box-shadow: none;
   box-sizing: border-box;
   display: flex;
@@ -80,7 +80,7 @@
 .tox-tinymce-inline .tox-editor-header {
   background-color: transparent;
   border: 1px solid #cccccc;
-  border-radius: 0px;
+  border-radius: 0;
   box-shadow: none;
 }
 .tox-tinymce-aux {
@@ -1799,8 +1799,7 @@ body.tox-dialog__disable-scroll {
 }
 .tox .tox-naked-btn {
   background-color: transparent;
-  border: 0;
-  border-color: transparent;
+  border: 0 transparent;
   box-shadow: unset;
   color: #207ab7;
   cursor: pointer;
@@ -2116,8 +2115,7 @@ body.tox-dialog__disable-scroll {
   margin: 0;
 }
 .tox .tox-menubar {
-  background: url("data:image/svg+xml;charset=utf8,%3Csvg height='39px' viewBox='0 0 40 39px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='38px' width='100' height='1' fill='%23cccccc'/%3E%3C/svg%3E") left 0 top 0 #352a1f;
-  background-color: #352a1f;
+  background: #352a1f url("data:image/svg+xml;charset=utf8,%3Csvg height='39px' viewBox='0 0 40 39px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='38px' width='100' height='1' fill='%23cccccc'/%3E%3C/svg%3E") left 0 top 0;
   display: flex;
   flex: 0 0 auto;
   flex-shrink: 0;
@@ -2850,8 +2848,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-toolbar,
 .tox .tox-toolbar__primary,
 .tox .tox-toolbar__overflow {
-  background: url("data:image/svg+xml;charset=utf8,%3Csvg height='39px' viewBox='0 0 40 39px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='38px' width='100' height='1' fill='%23cccccc'/%3E%3C/svg%3E") left 0 top 0 #352a1f;
-  background-color: #352a1f;
+  background: #352a1f url("data:image/svg+xml;charset=utf8,%3Csvg height='39px' viewBox='0 0 40 39px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='38px' width='100' height='1' fill='%23cccccc'/%3E%3C/svg%3E") left 0 top 0;
   display: flex;
   flex: 0 0 auto;
   flex-shrink: 0;

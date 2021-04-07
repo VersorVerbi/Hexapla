@@ -1,6 +1,9 @@
 <?php
 
+namespace Hexapla;
+
 use JetBrains\PhpStorm\Pure;
+use ArrayObject;
 
 require_once "dbconnect.php";
 require_once "general-functions.php";
@@ -69,7 +72,7 @@ function getData(&$pgConnection, string $tableName, array $columns = [], array $
             } else {
                 $sql .= ' AND ';
             }
-            $sql .= my_escape_column($pgConnection, $coln);
+            $sql .= pg_escape_identifier($pgConnection, $coln);
             if (is_array($value)) {
                 if (!$stringsUseLike || numericOnly($value)) {
                     $sql .= ' IN (' . pg_implode(',', $value, $pgConnection, true) . ')';
@@ -97,21 +100,21 @@ function getData(&$pgConnection, string $tableName, array $columns = [], array $
             if ($i++ > 1) {
                 $sql .= ', ';
             }
-            $sql .= my_escape_column($pgConnection, $coln) . $direction;
+            $sql .= pg_escape_identifier($pgConnection, $coln) . $direction;
         }
     }
     $sql .= ';';
     return pg_query($pgConnection, $sql);
 }
 
-function my_escape_column($pgConnection, $coln): string {
+function pg_escape_identifier($pgConnection, $coln): string {
     $colTbl = '';
     if (str_contains($coln, '.')) {
         $split = explode('.', $coln);
         $colTbl = $split[0];
         $coln = $split[1];
     }
-    return (strlen($colTbl) > 0 ? pg_escape_identifier($pgConnection, $colTbl) . '.' : '') . pg_escape_identifier($pgConnection, $coln);
+    return (strlen($colTbl) > 0 ? \pg_escape_identifier($pgConnection, $colTbl) . '.' : '') . \pg_escape_identifier($pgConnection, $coln);
 }
 
 /**
@@ -132,7 +135,7 @@ function checkPgConnection(&$pgConnection) {
  */
 function getCount(&$pgConnection, $tableName, $searchCriteria = []): int {
     checkPgConnection($pgConnection);
-    $sql = 'SELECT COUNT(*) AS num_found FROM public.' . pg_escape_identifier($tableName);
+    $sql = 'SELECT COUNT(*) AS num_found FROM public.' . pg_escape_identifier($pgConnection, $tableName);
     $i = 1;
     if (count($searchCriteria) > 0) {
         foreach ($searchCriteria as $coln => $value) {
@@ -231,10 +234,10 @@ function update(&$db, string $tableName, array $updates, $criteria = [], $idColu
 {
     // TODO: handle situation where targeted record does not exist
     checkPgConnection($db);
-    $sql = 'UPDATE public.' . pg_escape_identifier($tableName) . ' SET ';
+    $sql = 'UPDATE public.' . pg_escape_identifier($db, $tableName) . ' SET ';
     foreach ($updates as $column => $value) {
         if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
-        $sql .= pg_escape_identifier($column) . '=' . pg_escape_literal($value) . ',';
+        $sql .= pg_escape_identifier($db, $column) . '=' . pg_escape_literal($value) . ',';
     }
     $sql = substr($sql, 0, -1);
     if (count($criteria) > 0) {
@@ -242,12 +245,12 @@ function update(&$db, string $tableName, array $updates, $criteria = [], $idColu
         foreach ($criteria as $column => $value) {
             if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
             if (hasNoValue($value)) continue;
-            $sql .= pg_escape_identifier($column) . '=' . pg_escape_literal($value) . ' AND ';
+            $sql .= pg_escape_identifier($db, $column) . '=' . pg_escape_literal($value) . ' AND ';
         }
         $sql = substr($sql, 0, -5);
     }
     if (!is_null($idColumn)) {
-        $sql .= ' RETURNING ' . pg_escape_identifier($idColumn);
+        $sql .= ' RETURNING ' . pg_escape_identifier($db, $idColumn);
     }
     $sql .= ';';
     $result = pg_query($db, $sql);
@@ -516,18 +519,18 @@ function getStrongsCrossRefs(&$db, $strongData, $translId): array {
 }
 
 function getLemmaDB(&$db, $form, $langId) {
-    $sql = "SELECT " . my_escape_column($db, HexaplaLangParse::LEMMA_ID) . " FROM " .
+    $sql = "SELECT " . pg_escape_identifier($db, HexaplaLangParse::LEMMA_ID) . " FROM " .
         "public." . pg_escape_identifier($db, HexaplaTables::LANG_PARSE) . " JOIN " .
         "public." . pg_escape_identifier($db, HexaplaTables::LANG_LEMMA) . " ON " .
-        my_escape_column($db, HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID) . " = " .
-        my_escape_column($db, HexaplaTables::LANG_PARSE . "." . HexaplaLangParse::LEMMA_ID) . " WHERE " .
-        "(" . my_escape_column($db, HexaplaLangParse::EXPANDED_FORM) . " ILIKE " . pg_escape_literal($form) . " OR " .
-        my_escape_column($db, HexaplaLangParse::FORM) . " ILIKE " . pg_escape_literal($form) . " OR " .
-        my_escape_column($db, HexaplaLangParse::BARE_FORM) . " ILIKE " . pg_escape_literal($form) . ") AND " .
-        my_escape_column($db, HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::LANGUAGE_ID) . " = " .
-        pg_escape_literal($langId) . " ORDER BY " . my_escape_column($db, HexaplaLangLemma::MAX_OCCURRENCES) . " DESC, " .
-        my_escape_column($db, HexaplaLangLemma::DOCUMENT_COUNT) . " DESC, " .
-        my_escape_column($db, HexaplaLangParse::LEMMA_ID) . " ASC LIMIT 1;";
+        pg_escape_identifier($db, HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID) . " = " .
+        pg_escape_identifier($db, HexaplaTables::LANG_PARSE . "." . HexaplaLangParse::LEMMA_ID) . " WHERE " .
+        "(" . pg_escape_identifier($db, HexaplaLangParse::EXPANDED_FORM) . " ILIKE " . pg_escape_literal($form) . " OR " .
+        pg_escape_identifier($db, HexaplaLangParse::FORM) . " ILIKE " . pg_escape_literal($form) . " OR " .
+        pg_escape_identifier($db, HexaplaLangParse::BARE_FORM) . " ILIKE " . pg_escape_literal($form) . ") AND " .
+        pg_escape_identifier($db, HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::LANGUAGE_ID) . " = " .
+        pg_escape_literal($langId) . " ORDER BY " . pg_escape_identifier($db, HexaplaLangLemma::MAX_OCCURRENCES) . " DESC, " .
+        pg_escape_identifier($db, HexaplaLangLemma::DOCUMENT_COUNT) . " DESC, " .
+        pg_escape_identifier($db, HexaplaLangParse::LEMMA_ID) . " ASC LIMIT 1;";
     return pg_query($db, $sql);
 }
 
@@ -669,7 +672,7 @@ function pg_implode(string $glue, array $array, $db, $literal = false): string
         }, $array);
     } else {
         $formattedArray = array_map(function ($item) use ($db) {
-            return my_escape_column($db, $item);
+            return pg_escape_identifier($db, $item);
         }, $array);
     }
     return implode($glue, $formattedArray);

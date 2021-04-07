@@ -1,4 +1,6 @@
 <?php
+namespace Hexapla;
+
 require_once "sql-functions.php";
 require_once "general-functions.php";
 /**

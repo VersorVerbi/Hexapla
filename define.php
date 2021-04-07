@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 require_once "sql-functions.php";
 /**
  * @var UserSettings $currentUser

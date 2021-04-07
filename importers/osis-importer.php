@@ -1,4 +1,6 @@
 <?php
+
+namespace Hexapla;
 /**
  * Based on the OSIS XML standard, uses given XML data to add metadata, verses, and notes to the global variables
  * $metadata, $allVerses, and $allNotes. After import is complete, global variables will have the following structure:

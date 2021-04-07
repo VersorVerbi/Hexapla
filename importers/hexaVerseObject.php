@@ -1,4 +1,6 @@
 <?php
+
+namespace Hexapla;
 class hexaVerseObject {
     /** @var string Source reference (e.g., "Gen3:12" or "Matthew 26:14") */
     private string $reference;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 function usfx_import($simpleXml) {
   /*$lang = $simpleXml->languageCode; // either 2-letter ISO code or 3-letter Ethnologue code, plus optional dialect indicator
   $books = $simpleXml->book;

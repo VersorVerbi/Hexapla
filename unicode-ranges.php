@@ -1,4 +1,6 @@
 <?php
+namespace Hexapla;
+
 // letters
 const ALPHA_RANGE = "902,913,940,945,7936-7951,8048-8049,8064-8079,8112-8116,8118";
 const BETA_RANGE = "914,946";

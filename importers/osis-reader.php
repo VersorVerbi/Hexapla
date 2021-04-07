@@ -1,4 +1,7 @@
 <?php
+
+namespace Hexapla;
+use InvalidArgumentException, XMLReader;
 include_once "bible-xml-reader.php";
 
 class OSISReader extends BibleXMLReader {

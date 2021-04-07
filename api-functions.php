@@ -1,5 +1,8 @@
 <?php
 
+namespace Hexapla;
+use DateTime;
+
 require_once "dbconnect.php";
 require_once "general-functions.php";
 /**
@@ -23,12 +26,12 @@ function getDefinitionAPI($word, $langId) {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $lemmaResult = curl_exec($curl);
         if ($lemmaResult === false) return false;
-        $lemmaResult = json_decode($lemmaResult, true);
+        $lemmaResult = json_decode($lemmaResult);
         $lemma = $lemmaResult['results'][0]['lexicalEntries'][0]['inflectionOf'][0]['id'];
         curl_setopt($curl, CURLOPT_URL, $oxfordBaseUrl . '/entries/en-us/' . $lemma);
         $result = curl_exec($curl);
         if ($result === false) return false;
-        $result = json_decode($result, true);
+        $result = json_decode($result);
         $output['lemma'] = $lemma;
         $result = $result['results'][0]['lexicalEntries'][0]['entries'][0];
         $output['etymology'] = $result['etymologies'];
@@ -59,6 +62,7 @@ function getLemmaAPI($word, $langId) {
         $lemmaResult = json_decode($lemmaResult);
         return $lemmaResult['results'][0]['lexicalEntries'][0]['inflectionOf'][0]['id'];
     }
+    return null;
 }
 
 function getInflectionsAPI($word, $langId) {
@@ -91,7 +95,7 @@ function getLiturgicalColor($clientDate) {
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     $liturgicalResult = curl_exec($curl);
     if ($liturgicalResult === false) return false;
-    $liturgicalResult = json_decode($liturgicalResult, true);
+    $liturgicalResult = json_decode($liturgicalResult);
     if (+($phpDate->format('w')) === 0 &&
         ((strtolower($liturgicalResult['season']) === 'lent' && $liturgicalResult['season_week'] === 4) ||
         (strtolower($liturgicalResult['season']) === 'advent' && $liturgicalResult['season_week'] === 3))) {

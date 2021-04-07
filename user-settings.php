@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 class UserSettings
 {
     // TODO: complete

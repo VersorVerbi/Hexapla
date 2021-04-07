@@ -1,4 +1,6 @@
 <?php
+
+namespace Hexapla;
 require_once "dbconnect.php";
 /** @var UserSettings $currentUser */
 ?>

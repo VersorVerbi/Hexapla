@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 function usx_import($simpleXml) {
   
 }

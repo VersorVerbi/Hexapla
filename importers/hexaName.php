@@ -1,4 +1,6 @@
 <?php
+
+namespace Hexapla;
 /**
  * Class hexaName
  */

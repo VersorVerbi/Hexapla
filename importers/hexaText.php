@@ -1,4 +1,9 @@
 <?php
+
+namespace Hexapla;
+
+use JetBrains\PhpStorm\Pure;
+
 /**
  * Class hexaText
  */

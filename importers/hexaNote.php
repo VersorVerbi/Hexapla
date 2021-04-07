@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 use JetBrains\PhpStorm\Pure;
 
 class hexaNote extends hexaVerseObject {

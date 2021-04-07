@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 use JetBrains\PhpStorm\Pure;
 
 class hexaPunctuation extends hexaWord {

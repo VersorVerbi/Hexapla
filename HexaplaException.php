@@ -1,5 +1,8 @@
 <?php
 
+namespace Hexapla;
+
+use Exception, Throwable;
 use JetBrains\PhpStorm\Pure;
 
 /**

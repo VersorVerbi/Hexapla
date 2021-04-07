@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 include_once "unicode-ranges.php";
 include_once "lib/portable-utf8.php";
 

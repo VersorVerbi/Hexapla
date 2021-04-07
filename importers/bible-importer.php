@@ -1,11 +1,13 @@
 <?php
 
+namespace Hexapla;
+
 //include_once "osis-importer.php";
 //include_once "thml-importer.php";
 //include_once "usfx-importer.php";
 //include_once "usx-importer.php";
 //include_once "zefania-importer.php";
-use JetBrains\PhpStorm\Pure;
+use Exception, XMLReader, TypeError;
 
 include_once "import-functions.php";
 include_once "../general-functions.php";

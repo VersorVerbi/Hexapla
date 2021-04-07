@@ -1,4 +1,6 @@
 <?php
+
+namespace Hexapla;
 session_start();
 require_once "sql-functions.php";
 require_once "dbconnect.php";

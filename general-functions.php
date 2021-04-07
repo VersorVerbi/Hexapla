@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 use JetBrains\PhpStorm\Pure;
 
 /**
@@ -305,7 +307,7 @@ function piece($stringList, $delimiter, $target) {
     return $list[$target - 1];
 }
 
-function inStringList($target, $stringList, $delimiter) {
+#[Pure] function inStringList($target, $stringList, $delimiter): bool {
     $list = explode($delimiter, $stringList);
     return in_array($target, $list);
 }
@@ -346,7 +348,7 @@ function strongsListPattern($strongArray) {
     return '/' . implode('|', $patternArray) . '/';
 }
 
-function toTitleCase($str) {
+function toTitleCase($str): string {
     $output = [];
     $arr = explode(' ', $str);
     foreach($arr as $word) {
@@ -355,4 +357,8 @@ function toTitleCase($str) {
         $output[] = $newWord;
     }
     return implode(' ', $output);
+}
+
+function json_decode(string $json, bool|null $associative = true, int $depth = 512, int $flags = 0): mixed {
+    return \json_decode($json, $associative, $depth, $flags);
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 function import_thml($simpleXml) {
   /*$metadata = $simpleXml->{'ThML.head'};
   $body = $simpleXml->{'ThML.body'};

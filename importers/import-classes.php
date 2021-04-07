@@ -1,5 +1,7 @@
 <?php
 
+namespace Hexapla;
+
 require_once "hexaVerseObject.php";
 require_once "hexaWord.php";
 require_once "hexaPunctuation.php";
