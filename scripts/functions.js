@@ -152,6 +152,7 @@ function toTitleCase(str) {
 }
 
 async function saveNote(locIds, noteText, noteId = null, lastSaveElement) {
+    let waitForIt = (lastSaveElement === null);
     let frm = new FormData();
     frm.append('loc_id', locIds);
     frm.append('note', noteText);
@@ -164,24 +165,33 @@ async function saveNote(locIds, noteText, noteId = null, lastSaveElement) {
         redirect: 'error',
         body: frm
     });
-    saveOperation.json().then(data => {
-        if (data) {
-            lastSaveElement.innerText = new Date().toTimeString();
-            lastSaveElement.id = 'autosave_time';
-            let outer = document.createElement('span');
-            outer.innerText = 'Autosaved at ';
-            outer.appendChild(lastSaveElement);
-            showNotice('my-notes-container', outer.outerHTML, 1);
-            document.getElementById('currentNoteId').value = data;
-        } else {
+    if (waitForIt) {
+        let data = await saveOperation.json();
+        if (!data) {
             showAutosaveError();
+        } else {
+            document.getElementById('currentNoteId').value = data;
         }
-    }).catch(() => {
-        showAutosaveError();
-    });
+    } else {
+        saveOperation.json().then(data => {
+            if (data) {
+                lastSaveElement.innerText = new Date().toTimeString();
+                lastSaveElement.id = 'autosave_time';
+                let outer = document.createElement('span');
+                outer.innerText = 'Autosaved at ';
+                outer.appendChild(lastSaveElement);
+                showNotice('my-notes-container', outer.outerHTML, 1);
+                document.getElementById('currentNoteId').value = data;
+            } else {
+                showAutosaveError();
+            }
+        }).catch(() => {
+            showAutosaveError();
+        });
+    }
 }
 
-function autosave(synchronous) {
+async function autosave(synchronous) {
     let input = document.getElementById('my-notes');
     if (input) {
         if (input.value.length > 0) {
@@ -196,7 +206,7 @@ function autosave(synchronous) {
                     if (!last_saved) last_saved = document.createElement('span');
                     saveNote(loc_ids, input.value, note_id, last_saved);
                 } else {
-                    saveNoteSync(loc_ids, input.value, note_id);
+                    await saveNote(loc_ids, input.value, note_id, null);
                 }
             }
         }
@@ -208,17 +218,4 @@ function showAutosaveError() {
     showNotice('my-notes-container',
         'Autosave has <strong>failed</strong>. Please copy your notes to a secure location until our system is working again.',
         3);
-}
-
-function saveNoteSync(locIds, noteText, noteId = null) {
-    let frm = new FormData();
-    frm.append('loc_id', locIds);
-    frm.append('note', noteText);
-    if (noteId !== null) {
-        frm.append('note_id', noteId);
-    }
-
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/Hexapla/save-notes.php', false); // RELATIVE-URL
-    xhr.send(frm);
 }

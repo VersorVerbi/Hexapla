@@ -10,7 +10,7 @@ function killTheTinyMouse() {
 function init_tinymce(selector, skin) {
     tinymce.init({ selector: selector,
         menu: {
-            myNotes: {title: 'My Notes', items: 'newdocument' },
+            myNotes: {title: 'My Notes', items: 'savenote' },
         },
         menubar: 'myNotes | edit format',
         height: '100%',
@@ -21,6 +21,13 @@ function init_tinymce(selector, skin) {
         setup: editor => {
             editor.on('input', () => {
                 editor.save();
+            });
+
+            editor.ui.registry.addMenuItem('savenote', {
+                text: 'Save',
+                onAction: () => {
+                    autosave(true);
+                }
             });
         },
     });

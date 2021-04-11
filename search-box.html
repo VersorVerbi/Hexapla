@@ -1,11 +1,18 @@
+<!-- TODO: convert this to PHP so we can leverage existing data for nojs versions (esp. adding diff param, etc.) -->
+
 <div id="translationHandler">
     <span id="translationList"></span>
-    <button id="configTranslations" class="icoButton" title="Configure translations" onclick="configTls()"><span class="icofont-gear-alt"></span></button>
-    <button id="diffAll" class="icoButton" title="Show differences between all versions (of the same language)" onclick="diffAll()"><span class="icofont-opposite"></span></button>
-    <button id="getPermalink" class="icoButton" title="Get a permanent link to this page" onclick=""><span class="icofont-link"></span></button>
+    <button id="configTranslations" class="icoButton jsOnly" title="Configure translations" onclick="configTls()"><span class="icofont-gear-alt"></span></button>
+    <button id="diffAll" class="icoButton jsOnly" title="Show differences between all versions (of the same language)" onclick="diffAll()"><span class="icofont-opposite"></span></button>
+    <button id="getPermalink" class="icoButton jsOnly" title="Get a permanent link to this page" onclick=""><span class="icofont-link"></span></button>
+    <noscript>
+        <a href="nojs.translconfig.html"><button class="icoButton" title="Configure translations"><span class="icofont-gear-alt"></span></button></a>
+        <a href="?diff"><button class="icoButton" title="Show differences between all versions (of the same language)" disabled="disabled"><span class="icofont-opposite"></span></button></a>
+        <button class="icoButton" title="Get a permanent link to this page" disabled="disabled"><span class="icofont-link"></span></button>
+    </noscript>
 </div>
 <div id="search">
-    <form id="searchform" method="post">
+    <form id="searchform" class="jsOnly" method="post">
         <input type="hidden" id="translations" name="translations" value="" />
         <input type="hidden" id="currentSearch" name="currentSearch" value="" />
         <input type="hidden" id="currentTinyMCETheme" name="currentTinyMCETheme" value="" />
@@ -13,6 +20,11 @@
         <input type="hidden" id="currentNoteId" name="currentNoteId" value="" />
         <input type="text" id="searchbox" name="searchbox" placeholder="Enter verse reference, keyword, or Strong's number..." /><button type="submit" id="searchButton" class="icoButton" title="Search"><span class="icofont-ui-search"></span></button>
     </form>
+    <noscript>
+        <form method="get" action="index.php">
+            <!-- TODO: finish this somehow without JS? NOTE: #searchbox has styling, so we'll need to change that to a class probably -->
+        </form>
+    </noscript>
     <div id="disambiguation" class="hidden"></div>
 </div>
 

@@ -6,19 +6,22 @@ body {
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: cover;
-  min-height: 100%;
-  font-family: "Droid Serif", serif;
+  height: 100%;
   overflow: hidden;
+  font-family: "Helvetica", "Georgia", "Open Sans", "sans-serif";
 }
 
 #wrap {
-  position: relative;
   width: 1280px;
   min-height: 95%;
   border: none;
   padding: 40px 40px 5px 40px;
-  margin: auto;
   overflow: auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 #wrap.permaMenu {
   right: 150px;
@@ -27,6 +30,13 @@ body {
 #page {
   margin: 50px auto;
   width: 95%;
+}
+#page div {
+  font-size: 14pt;
+  line-height: 1.3em;
+}
+#page:not(.results) div {
+  margin-bottom: 15px;
 }
 #page.results {
   display: flex;
@@ -143,12 +153,41 @@ h4 {
   z-index: 2147483647;
 }
 
+.icon-example {
+  height: 1.5em;
+  width: 1.3em;
+  background-size: 14pt;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: bottom;
+  margin-bottom: -3px;
+  display: inline-block;
+}
+
 .dark #loading, .dark .sidebarLoad {
   background-image: url("../images/bookloading.gif");
+}
+.dark .menu-example {
+  background-image: url("../images/menubutton_dark.svg");
+}
+.dark .dict-example {
+  background-image: url("../images/dictbutton_dark.svg");
+}
+.dark .ref-example {
+  background-image: url("../images/crossref_dark.svg");
 }
 
 .light #loading, .light .sidebarLoad {
   background-image: url("../images/bookloading_light.gif");
+}
+.light .menu-example {
+  background-image: url("../images/menubutton_light.svg");
+}
+.light .dict-example {
+  background-image: url("../images/dictbutton_light.svg");
+}
+.light .ref-example {
+  background-image: url("../images/crossref_light.svg");
 }
 
 .hidden {
@@ -991,6 +1030,26 @@ body.themeChange .textArea {
 body.themeChange #scroll-together-label span, body.themeChange #scroll-together-label span::before, body.themeChange #scroll-together-label span::after {
   transition-property: border-color, background-color !important;
   transition-duration: 1500ms !important;
+}
+
+.keep-together {
+  display: inline-block;
+}
+
+#jsWarning {
+  color: black;
+  background-color: palegoldenrod;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 14pt;
+  padding: 25px 100px;
+  height: 100px;
+  box-sizing: border-box;
+}
+#jsWarning a {
+  color: navy;
 }
 
 body.dark {

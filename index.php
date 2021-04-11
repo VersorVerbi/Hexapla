@@ -24,35 +24,36 @@ if (!isset($_GET['page'])) {
     $page = $_GET['page'];
 }
 $toLoad = "";
-switch($page) {
-    case 'other':
-        $toLoad = 'cant-find.html';
-        break;
-    case 'help':
-        $toLoad = 'how-to-help.html';
-        break;
-    case 'home':
-        $toLoad = 'home-page.html';
-        break;
-    case 'search':
-        $search = $_GET['search'];
-        if (isset($_GET['vers'])) {
-            $tls = $_GET['vers'];
-        } else {
-            $tls = $_GET['versions'];
-            $tls = explode('^', $tls);
-            $tlRes = getData($db, HexaplaTables::SOURCE_VERSION_TERM, [HexaplaSourceVersionTerm::VERSION_ID], [HexaplaSourceVersionTerm::TERM => $tls, HexaplaSourceVersionTerm::FLAG => HexaplaTermFlag::ABBREVIATION]);
-            free($tls);
-            $tls = [];
-            while (($tlRow = pg_fetch_assoc($tlRes)) !== false) {
-                $tls[] = $tlRow[HexaplaSourceVersionTerm::VERSION_ID];
-            }
-            $tls = implode('^', $tls);
+$pages = [
+    'help' => 'how-to-help.html',
+    'home' => 'home-page.html',
+    'cookies' => 'cookie-policy.html',
+    'privacy' => 'privacy-policy.html',
+    'terms' => 'terms-of-service.html',
+    'about' => 'about-us.html'
+];
+if ($page === 'search') {
+    $search = $_GET['search'];
+    if (isset($_GET['vers'])) {
+        $tls = $_GET['vers'];
+    } else {
+        $tls = $_GET['versions'];
+        $tls = explode('^', $tls);
+        $tlRes = getData($db, HexaplaTables::SOURCE_VERSION_TERM, [HexaplaSourceVersionTerm::VERSION_ID], [HexaplaSourceVersionTerm::TERM => $tls, HexaplaSourceVersionTerm::FLAG => HexaplaTermFlag::ABBREVIATION]);
+        free($tls);
+        $tls = [];
+        while (($tlRow = pg_fetch_assoc($tlRes)) !== false) {
+            $tls[] = $tlRow[HexaplaSourceVersionTerm::VERSION_ID];
         }
-        $toLoad = "results.php";
-        break;
-    default:
-        $toLoad = 'error404.html';
+        $tls = implode('^', $tls);
+    }
+    // TODO: add GET diff option
+    // TODO: (for nojs) add same-word highlight, show definition, cross-refs
+    $toLoad = "results.php";
+} elseif (isset($pages[$page])) {
+    $toLoad = $pages[$page];
+} else {
+    $toLoad = 'error404.html';
 }
 
 $GLOBALS['themes'] = ['parchment', 'leather-bound', 'jonah', 'liturgical'];
@@ -84,11 +85,12 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     <title>Modern Hexapla</title>
     <?php
     foreach($GLOBALS['themes'] as $thm) {
-        echo "<link rel=\"preload\" as=\"style\" href=\"styles/$thm.css\" />";
+        echo "<link rel=\"preload\" as=\"style\" href=\"styles/$thm.min.css\" />";
     }
     ?>
+
     <link type="text/css" rel="stylesheet" href="styles/icofont.min.css" />
-    <link id="themeCss" type="text/css" rel="stylesheet" href="styles/<?php echo $theme; ?>.css" />
+    <link id="themeCss" type="text/css" rel="stylesheet" href="styles/<?php echo $theme; ?>.min.css" />
     <script type="text/javascript" src="scripts/functions.js"></script>
     <script type="text/javascript">
         const themeList = <?php echo json_encode($GLOBALS['themes']); ?>;
@@ -109,19 +111,24 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     <script type="text/javascript" src="scripts/sidebar.js"></script>
     <script src="https://cdn.tiny.cloud/1/ptcuvqtdffo2fe0pjk54wmk1wa867jqad8psipzfqv6wvvtm/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <noscript>
-        <style type="text/css">
-            .jsOnly {
-                display: none !important;
-            }
-        </style>
+        <link type="text/css" rel="stylesheet" href="styles/nojs.min.css" />
     </noscript>
 </head>
 <body class="<?php echo $shade; ?> <?php echo ($theme === 'liturgical' ? 'themeChange' : ''); ?>">
+    <noscript>
+        <div id="jsWarning">
+            This website works better with JavaScript enabled. Instructions on how to enable JavaScript for your
+            browser can be found <a href="https://www.enable-javascript.com/" target="_blank">here</a>. To make sure we
+            don't do anything nefarious with JavaScript, check out our <a href="">privacy policy</a>,
+            <a href="">cookie policy</a>, and <a href="">terms of service</a>.
+        </div>
+    </noscript>
     <div id="wrap">
         <?php include "header.php"; ?>
         <?php include "translation-controller.php"; ?>
         <div id="page">
-            <?php include $toLoad; ?>
+            <?php /** @noinspection PhpIncludeInspection */
+            include $toLoad; ?>
         </div>
     </div>
     <?php include "sidebar.php"; ?>
@@ -157,7 +164,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - add sidebar --> enable all functionality
     - add click->dictionary+toggle for words --> finish getting data from all sources
     - reload, add more translations
-    - add page content + how can I help? page
+    - add page content + how can I help? page --> fix example icons not showing up on template switch
     - handle commentary text --> display it too
     - add user functionality
         -> user notes
@@ -173,4 +180,5 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - admin pages
     - disable buttons that don't do anything on the current screen + change button font color when disabled
     - make sure language codes are in the database -- base lang code for all record in public."language", but dialect codes for each version?
+    - populate translationList in header
 */

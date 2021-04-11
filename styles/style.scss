@@ -324,19 +324,22 @@ body {
   background-repeat: no-repeat;
   background-position: 0 $backgroundTop;
   background-size: cover;
-  min-height: 100%;
-  font-family: 'Droid Serif', serif;
+  height: 100%;
   overflow: hidden;
+  font-family: 'Helvetica', 'Georgia', 'Open Sans', 'sans-serif';
 }
 
 #wrap {
-  position: relative;
   width: $siteWidth;
   min-height: $siteHeight;
   border: none;
   padding: $sitePadding $sitePadding $siteBottomPadding $sitePadding;
-  margin: auto;
   overflow: auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 
   &.permaMenu {
     right: intdiv($sidebarWidth, 2);
@@ -346,6 +349,17 @@ body {
 #page {
   margin: $pageMargin auto;
   width: $pageWidth;
+
+  div {
+    font-size: 14pt;
+    line-height: 1.3em;
+  }
+
+  &:not(.results) {
+    div {
+      margin-bottom: 15px;
+    }
+  }
 
   &.results {
     display: flex;
@@ -471,15 +485,50 @@ h4 {
   z-index: $effectivelyMaxInt;
 }
 
+.icon-example {
+  height: 1.5em;
+  width: 1.3em;
+  background-size: 14pt;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: bottom;
+  margin-bottom: -3px;
+  display: inline-block;
+}
+
 .dark {
   #loading, .sidebarLoad {
     background-image: url("../images/bookloading.gif");
+  }
+
+  .menu-example {
+    background-image: url("../images/menubutton_dark.svg");
+  }
+
+  .dict-example {
+    background-image: url("../images/dictbutton_dark.svg");
+  }
+
+  .ref-example {
+    background-image: url("../images/crossref_dark.svg");
   }
 }
 
 .light {
   #loading, .sidebarLoad {
     background-image: url("../images/bookloading_light.gif");
+  }
+
+  .menu-example {
+    background-image: url("../images/menubutton_light.svg");
+  }
+
+  .dict-example {
+    background-image: url("../images/dictbutton_light.svg");
+  }
+
+  .ref-example {
+    background-image: url("../images/crossref_light.svg");
   }
 }
 //#endregion
@@ -1289,5 +1338,26 @@ body.themeChange {
     span, span::before, span::after {
       @include themeTransition(border-color background-color);
     }
+  }
+}
+
+.keep-together {
+  display: inline-block;
+}
+
+#jsWarning {
+  color: black;
+  background-color: palegoldenrod;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 14pt;
+  padding: 25px 100px;
+  height: 100px;
+  box-sizing: border-box;
+
+  a {
+    color: navy;
   }
 }

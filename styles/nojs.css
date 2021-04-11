@@ -1,0 +1,12 @@
+/*
+   Everything in here is marked !important because we don't want to be constantly maintaining this to
+   stay ahead of the regular stylesheet in specificity.
+ */
+
+.jsOnly {
+    display: none !important;
+}
+#wrap {
+    top: 100px !important;
+    min-height: unset !important;
+}

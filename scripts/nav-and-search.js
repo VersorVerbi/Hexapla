@@ -64,9 +64,9 @@ async function doSearch(event) {
             await completeSearch(formData);
 
             setTimeout(autosave, 300000); // 5 minute autosave
-            window.addEventListener('beforeunload', () => {
+            window.addEventListener('beforeunload', async () => {
                 killTheTinyMouse();
-                autosave(true);
+                await autosave(true);
             });
         });
     } else {
@@ -143,7 +143,9 @@ async function completeSearch(formData) {
                     }
                 }
             }
-            document.getElementById('currentNoteId').value = maxId;
+            if (maxId > 0) {
+                document.getElementById('currentNoteId').value = maxId;
+            }
 
             // rerun this if we added a notes section
             init_tinymce('#my-notes', formData.get('currentTinyMCETheme'));

@@ -3,9 +3,11 @@
 namespace Hexapla;
 require_once "dbconnect.php";
 /** @var UserSettings $currentUser */
+
+// TODO: nojs version is always "pinned", all buttons need to convert to links / forms to submit, and all 3 menus show in one long scrolling menu
 ?>
 
-<div id="menuwrap">
+<div id="menuwrap" class="jsOnly">
     <div class="menu-tab" id="menu-btn-wrap" data-mnu="menu" title="Options">
         <span class="tab-button" id="menu-button"></span>
     </div>
@@ -58,6 +60,7 @@ require_once "dbconnect.php";
             <li><a href="">How You Can Help</a></li>
             <li><a href="">Copyright Information</a></li>
             <li><a href="">Privacy Policy</a></li>
+            <li><a href="">Cookie Policy</a></li>
             <li><a href="">Terms of Service</a></li>
         </ul>
     </div>
