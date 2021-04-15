@@ -163,42 +163,42 @@ $shadowColor: rgba(0, 0, 0, 0.1);
 @mixin highlights($highlightMap) {
   @if ($highlightMap) {
     @each $i, $color in $highlightMap {
-      .diff#{$i}L, .diff#{$i}R {
+      span.diff#{$i}L, span.diff#{$i}R {
         background-color: map.get($highlightMap, $i);
       }
 
       @for $j from 2 through 6 {
         @if $j != $i {
-          .diff#{$i}L .diff#{$j}L, .diff#{$j}L .diff#{$i}L {
-            background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j));
+          span.diff#{$i}L span.diff#{$j}L, span.diff#{$j}L span.diff#{$i}L {
+            background-image: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j));
           }
 
           @for $k from 2 through 6 {
             $ij: $i, $j;
             @if not list.index($ij, $k) {
-              .diff#{$i}L .diff#{$j}L .diff#{$k}L {
-                background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k));
+              span.diff#{$i}L span.diff#{$j}L span.diff#{$k}L {
+                background-image: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k));
               }
 
               @for $l from 2 through 6 {
                 $ijk: $i, $j, $k;
                 @if not list.index($ijk, $l) {
-                  .diff#{$i}L .diff#{$j}L .diff#{$k}L .diff#{$l}L {
-                    background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l));
+                  span.diff#{$i}L span.diff#{$j}L span.diff#{$k}L span.diff#{$l}L {
+                    background-image: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l));
                   }
 
                   @for $m from 2 through 6 {
                     $ijkl: $i, $j, $k, $l;
                     @if not list.index($ijkl, $m) {
-                      .diff#{$i}L .diff#{$j}L .diff#{$k}L .diff#{$l}L .diff#{$m}L {
-                        background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l), map.get($highlightMap, $m));
+                      span.diff#{$i}L span.diff#{$j}L span.diff#{$k}L span.diff#{$l}L span.diff#{$m}L {
+                        background-image: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l), map.get($highlightMap, $m));
                       }
 
                       @for $n from 2 through 6 {
                         $ijklm: $i, $j, $k, $l, $m;
                         @if not list.index($ijklm, $n) {
-                          .diff#{$i}L .diff#{$j}L .diff#{$k}L .diff#{$l}L .diff#{$m}L .diff#{$n}L {
-                            background-color: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l), map.get($highlightMap, $m), map.get($highlightMap, $n));
+                          span.diff#{$i}L span.diff#{$j}L span.diff#{$k}L span.diff#{$l}L span.diff#{$m}L span.diff#{$n}L {
+                            background-image: linear-gradient(to right, map.get($highlightMap, $i), map.get($highlightMap, $j), map.get($highlightMap, $k), map.get($highlightMap, $l), map.get($highlightMap, $m), map.get($highlightMap, $n));
                           }
                         }
                       }
@@ -212,7 +212,7 @@ $shadowColor: rgba(0, 0, 0, 0.1);
       }
     }
   } @else {
-    // high-contrast / color blind settings here
+    // TODO: high-contrast / color blind settings here
   }
 }
 
@@ -1361,3 +1361,6 @@ body.themeChange {
     color: navy;
   }
 }
+
+
+// FIXME: long version names wrap and look bad

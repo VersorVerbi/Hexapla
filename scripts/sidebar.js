@@ -63,6 +63,17 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    let diffPickers = document.querySelectorAll('input[name="diff-by-word"]');
+    for (let d = 0; d < diffPickers.length; d++) {
+        diffPickers[d].addEventListener('change', function() {
+            if (this.checked) {
+                fetch('/Hexapla/cookies.php?set&name=hexaplaWord&value=' + (this.value === 'word-diff')).then( () => { // RELATIVE-URL
+                    getDiffCookies().then(cookies => diffCtrl.updateCookies(cookies));
+                });
+            }
+        });
+    }
+
     let shadePickers = document.querySelectorAll('input[name="shade-selection"]');
     for (let s = 0; s < shadePickers.length; s++) {
         shadePickers[s].addEventListener('change', function() {

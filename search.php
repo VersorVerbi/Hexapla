@@ -53,6 +53,8 @@ if ($getNotes) {
         $userNotes[$noteRow[HexaplaUserNotes::ID]] = $noteRow[HexaplaUserNotes::VALUE];
     }
     $output['myNotes'] = $userNotes;
+} else {
+    $output['myNotes'] = null;
 }
 
 unset($_SESSION['alts']);

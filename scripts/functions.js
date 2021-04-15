@@ -219,3 +219,13 @@ function showAutosaveError() {
         'Autosave has <strong>failed</strong>. Please copy your notes to a secure location until our system is working again.',
         3);
 }
+
+function numbersOnly(str) {
+    let output = '';
+    for (let i = 0; i < str.length; i++) {
+        let char = str.substr(i, 1);
+        if (isNaN(char)) continue;
+        output += char;
+    }
+    return parseInt(output);
+}

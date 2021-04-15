@@ -24,9 +24,10 @@ if (isset($_GET['translations'])) {
         ?>
 <div id="t<?php echo $t; ?>" class="version of<?php echo count($ts); ?>"
      data-can-diff="<?php echo $versionData[$t]['perm'] & HexaplaPermissions::DIFF; ?>"
-     data-lang="<?php echo $versionData[$t]['lang']; ?>">
+     data-lang="<?php echo $versionData[$t]['lang']; ?>"
+     data-lang-name="<?php echo $versionData[$t]['langName']; ?>">
     <h4><?php echo $versionData[$t]['term'];?></h4>
-    <button id="diff<?php echo $t; ?>" class="icoButton diffButton" title="Show differences" onclick="addDiff(this)"><span class="icofont-opposite"></span><span class="tinyMod icofont-plus"></span></button>
+    <button id="diff<?php echo $t; ?>" class="icoButton diffButton" title="Show differences" onclick="addDiff(this)" <?php echo ($versionData[$t]['perm'] & HexaplaPermissions::DIFF ? '' : 'disabled="true"'); ?>><span class="icofont-opposite"></span><span class="tinyMod icofont-plus"></span></button>
     <div class="textArea"></div>
     <div class="resultNotice hidden"></div>
 </div>
@@ -34,9 +35,15 @@ if (isset($_GET['translations'])) {
         } elseif ($t === 'notes') {
             ?>
 <div id="my-notes-container" class="version of<?php echo count($ts); ?>"
-    data-can-diff="false">
+    data-can-diff="0">
     <form id="my-notes-form" style="height: 100%;">
+        <noscript>
+            <label for="my-notes">My Notes:</label><br />
+        </noscript>
         <textarea id="my-notes" name="my-notes"></textarea>
+        <noscript>
+            <br /><input type="submit" value="Save" />
+        </noscript>
     </form>
     <div class="resultNotice hidden"></div>
 </div>

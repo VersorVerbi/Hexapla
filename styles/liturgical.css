@@ -1130,980 +1130,980 @@ body.dark .textArea {
   background-repeat: no-repeat;
   background-color: #000;
 }
-body.dark .diff2L, body.dark .diff2R {
+body.dark span.diff2L, body.dark span.diff2R {
   background-color: #45632f;
 }
-body.dark .diff2L .diff3L, body.dark .diff3L .diff2L {
-  background-color: linear-gradient(to right, #45632f, #495d6b);
+body.dark span.diff2L span.diff3L, body.dark span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #45632f, #495d6b);
 }
-body.dark .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #755426);
+body.dark span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #755426);
 }
-body.dark .diff2L .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #755426, #6b5559);
+body.dark span.diff2L span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #755426, #6b5559);
 }
-body.dark .diff2L .diff3L .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #755426, #6b5559, #5c5d2e);
+body.dark span.diff2L span.diff3L span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #755426, #6b5559, #5c5d2e);
 }
-body.dark .diff2L .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #755426, #5c5d2e);
+body.dark span.diff2L span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #755426, #5c5d2e);
 }
-body.dark .diff2L .diff3L .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #755426, #5c5d2e, #6b5559);
+body.dark span.diff2L span.diff3L span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #755426, #5c5d2e, #6b5559);
 }
-body.dark .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #6b5559);
+body.dark span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #6b5559);
 }
-body.dark .diff2L .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #6b5559, #755426);
+body.dark span.diff2L span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #6b5559, #755426);
 }
-body.dark .diff2L .diff3L .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #6b5559, #755426, #5c5d2e);
+body.dark span.diff2L span.diff3L span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #6b5559, #755426, #5c5d2e);
 }
-body.dark .diff2L .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #6b5559, #5c5d2e);
+body.dark span.diff2L span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #6b5559, #5c5d2e);
 }
-body.dark .diff2L .diff3L .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #6b5559, #5c5d2e, #755426);
+body.dark span.diff2L span.diff3L span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #6b5559, #5c5d2e, #755426);
 }
-body.dark .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #5c5d2e);
+body.dark span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #5c5d2e);
 }
-body.dark .diff2L .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #5c5d2e, #755426);
+body.dark span.diff2L span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #5c5d2e, #755426);
 }
-body.dark .diff2L .diff3L .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #5c5d2e, #755426, #6b5559);
+body.dark span.diff2L span.diff3L span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #5c5d2e, #755426, #6b5559);
 }
-body.dark .diff2L .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #5c5d2e, #6b5559);
+body.dark span.diff2L span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #5c5d2e, #6b5559);
 }
-body.dark .diff2L .diff3L .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #495d6b, #5c5d2e, #6b5559, #755426);
+body.dark span.diff2L span.diff3L span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #495d6b, #5c5d2e, #6b5559, #755426);
 }
-body.dark .diff2L .diff4L, body.dark .diff4L .diff2L {
-  background-color: linear-gradient(to right, #45632f, #755426);
+body.dark span.diff2L span.diff4L, body.dark span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #45632f, #755426);
 }
-body.dark .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #755426, #495d6b);
+body.dark span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #755426, #495d6b);
 }
-body.dark .diff2L .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #755426, #495d6b, #6b5559);
+body.dark span.diff2L span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #755426, #495d6b, #6b5559);
 }
-body.dark .diff2L .diff4L .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #755426, #495d6b, #6b5559, #5c5d2e);
+body.dark span.diff2L span.diff4L span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #755426, #495d6b, #6b5559, #5c5d2e);
 }
-body.dark .diff2L .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #755426, #495d6b, #5c5d2e);
+body.dark span.diff2L span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #755426, #495d6b, #5c5d2e);
 }
-body.dark .diff2L .diff4L .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #755426, #495d6b, #5c5d2e, #6b5559);
+body.dark span.diff2L span.diff4L span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #755426, #495d6b, #5c5d2e, #6b5559);
 }
-body.dark .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #755426, #6b5559);
+body.dark span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #755426, #6b5559);
 }
-body.dark .diff2L .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #755426, #6b5559, #495d6b);
+body.dark span.diff2L span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #755426, #6b5559, #495d6b);
 }
-body.dark .diff2L .diff4L .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #755426, #6b5559, #495d6b, #5c5d2e);
+body.dark span.diff2L span.diff4L span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #755426, #6b5559, #495d6b, #5c5d2e);
 }
-body.dark .diff2L .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #755426, #6b5559, #5c5d2e);
+body.dark span.diff2L span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #755426, #6b5559, #5c5d2e);
 }
-body.dark .diff2L .diff4L .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #755426, #6b5559, #5c5d2e, #495d6b);
+body.dark span.diff2L span.diff4L span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #755426, #6b5559, #5c5d2e, #495d6b);
 }
-body.dark .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #755426, #5c5d2e);
+body.dark span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #755426, #5c5d2e);
 }
-body.dark .diff2L .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #755426, #5c5d2e, #495d6b);
+body.dark span.diff2L span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #755426, #5c5d2e, #495d6b);
 }
-body.dark .diff2L .diff4L .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #755426, #5c5d2e, #495d6b, #6b5559);
+body.dark span.diff2L span.diff4L span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #755426, #5c5d2e, #495d6b, #6b5559);
 }
-body.dark .diff2L .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #755426, #5c5d2e, #6b5559);
+body.dark span.diff2L span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #755426, #5c5d2e, #6b5559);
 }
-body.dark .diff2L .diff4L .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #755426, #5c5d2e, #6b5559, #495d6b);
+body.dark span.diff2L span.diff4L span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #755426, #5c5d2e, #6b5559, #495d6b);
 }
-body.dark .diff2L .diff5L, body.dark .diff5L .diff2L {
-  background-color: linear-gradient(to right, #45632f, #6b5559);
+body.dark span.diff2L span.diff5L, body.dark span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #45632f, #6b5559);
 }
-body.dark .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #495d6b);
+body.dark span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #495d6b);
 }
-body.dark .diff2L .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #495d6b, #755426);
+body.dark span.diff2L span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #495d6b, #755426);
 }
-body.dark .diff2L .diff5L .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #495d6b, #755426, #5c5d2e);
+body.dark span.diff2L span.diff5L span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #495d6b, #755426, #5c5d2e);
 }
-body.dark .diff2L .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #495d6b, #5c5d2e);
+body.dark span.diff2L span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #495d6b, #5c5d2e);
 }
-body.dark .diff2L .diff5L .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #495d6b, #5c5d2e, #755426);
+body.dark span.diff2L span.diff5L span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #495d6b, #5c5d2e, #755426);
 }
-body.dark .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #755426);
+body.dark span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #755426);
 }
-body.dark .diff2L .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #755426, #495d6b);
+body.dark span.diff2L span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #755426, #495d6b);
 }
-body.dark .diff2L .diff5L .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #755426, #495d6b, #5c5d2e);
+body.dark span.diff2L span.diff5L span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #755426, #495d6b, #5c5d2e);
 }
-body.dark .diff2L .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #755426, #5c5d2e);
+body.dark span.diff2L span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #755426, #5c5d2e);
 }
-body.dark .diff2L .diff5L .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #755426, #5c5d2e, #495d6b);
+body.dark span.diff2L span.diff5L span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #755426, #5c5d2e, #495d6b);
 }
-body.dark .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #5c5d2e);
+body.dark span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #5c5d2e);
 }
-body.dark .diff2L .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #5c5d2e, #495d6b);
+body.dark span.diff2L span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #5c5d2e, #495d6b);
 }
-body.dark .diff2L .diff5L .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #5c5d2e, #495d6b, #755426);
+body.dark span.diff2L span.diff5L span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #5c5d2e, #495d6b, #755426);
 }
-body.dark .diff2L .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #5c5d2e, #755426);
+body.dark span.diff2L span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #5c5d2e, #755426);
 }
-body.dark .diff2L .diff5L .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #6b5559, #5c5d2e, #755426, #495d6b);
+body.dark span.diff2L span.diff5L span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #6b5559, #5c5d2e, #755426, #495d6b);
 }
-body.dark .diff2L .diff6L, body.dark .diff6L .diff2L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e);
+body.dark span.diff2L span.diff6L, body.dark span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e);
 }
-body.dark .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #495d6b);
+body.dark span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #495d6b);
 }
-body.dark .diff2L .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #495d6b, #755426);
+body.dark span.diff2L span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #495d6b, #755426);
 }
-body.dark .diff2L .diff6L .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #495d6b, #755426, #6b5559);
+body.dark span.diff2L span.diff6L span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #495d6b, #755426, #6b5559);
 }
-body.dark .diff2L .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #495d6b, #6b5559);
+body.dark span.diff2L span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #495d6b, #6b5559);
 }
-body.dark .diff2L .diff6L .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #495d6b, #6b5559, #755426);
+body.dark span.diff2L span.diff6L span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #495d6b, #6b5559, #755426);
 }
-body.dark .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #755426);
+body.dark span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #755426);
 }
-body.dark .diff2L .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #755426, #495d6b);
+body.dark span.diff2L span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #755426, #495d6b);
 }
-body.dark .diff2L .diff6L .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #755426, #495d6b, #6b5559);
+body.dark span.diff2L span.diff6L span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #755426, #495d6b, #6b5559);
 }
-body.dark .diff2L .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #755426, #6b5559);
+body.dark span.diff2L span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #755426, #6b5559);
 }
-body.dark .diff2L .diff6L .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #755426, #6b5559, #495d6b);
+body.dark span.diff2L span.diff6L span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #755426, #6b5559, #495d6b);
 }
-body.dark .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #6b5559);
+body.dark span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #6b5559);
 }
-body.dark .diff2L .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #6b5559, #495d6b);
+body.dark span.diff2L span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #6b5559, #495d6b);
 }
-body.dark .diff2L .diff6L .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #6b5559, #495d6b, #755426);
+body.dark span.diff2L span.diff6L span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #6b5559, #495d6b, #755426);
 }
-body.dark .diff2L .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #6b5559, #755426);
+body.dark span.diff2L span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #6b5559, #755426);
 }
-body.dark .diff2L .diff6L .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #45632f, #5c5d2e, #6b5559, #755426, #495d6b);
+body.dark span.diff2L span.diff6L span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #45632f, #5c5d2e, #6b5559, #755426, #495d6b);
 }
-body.dark .diff3L, body.dark .diff3R {
+body.dark span.diff3L, body.dark span.diff3R {
   background-color: #495d6b;
 }
-body.dark .diff3L .diff2L, body.dark .diff2L .diff3L {
-  background-color: linear-gradient(to right, #495d6b, #45632f);
+body.dark span.diff3L span.diff2L, body.dark span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #495d6b, #45632f);
 }
-body.dark .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #755426);
+body.dark span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #755426);
 }
-body.dark .diff3L .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #755426, #6b5559);
+body.dark span.diff3L span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #755426, #6b5559);
 }
-body.dark .diff3L .diff2L .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #755426, #6b5559, #5c5d2e);
+body.dark span.diff3L span.diff2L span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #755426, #6b5559, #5c5d2e);
 }
-body.dark .diff3L .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #755426, #5c5d2e);
+body.dark span.diff3L span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #755426, #5c5d2e);
 }
-body.dark .diff3L .diff2L .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #755426, #5c5d2e, #6b5559);
+body.dark span.diff3L span.diff2L span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #755426, #5c5d2e, #6b5559);
 }
-body.dark .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #6b5559);
+body.dark span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #6b5559);
 }
-body.dark .diff3L .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #6b5559, #755426);
+body.dark span.diff3L span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #6b5559, #755426);
 }
-body.dark .diff3L .diff2L .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #6b5559, #755426, #5c5d2e);
+body.dark span.diff3L span.diff2L span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #6b5559, #755426, #5c5d2e);
 }
-body.dark .diff3L .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #6b5559, #5c5d2e);
+body.dark span.diff3L span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #6b5559, #5c5d2e);
 }
-body.dark .diff3L .diff2L .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #6b5559, #5c5d2e, #755426);
+body.dark span.diff3L span.diff2L span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #6b5559, #5c5d2e, #755426);
 }
-body.dark .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #5c5d2e);
+body.dark span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #5c5d2e);
 }
-body.dark .diff3L .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #5c5d2e, #755426);
+body.dark span.diff3L span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #5c5d2e, #755426);
 }
-body.dark .diff3L .diff2L .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #5c5d2e, #755426, #6b5559);
+body.dark span.diff3L span.diff2L span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #5c5d2e, #755426, #6b5559);
 }
-body.dark .diff3L .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #5c5d2e, #6b5559);
+body.dark span.diff3L span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #5c5d2e, #6b5559);
 }
-body.dark .diff3L .diff2L .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #45632f, #5c5d2e, #6b5559, #755426);
+body.dark span.diff3L span.diff2L span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #45632f, #5c5d2e, #6b5559, #755426);
 }
-body.dark .diff3L .diff4L, body.dark .diff4L .diff3L {
-  background-color: linear-gradient(to right, #495d6b, #755426);
+body.dark span.diff3L span.diff4L, body.dark span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #495d6b, #755426);
 }
-body.dark .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #45632f);
+body.dark span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #45632f);
 }
-body.dark .diff3L .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #45632f, #6b5559);
+body.dark span.diff3L span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #45632f, #6b5559);
 }
-body.dark .diff3L .diff4L .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #45632f, #6b5559, #5c5d2e);
+body.dark span.diff3L span.diff4L span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #45632f, #6b5559, #5c5d2e);
 }
-body.dark .diff3L .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #45632f, #5c5d2e);
+body.dark span.diff3L span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #45632f, #5c5d2e);
 }
-body.dark .diff3L .diff4L .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #45632f, #5c5d2e, #6b5559);
+body.dark span.diff3L span.diff4L span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #45632f, #5c5d2e, #6b5559);
 }
-body.dark .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #6b5559);
+body.dark span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #6b5559);
 }
-body.dark .diff3L .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #6b5559, #45632f);
+body.dark span.diff3L span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #6b5559, #45632f);
 }
-body.dark .diff3L .diff4L .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #6b5559, #45632f, #5c5d2e);
+body.dark span.diff3L span.diff4L span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #6b5559, #45632f, #5c5d2e);
 }
-body.dark .diff3L .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #6b5559, #5c5d2e);
+body.dark span.diff3L span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #6b5559, #5c5d2e);
 }
-body.dark .diff3L .diff4L .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #6b5559, #5c5d2e, #45632f);
+body.dark span.diff3L span.diff4L span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #6b5559, #5c5d2e, #45632f);
 }
-body.dark .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #5c5d2e);
+body.dark span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #5c5d2e);
 }
-body.dark .diff3L .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #5c5d2e, #45632f);
+body.dark span.diff3L span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #5c5d2e, #45632f);
 }
-body.dark .diff3L .diff4L .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #5c5d2e, #45632f, #6b5559);
+body.dark span.diff3L span.diff4L span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #5c5d2e, #45632f, #6b5559);
 }
-body.dark .diff3L .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #5c5d2e, #6b5559);
+body.dark span.diff3L span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #5c5d2e, #6b5559);
 }
-body.dark .diff3L .diff4L .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #755426, #5c5d2e, #6b5559, #45632f);
+body.dark span.diff3L span.diff4L span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #755426, #5c5d2e, #6b5559, #45632f);
 }
-body.dark .diff3L .diff5L, body.dark .diff5L .diff3L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559);
+body.dark span.diff3L span.diff5L, body.dark span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559);
 }
-body.dark .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #45632f);
+body.dark span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #45632f);
 }
-body.dark .diff3L .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #45632f, #755426);
+body.dark span.diff3L span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #45632f, #755426);
 }
-body.dark .diff3L .diff5L .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #45632f, #755426, #5c5d2e);
+body.dark span.diff3L span.diff5L span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #45632f, #755426, #5c5d2e);
 }
-body.dark .diff3L .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #45632f, #5c5d2e);
+body.dark span.diff3L span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #45632f, #5c5d2e);
 }
-body.dark .diff3L .diff5L .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #45632f, #5c5d2e, #755426);
+body.dark span.diff3L span.diff5L span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #45632f, #5c5d2e, #755426);
 }
-body.dark .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #755426);
+body.dark span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #755426);
 }
-body.dark .diff3L .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #755426, #45632f);
+body.dark span.diff3L span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #755426, #45632f);
 }
-body.dark .diff3L .diff5L .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #755426, #45632f, #5c5d2e);
+body.dark span.diff3L span.diff5L span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #755426, #45632f, #5c5d2e);
 }
-body.dark .diff3L .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #755426, #5c5d2e);
+body.dark span.diff3L span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #755426, #5c5d2e);
 }
-body.dark .diff3L .diff5L .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #755426, #5c5d2e, #45632f);
+body.dark span.diff3L span.diff5L span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #755426, #5c5d2e, #45632f);
 }
-body.dark .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e);
+body.dark span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e);
 }
-body.dark .diff3L .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e, #45632f);
+body.dark span.diff3L span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e, #45632f);
 }
-body.dark .diff3L .diff5L .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e, #45632f, #755426);
+body.dark span.diff3L span.diff5L span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e, #45632f, #755426);
 }
-body.dark .diff3L .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e, #755426);
+body.dark span.diff3L span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e, #755426);
 }
-body.dark .diff3L .diff5L .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e, #755426, #45632f);
+body.dark span.diff3L span.diff5L span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #6b5559, #5c5d2e, #755426, #45632f);
 }
-body.dark .diff3L .diff6L, body.dark .diff6L .diff3L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e);
+body.dark span.diff3L span.diff6L, body.dark span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e);
 }
-body.dark .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #45632f);
+body.dark span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #45632f);
 }
-body.dark .diff3L .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #45632f, #755426);
+body.dark span.diff3L span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #45632f, #755426);
 }
-body.dark .diff3L .diff6L .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #45632f, #755426, #6b5559);
+body.dark span.diff3L span.diff6L span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #45632f, #755426, #6b5559);
 }
-body.dark .diff3L .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #45632f, #6b5559);
+body.dark span.diff3L span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #45632f, #6b5559);
 }
-body.dark .diff3L .diff6L .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #45632f, #6b5559, #755426);
+body.dark span.diff3L span.diff6L span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #45632f, #6b5559, #755426);
 }
-body.dark .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #755426);
+body.dark span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #755426);
 }
-body.dark .diff3L .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #755426, #45632f);
+body.dark span.diff3L span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #755426, #45632f);
 }
-body.dark .diff3L .diff6L .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #755426, #45632f, #6b5559);
+body.dark span.diff3L span.diff6L span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #755426, #45632f, #6b5559);
 }
-body.dark .diff3L .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #755426, #6b5559);
+body.dark span.diff3L span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #755426, #6b5559);
 }
-body.dark .diff3L .diff6L .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #755426, #6b5559, #45632f);
+body.dark span.diff3L span.diff6L span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #755426, #6b5559, #45632f);
 }
-body.dark .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559);
+body.dark span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559);
 }
-body.dark .diff3L .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559, #45632f);
+body.dark span.diff3L span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559, #45632f);
 }
-body.dark .diff3L .diff6L .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559, #45632f, #755426);
+body.dark span.diff3L span.diff6L span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559, #45632f, #755426);
 }
-body.dark .diff3L .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559, #755426);
+body.dark span.diff3L span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559, #755426);
 }
-body.dark .diff3L .diff6L .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559, #755426, #45632f);
+body.dark span.diff3L span.diff6L span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #495d6b, #5c5d2e, #6b5559, #755426, #45632f);
 }
-body.dark .diff4L, body.dark .diff4R {
+body.dark span.diff4L, body.dark span.diff4R {
   background-color: #755426;
 }
-body.dark .diff4L .diff2L, body.dark .diff2L .diff4L {
-  background-color: linear-gradient(to right, #755426, #45632f);
+body.dark span.diff4L span.diff2L, body.dark span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #755426, #45632f);
 }
-body.dark .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #755426, #45632f, #495d6b);
+body.dark span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #45632f, #495d6b);
 }
-body.dark .diff4L .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #755426, #45632f, #495d6b, #6b5559);
+body.dark span.diff4L span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #45632f, #495d6b, #6b5559);
 }
-body.dark .diff4L .diff2L .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #755426, #45632f, #495d6b, #6b5559, #5c5d2e);
+body.dark span.diff4L span.diff2L span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #45632f, #495d6b, #6b5559, #5c5d2e);
 }
-body.dark .diff4L .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #755426, #45632f, #495d6b, #5c5d2e);
+body.dark span.diff4L span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #45632f, #495d6b, #5c5d2e);
 }
-body.dark .diff4L .diff2L .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #755426, #45632f, #495d6b, #5c5d2e, #6b5559);
+body.dark span.diff4L span.diff2L span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #45632f, #495d6b, #5c5d2e, #6b5559);
 }
-body.dark .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #755426, #45632f, #6b5559);
+body.dark span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #45632f, #6b5559);
 }
-body.dark .diff4L .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #755426, #45632f, #6b5559, #495d6b);
+body.dark span.diff4L span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #45632f, #6b5559, #495d6b);
 }
-body.dark .diff4L .diff2L .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #755426, #45632f, #6b5559, #495d6b, #5c5d2e);
+body.dark span.diff4L span.diff2L span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #45632f, #6b5559, #495d6b, #5c5d2e);
 }
-body.dark .diff4L .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #755426, #45632f, #6b5559, #5c5d2e);
+body.dark span.diff4L span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #45632f, #6b5559, #5c5d2e);
 }
-body.dark .diff4L .diff2L .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #755426, #45632f, #6b5559, #5c5d2e, #495d6b);
+body.dark span.diff4L span.diff2L span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #45632f, #6b5559, #5c5d2e, #495d6b);
 }
-body.dark .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #755426, #45632f, #5c5d2e);
+body.dark span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #45632f, #5c5d2e);
 }
-body.dark .diff4L .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #755426, #45632f, #5c5d2e, #495d6b);
+body.dark span.diff4L span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #45632f, #5c5d2e, #495d6b);
 }
-body.dark .diff4L .diff2L .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #755426, #45632f, #5c5d2e, #495d6b, #6b5559);
+body.dark span.diff4L span.diff2L span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #45632f, #5c5d2e, #495d6b, #6b5559);
 }
-body.dark .diff4L .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #755426, #45632f, #5c5d2e, #6b5559);
+body.dark span.diff4L span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #45632f, #5c5d2e, #6b5559);
 }
-body.dark .diff4L .diff2L .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #755426, #45632f, #5c5d2e, #6b5559, #495d6b);
+body.dark span.diff4L span.diff2L span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #45632f, #5c5d2e, #6b5559, #495d6b);
 }
-body.dark .diff4L .diff3L, body.dark .diff3L .diff4L {
-  background-color: linear-gradient(to right, #755426, #495d6b);
+body.dark span.diff4L span.diff3L, body.dark span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #755426, #495d6b);
 }
-body.dark .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #45632f);
+body.dark span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #45632f);
 }
-body.dark .diff4L .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #45632f, #6b5559);
+body.dark span.diff4L span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #45632f, #6b5559);
 }
-body.dark .diff4L .diff3L .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #45632f, #6b5559, #5c5d2e);
+body.dark span.diff4L span.diff3L span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #45632f, #6b5559, #5c5d2e);
 }
-body.dark .diff4L .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #45632f, #5c5d2e);
+body.dark span.diff4L span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #45632f, #5c5d2e);
 }
-body.dark .diff4L .diff3L .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #45632f, #5c5d2e, #6b5559);
+body.dark span.diff4L span.diff3L span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #45632f, #5c5d2e, #6b5559);
 }
-body.dark .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #6b5559);
+body.dark span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #6b5559);
 }
-body.dark .diff4L .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #6b5559, #45632f);
+body.dark span.diff4L span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #6b5559, #45632f);
 }
-body.dark .diff4L .diff3L .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #6b5559, #45632f, #5c5d2e);
+body.dark span.diff4L span.diff3L span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #6b5559, #45632f, #5c5d2e);
 }
-body.dark .diff4L .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #6b5559, #5c5d2e);
+body.dark span.diff4L span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #6b5559, #5c5d2e);
 }
-body.dark .diff4L .diff3L .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #6b5559, #5c5d2e, #45632f);
+body.dark span.diff4L span.diff3L span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #6b5559, #5c5d2e, #45632f);
 }
-body.dark .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #5c5d2e);
+body.dark span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #5c5d2e);
 }
-body.dark .diff4L .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #5c5d2e, #45632f);
+body.dark span.diff4L span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #5c5d2e, #45632f);
 }
-body.dark .diff4L .diff3L .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #5c5d2e, #45632f, #6b5559);
+body.dark span.diff4L span.diff3L span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #5c5d2e, #45632f, #6b5559);
 }
-body.dark .diff4L .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #5c5d2e, #6b5559);
+body.dark span.diff4L span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #5c5d2e, #6b5559);
 }
-body.dark .diff4L .diff3L .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #755426, #495d6b, #5c5d2e, #6b5559, #45632f);
+body.dark span.diff4L span.diff3L span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #495d6b, #5c5d2e, #6b5559, #45632f);
 }
-body.dark .diff4L .diff5L, body.dark .diff5L .diff4L {
-  background-color: linear-gradient(to right, #755426, #6b5559);
+body.dark span.diff4L span.diff5L, body.dark span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #755426, #6b5559);
 }
-body.dark .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #45632f);
+body.dark span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #45632f);
 }
-body.dark .diff4L .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #45632f, #495d6b);
+body.dark span.diff4L span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #45632f, #495d6b);
 }
-body.dark .diff4L .diff5L .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #45632f, #495d6b, #5c5d2e);
+body.dark span.diff4L span.diff5L span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #45632f, #495d6b, #5c5d2e);
 }
-body.dark .diff4L .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #45632f, #5c5d2e);
+body.dark span.diff4L span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #45632f, #5c5d2e);
 }
-body.dark .diff4L .diff5L .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #45632f, #5c5d2e, #495d6b);
+body.dark span.diff4L span.diff5L span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #45632f, #5c5d2e, #495d6b);
 }
-body.dark .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #495d6b);
+body.dark span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #495d6b);
 }
-body.dark .diff4L .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #495d6b, #45632f);
+body.dark span.diff4L span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #495d6b, #45632f);
 }
-body.dark .diff4L .diff5L .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #495d6b, #45632f, #5c5d2e);
+body.dark span.diff4L span.diff5L span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #495d6b, #45632f, #5c5d2e);
 }
-body.dark .diff4L .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #495d6b, #5c5d2e);
+body.dark span.diff4L span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #495d6b, #5c5d2e);
 }
-body.dark .diff4L .diff5L .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #495d6b, #5c5d2e, #45632f);
+body.dark span.diff4L span.diff5L span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #495d6b, #5c5d2e, #45632f);
 }
-body.dark .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #5c5d2e);
+body.dark span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #5c5d2e);
 }
-body.dark .diff4L .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #5c5d2e, #45632f);
+body.dark span.diff4L span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #5c5d2e, #45632f);
 }
-body.dark .diff4L .diff5L .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #5c5d2e, #45632f, #495d6b);
+body.dark span.diff4L span.diff5L span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #5c5d2e, #45632f, #495d6b);
 }
-body.dark .diff4L .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #5c5d2e, #495d6b);
+body.dark span.diff4L span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #5c5d2e, #495d6b);
 }
-body.dark .diff4L .diff5L .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #755426, #6b5559, #5c5d2e, #495d6b, #45632f);
+body.dark span.diff4L span.diff5L span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #6b5559, #5c5d2e, #495d6b, #45632f);
 }
-body.dark .diff4L .diff6L, body.dark .diff6L .diff4L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e);
+body.dark span.diff4L span.diff6L, body.dark span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e);
 }
-body.dark .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #45632f);
+body.dark span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #45632f);
 }
-body.dark .diff4L .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #45632f, #495d6b);
+body.dark span.diff4L span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #45632f, #495d6b);
 }
-body.dark .diff4L .diff6L .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #45632f, #495d6b, #6b5559);
+body.dark span.diff4L span.diff6L span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #45632f, #495d6b, #6b5559);
 }
-body.dark .diff4L .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #45632f, #6b5559);
+body.dark span.diff4L span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #45632f, #6b5559);
 }
-body.dark .diff4L .diff6L .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #45632f, #6b5559, #495d6b);
+body.dark span.diff4L span.diff6L span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #45632f, #6b5559, #495d6b);
 }
-body.dark .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #495d6b);
+body.dark span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #495d6b);
 }
-body.dark .diff4L .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #495d6b, #45632f);
+body.dark span.diff4L span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #495d6b, #45632f);
 }
-body.dark .diff4L .diff6L .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #495d6b, #45632f, #6b5559);
+body.dark span.diff4L span.diff6L span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #495d6b, #45632f, #6b5559);
 }
-body.dark .diff4L .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #495d6b, #6b5559);
+body.dark span.diff4L span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #495d6b, #6b5559);
 }
-body.dark .diff4L .diff6L .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #495d6b, #6b5559, #45632f);
+body.dark span.diff4L span.diff6L span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #495d6b, #6b5559, #45632f);
 }
-body.dark .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #6b5559);
+body.dark span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #6b5559);
 }
-body.dark .diff4L .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #6b5559, #45632f);
+body.dark span.diff4L span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #6b5559, #45632f);
 }
-body.dark .diff4L .diff6L .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #6b5559, #45632f, #495d6b);
+body.dark span.diff4L span.diff6L span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #6b5559, #45632f, #495d6b);
 }
-body.dark .diff4L .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #6b5559, #495d6b);
+body.dark span.diff4L span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #6b5559, #495d6b);
 }
-body.dark .diff4L .diff6L .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #755426, #5c5d2e, #6b5559, #495d6b, #45632f);
+body.dark span.diff4L span.diff6L span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #755426, #5c5d2e, #6b5559, #495d6b, #45632f);
 }
-body.dark .diff5L, body.dark .diff5R {
+body.dark span.diff5L, body.dark span.diff5R {
   background-color: #6b5559;
 }
-body.dark .diff5L .diff2L, body.dark .diff2L .diff5L {
-  background-color: linear-gradient(to right, #6b5559, #45632f);
+body.dark span.diff5L span.diff2L, body.dark span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #6b5559, #45632f);
 }
-body.dark .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #495d6b);
+body.dark span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #495d6b);
 }
-body.dark .diff5L .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #495d6b, #755426);
+body.dark span.diff5L span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #495d6b, #755426);
 }
-body.dark .diff5L .diff2L .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #495d6b, #755426, #5c5d2e);
+body.dark span.diff5L span.diff2L span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #495d6b, #755426, #5c5d2e);
 }
-body.dark .diff5L .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #495d6b, #5c5d2e);
+body.dark span.diff5L span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #495d6b, #5c5d2e);
 }
-body.dark .diff5L .diff2L .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #495d6b, #5c5d2e, #755426);
+body.dark span.diff5L span.diff2L span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #495d6b, #5c5d2e, #755426);
 }
-body.dark .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #755426);
+body.dark span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #755426);
 }
-body.dark .diff5L .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #755426, #495d6b);
+body.dark span.diff5L span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #755426, #495d6b);
 }
-body.dark .diff5L .diff2L .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #755426, #495d6b, #5c5d2e);
+body.dark span.diff5L span.diff2L span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #755426, #495d6b, #5c5d2e);
 }
-body.dark .diff5L .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #755426, #5c5d2e);
+body.dark span.diff5L span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #755426, #5c5d2e);
 }
-body.dark .diff5L .diff2L .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #755426, #5c5d2e, #495d6b);
+body.dark span.diff5L span.diff2L span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #755426, #5c5d2e, #495d6b);
 }
-body.dark .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #5c5d2e);
+body.dark span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #5c5d2e);
 }
-body.dark .diff5L .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #5c5d2e, #495d6b);
+body.dark span.diff5L span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #5c5d2e, #495d6b);
 }
-body.dark .diff5L .diff2L .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #5c5d2e, #495d6b, #755426);
+body.dark span.diff5L span.diff2L span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #5c5d2e, #495d6b, #755426);
 }
-body.dark .diff5L .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #5c5d2e, #755426);
+body.dark span.diff5L span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #5c5d2e, #755426);
 }
-body.dark .diff5L .diff2L .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #45632f, #5c5d2e, #755426, #495d6b);
+body.dark span.diff5L span.diff2L span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #45632f, #5c5d2e, #755426, #495d6b);
 }
-body.dark .diff5L .diff3L, body.dark .diff3L .diff5L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b);
+body.dark span.diff5L span.diff3L, body.dark span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b);
 }
-body.dark .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #45632f);
+body.dark span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #45632f);
 }
-body.dark .diff5L .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #45632f, #755426);
+body.dark span.diff5L span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #45632f, #755426);
 }
-body.dark .diff5L .diff3L .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #45632f, #755426, #5c5d2e);
+body.dark span.diff5L span.diff3L span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #45632f, #755426, #5c5d2e);
 }
-body.dark .diff5L .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #45632f, #5c5d2e);
+body.dark span.diff5L span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #45632f, #5c5d2e);
 }
-body.dark .diff5L .diff3L .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #45632f, #5c5d2e, #755426);
+body.dark span.diff5L span.diff3L span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #45632f, #5c5d2e, #755426);
 }
-body.dark .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #755426);
+body.dark span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #755426);
 }
-body.dark .diff5L .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #755426, #45632f);
+body.dark span.diff5L span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #755426, #45632f);
 }
-body.dark .diff5L .diff3L .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #755426, #45632f, #5c5d2e);
+body.dark span.diff5L span.diff3L span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #755426, #45632f, #5c5d2e);
 }
-body.dark .diff5L .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #755426, #5c5d2e);
+body.dark span.diff5L span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #755426, #5c5d2e);
 }
-body.dark .diff5L .diff3L .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #755426, #5c5d2e, #45632f);
+body.dark span.diff5L span.diff3L span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #755426, #5c5d2e, #45632f);
 }
-body.dark .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e);
+body.dark span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e);
 }
-body.dark .diff5L .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e, #45632f);
+body.dark span.diff5L span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e, #45632f);
 }
-body.dark .diff5L .diff3L .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e, #45632f, #755426);
+body.dark span.diff5L span.diff3L span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e, #45632f, #755426);
 }
-body.dark .diff5L .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e, #755426);
+body.dark span.diff5L span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e, #755426);
 }
-body.dark .diff5L .diff3L .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e, #755426, #45632f);
+body.dark span.diff5L span.diff3L span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #495d6b, #5c5d2e, #755426, #45632f);
 }
-body.dark .diff5L .diff4L, body.dark .diff4L .diff5L {
-  background-color: linear-gradient(to right, #6b5559, #755426);
+body.dark span.diff5L span.diff4L, body.dark span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #6b5559, #755426);
 }
-body.dark .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #45632f);
+body.dark span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #45632f);
 }
-body.dark .diff5L .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #45632f, #495d6b);
+body.dark span.diff5L span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #45632f, #495d6b);
 }
-body.dark .diff5L .diff4L .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #45632f, #495d6b, #5c5d2e);
+body.dark span.diff5L span.diff4L span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #45632f, #495d6b, #5c5d2e);
 }
-body.dark .diff5L .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #45632f, #5c5d2e);
+body.dark span.diff5L span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #45632f, #5c5d2e);
 }
-body.dark .diff5L .diff4L .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #45632f, #5c5d2e, #495d6b);
+body.dark span.diff5L span.diff4L span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #45632f, #5c5d2e, #495d6b);
 }
-body.dark .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #495d6b);
+body.dark span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #495d6b);
 }
-body.dark .diff5L .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #495d6b, #45632f);
+body.dark span.diff5L span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #495d6b, #45632f);
 }
-body.dark .diff5L .diff4L .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #495d6b, #45632f, #5c5d2e);
+body.dark span.diff5L span.diff4L span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #495d6b, #45632f, #5c5d2e);
 }
-body.dark .diff5L .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #495d6b, #5c5d2e);
+body.dark span.diff5L span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #495d6b, #5c5d2e);
 }
-body.dark .diff5L .diff4L .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #495d6b, #5c5d2e, #45632f);
+body.dark span.diff5L span.diff4L span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #495d6b, #5c5d2e, #45632f);
 }
-body.dark .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #5c5d2e);
+body.dark span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #5c5d2e);
 }
-body.dark .diff5L .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #5c5d2e, #45632f);
+body.dark span.diff5L span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #5c5d2e, #45632f);
 }
-body.dark .diff5L .diff4L .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #5c5d2e, #45632f, #495d6b);
+body.dark span.diff5L span.diff4L span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #5c5d2e, #45632f, #495d6b);
 }
-body.dark .diff5L .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #5c5d2e, #495d6b);
+body.dark span.diff5L span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #5c5d2e, #495d6b);
 }
-body.dark .diff5L .diff4L .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #755426, #5c5d2e, #495d6b, #45632f);
+body.dark span.diff5L span.diff4L span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #755426, #5c5d2e, #495d6b, #45632f);
 }
-body.dark .diff5L .diff6L, body.dark .diff6L .diff5L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e);
+body.dark span.diff5L span.diff6L, body.dark span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e);
 }
-body.dark .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #45632f);
+body.dark span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #45632f);
 }
-body.dark .diff5L .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #45632f, #495d6b);
+body.dark span.diff5L span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #45632f, #495d6b);
 }
-body.dark .diff5L .diff6L .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #45632f, #495d6b, #755426);
+body.dark span.diff5L span.diff6L span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #45632f, #495d6b, #755426);
 }
-body.dark .diff5L .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #45632f, #755426);
+body.dark span.diff5L span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #45632f, #755426);
 }
-body.dark .diff5L .diff6L .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #45632f, #755426, #495d6b);
+body.dark span.diff5L span.diff6L span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #45632f, #755426, #495d6b);
 }
-body.dark .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b);
+body.dark span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b);
 }
-body.dark .diff5L .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b, #45632f);
+body.dark span.diff5L span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b, #45632f);
 }
-body.dark .diff5L .diff6L .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b, #45632f, #755426);
+body.dark span.diff5L span.diff6L span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b, #45632f, #755426);
 }
-body.dark .diff5L .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b, #755426);
+body.dark span.diff5L span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b, #755426);
 }
-body.dark .diff5L .diff6L .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b, #755426, #45632f);
+body.dark span.diff5L span.diff6L span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #495d6b, #755426, #45632f);
 }
-body.dark .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #755426);
+body.dark span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #755426);
 }
-body.dark .diff5L .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #755426, #45632f);
+body.dark span.diff5L span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #755426, #45632f);
 }
-body.dark .diff5L .diff6L .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #755426, #45632f, #495d6b);
+body.dark span.diff5L span.diff6L span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #755426, #45632f, #495d6b);
 }
-body.dark .diff5L .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #755426, #495d6b);
+body.dark span.diff5L span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #755426, #495d6b);
 }
-body.dark .diff5L .diff6L .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #6b5559, #5c5d2e, #755426, #495d6b, #45632f);
+body.dark span.diff5L span.diff6L span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #6b5559, #5c5d2e, #755426, #495d6b, #45632f);
 }
-body.dark .diff6L, body.dark .diff6R {
+body.dark span.diff6L, body.dark span.diff6R {
   background-color: #5c5d2e;
 }
-body.dark .diff6L .diff2L, body.dark .diff2L .diff6L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f);
+body.dark span.diff6L span.diff2L, body.dark span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f);
 }
-body.dark .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #495d6b);
+body.dark span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #495d6b);
 }
-body.dark .diff6L .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #495d6b, #755426);
+body.dark span.diff6L span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #495d6b, #755426);
 }
-body.dark .diff6L .diff2L .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #495d6b, #755426, #6b5559);
+body.dark span.diff6L span.diff2L span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #495d6b, #755426, #6b5559);
 }
-body.dark .diff6L .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #495d6b, #6b5559);
+body.dark span.diff6L span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #495d6b, #6b5559);
 }
-body.dark .diff6L .diff2L .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #495d6b, #6b5559, #755426);
+body.dark span.diff6L span.diff2L span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #495d6b, #6b5559, #755426);
 }
-body.dark .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #755426);
+body.dark span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #755426);
 }
-body.dark .diff6L .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #755426, #495d6b);
+body.dark span.diff6L span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #755426, #495d6b);
 }
-body.dark .diff6L .diff2L .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #755426, #495d6b, #6b5559);
+body.dark span.diff6L span.diff2L span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #755426, #495d6b, #6b5559);
 }
-body.dark .diff6L .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #755426, #6b5559);
+body.dark span.diff6L span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #755426, #6b5559);
 }
-body.dark .diff6L .diff2L .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #755426, #6b5559, #495d6b);
+body.dark span.diff6L span.diff2L span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #755426, #6b5559, #495d6b);
 }
-body.dark .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #6b5559);
+body.dark span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #6b5559);
 }
-body.dark .diff6L .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #6b5559, #495d6b);
+body.dark span.diff6L span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #6b5559, #495d6b);
 }
-body.dark .diff6L .diff2L .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #6b5559, #495d6b, #755426);
+body.dark span.diff6L span.diff2L span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #6b5559, #495d6b, #755426);
 }
-body.dark .diff6L .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #6b5559, #755426);
+body.dark span.diff6L span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #6b5559, #755426);
 }
-body.dark .diff6L .diff2L .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #45632f, #6b5559, #755426, #495d6b);
+body.dark span.diff6L span.diff2L span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #45632f, #6b5559, #755426, #495d6b);
 }
-body.dark .diff6L .diff3L, body.dark .diff3L .diff6L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b);
+body.dark span.diff6L span.diff3L, body.dark span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b);
 }
-body.dark .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #45632f);
+body.dark span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #45632f);
 }
-body.dark .diff6L .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #45632f, #755426);
+body.dark span.diff6L span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #45632f, #755426);
 }
-body.dark .diff6L .diff3L .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #45632f, #755426, #6b5559);
+body.dark span.diff6L span.diff3L span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #45632f, #755426, #6b5559);
 }
-body.dark .diff6L .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #45632f, #6b5559);
+body.dark span.diff6L span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #45632f, #6b5559);
 }
-body.dark .diff6L .diff3L .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #45632f, #6b5559, #755426);
+body.dark span.diff6L span.diff3L span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #45632f, #6b5559, #755426);
 }
-body.dark .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #755426);
+body.dark span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #755426);
 }
-body.dark .diff6L .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #755426, #45632f);
+body.dark span.diff6L span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #755426, #45632f);
 }
-body.dark .diff6L .diff3L .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #755426, #45632f, #6b5559);
+body.dark span.diff6L span.diff3L span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #755426, #45632f, #6b5559);
 }
-body.dark .diff6L .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #755426, #6b5559);
+body.dark span.diff6L span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #755426, #6b5559);
 }
-body.dark .diff6L .diff3L .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #755426, #6b5559, #45632f);
+body.dark span.diff6L span.diff3L span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #755426, #6b5559, #45632f);
 }
-body.dark .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559);
+body.dark span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559);
 }
-body.dark .diff6L .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559, #45632f);
+body.dark span.diff6L span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559, #45632f);
 }
-body.dark .diff6L .diff3L .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559, #45632f, #755426);
+body.dark span.diff6L span.diff3L span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559, #45632f, #755426);
 }
-body.dark .diff6L .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559, #755426);
+body.dark span.diff6L span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559, #755426);
 }
-body.dark .diff6L .diff3L .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559, #755426, #45632f);
+body.dark span.diff6L span.diff3L span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #495d6b, #6b5559, #755426, #45632f);
 }
-body.dark .diff6L .diff4L, body.dark .diff4L .diff6L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426);
+body.dark span.diff6L span.diff4L, body.dark span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426);
 }
-body.dark .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #45632f);
+body.dark span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #45632f);
 }
-body.dark .diff6L .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #45632f, #495d6b);
+body.dark span.diff6L span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #45632f, #495d6b);
 }
-body.dark .diff6L .diff4L .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #45632f, #495d6b, #6b5559);
+body.dark span.diff6L span.diff4L span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #45632f, #495d6b, #6b5559);
 }
-body.dark .diff6L .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #45632f, #6b5559);
+body.dark span.diff6L span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #45632f, #6b5559);
 }
-body.dark .diff6L .diff4L .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #45632f, #6b5559, #495d6b);
+body.dark span.diff6L span.diff4L span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #45632f, #6b5559, #495d6b);
 }
-body.dark .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #495d6b);
+body.dark span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #495d6b);
 }
-body.dark .diff6L .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #495d6b, #45632f);
+body.dark span.diff6L span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #495d6b, #45632f);
 }
-body.dark .diff6L .diff4L .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #495d6b, #45632f, #6b5559);
+body.dark span.diff6L span.diff4L span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #495d6b, #45632f, #6b5559);
 }
-body.dark .diff6L .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #495d6b, #6b5559);
+body.dark span.diff6L span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #495d6b, #6b5559);
 }
-body.dark .diff6L .diff4L .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #495d6b, #6b5559, #45632f);
+body.dark span.diff6L span.diff4L span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #495d6b, #6b5559, #45632f);
 }
-body.dark .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #6b5559);
+body.dark span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #6b5559);
 }
-body.dark .diff6L .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #6b5559, #45632f);
+body.dark span.diff6L span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #6b5559, #45632f);
 }
-body.dark .diff6L .diff4L .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #6b5559, #45632f, #495d6b);
+body.dark span.diff6L span.diff4L span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #6b5559, #45632f, #495d6b);
 }
-body.dark .diff6L .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #6b5559, #495d6b);
+body.dark span.diff6L span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #6b5559, #495d6b);
 }
-body.dark .diff6L .diff4L .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #755426, #6b5559, #495d6b, #45632f);
+body.dark span.diff6L span.diff4L span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #755426, #6b5559, #495d6b, #45632f);
 }
-body.dark .diff6L .diff5L, body.dark .diff5L .diff6L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559);
+body.dark span.diff6L span.diff5L, body.dark span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559);
 }
-body.dark .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #45632f);
+body.dark span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #45632f);
 }
-body.dark .diff6L .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #45632f, #495d6b);
+body.dark span.diff6L span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #45632f, #495d6b);
 }
-body.dark .diff6L .diff5L .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #45632f, #495d6b, #755426);
+body.dark span.diff6L span.diff5L span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #45632f, #495d6b, #755426);
 }
-body.dark .diff6L .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #45632f, #755426);
+body.dark span.diff6L span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #45632f, #755426);
 }
-body.dark .diff6L .diff5L .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #45632f, #755426, #495d6b);
+body.dark span.diff6L span.diff5L span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #45632f, #755426, #495d6b);
 }
-body.dark .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b);
+body.dark span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b);
 }
-body.dark .diff6L .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b, #45632f);
+body.dark span.diff6L span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b, #45632f);
 }
-body.dark .diff6L .diff5L .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b, #45632f, #755426);
+body.dark span.diff6L span.diff5L span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b, #45632f, #755426);
 }
-body.dark .diff6L .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b, #755426);
+body.dark span.diff6L span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b, #755426);
 }
-body.dark .diff6L .diff5L .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b, #755426, #45632f);
+body.dark span.diff6L span.diff5L span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #495d6b, #755426, #45632f);
 }
-body.dark .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #755426);
+body.dark span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #755426);
 }
-body.dark .diff6L .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #45632f);
+body.dark span.diff6L span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #45632f);
 }
-body.dark .diff6L .diff5L .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #45632f, #495d6b);
+body.dark span.diff6L span.diff5L span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #45632f, #495d6b);
 }
-body.dark .diff6L .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #495d6b);
+body.dark span.diff6L span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #495d6b);
 }
-body.dark .diff6L .diff5L .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #495d6b, #45632f);
+body.dark span.diff6L span.diff5L span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #5c5d2e, #6b5559, #755426, #495d6b, #45632f);
 }
 @keyframes tab-alert {
   0% {
@@ -2224,980 +2224,980 @@ body.light .textArea {
   background-repeat: no-repeat;
   background-color: #FFF;
 }
-body.light .diff2L, body.light .diff2R {
+body.light span.diff2L, body.light span.diff2R {
   background-color: #70c531;
 }
-body.light .diff2L .diff3L, body.light .diff3L .diff2L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc);
+body.light span.diff2L span.diff3L, body.light span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc);
 }
-body.light .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f);
+body.light span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f);
 }
-body.light .diff2L .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f, #d6a3ac);
+body.light span.diff2L span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f, #d6a3ac);
 }
-body.light .diff2L .diff3L .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f, #d6a3ac, #b5b634);
+body.light span.diff2L span.diff3L span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f, #d6a3ac, #b5b634);
 }
-body.light .diff2L .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f, #b5b634);
+body.light span.diff2L span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f, #b5b634);
 }
-body.light .diff2L .diff3L .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f, #b5b634, #d6a3ac);
+body.light span.diff2L span.diff3L span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #f29e0f, #b5b634, #d6a3ac);
 }
-body.light .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac);
+body.light span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac);
 }
-body.light .diff2L .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac, #f29e0f);
+body.light span.diff2L span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac, #f29e0f);
 }
-body.light .diff2L .diff3L .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac, #f29e0f, #b5b634);
+body.light span.diff2L span.diff3L span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac, #f29e0f, #b5b634);
 }
-body.light .diff2L .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac, #b5b634);
+body.light span.diff2L span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac, #b5b634);
 }
-body.light .diff2L .diff3L .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac, #b5b634, #f29e0f);
+body.light span.diff2L span.diff3L span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #d6a3ac, #b5b634, #f29e0f);
 }
-body.light .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #b5b634);
+body.light span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #b5b634);
 }
-body.light .diff2L .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #b5b634, #f29e0f);
+body.light span.diff2L span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #b5b634, #f29e0f);
 }
-body.light .diff2L .diff3L .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #b5b634, #f29e0f, #d6a3ac);
+body.light span.diff2L span.diff3L span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #b5b634, #f29e0f, #d6a3ac);
 }
-body.light .diff2L .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #b5b634, #d6a3ac);
+body.light span.diff2L span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #b5b634, #d6a3ac);
 }
-body.light .diff2L .diff3L .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #7cb7dc, #b5b634, #d6a3ac, #f29e0f);
+body.light span.diff2L span.diff3L span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #7cb7dc, #b5b634, #d6a3ac, #f29e0f);
 }
-body.light .diff2L .diff4L, body.light .diff4L .diff2L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f);
+body.light span.diff2L span.diff4L, body.light span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f);
 }
-body.light .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc);
+body.light span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc);
 }
-body.light .diff2L .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc, #d6a3ac);
+body.light span.diff2L span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc, #d6a3ac);
 }
-body.light .diff2L .diff4L .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc, #d6a3ac, #b5b634);
+body.light span.diff2L span.diff4L span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc, #d6a3ac, #b5b634);
 }
-body.light .diff2L .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc, #b5b634);
+body.light span.diff2L span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc, #b5b634);
 }
-body.light .diff2L .diff4L .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc, #b5b634, #d6a3ac);
+body.light span.diff2L span.diff4L span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #7cb7dc, #b5b634, #d6a3ac);
 }
-body.light .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac);
+body.light span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac);
 }
-body.light .diff2L .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac, #7cb7dc);
+body.light span.diff2L span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac, #7cb7dc);
 }
-body.light .diff2L .diff4L .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac, #7cb7dc, #b5b634);
+body.light span.diff2L span.diff4L span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac, #7cb7dc, #b5b634);
 }
-body.light .diff2L .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac, #b5b634);
+body.light span.diff2L span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac, #b5b634);
 }
-body.light .diff2L .diff4L .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac, #b5b634, #7cb7dc);
+body.light span.diff2L span.diff4L span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #d6a3ac, #b5b634, #7cb7dc);
 }
-body.light .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #b5b634);
+body.light span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #b5b634);
 }
-body.light .diff2L .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #b5b634, #7cb7dc);
+body.light span.diff2L span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #b5b634, #7cb7dc);
 }
-body.light .diff2L .diff4L .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #b5b634, #7cb7dc, #d6a3ac);
+body.light span.diff2L span.diff4L span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #b5b634, #7cb7dc, #d6a3ac);
 }
-body.light .diff2L .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #b5b634, #d6a3ac);
+body.light span.diff2L span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #b5b634, #d6a3ac);
 }
-body.light .diff2L .diff4L .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #f29e0f, #b5b634, #d6a3ac, #7cb7dc);
+body.light span.diff2L span.diff4L span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #f29e0f, #b5b634, #d6a3ac, #7cb7dc);
 }
-body.light .diff2L .diff5L, body.light .diff5L .diff2L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac);
+body.light span.diff2L span.diff5L, body.light span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac);
 }
-body.light .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc);
+body.light span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc);
 }
-body.light .diff2L .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc, #f29e0f);
+body.light span.diff2L span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc, #f29e0f);
 }
-body.light .diff2L .diff5L .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc, #f29e0f, #b5b634);
+body.light span.diff2L span.diff5L span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc, #f29e0f, #b5b634);
 }
-body.light .diff2L .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc, #b5b634);
+body.light span.diff2L span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc, #b5b634);
 }
-body.light .diff2L .diff5L .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc, #b5b634, #f29e0f);
+body.light span.diff2L span.diff5L span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #7cb7dc, #b5b634, #f29e0f);
 }
-body.light .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f);
+body.light span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f);
 }
-body.light .diff2L .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f, #7cb7dc);
+body.light span.diff2L span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f, #7cb7dc);
 }
-body.light .diff2L .diff5L .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f, #7cb7dc, #b5b634);
+body.light span.diff2L span.diff5L span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f, #7cb7dc, #b5b634);
 }
-body.light .diff2L .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f, #b5b634);
+body.light span.diff2L span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f, #b5b634);
 }
-body.light .diff2L .diff5L .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f, #b5b634, #7cb7dc);
+body.light span.diff2L span.diff5L span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #f29e0f, #b5b634, #7cb7dc);
 }
-body.light .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #b5b634);
+body.light span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #b5b634);
 }
-body.light .diff2L .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #b5b634, #7cb7dc);
+body.light span.diff2L span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #b5b634, #7cb7dc);
 }
-body.light .diff2L .diff5L .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #b5b634, #7cb7dc, #f29e0f);
+body.light span.diff2L span.diff5L span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #b5b634, #7cb7dc, #f29e0f);
 }
-body.light .diff2L .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #b5b634, #f29e0f);
+body.light span.diff2L span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #b5b634, #f29e0f);
 }
-body.light .diff2L .diff5L .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #d6a3ac, #b5b634, #f29e0f, #7cb7dc);
+body.light span.diff2L span.diff5L span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #d6a3ac, #b5b634, #f29e0f, #7cb7dc);
 }
-body.light .diff2L .diff6L, body.light .diff6L .diff2L {
-  background-color: linear-gradient(to right, #70c531, #b5b634);
+body.light span.diff2L span.diff6L, body.light span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #70c531, #b5b634);
 }
-body.light .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #7cb7dc);
+body.light span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #7cb7dc);
 }
-body.light .diff2L .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #7cb7dc, #f29e0f);
+body.light span.diff2L span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #7cb7dc, #f29e0f);
 }
-body.light .diff2L .diff6L .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #7cb7dc, #f29e0f, #d6a3ac);
+body.light span.diff2L span.diff6L span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #7cb7dc, #f29e0f, #d6a3ac);
 }
-body.light .diff2L .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #7cb7dc, #d6a3ac);
+body.light span.diff2L span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #7cb7dc, #d6a3ac);
 }
-body.light .diff2L .diff6L .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #7cb7dc, #d6a3ac, #f29e0f);
+body.light span.diff2L span.diff6L span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #7cb7dc, #d6a3ac, #f29e0f);
 }
-body.light .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #f29e0f);
+body.light span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #f29e0f);
 }
-body.light .diff2L .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #f29e0f, #7cb7dc);
+body.light span.diff2L span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #f29e0f, #7cb7dc);
 }
-body.light .diff2L .diff6L .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #f29e0f, #7cb7dc, #d6a3ac);
+body.light span.diff2L span.diff6L span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #f29e0f, #7cb7dc, #d6a3ac);
 }
-body.light .diff2L .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #f29e0f, #d6a3ac);
+body.light span.diff2L span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #f29e0f, #d6a3ac);
 }
-body.light .diff2L .diff6L .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #f29e0f, #d6a3ac, #7cb7dc);
+body.light span.diff2L span.diff6L span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #f29e0f, #d6a3ac, #7cb7dc);
 }
-body.light .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #d6a3ac);
+body.light span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #d6a3ac);
 }
-body.light .diff2L .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #d6a3ac, #7cb7dc);
+body.light span.diff2L span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #d6a3ac, #7cb7dc);
 }
-body.light .diff2L .diff6L .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #d6a3ac, #7cb7dc, #f29e0f);
+body.light span.diff2L span.diff6L span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #d6a3ac, #7cb7dc, #f29e0f);
 }
-body.light .diff2L .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #d6a3ac, #f29e0f);
+body.light span.diff2L span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #d6a3ac, #f29e0f);
 }
-body.light .diff2L .diff6L .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #70c531, #b5b634, #d6a3ac, #f29e0f, #7cb7dc);
+body.light span.diff2L span.diff6L span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #70c531, #b5b634, #d6a3ac, #f29e0f, #7cb7dc);
 }
-body.light .diff3L, body.light .diff3R {
+body.light span.diff3L, body.light span.diff3R {
   background-color: #7cb7dc;
 }
-body.light .diff3L .diff2L, body.light .diff2L .diff3L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531);
+body.light span.diff3L span.diff2L, body.light span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531);
 }
-body.light .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f);
+body.light span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f);
 }
-body.light .diff3L .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f, #d6a3ac);
+body.light span.diff3L span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f, #d6a3ac);
 }
-body.light .diff3L .diff2L .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f, #d6a3ac, #b5b634);
+body.light span.diff3L span.diff2L span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f, #d6a3ac, #b5b634);
 }
-body.light .diff3L .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f, #b5b634);
+body.light span.diff3L span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f, #b5b634);
 }
-body.light .diff3L .diff2L .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f, #b5b634, #d6a3ac);
+body.light span.diff3L span.diff2L span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #f29e0f, #b5b634, #d6a3ac);
 }
-body.light .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac);
+body.light span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac);
 }
-body.light .diff3L .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac, #f29e0f);
+body.light span.diff3L span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac, #f29e0f);
 }
-body.light .diff3L .diff2L .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac, #f29e0f, #b5b634);
+body.light span.diff3L span.diff2L span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac, #f29e0f, #b5b634);
 }
-body.light .diff3L .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac, #b5b634);
+body.light span.diff3L span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac, #b5b634);
 }
-body.light .diff3L .diff2L .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac, #b5b634, #f29e0f);
+body.light span.diff3L span.diff2L span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #d6a3ac, #b5b634, #f29e0f);
 }
-body.light .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #b5b634);
+body.light span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #b5b634);
 }
-body.light .diff3L .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #b5b634, #f29e0f);
+body.light span.diff3L span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #b5b634, #f29e0f);
 }
-body.light .diff3L .diff2L .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #b5b634, #f29e0f, #d6a3ac);
+body.light span.diff3L span.diff2L span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #b5b634, #f29e0f, #d6a3ac);
 }
-body.light .diff3L .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #b5b634, #d6a3ac);
+body.light span.diff3L span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #b5b634, #d6a3ac);
 }
-body.light .diff3L .diff2L .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #70c531, #b5b634, #d6a3ac, #f29e0f);
+body.light span.diff3L span.diff2L span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #70c531, #b5b634, #d6a3ac, #f29e0f);
 }
-body.light .diff3L .diff4L, body.light .diff4L .diff3L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f);
+body.light span.diff3L span.diff4L, body.light span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f);
 }
-body.light .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531);
+body.light span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531);
 }
-body.light .diff3L .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531, #d6a3ac);
+body.light span.diff3L span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531, #d6a3ac);
 }
-body.light .diff3L .diff4L .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531, #d6a3ac, #b5b634);
+body.light span.diff3L span.diff4L span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531, #d6a3ac, #b5b634);
 }
-body.light .diff3L .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531, #b5b634);
+body.light span.diff3L span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531, #b5b634);
 }
-body.light .diff3L .diff4L .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531, #b5b634, #d6a3ac);
+body.light span.diff3L span.diff4L span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #70c531, #b5b634, #d6a3ac);
 }
-body.light .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac);
+body.light span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac);
 }
-body.light .diff3L .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac, #70c531);
+body.light span.diff3L span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac, #70c531);
 }
-body.light .diff3L .diff4L .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac, #70c531, #b5b634);
+body.light span.diff3L span.diff4L span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac, #70c531, #b5b634);
 }
-body.light .diff3L .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac, #b5b634);
+body.light span.diff3L span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac, #b5b634);
 }
-body.light .diff3L .diff4L .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac, #b5b634, #70c531);
+body.light span.diff3L span.diff4L span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #d6a3ac, #b5b634, #70c531);
 }
-body.light .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634);
+body.light span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634);
 }
-body.light .diff3L .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634, #70c531);
+body.light span.diff3L span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634, #70c531);
 }
-body.light .diff3L .diff4L .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634, #70c531, #d6a3ac);
+body.light span.diff3L span.diff4L span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634, #70c531, #d6a3ac);
 }
-body.light .diff3L .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634, #d6a3ac);
+body.light span.diff3L span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634, #d6a3ac);
 }
-body.light .diff3L .diff4L .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634, #d6a3ac, #70c531);
+body.light span.diff3L span.diff4L span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #f29e0f, #b5b634, #d6a3ac, #70c531);
 }
-body.light .diff3L .diff5L, body.light .diff5L .diff3L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac);
+body.light span.diff3L span.diff5L, body.light span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac);
 }
-body.light .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531);
+body.light span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531);
 }
-body.light .diff3L .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531, #f29e0f);
+body.light span.diff3L span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531, #f29e0f);
 }
-body.light .diff3L .diff5L .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531, #f29e0f, #b5b634);
+body.light span.diff3L span.diff5L span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531, #f29e0f, #b5b634);
 }
-body.light .diff3L .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531, #b5b634);
+body.light span.diff3L span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531, #b5b634);
 }
-body.light .diff3L .diff5L .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531, #b5b634, #f29e0f);
+body.light span.diff3L span.diff5L span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #70c531, #b5b634, #f29e0f);
 }
-body.light .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f);
+body.light span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f);
 }
-body.light .diff3L .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f, #70c531);
+body.light span.diff3L span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f, #70c531);
 }
-body.light .diff3L .diff5L .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f, #70c531, #b5b634);
+body.light span.diff3L span.diff5L span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f, #70c531, #b5b634);
 }
-body.light .diff3L .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f, #b5b634);
+body.light span.diff3L span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f, #b5b634);
 }
-body.light .diff3L .diff5L .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f, #b5b634, #70c531);
+body.light span.diff3L span.diff5L span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #f29e0f, #b5b634, #70c531);
 }
-body.light .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634);
+body.light span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634);
 }
-body.light .diff3L .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634, #70c531);
+body.light span.diff3L span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634, #70c531);
 }
-body.light .diff3L .diff5L .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634, #70c531, #f29e0f);
+body.light span.diff3L span.diff5L span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634, #70c531, #f29e0f);
 }
-body.light .diff3L .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634, #f29e0f);
+body.light span.diff3L span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634, #f29e0f);
 }
-body.light .diff3L .diff5L .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634, #f29e0f, #70c531);
+body.light span.diff3L span.diff5L span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #d6a3ac, #b5b634, #f29e0f, #70c531);
 }
-body.light .diff3L .diff6L, body.light .diff6L .diff3L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634);
+body.light span.diff3L span.diff6L, body.light span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634);
 }
-body.light .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #70c531);
+body.light span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #70c531);
 }
-body.light .diff3L .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #70c531, #f29e0f);
+body.light span.diff3L span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #70c531, #f29e0f);
 }
-body.light .diff3L .diff6L .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #70c531, #f29e0f, #d6a3ac);
+body.light span.diff3L span.diff6L span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #70c531, #f29e0f, #d6a3ac);
 }
-body.light .diff3L .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #70c531, #d6a3ac);
+body.light span.diff3L span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #70c531, #d6a3ac);
 }
-body.light .diff3L .diff6L .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #70c531, #d6a3ac, #f29e0f);
+body.light span.diff3L span.diff6L span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #70c531, #d6a3ac, #f29e0f);
 }
-body.light .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f);
+body.light span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f);
 }
-body.light .diff3L .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f, #70c531);
+body.light span.diff3L span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f, #70c531);
 }
-body.light .diff3L .diff6L .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f, #70c531, #d6a3ac);
+body.light span.diff3L span.diff6L span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f, #70c531, #d6a3ac);
 }
-body.light .diff3L .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f, #d6a3ac);
+body.light span.diff3L span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f, #d6a3ac);
 }
-body.light .diff3L .diff6L .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f, #d6a3ac, #70c531);
+body.light span.diff3L span.diff6L span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #f29e0f, #d6a3ac, #70c531);
 }
-body.light .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac);
+body.light span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac);
 }
-body.light .diff3L .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac, #70c531);
+body.light span.diff3L span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac, #70c531);
 }
-body.light .diff3L .diff6L .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac, #70c531, #f29e0f);
+body.light span.diff3L span.diff6L span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac, #70c531, #f29e0f);
 }
-body.light .diff3L .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac, #f29e0f);
+body.light span.diff3L span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac, #f29e0f);
 }
-body.light .diff3L .diff6L .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac, #f29e0f, #70c531);
+body.light span.diff3L span.diff6L span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #7cb7dc, #b5b634, #d6a3ac, #f29e0f, #70c531);
 }
-body.light .diff4L, body.light .diff4R {
+body.light span.diff4L, body.light span.diff4R {
   background-color: #f29e0f;
 }
-body.light .diff4L .diff2L, body.light .diff2L .diff4L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531);
+body.light span.diff4L span.diff2L, body.light span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531);
 }
-body.light .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc);
+body.light span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc);
 }
-body.light .diff4L .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc, #d6a3ac);
+body.light span.diff4L span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc, #d6a3ac);
 }
-body.light .diff4L .diff2L .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc, #d6a3ac, #b5b634);
+body.light span.diff4L span.diff2L span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc, #d6a3ac, #b5b634);
 }
-body.light .diff4L .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc, #b5b634);
+body.light span.diff4L span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc, #b5b634);
 }
-body.light .diff4L .diff2L .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc, #b5b634, #d6a3ac);
+body.light span.diff4L span.diff2L span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #7cb7dc, #b5b634, #d6a3ac);
 }
-body.light .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac);
+body.light span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac);
 }
-body.light .diff4L .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac, #7cb7dc);
+body.light span.diff4L span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac, #7cb7dc);
 }
-body.light .diff4L .diff2L .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac, #7cb7dc, #b5b634);
+body.light span.diff4L span.diff2L span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac, #7cb7dc, #b5b634);
 }
-body.light .diff4L .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac, #b5b634);
+body.light span.diff4L span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac, #b5b634);
 }
-body.light .diff4L .diff2L .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac, #b5b634, #7cb7dc);
+body.light span.diff4L span.diff2L span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #d6a3ac, #b5b634, #7cb7dc);
 }
-body.light .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #b5b634);
+body.light span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #b5b634);
 }
-body.light .diff4L .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #b5b634, #7cb7dc);
+body.light span.diff4L span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #b5b634, #7cb7dc);
 }
-body.light .diff4L .diff2L .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #b5b634, #7cb7dc, #d6a3ac);
+body.light span.diff4L span.diff2L span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #b5b634, #7cb7dc, #d6a3ac);
 }
-body.light .diff4L .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #b5b634, #d6a3ac);
+body.light span.diff4L span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #b5b634, #d6a3ac);
 }
-body.light .diff4L .diff2L .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #70c531, #b5b634, #d6a3ac, #7cb7dc);
+body.light span.diff4L span.diff2L span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #70c531, #b5b634, #d6a3ac, #7cb7dc);
 }
-body.light .diff4L .diff3L, body.light .diff3L .diff4L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc);
+body.light span.diff4L span.diff3L, body.light span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc);
 }
-body.light .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531);
+body.light span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531);
 }
-body.light .diff4L .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531, #d6a3ac);
+body.light span.diff4L span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531, #d6a3ac);
 }
-body.light .diff4L .diff3L .diff2L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531, #d6a3ac, #b5b634);
+body.light span.diff4L span.diff3L span.diff2L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531, #d6a3ac, #b5b634);
 }
-body.light .diff4L .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531, #b5b634);
+body.light span.diff4L span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531, #b5b634);
 }
-body.light .diff4L .diff3L .diff2L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531, #b5b634, #d6a3ac);
+body.light span.diff4L span.diff3L span.diff2L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #70c531, #b5b634, #d6a3ac);
 }
-body.light .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac);
+body.light span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac);
 }
-body.light .diff4L .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac, #70c531);
+body.light span.diff4L span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac, #70c531);
 }
-body.light .diff4L .diff3L .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac, #70c531, #b5b634);
+body.light span.diff4L span.diff3L span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac, #70c531, #b5b634);
 }
-body.light .diff4L .diff3L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac, #b5b634);
+body.light span.diff4L span.diff3L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac, #b5b634);
 }
-body.light .diff4L .diff3L .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac, #b5b634, #70c531);
+body.light span.diff4L span.diff3L span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #d6a3ac, #b5b634, #70c531);
 }
-body.light .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634);
+body.light span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634);
 }
-body.light .diff4L .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634, #70c531);
+body.light span.diff4L span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634, #70c531);
 }
-body.light .diff4L .diff3L .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634, #70c531, #d6a3ac);
+body.light span.diff4L span.diff3L span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634, #70c531, #d6a3ac);
 }
-body.light .diff4L .diff3L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634, #d6a3ac);
+body.light span.diff4L span.diff3L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634, #d6a3ac);
 }
-body.light .diff4L .diff3L .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634, #d6a3ac, #70c531);
+body.light span.diff4L span.diff3L span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #7cb7dc, #b5b634, #d6a3ac, #70c531);
 }
-body.light .diff4L .diff5L, body.light .diff5L .diff4L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac);
+body.light span.diff4L span.diff5L, body.light span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac);
 }
-body.light .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531);
+body.light span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531);
 }
-body.light .diff4L .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531, #7cb7dc);
+body.light span.diff4L span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531, #7cb7dc);
 }
-body.light .diff4L .diff5L .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531, #7cb7dc, #b5b634);
+body.light span.diff4L span.diff5L span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531, #7cb7dc, #b5b634);
 }
-body.light .diff4L .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531, #b5b634);
+body.light span.diff4L span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531, #b5b634);
 }
-body.light .diff4L .diff5L .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531, #b5b634, #7cb7dc);
+body.light span.diff4L span.diff5L span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #70c531, #b5b634, #7cb7dc);
 }
-body.light .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc);
+body.light span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc);
 }
-body.light .diff4L .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc, #70c531);
+body.light span.diff4L span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc, #70c531);
 }
-body.light .diff4L .diff5L .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc, #70c531, #b5b634);
+body.light span.diff4L span.diff5L span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc, #70c531, #b5b634);
 }
-body.light .diff4L .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc, #b5b634);
+body.light span.diff4L span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc, #b5b634);
 }
-body.light .diff4L .diff5L .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc, #b5b634, #70c531);
+body.light span.diff4L span.diff5L span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #7cb7dc, #b5b634, #70c531);
 }
-body.light .diff4L .diff5L .diff6L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634);
+body.light span.diff4L span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634);
 }
-body.light .diff4L .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634, #70c531);
+body.light span.diff4L span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634, #70c531);
 }
-body.light .diff4L .diff5L .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634, #70c531, #7cb7dc);
+body.light span.diff4L span.diff5L span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634, #70c531, #7cb7dc);
 }
-body.light .diff4L .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634, #7cb7dc);
+body.light span.diff4L span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634, #7cb7dc);
 }
-body.light .diff4L .diff5L .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634, #7cb7dc, #70c531);
+body.light span.diff4L span.diff5L span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #d6a3ac, #b5b634, #7cb7dc, #70c531);
 }
-body.light .diff4L .diff6L, body.light .diff6L .diff4L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634);
+body.light span.diff4L span.diff6L, body.light span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634);
 }
-body.light .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #70c531);
+body.light span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #70c531);
 }
-body.light .diff4L .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #70c531, #7cb7dc);
+body.light span.diff4L span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #70c531, #7cb7dc);
 }
-body.light .diff4L .diff6L .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #70c531, #7cb7dc, #d6a3ac);
+body.light span.diff4L span.diff6L span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #70c531, #7cb7dc, #d6a3ac);
 }
-body.light .diff4L .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #70c531, #d6a3ac);
+body.light span.diff4L span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #70c531, #d6a3ac);
 }
-body.light .diff4L .diff6L .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #70c531, #d6a3ac, #7cb7dc);
+body.light span.diff4L span.diff6L span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #70c531, #d6a3ac, #7cb7dc);
 }
-body.light .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc);
+body.light span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc);
 }
-body.light .diff4L .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc, #70c531);
+body.light span.diff4L span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc, #70c531);
 }
-body.light .diff4L .diff6L .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc, #70c531, #d6a3ac);
+body.light span.diff4L span.diff6L span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc, #70c531, #d6a3ac);
 }
-body.light .diff4L .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc, #d6a3ac);
+body.light span.diff4L span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc, #d6a3ac);
 }
-body.light .diff4L .diff6L .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc, #d6a3ac, #70c531);
+body.light span.diff4L span.diff6L span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #7cb7dc, #d6a3ac, #70c531);
 }
-body.light .diff4L .diff6L .diff5L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac);
+body.light span.diff4L span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac);
 }
-body.light .diff4L .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac, #70c531);
+body.light span.diff4L span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac, #70c531);
 }
-body.light .diff4L .diff6L .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac, #70c531, #7cb7dc);
+body.light span.diff4L span.diff6L span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac, #70c531, #7cb7dc);
 }
-body.light .diff4L .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac, #7cb7dc);
+body.light span.diff4L span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac, #7cb7dc);
 }
-body.light .diff4L .diff6L .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac, #7cb7dc, #70c531);
+body.light span.diff4L span.diff6L span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #f29e0f, #b5b634, #d6a3ac, #7cb7dc, #70c531);
 }
-body.light .diff5L, body.light .diff5R {
+body.light span.diff5L, body.light span.diff5R {
   background-color: #d6a3ac;
 }
-body.light .diff5L .diff2L, body.light .diff2L .diff5L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531);
+body.light span.diff5L span.diff2L, body.light span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531);
 }
-body.light .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc);
+body.light span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc);
 }
-body.light .diff5L .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc, #f29e0f);
+body.light span.diff5L span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc, #f29e0f);
 }
-body.light .diff5L .diff2L .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc, #f29e0f, #b5b634);
+body.light span.diff5L span.diff2L span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc, #f29e0f, #b5b634);
 }
-body.light .diff5L .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc, #b5b634);
+body.light span.diff5L span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc, #b5b634);
 }
-body.light .diff5L .diff2L .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc, #b5b634, #f29e0f);
+body.light span.diff5L span.diff2L span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #7cb7dc, #b5b634, #f29e0f);
 }
-body.light .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f);
+body.light span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f);
 }
-body.light .diff5L .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f, #7cb7dc);
+body.light span.diff5L span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f, #7cb7dc);
 }
-body.light .diff5L .diff2L .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f, #7cb7dc, #b5b634);
+body.light span.diff5L span.diff2L span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f, #7cb7dc, #b5b634);
 }
-body.light .diff5L .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f, #b5b634);
+body.light span.diff5L span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f, #b5b634);
 }
-body.light .diff5L .diff2L .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f, #b5b634, #7cb7dc);
+body.light span.diff5L span.diff2L span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #f29e0f, #b5b634, #7cb7dc);
 }
-body.light .diff5L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #b5b634);
+body.light span.diff5L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #b5b634);
 }
-body.light .diff5L .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #b5b634, #7cb7dc);
+body.light span.diff5L span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #b5b634, #7cb7dc);
 }
-body.light .diff5L .diff2L .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #b5b634, #7cb7dc, #f29e0f);
+body.light span.diff5L span.diff2L span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #b5b634, #7cb7dc, #f29e0f);
 }
-body.light .diff5L .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #b5b634, #f29e0f);
+body.light span.diff5L span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #b5b634, #f29e0f);
 }
-body.light .diff5L .diff2L .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #70c531, #b5b634, #f29e0f, #7cb7dc);
+body.light span.diff5L span.diff2L span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #70c531, #b5b634, #f29e0f, #7cb7dc);
 }
-body.light .diff5L .diff3L, body.light .diff3L .diff5L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc);
+body.light span.diff5L span.diff3L, body.light span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc);
 }
-body.light .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531);
+body.light span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531);
 }
-body.light .diff5L .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531, #f29e0f);
+body.light span.diff5L span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531, #f29e0f);
 }
-body.light .diff5L .diff3L .diff2L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531, #f29e0f, #b5b634);
+body.light span.diff5L span.diff3L span.diff2L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531, #f29e0f, #b5b634);
 }
-body.light .diff5L .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531, #b5b634);
+body.light span.diff5L span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531, #b5b634);
 }
-body.light .diff5L .diff3L .diff2L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531, #b5b634, #f29e0f);
+body.light span.diff5L span.diff3L span.diff2L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #70c531, #b5b634, #f29e0f);
 }
-body.light .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f);
+body.light span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f);
 }
-body.light .diff5L .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f, #70c531);
+body.light span.diff5L span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f, #70c531);
 }
-body.light .diff5L .diff3L .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f, #70c531, #b5b634);
+body.light span.diff5L span.diff3L span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f, #70c531, #b5b634);
 }
-body.light .diff5L .diff3L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f, #b5b634);
+body.light span.diff5L span.diff3L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f, #b5b634);
 }
-body.light .diff5L .diff3L .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f, #b5b634, #70c531);
+body.light span.diff5L span.diff3L span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #f29e0f, #b5b634, #70c531);
 }
-body.light .diff5L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634);
+body.light span.diff5L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634);
 }
-body.light .diff5L .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634, #70c531);
+body.light span.diff5L span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634, #70c531);
 }
-body.light .diff5L .diff3L .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634, #70c531, #f29e0f);
+body.light span.diff5L span.diff3L span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634, #70c531, #f29e0f);
 }
-body.light .diff5L .diff3L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634, #f29e0f);
+body.light span.diff5L span.diff3L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634, #f29e0f);
 }
-body.light .diff5L .diff3L .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634, #f29e0f, #70c531);
+body.light span.diff5L span.diff3L span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #7cb7dc, #b5b634, #f29e0f, #70c531);
 }
-body.light .diff5L .diff4L, body.light .diff4L .diff5L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f);
+body.light span.diff5L span.diff4L, body.light span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f);
 }
-body.light .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531);
+body.light span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531);
 }
-body.light .diff5L .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531, #7cb7dc);
+body.light span.diff5L span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531, #7cb7dc);
 }
-body.light .diff5L .diff4L .diff2L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531, #7cb7dc, #b5b634);
+body.light span.diff5L span.diff4L span.diff2L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531, #7cb7dc, #b5b634);
 }
-body.light .diff5L .diff4L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531, #b5b634);
+body.light span.diff5L span.diff4L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531, #b5b634);
 }
-body.light .diff5L .diff4L .diff2L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531, #b5b634, #7cb7dc);
+body.light span.diff5L span.diff4L span.diff2L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #70c531, #b5b634, #7cb7dc);
 }
-body.light .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc);
+body.light span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc);
 }
-body.light .diff5L .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc, #70c531);
+body.light span.diff5L span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc, #70c531);
 }
-body.light .diff5L .diff4L .diff3L .diff2L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc, #70c531, #b5b634);
+body.light span.diff5L span.diff4L span.diff3L span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc, #70c531, #b5b634);
 }
-body.light .diff5L .diff4L .diff3L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc, #b5b634);
+body.light span.diff5L span.diff4L span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc, #b5b634);
 }
-body.light .diff5L .diff4L .diff3L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc, #b5b634, #70c531);
+body.light span.diff5L span.diff4L span.diff3L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #7cb7dc, #b5b634, #70c531);
 }
-body.light .diff5L .diff4L .diff6L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634);
+body.light span.diff5L span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634);
 }
-body.light .diff5L .diff4L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634, #70c531);
+body.light span.diff5L span.diff4L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634, #70c531);
 }
-body.light .diff5L .diff4L .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634, #70c531, #7cb7dc);
+body.light span.diff5L span.diff4L span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634, #70c531, #7cb7dc);
 }
-body.light .diff5L .diff4L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634, #7cb7dc);
+body.light span.diff5L span.diff4L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634, #7cb7dc);
 }
-body.light .diff5L .diff4L .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634, #7cb7dc, #70c531);
+body.light span.diff5L span.diff4L span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #f29e0f, #b5b634, #7cb7dc, #70c531);
 }
-body.light .diff5L .diff6L, body.light .diff6L .diff5L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634);
+body.light span.diff5L span.diff6L, body.light span.diff6L span.diff5L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634);
 }
-body.light .diff5L .diff6L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #70c531);
+body.light span.diff5L span.diff6L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #70c531);
 }
-body.light .diff5L .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #70c531, #7cb7dc);
+body.light span.diff5L span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #70c531, #7cb7dc);
 }
-body.light .diff5L .diff6L .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #70c531, #7cb7dc, #f29e0f);
+body.light span.diff5L span.diff6L span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #70c531, #7cb7dc, #f29e0f);
 }
-body.light .diff5L .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #70c531, #f29e0f);
+body.light span.diff5L span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #70c531, #f29e0f);
 }
-body.light .diff5L .diff6L .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #70c531, #f29e0f, #7cb7dc);
+body.light span.diff5L span.diff6L span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #70c531, #f29e0f, #7cb7dc);
 }
-body.light .diff5L .diff6L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc);
+body.light span.diff5L span.diff6L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc);
 }
-body.light .diff5L .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc, #70c531);
+body.light span.diff5L span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc, #70c531);
 }
-body.light .diff5L .diff6L .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc, #70c531, #f29e0f);
+body.light span.diff5L span.diff6L span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc, #70c531, #f29e0f);
 }
-body.light .diff5L .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc, #f29e0f);
+body.light span.diff5L span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc, #f29e0f);
 }
-body.light .diff5L .diff6L .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc, #f29e0f, #70c531);
+body.light span.diff5L span.diff6L span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #7cb7dc, #f29e0f, #70c531);
 }
-body.light .diff5L .diff6L .diff4L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f);
+body.light span.diff5L span.diff6L span.diff4L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f);
 }
-body.light .diff5L .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f, #70c531);
+body.light span.diff5L span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f, #70c531);
 }
-body.light .diff5L .diff6L .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f, #70c531, #7cb7dc);
+body.light span.diff5L span.diff6L span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f, #70c531, #7cb7dc);
 }
-body.light .diff5L .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f, #7cb7dc);
+body.light span.diff5L span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f, #7cb7dc);
 }
-body.light .diff5L .diff6L .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f, #7cb7dc, #70c531);
+body.light span.diff5L span.diff6L span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #d6a3ac, #b5b634, #f29e0f, #7cb7dc, #70c531);
 }
-body.light .diff6L, body.light .diff6R {
+body.light span.diff6L, body.light span.diff6R {
   background-color: #b5b634;
 }
-body.light .diff6L .diff2L, body.light .diff2L .diff6L {
-  background-color: linear-gradient(to right, #b5b634, #70c531);
+body.light span.diff6L span.diff2L, body.light span.diff2L span.diff6L {
+  background-image: linear-gradient(to right, #b5b634, #70c531);
 }
-body.light .diff6L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #7cb7dc);
+body.light span.diff6L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #7cb7dc);
 }
-body.light .diff6L .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #7cb7dc, #f29e0f);
+body.light span.diff6L span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #7cb7dc, #f29e0f);
 }
-body.light .diff6L .diff2L .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #7cb7dc, #f29e0f, #d6a3ac);
+body.light span.diff6L span.diff2L span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #7cb7dc, #f29e0f, #d6a3ac);
 }
-body.light .diff6L .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #7cb7dc, #d6a3ac);
+body.light span.diff6L span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #7cb7dc, #d6a3ac);
 }
-body.light .diff6L .diff2L .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #7cb7dc, #d6a3ac, #f29e0f);
+body.light span.diff6L span.diff2L span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #7cb7dc, #d6a3ac, #f29e0f);
 }
-body.light .diff6L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #f29e0f);
+body.light span.diff6L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #f29e0f);
 }
-body.light .diff6L .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #f29e0f, #7cb7dc);
+body.light span.diff6L span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #f29e0f, #7cb7dc);
 }
-body.light .diff6L .diff2L .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #f29e0f, #7cb7dc, #d6a3ac);
+body.light span.diff6L span.diff2L span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #f29e0f, #7cb7dc, #d6a3ac);
 }
-body.light .diff6L .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #f29e0f, #d6a3ac);
+body.light span.diff6L span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #f29e0f, #d6a3ac);
 }
-body.light .diff6L .diff2L .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #f29e0f, #d6a3ac, #7cb7dc);
+body.light span.diff6L span.diff2L span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #f29e0f, #d6a3ac, #7cb7dc);
 }
-body.light .diff6L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #d6a3ac);
+body.light span.diff6L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #d6a3ac);
 }
-body.light .diff6L .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #d6a3ac, #7cb7dc);
+body.light span.diff6L span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #d6a3ac, #7cb7dc);
 }
-body.light .diff6L .diff2L .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #d6a3ac, #7cb7dc, #f29e0f);
+body.light span.diff6L span.diff2L span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #d6a3ac, #7cb7dc, #f29e0f);
 }
-body.light .diff6L .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #d6a3ac, #f29e0f);
+body.light span.diff6L span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #d6a3ac, #f29e0f);
 }
-body.light .diff6L .diff2L .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #70c531, #d6a3ac, #f29e0f, #7cb7dc);
+body.light span.diff6L span.diff2L span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #70c531, #d6a3ac, #f29e0f, #7cb7dc);
 }
-body.light .diff6L .diff3L, body.light .diff3L .diff6L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc);
+body.light span.diff6L span.diff3L, body.light span.diff3L span.diff6L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc);
 }
-body.light .diff6L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #70c531);
+body.light span.diff6L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #70c531);
 }
-body.light .diff6L .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #70c531, #f29e0f);
+body.light span.diff6L span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #70c531, #f29e0f);
 }
-body.light .diff6L .diff3L .diff2L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #70c531, #f29e0f, #d6a3ac);
+body.light span.diff6L span.diff3L span.diff2L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #70c531, #f29e0f, #d6a3ac);
 }
-body.light .diff6L .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #70c531, #d6a3ac);
+body.light span.diff6L span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #70c531, #d6a3ac);
 }
-body.light .diff6L .diff3L .diff2L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #70c531, #d6a3ac, #f29e0f);
+body.light span.diff6L span.diff3L span.diff2L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #70c531, #d6a3ac, #f29e0f);
 }
-body.light .diff6L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f);
+body.light span.diff6L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f);
 }
-body.light .diff6L .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f, #70c531);
+body.light span.diff6L span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f, #70c531);
 }
-body.light .diff6L .diff3L .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f, #70c531, #d6a3ac);
+body.light span.diff6L span.diff3L span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f, #70c531, #d6a3ac);
 }
-body.light .diff6L .diff3L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f, #d6a3ac);
+body.light span.diff6L span.diff3L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f, #d6a3ac);
 }
-body.light .diff6L .diff3L .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f, #d6a3ac, #70c531);
+body.light span.diff6L span.diff3L span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #f29e0f, #d6a3ac, #70c531);
 }
-body.light .diff6L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac);
+body.light span.diff6L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac);
 }
-body.light .diff6L .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac, #70c531);
+body.light span.diff6L span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac, #70c531);
 }
-body.light .diff6L .diff3L .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac, #70c531, #f29e0f);
+body.light span.diff6L span.diff3L span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac, #70c531, #f29e0f);
 }
-body.light .diff6L .diff3L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac, #f29e0f);
+body.light span.diff6L span.diff3L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac, #f29e0f);
 }
-body.light .diff6L .diff3L .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac, #f29e0f, #70c531);
+body.light span.diff6L span.diff3L span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #7cb7dc, #d6a3ac, #f29e0f, #70c531);
 }
-body.light .diff6L .diff4L, body.light .diff4L .diff6L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f);
+body.light span.diff6L span.diff4L, body.light span.diff4L span.diff6L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f);
 }
-body.light .diff6L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #70c531);
+body.light span.diff6L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #70c531);
 }
-body.light .diff6L .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #70c531, #7cb7dc);
+body.light span.diff6L span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #70c531, #7cb7dc);
 }
-body.light .diff6L .diff4L .diff2L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #70c531, #7cb7dc, #d6a3ac);
+body.light span.diff6L span.diff4L span.diff2L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #70c531, #7cb7dc, #d6a3ac);
 }
-body.light .diff6L .diff4L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #70c531, #d6a3ac);
+body.light span.diff6L span.diff4L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #70c531, #d6a3ac);
 }
-body.light .diff6L .diff4L .diff2L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #70c531, #d6a3ac, #7cb7dc);
+body.light span.diff6L span.diff4L span.diff2L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #70c531, #d6a3ac, #7cb7dc);
 }
-body.light .diff6L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc);
+body.light span.diff6L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc);
 }
-body.light .diff6L .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc, #70c531);
+body.light span.diff6L span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc, #70c531);
 }
-body.light .diff6L .diff4L .diff3L .diff2L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc, #70c531, #d6a3ac);
+body.light span.diff6L span.diff4L span.diff3L span.diff2L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc, #70c531, #d6a3ac);
 }
-body.light .diff6L .diff4L .diff3L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc, #d6a3ac);
+body.light span.diff6L span.diff4L span.diff3L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc, #d6a3ac);
 }
-body.light .diff6L .diff4L .diff3L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc, #d6a3ac, #70c531);
+body.light span.diff6L span.diff4L span.diff3L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #7cb7dc, #d6a3ac, #70c531);
 }
-body.light .diff6L .diff4L .diff5L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac);
+body.light span.diff6L span.diff4L span.diff5L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac);
 }
-body.light .diff6L .diff4L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac, #70c531);
+body.light span.diff6L span.diff4L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac, #70c531);
 }
-body.light .diff6L .diff4L .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac, #70c531, #7cb7dc);
+body.light span.diff6L span.diff4L span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac, #70c531, #7cb7dc);
 }
-body.light .diff6L .diff4L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac, #7cb7dc);
+body.light span.diff6L span.diff4L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac, #7cb7dc);
 }
-body.light .diff6L .diff4L .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac, #7cb7dc, #70c531);
+body.light span.diff6L span.diff4L span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #f29e0f, #d6a3ac, #7cb7dc, #70c531);
 }
-body.light .diff6L .diff5L, body.light .diff5L .diff6L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac);
+body.light span.diff6L span.diff5L, body.light span.diff5L span.diff6L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac);
 }
-body.light .diff6L .diff5L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #70c531);
+body.light span.diff6L span.diff5L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #70c531);
 }
-body.light .diff6L .diff5L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #70c531, #7cb7dc);
+body.light span.diff6L span.diff5L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #70c531, #7cb7dc);
 }
-body.light .diff6L .diff5L .diff2L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #70c531, #7cb7dc, #f29e0f);
+body.light span.diff6L span.diff5L span.diff2L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #70c531, #7cb7dc, #f29e0f);
 }
-body.light .diff6L .diff5L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #70c531, #f29e0f);
+body.light span.diff6L span.diff5L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #70c531, #f29e0f);
 }
-body.light .diff6L .diff5L .diff2L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #70c531, #f29e0f, #7cb7dc);
+body.light span.diff6L span.diff5L span.diff2L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #70c531, #f29e0f, #7cb7dc);
 }
-body.light .diff6L .diff5L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc);
+body.light span.diff6L span.diff5L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc);
 }
-body.light .diff6L .diff5L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc, #70c531);
+body.light span.diff6L span.diff5L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc, #70c531);
 }
-body.light .diff6L .diff5L .diff3L .diff2L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc, #70c531, #f29e0f);
+body.light span.diff6L span.diff5L span.diff3L span.diff2L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc, #70c531, #f29e0f);
 }
-body.light .diff6L .diff5L .diff3L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc, #f29e0f);
+body.light span.diff6L span.diff5L span.diff3L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc, #f29e0f);
 }
-body.light .diff6L .diff5L .diff3L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc, #f29e0f, #70c531);
+body.light span.diff6L span.diff5L span.diff3L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #7cb7dc, #f29e0f, #70c531);
 }
-body.light .diff6L .diff5L .diff4L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f);
+body.light span.diff6L span.diff5L span.diff4L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f);
 }
-body.light .diff6L .diff5L .diff4L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #70c531);
+body.light span.diff6L span.diff5L span.diff4L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #70c531);
 }
-body.light .diff6L .diff5L .diff4L .diff2L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #70c531, #7cb7dc);
+body.light span.diff6L span.diff5L span.diff4L span.diff2L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #70c531, #7cb7dc);
 }
-body.light .diff6L .diff5L .diff4L .diff3L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #7cb7dc);
+body.light span.diff6L span.diff5L span.diff4L span.diff3L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #7cb7dc);
 }
-body.light .diff6L .diff5L .diff4L .diff3L .diff2L {
-  background-color: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #7cb7dc, #70c531);
+body.light span.diff6L span.diff5L span.diff4L span.diff3L span.diff2L {
+  background-image: linear-gradient(to right, #b5b634, #d6a3ac, #f29e0f, #7cb7dc, #70c531);
 }
 @keyframes tab-alert {
   0% {

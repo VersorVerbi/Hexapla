@@ -152,6 +152,10 @@ async function completeSearch(formData) {
         }
 
         document.getElementById('currentLocationIds').value = results['loc_id'];
+
+        getDiffCookies().then(cookies => {
+            diffCtrl = new DiffControl(null, cookies, document.querySelectorAll('.version[data-can-diff="4"]'));
+        });
     });
 }
 
@@ -163,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function resetWordHovers() {
-    let spans = document.getElementsByTagName('span');
+    let spans = document.querySelectorAll('.version:not(#my-notes-container) span');
     for (let s = 0; s < spans.length; s++) {
         spans[s].addEventListener('mouseover', showHideStrongs.bind(spans[s], true));
         spans[s].addEventListener('mouseout', showHideStrongs.bind(spans[s], false));

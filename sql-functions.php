@@ -399,11 +399,16 @@ function getVersionData(&$db, $tList) {
         $results[$row[HexaplaSourceVersionTerm::VERSION_ID]]['term'] = $row[HexaplaSourceVersionTerm::TERM];
     }
     $dataResource = getData($db, HexaplaTables::SOURCE_VERSION,
-        [HexaplaSourceVersion::ID, HexaplaSourceVersion::ALLOWS_ACTIONS, HexaplaSourceVersion::LANGUAGE_ID],
-        [HexaplaSourceVersion::ID => $tList]);
+        [HexaplaTables::SOURCE_VERSION . '.' . HexaplaSourceVersion::ID, HexaplaSourceVersion::ALLOWS_ACTIONS, HexaplaSourceVersion::LANGUAGE_ID, HexaplaLanguage::NAME],
+        [HexaplaTables::SOURCE_VERSION . '.' . HexaplaSourceVersion::ID => $tList],
+        [],
+        [new HexaplaJoin(HexaplaTables::LANGUAGE,
+            HexaplaTables::LANGUAGE, HexaplaLanguage::ID,
+            HexaplaTables::SOURCE_VERSION, HexaplaSourceVersion::LANGUAGE_ID)]);
     while (($row = pg_fetch_assoc($dataResource)) !== false) {
         $results[$row[HexaplaSourceVersion::ID]]['perm'] = $row[HexaplaSourceVersion::ALLOWS_ACTIONS];
         $results[$row[HexaplaSourceVersion::ID]]['lang'] = $row[HexaplaSourceVersion::LANGUAGE_ID];
+        $results[$row[HexaplaSourceVersion::ID]]['langName'] = $row[HexaplaLanguage::NAME];
     }
     return $results;
 }
