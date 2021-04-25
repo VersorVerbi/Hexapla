@@ -1,0 +1,30 @@
+<div id="registrationPopup" class="popup hidden userPopup">
+  <form id="register" class="userForm">
+    <h2>Register an Account</h2>
+    <div><label for="email">Email: </label><input id="email" name="email" type="email" /></div>
+    <div>
+      <label for="password">Password: </label>
+      <input id="password" name="password" type="password" />
+      <div id="pwInstructions">
+        <div>
+          We don't have password requirements, but we do have recommendations.<ol><li>Use a password manager--KeePass,
+          LastPass, 1Password, Dashlane, Bitwarden, <em>something</em>.</li><li>Failing that, more characters is always better and
+          more types of characters is always better.<br /> Here's some quick math: on average, a dedicated hacker using a
+          moderately-sized botnet can test one password in ~1.7 &#x00D7; 10<sup>-12</sup> seconds, that is, 1.7 picoseconds
+          (it takes 1000 picoseconds to get to a nanosecond, and a million nanoseconds to get to a millisecond). Discarding
+          some other factors (like how common a password is and what a hacker will already know or check first), a brute-force
+          attack on a PIN (usually 4 numeric digits) would take 1.7 &#x00D7; 10<sup>-12</sup> &#x00D7; 10<sup>4</sup>, or
+          about 17 nanoseconds. On a lower-case-and-numbers password with 7 characters (like "hunter2"), it would take 1.7 &#x00D7;
+          10<sup>-12</sup> &#x00D7; 36<sup>7</sup>, or about 133 milliseconds. On a 26-character password with upper- and
+          lower-case letters and symbols (like "<a href="https://youtu.be/I6wRZCV7naE?t=101" target="_blank">Welcome to the
+          party, pal!</a>"), it's 1.7 &#x00D7; 10<sup>-12</sup> &#x00D7; 70<sup>26</sup>, or 1.6 &#x00D7; 10<sup>36</sup>
+          seconds, or about 50 octillion years (that's over 3.5 quintillion times the age of the universe!). And that's not
+          even <a href="https://xkcd.com/936/" target="_blank">hard to remember</a>.</li>
+          <li>Whatever you do, don't use the same password here that you use at your bank.</li></ol>
+        </div>
+      </div>
+    </div>
+    <div><label for="repw">Re-enter Password: </label><input id="repw" name="repw" type="password" /></div>
+    <input type="submit" value="Register" />
+  </form>
+</div>

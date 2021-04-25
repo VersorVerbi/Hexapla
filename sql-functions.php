@@ -63,33 +63,7 @@ function getData(&$pgConnection, string $tableName, array $columns = [], array $
         }
     }
     if (count($searchCriteria) > 0) {
-        $i = 1;
-        foreach($searchCriteria as $coln => $value) {
-            if ($i++ === 1) {
-                $sql .= ' WHERE ';
-            } elseif ($allOr) {
-                $sql .= ' OR ';
-            } else {
-                $sql .= ' AND ';
-            }
-            $sql .= pg_escape_identifier($pgConnection, $coln);
-            if (is_array($value)) {
-                if (!$stringsUseLike || numericOnly($value)) {
-                    $sql .= ' IN (' . pg_implode(',', $value, $pgConnection, true) . ')';
-                } else {
-                    $sql .= ' LIKE ANY(ARRAY[' . pg_implode(',', $value, $pgConnection, true) . '])';
-                }
-            } elseif (is_null($value)) {
-                $sql .= ' IS NULL';
-                unset($searchCriteria[$coln]);
-            } else {
-                if (!$stringsUseLike || numericOnly($value)) {
-                    $sql .= '=' . pg_escape_literal($pgConnection, $value);
-                } else {
-                    $sql .= ' LIKE ' . pg_escape_literal($pgConnection, $value);
-                }
-            }
-        }
+        $sql .= buildSearch($pgConnection, $searchCriteria, $allOr, $stringsUseLike);
     }
     if (count($sortColumns) > 0) {
         $i = 1;
@@ -105,6 +79,56 @@ function getData(&$pgConnection, string $tableName, array $columns = [], array $
     }
     $sql .= ';';
     return pg_query($pgConnection, $sql);
+}
+
+/**
+ * @param $pgConnection
+ * @param array $searchCriteria
+ * @param bool $allOr
+ * @param bool $stringsUseLike
+ * @param bool $valuesEscaped
+ * @return string SQL string portion
+ */
+function buildSearch($pgConnection, array $searchCriteria, bool $allOr, bool $stringsUseLike, bool $valuesEscaped = false): string
+{
+    $i = 1;
+    $sql = '';
+    foreach ($searchCriteria as $coln => $value) {
+        if ($i++ === 1) {
+            $sql .= ' WHERE ';
+        } elseif ($allOr) {
+            $sql .= ' OR ';
+        } else {
+            $sql .= ' AND ';
+        }
+        $sql .= pg_escape_identifier($pgConnection, $coln);
+        if (is_array($value)) {
+            if (!$stringsUseLike || numericOnly($value)) {
+                if ($valuesEscaped) {
+                    $sql .= ' IN (' . implode(',', $value) . ')';
+                } else {
+                    $sql .= ' IN (' . pg_implode(',', $value, $pgConnection, true) . ')';
+                }
+            } else {
+                if ($valuesEscaped) {
+                    $sql .= ' LIKE ANY(ARRAY[' . implode(',', $value) . '])';
+                } else {
+                    $sql .= ' LIKE ANY(ARRAY[' . pg_implode(',', $value, $pgConnection, true) . '])';
+                }
+            }
+        } elseif (is_null($value)) {
+            $sql .= ' IS NULL';
+        } else {
+            if (!$stringsUseLike || numericOnly($value)) {
+                $sql .= '=';
+                $sql .= ($valuesEscaped ? $value : pg_escape_literal($pgConnection, $value));
+            } else {
+                $sql .= ' LIKE ';
+                $sql .= ($valuesEscaped ? $value : pg_escape_literal($pgConnection, $value));
+            }
+        }
+    }
+    return $sql;
 }
 
 function pg_escape_identifier($pgConnection, $coln): string {
@@ -133,26 +157,14 @@ function checkPgConnection(&$pgConnection) {
  * @param array $searchCriteria
  * @return int
  */
-function getCount(&$pgConnection, $tableName, $searchCriteria = []): int {
+function getCount(&$pgConnection, $tableName, $searchCriteria = [], $escapedCriteria = false): int {
     checkPgConnection($pgConnection);
-    $sql = 'SELECT COUNT(*) AS num_found FROM public.' . pg_escape_identifier($pgConnection, $tableName);
-    $i = 1;
+    $sql = "SELECT COUNT(*) AS num_found FROM public." . pg_escape_identifier($pgConnection, $tableName);
     if (count($searchCriteria) > 0) {
-        foreach ($searchCriteria as $coln => $value) {
-            if ($i === 1) {
-                $sql .= ' WHERE ';
-            } else {
-                $sql .= ' AND ';
-            }
-            if (is_null($value)) {
-                $sql .= $coln . ' IS NULL';
-            } else {
-                $sql .= $coln . '=$' . $i++;
-            }
-        }
+        $sql .= buildSearch($pgConnection, $searchCriteria, false, false, $escapedCriteria);
     }
     $sql .= ';';
-    $results = pg_query_params($pgConnection, $sql, $searchCriteria);
+    $results = pg_query($pgConnection, $sql);
     return pg_fetch_assoc($results)['num_found'];
 }
 
@@ -163,7 +175,7 @@ function getCount(&$pgConnection, $tableName, $searchCriteria = []): int {
  * @param string|null $idColumn
  * @return bool|resource
  */
-function putData(&$db, string $tableName, array $insertArray, string|null $idColumn = HexaplaStandardColumns::ID): bool|string
+function putData(&$db, string $tableName, array $insertArray, string|null $idColumn = HexaplaStandardColumns::ID, $escaped = false): bool|string
 {
     checkPgConnection($db);
     $sql = 'INSERT INTO public.' . pg_escape_identifier($db, $tableName) . ' ';
@@ -180,7 +192,7 @@ function putData(&$db, string $tableName, array $insertArray, string|null $idCol
             $valueChunk = '';
             foreach ($columnArray as $column) {
                 if (isset($row[$column])) {
-                    $valueChunk .= ',' . pg_escape_literal($row[$column]);
+                    $valueChunk .= ',' . ($escaped ? $row[$column] : pg_escape_literal($row[$column]));
                 } else {
                     $valueChunk .= ',NULL';
                 }
@@ -192,7 +204,7 @@ function putData(&$db, string $tableName, array $insertArray, string|null $idCol
         foreach ($insertArray as $column => $value) {
             if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
             $columns .= ',' . pg_escape_identifier($db, $column);
-            $values .= ',' . pg_escape_literal($db, $value);
+            $values .= ',' . ($escaped ? $value : pg_escape_literal($db, $value));
         }
         $columns = '(' . substr($columns, 1) . ')';
         $values = '(' . substr($values, 1) . ')';
@@ -202,6 +214,9 @@ function putData(&$db, string $tableName, array $insertArray, string|null $idCol
     $sql .= $values;
     if ($tableName === HexaplaTables::TEXT_STRONGS) {
         $sql .= ' ON CONFLICT DO NOTHING';
+    } elseif ($tableName === HexaplaTables::USER_SETTINGS) {
+        $sql .= ' ON CONFLICT user_setting_pkey UPDATE SET ' . pg_escape_literal($db,HexaplaUserSettings::VALUE);
+        $sql .= ' = ' . ($escaped ? $insertArray[HexaplaUserSettings::VALUE] : pg_escape_literal($db, $insertArray[HexaplaUserSettings::VALUE]));
     }
     if (!is_null($idColumn)) {
         $sql .= ' RETURNING ' . pg_escape_identifier($db, $idColumn) . ';';
@@ -740,6 +755,42 @@ function terms_array(string $aggregateString): array
     return $output;
 }
 
+/**
+ * @param $db
+ * @param string $email
+ * @param string $password
+ * @return bool
+ */
+function login($db, string $email, string $password): bool {
+    checkPgConnection($db);
+    // TODO: reimplement after adding (1) checkbox to stay logged in, (2) complete login_cookie system
+    $result = getCount($db,
+        HexaplaTables::USER,
+        [HexaplaUser::EMAIL => pg_escape_literal($email),
+            HexaplaUser::PASSWORD => "crypt(" . pg_escape_literal($password) . ")"],
+        true);
+    // TODO: put id, login byte string into login_cookie  $token = bin2hex(random_bytes(20));
+    return $result > 0;
+}
+
+// TODO: forgot login => bin2hex(random_bytes(10)) => update password w/ crypt, update "list of generated pws" w/ crypt, force reset when logging in with generated password
+
+/**
+ * @param $db
+ * @param $email
+ * @param $password
+ * @return int
+ */
+function register($db, $email, $password): int {
+    checkPgConnection($db);
+    return putData($db,
+        HexaplaTables::USER,
+        [HexaplaUser::EMAIL => pg_escape_literal($db, $email),
+            HexaplaUser::PASSWORD => "crypt(" . pg_escape_literal($db, $password) . ", gen_salt('bf'))"],
+            //HexaplaUser::GROUP_ID => ???]);
+        HexaplaUser::ID, true);
+}
+
 #region Database Table & Enum Classes
 class HexaplaJoin extends ArrayObject {
     const JOIN_TO = 'table';
@@ -786,8 +837,10 @@ class HexaplaTables {
     const USER = 'user';
     const USER_CREDENTIAL = 'user_credential';
     const USER_GROUP = 'user_group';
+    const USER_LOGIN_COOKIES = 'user_login_cookies';
     const USER_NOTES = 'user_notes';
     const USER_NOTES_LOCATION = 'user_notes_on_loc';
+    const USER_SETTINGS = 'user_settings';
     const NOTE_TEXT = 'note_text';
     const NOTE_CROSSREF = 'note_reference';
 }
@@ -828,6 +881,15 @@ class HexaplaPunctuation {
     const NOT = 'NotPunctuation';
 }
 
+class HexaplaSettings {
+    const DEFAULT_LOAD = 'DefaultLoad';
+    const SAVED_TLS = 'SavedTranslations';
+    const DIFF_BY_WORD = 'DiffByWord';
+    const CASE_SENS_DIFF = 'CaseSensitive';
+    const SCROLL_TOGETHER = 'ScrollTogether';
+    const PIN_SIDEBAR = 'PinSidebar';
+}
+
 class HexaplaTermFlag {
     const NONE = 'NoFlag';
     const PRIMARY = 'Primary';
@@ -848,12 +910,11 @@ class LangDirection {
 }
 
 class HexaplaPermissions {
-    const READ = 1;
-    const NOTE = 2;
-    const DIFF = 4;
-    const FOCUS = 8;
-    const UPLOAD = 16;
-    const PARSE = 32;
+    const NOTE = 1;
+    const DIFF = 2;
+    const FOCUS = 4;
+    const UPLOAD = 8;
+    const PARSE = 16;
 }
 #endregion
 
@@ -1000,7 +1061,6 @@ class HexaplaSourceVersionTerm implements HexaplaStandardColumns, HexaplaVersion
     const FLAG = 'flag';
 }
 class HexaplaUser implements HexaplaStandardColumns {
-    const NAME = 'username';
     const EMAIL = 'email';
     const PASSWORD = 'password';
     const GROUP_ID = 'group_id';
@@ -1012,10 +1072,18 @@ class HexaplaUserCredential implements HexaplaStandardColumns, HexaplaUserColumn
 class HexaplaUserGroup implements HexaplaStandardColumns, HexaplaNameColumns {
     const ALLOWS_ACTIONS = 'allowsBehavior';
 }
+class HexaplaUserLoginCookies implements HexaplaUserColumns {
+    const COOKIE = 'cookie_string';
+}
 class HexaplaUserNotes implements HexaplaStandardColumns, HexaplaUserColumns {
     const VALUE = 'note_text'; // TODO: Standardize?
 }
 class HexaplaUserNotesLocation implements HexaplaLocationColumns {
     const NOTE_ID = 'note_id';
+}
+class HexaplaUserSettings implements HexaplaUserColumns, HexaplaValueColumns {
+    const SETTING = 'setting';
+
+    const PKEY = [self::USER_ID, self::SETTING];
 }
 #endregion

@@ -158,6 +158,10 @@ $shadowColor: rgba(0, 0, 0, 0.1);
     background-repeat: no-repeat;
     background-color: map.get($colorMap, 'resultBackground');
   }
+
+  .termsLastUpdate {
+    color: rgba(map.get($colorMap, 'fontColor'), 0.6);
+  }
 }
 
 @mixin highlights($highlightMap) {
@@ -225,6 +229,80 @@ $shadowColor: rgba(0, 0, 0, 0.1);
   -webkit-transform: translateY(-50%); // Safari and Chrome
   -o-transform: translateY(-50%);
 }
+
+@mixin info-popup() {
+  $infoColor: white; // TODO: info color
+  $borderColor: black; // TODO: border color
+  $listMargin: 7px;
+
+  // TODO: @media query to go back inline below
+
+  display: block;
+  width: 300px;
+  height: 250px;
+  position: absolute;
+  right: $regFormPadding;
+  background-color: $infoColor;
+  border: 1px solid $borderColor;
+  z-index: $effectivelyMaxInt;
+  color: black; // TODO: font color
+  font-size: 10pt;
+  transform: translateY(-60%);
+
+  ol {
+    margin-top: $listMargin;
+  }
+
+  li {
+    margin-bottom: $listMargin;
+  }
+
+  div {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: block;
+
+    &:after {
+      content: "";
+      width: 100%;
+      height: 10px;
+      display: block;
+    }
+  }
+
+  &:before, &:after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-style: solid;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left: 0;
+  }
+  &::before {
+    border-top-width: 8px;
+    border-bottom-width: 8px;
+    border-right-width: 8px;
+    left: -8px;
+    top: 50%;
+    border-right-color: $borderColor;
+    z-index: 1;
+  }
+  &::after {
+    border-top-width: 7px;
+    border-bottom-width: 7px;
+    border-right-width: 7px;
+    left: -7px;
+    top: calc(50% + 1px);
+    border-right-color: $infoColor;
+    z-index: 2;
+  }
+}
 //#endregion
 
 //#region Site/Page variables
@@ -290,9 +368,12 @@ $scrollIconScrolledPosition: 11px;
 
 //#region Popup variables
 $popupWidth: 750px;
-$popupHeight: 425px;
+$tlPopupHeight: 425px;
 $popupBorderRadius: 10px;
 $tboxGridBoxPadding: 10px;
+$regFormPadding: 30px;
+$regPopupHeight: 350px;
+$loginPopupHeight: 300px;
 //#endregion
 
 //#region Body variables
@@ -327,6 +408,7 @@ body {
   height: 100%;
   overflow: hidden;
   font-family: 'Helvetica', 'Georgia', 'Open Sans', 'sans-serif';
+  font-size: 14pt;
 }
 
 #wrap {
@@ -351,7 +433,6 @@ body {
   width: $pageWidth;
 
   div {
-    font-size: 14pt;
     line-height: 1.3em;
   }
 
@@ -385,6 +466,7 @@ h3 {
 
 h4 {
   margin: $headerLittleMargin 0 0 0;
+  font-size: 16pt;
 }
 
 .search {
@@ -1062,14 +1144,29 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
 }
 
 //#region Popup
+@mixin popup-height-top($height) {
+  height: $height;
+  top: calc(50% - #{intdiv($height, 2)});
+}
+
 .popup {
   position: fixed;
   left: calc(50% - #{intdiv($popupWidth, 2)});
-  top: calc(50% - #{intdiv($popupHeight, 2)});
   z-index: intdiv($effectivelyMaxInt, 2);
   border-radius: $popupBorderRadius;
   width: $popupWidth;
-  height: $popupHeight;
+
+  &#translationController {
+    @include popup-height-top($tlPopupHeight);
+  }
+
+  &#registrationPopup {
+    @include popup-height-top($regPopupHeight);
+  }
+
+  &#loginPopup {
+    @include popup-height-top($loginPopupHeight);
+  }
 }
 
 #translationController {
@@ -1362,5 +1459,63 @@ body.themeChange {
   }
 }
 
+.termsLastUpdate {
+  font-size: 10pt;
+}
+
+#lastUpdateDate {
+  font-weight: bold;
+}
+
+.userPopup {
+  box-sizing: border-box;
+  padding: $regFormPadding $regFormPadding 0 $regFormPadding;
+
+  .userForm {
+    display: table;
+
+    &#login {
+      width: 425px;
+      margin: auto;
+    }
+
+    h2 {
+      display: table-caption;
+    }
+
+    div {
+      display: table-row;
+      height: 3em;
+
+      label, input {
+        display: table-cell;
+      }
+
+      label {
+        padding-right: 5px;
+      }
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 14pt;
+        line-height: 2em;
+        padding: 0 5px;
+      }
+
+      #pwInstructions {
+        @include info-popup();
+      }
+    }
+
+    input[type='submit'] {
+      width: 200px;
+      height: 2em;
+      position: absolute;
+      transform: translateX(50%);
+      font-size: 14pt;
+    }
+  }
+}
 
 // FIXME: long version names wrap and look bad

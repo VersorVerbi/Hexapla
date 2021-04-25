@@ -103,6 +103,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }).finally(() => setTimeout(() => document.body.classList.remove('themeChange'), 100));
     });
+
+    document.getElementById('do-login').addEventListener('click', (ev) => {
+        ev.currentTarget.classList.add('clicked');
+        document.getElementById('loginPopup').classList.remove('hidden');
+        setTimeout(function (target) { return () => target.classList.remove('clicked'); }(ev.currentTarget), 50);
+    });
+
+    document.getElementById('reg').addEventListener('click', (ev) => {
+        ev.preventDefault();
+        document.getElementById('registrationPopup').classList.remove('hidden');
+    });
 });
 
 function hideMenu() {

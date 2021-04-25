@@ -56,12 +56,13 @@ require_once "dbconnect.php";
             <!-- TODO: add note export button (w/ popup) here -->
             <hr />
             <h4>Navigation</h4>
-            <li><a href="">About Us</a></li>
+            <li><a href="?page=home">About Us</a></li>
             <li><a href="">How You Can Help</a></li>
             <li><a href="">Copyright Information</a></li>
-            <li><a href="">Privacy Policy</a></li>
-            <li><a href="">Cookie Policy</a></li>
-            <li><a href="">Terms of Service</a></li>
+            <li><a href="?page=privacy">Privacy Policy</a></li>
+            <li><a href="?page=cookies">Cookie Policy</a></li>
+            <li><a href="?page=terms">Terms of Service</a></li>
+            <li><a href="" id="reg">Register</a></li>
         </ul>
     </div>
     <div class="sidebar" id="dictionary">

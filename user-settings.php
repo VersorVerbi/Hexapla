@@ -2,11 +2,19 @@
 
 namespace Hexapla;
 
+require_once "sql-functions.php";
+require_once "cookie-functions.php";
+
 class UserSettings
 {
-    // TODO: complete
     const USE_SAVED_TRANSLATIONS = 'saved';
     const USE_LAST_TRANSLATIONS = 'last';
+    const SETTINGS_SETUP = [HexaplaSettings::DEFAULT_LOAD => 'tlSetting',
+        HexaplaSettings::SAVED_TLS => 'tlList',
+        HexaplaSettings::DIFF_BY_WORD => 'diffByWord',
+        HexaplaSettings::CASE_SENS_DIFF => 'caseSensitiveDiff',
+        HexaplaSettings::SCROLL_TOGETHER => 'scrollTogether',
+        HexaplaSettings::PIN_SIDEBAR => 'pinSidebar'];
 
     private string $tlSetting;
     private string $tlList;
@@ -14,14 +22,20 @@ class UserSettings
     private int $id;
     private bool $diffByWord;
     private bool $caseSensitiveDiff;
+    private bool $scrollTogether;
+    private bool $pinSidebar;
 
-    public function __construct() {
-        $this->tlSetting = self::USE_LAST_TRANSLATIONS;
-        $this->tlList = '1^2^3^4';
-        $this->allowsBehavior = 1;
-        $this->id = 1;
-        $this->diffByWord = true;
-        $this->caseSensitiveDiff = false;
+    public function __construct($userId, $settingsList, $permissions) {
+        $this->allowsBehavior = $permissions;
+        $this->id = $userId;
+        foreach(self::SETTINGS_SETUP as $sqlSetting => $objSetting) {
+            $value = ($settingsList[$sqlSetting] === 'false' ? false : $settingsList[$sqlSetting]);
+            $this->$objSetting = $value;
+            $cookie = HexaplaCookies::cookieFromSetting($sqlSetting);
+            if ($cookie !== '') {
+                setHexCookie($cookie, $value);
+            }
+        }
     }
 
     public function set_tlSetting($setting) {
@@ -29,31 +43,54 @@ class UserSettings
         $this->save();
     }
 
-    public function useSavedTl() {
+    public function set_tlList($list) {
+        $this->tlList = $list;
+        $this->save();
+    }
+
+    public function useSavedTl(): bool {
         return $this->tlSetting === self::USE_SAVED_TRANSLATIONS;
     }
 
-    public function useLastTl() {
+    public function useLastTl(): bool {
         return $this->tlSetting === self::USE_LAST_TRANSLATIONS;
     }
 
-    public function savedTls() {
+    public function pinSidebar() {
+        return $this->pinSidebar;
+    }
+
+    public function set_pinSidebar($pin) {
+        $this->pinSidebar = $pin;
+        $this->save();
+    }
+
+    public function scrollsTogether() {
+        return $this->scrollTogether;
+    }
+
+    public function set_scroll($together) {
+        $this->scrollTogether = $together;
+        $this->save();
+    }
+
+    public function savedTls(): string {
         return $this->tlList;
     }
 
-    public function canWriteNotes() {
-        return $this->allowsBehavior & AllowedBehaviors::CAN_WRITE_NOTES;
+    public function canWriteNotes(): bool {
+        return $this->allowsBehavior & HexaplaPermissions::NOTE;
     }
 
-    public function id() {
+    public function id(): int {
         return $this->id;
     }
 
-    public function diffsByWord() {
+    public function diffsByWord(): bool {
         return $this->diffByWord;
     }
 
-    public function diffsCaseSens() {
+    public function diffsCaseSens(): bool {
         return $this->caseSensitiveDiff;
     }
 
@@ -68,14 +105,12 @@ class UserSettings
     }
 
     private function save() {
-        // TODO: update database
+        $insertArray = [];
+        foreach(self::SETTINGS_SETUP as $sqlSetting => $objSetting) {
+            $insertArray[] = [HexaplaUserSettings::USER_ID => $this->id,
+                HexaplaUserSettings::SETTING => $sqlSetting,
+                HexaplaUserSettings::VALUE => $this->$objSetting];
+        }
+        putData($db, HexaplaTables::USER_SETTINGS, $insertArray);
     }
-}
-
-class AllowedBehaviors {
-    const CAN_WRITE_NOTES = 1;
-    const CAN_DIFF = 2;
-    const CAN_FOCUS = 4;
-    const CAN_UPLOAD = 8;
-    const CAN_PARSE = 16;
 }

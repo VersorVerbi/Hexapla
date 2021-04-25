@@ -23,14 +23,18 @@ if (!isset($_GET['page'])) {
 } else {
     $page = $_GET['page'];
 }
-$toLoad = "";
 $pages = [
     'help' => 'how-to-help.html',
     'home' => 'home-page.html',
     'cookies' => 'cookie-policy.html',
     'privacy' => 'privacy-policy.html',
-    'terms' => 'terms-of-service.html',
-    'about' => 'about-us.html'
+    'terms' => 'terms-of-service.html'
+];
+$titles = [
+    'help' => 'How Can I Help?',
+    'cookies' => 'Cookie Policy',
+    'privacy' => 'Privacy Policy',
+    'terms' => 'Terms & Conditions'
 ];
 if ($page === 'search') {
     $search = $_GET['search'];
@@ -55,6 +59,7 @@ if ($page === 'search') {
 } else {
     $toLoad = 'error404.html';
 }
+$title = $titles[$page] ?? 'Modern Hexapla';
 
 $GLOBALS['themes'] = ['parchment', 'leather-bound', 'jonah', 'liturgical'];
 $GLOBALS['shades'] = ['light', 'dark'];
@@ -82,7 +87,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Modern Hexapla</title>
+    <title>Modern Hexapla<?php echo ($title === 'Modern Hexapla' ? '' : ' - ' . $title); ?></title>
     <?php
     foreach($GLOBALS['themes'] as $thm) {
         echo "<link rel=\"preload\" as=\"style\" href=\"styles/$thm.min.css\" />";
@@ -126,6 +131,8 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     <div id="wrap">
         <?php include "header.php"; ?>
         <?php include "translation-controller.php"; ?>
+        <?php include "register.html"; ?>
+        <?php include "login.html"; ?>
         <div id="page">
             <?php /** @noinspection PhpIncludeInspection */
             include $toLoad; ?>

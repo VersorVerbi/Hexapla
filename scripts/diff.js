@@ -293,21 +293,11 @@ class DiffControl {
     // diffLists: Array = [DiffList objects where idx = .diffed idx]
     // baseData: Array = [duplicates of original .version elements]
 
-    static get LEVEL_2_LEFT() { return 'diff2L'; }
-    static get LEVEL_2_RIGHT() { return 'diff2R'; }
-    static get LEVEL_3_LEFT() { return 'diff3L'; }
-    static get LEVEL_3_RIGHT() { return 'diff3R'; }
-    static get LEVEL_4_LEFT() { return 'diff4L'; }
-    static get LEVEL_4_RIGHT() { return 'diff4R'; }
-    static get LEVEL_5_LEFT() { return 'diff5L'; }
-    static get LEVEL_5_RIGHT() { return 'diff5R'; }
-    static get LEVEL_6_LEFT() { return 'diff6L'; }
-    static get LEVEL_6_RIGHT() { return 'diff6R'; }
     static get ALL_LEVELS() {
-        return [DiffControl.LEVEL_2_LEFT, DiffControl.LEVEL_2_RIGHT, DiffControl.LEVEL_3_LEFT,
-            DiffControl.LEVEL_3_RIGHT, DiffControl.LEVEL_4_LEFT, DiffControl.LEVEL_4_RIGHT,
-            DiffControl.LEVEL_5_LEFT, DiffControl.LEVEL_5_RIGHT, DiffControl.LEVEL_6_LEFT,
-            DiffControl.LEVEL_6_RIGHT];
+        return [DiffControl.LEVEL_X_LEFT(2), DiffControl.LEVEL_X_RIGHT(2), DiffControl.LEVEL_X_LEFT(3),
+            DiffControl.LEVEL_X_RIGHT(3), DiffControl.LEVEL_X_LEFT(4), DiffControl.LEVEL_X_RIGHT(4),
+            DiffControl.LEVEL_X_LEFT(5), DiffControl.LEVEL_X_RIGHT(5), DiffControl.LEVEL_X_LEFT(6),
+            DiffControl.LEVEL_X_RIGHT(6)];
     }
     static LEVEL_X_LEFT(x) { return 'diff' + x + 'L'; }
     static LEVEL_X_RIGHT(x) { return 'diff' + x + 'R'; }
