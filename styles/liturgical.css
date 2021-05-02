@@ -116,6 +116,13 @@ h4 {
 #header {
   height: 90px;
 }
+#header a, #header a:hover, #header a:visited, #header a:active, #header a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+#header .onHome {
+  cursor: default;
+}
 
 #tlConHeader {
   height: 40px;
@@ -130,6 +137,9 @@ h4 {
 }
 #header #title, #tlConHeader #title {
   width: 40%;
+}
+#header #title:before, #tlConHeader #title:before {
+  content: "— ";
 }
 
 #headerSpace {
@@ -1231,8 +1241,7 @@ body.dark #loading, body.dark .sidebarLoad {
   background-color: rgba(255, 255, 255, 0.7);
 }
 body.dark .of2 .hovered, body.dark .of3 .hovered, body.dark .of4 .hovered, body.dark .of5 .hovered, body.dark .of6 .hovered {
-  background-color: #FFF;
-  color: #000;
+  text-shadow: 0.5px 0 0 #FFF, -0.5px 0 0 #FFF;
 }
 body.dark #scroll-together-label span, body.dark #scroll-together-label span::before, body.dark #scroll-together-label span::after {
   border-color: rgba(255, 255, 255, 0.5);
@@ -2328,8 +2337,7 @@ body.light #loading, body.light .sidebarLoad {
   background-color: rgba(0, 0, 0, 0.7);
 }
 body.light .of2 .hovered, body.light .of3 .hovered, body.light .of4 .hovered, body.light .of5 .hovered, body.light .of6 .hovered {
-  background-color: #000;
-  color: #FFF;
+  text-shadow: 0.5px 0 0 #000, -0.5px 0 0 #000;
 }
 body.light #scroll-together-label span, body.light #scroll-together-label span::before, body.light #scroll-together-label span::after {
   border-color: rgba(0, 0, 0, 0.5);
@@ -3410,8 +3418,7 @@ body.green.dark #loading, body.green.dark .sidebarLoad {
   background-color: rgba(206, 223, 205, 0.7);
 }
 body.green.dark .of2 .hovered, body.green.dark .of3 .hovered, body.green.dark .of4 .hovered, body.green.dark .of5 .hovered, body.green.dark .of6 .hovered {
-  background-color: #cedfcd;
-  color: #1d3119;
+  text-shadow: 0.5px 0 0 #cedfcd, -0.5px 0 0 #cedfcd;
 }
 body.green.dark #scroll-together-label span, body.green.dark #scroll-together-label span::before, body.green.dark #scroll-together-label span::after {
   border-color: rgba(255, 255, 255, 0.5);
@@ -3532,8 +3539,7 @@ body.green.light #loading, body.green.light .sidebarLoad {
   background-color: rgba(26, 43, 23, 0.7);
 }
 body.green.light .of2 .hovered, body.green.light .of3 .hovered, body.green.light .of4 .hovered, body.green.light .of5 .hovered, body.green.light .of6 .hovered {
-  background-color: #1a2b17;
-  color: #c4d8c2;
+  text-shadow: 0.5px 0 0 #1a2b17, -0.5px 0 0 #1a2b17;
 }
 body.green.light #scroll-together-label span, body.green.light #scroll-together-label span::before, body.green.light #scroll-together-label span::after {
   border-color: rgba(0, 0, 0, 0.5);
@@ -3655,8 +3661,7 @@ body.red.dark #loading, body.red.dark .sidebarLoad {
   background-color: rgba(252, 209, 199, 0.7);
 }
 body.red.dark .of2 .hovered, body.red.dark .of3 .hovered, body.red.dark .of4 .hovered, body.red.dark .of5 .hovered, body.red.dark .of6 .hovered {
-  background-color: #fcd1c7;
-  color: #4a1f17;
+  text-shadow: 0.5px 0 0 #fcd1c7, -0.5px 0 0 #fcd1c7;
 }
 body.red.dark #scroll-together-label span, body.red.dark #scroll-together-label span::before, body.red.dark #scroll-together-label span::after {
   border-color: rgba(255, 255, 255, 0.5);
@@ -3777,8 +3782,7 @@ body.red.light #loading, body.red.light .sidebarLoad {
   background-color: rgba(65, 28, 21, 0.7);
 }
 body.red.light .of2 .hovered, body.red.light .of3 .hovered, body.red.light .of4 .hovered, body.red.light .of5 .hovered, body.red.light .of6 .hovered {
-  background-color: #411c15;
-  color: #fdc6bb;
+  text-shadow: 0.5px 0 0 #411c15, -0.5px 0 0 #411c15;
 }
 body.red.light #scroll-together-label span, body.red.light #scroll-together-label span::before, body.red.light #scroll-together-label span::after {
   border-color: rgba(0, 0, 0, 0.5);
@@ -3900,8 +3904,7 @@ body.rose.dark #loading, body.rose.dark .sidebarLoad {
   background-color: rgba(249, 207, 218, 0.7);
 }
 body.rose.dark .of2 .hovered, body.rose.dark .of3 .hovered, body.rose.dark .of4 .hovered, body.rose.dark .of5 .hovered, body.rose.dark .of6 .hovered {
-  background-color: #f9cfda;
-  color: #3e252b;
+  text-shadow: 0.5px 0 0 #f9cfda, -0.5px 0 0 #f9cfda;
 }
 body.rose.dark #scroll-together-label span, body.rose.dark #scroll-together-label span::before, body.rose.dark #scroll-together-label span::after {
   border-color: rgba(255, 255, 255, 0.5);
@@ -4022,8 +4025,7 @@ body.rose.light #loading, body.rose.light .sidebarLoad {
   background-color: rgba(53, 33, 38, 0.7);
 }
 body.rose.light .of2 .hovered, body.rose.light .of3 .hovered, body.rose.light .of4 .hovered, body.rose.light .of5 .hovered, body.rose.light .of6 .hovered {
-  background-color: #352126;
-  color: #f9c6d3;
+  text-shadow: 0.5px 0 0 #352126, -0.5px 0 0 #352126;
 }
 body.rose.light #scroll-together-label span, body.rose.light #scroll-together-label span::before, body.rose.light #scroll-together-label span::after {
   border-color: rgba(0, 0, 0, 0.5);
@@ -4145,8 +4147,7 @@ body.gold.dark #loading, body.gold.dark .sidebarLoad {
   background-color: rgba(255, 216, 14, 0.7);
 }
 body.gold.dark .of2 .hovered, body.gold.dark .of3 .hovered, body.gold.dark .of4 .hovered, body.gold.dark .of5 .hovered, body.gold.dark .of6 .hovered {
-  background-color: #ffd80e;
-  color: #302c1a;
+  text-shadow: 0.5px 0 0 #ffd80e, -0.5px 0 0 #ffd80e;
 }
 body.gold.dark #scroll-together-label span, body.gold.dark #scroll-together-label span::before, body.gold.dark #scroll-together-label span::after {
   border-color: rgba(255, 255, 255, 0.5);
@@ -4267,8 +4268,7 @@ body.gold.light #loading, body.gold.light .sidebarLoad {
   background-color: rgba(42, 39, 23, 0.7);
 }
 body.gold.light .of2 .hovered, body.gold.light .of3 .hovered, body.gold.light .of4 .hovered, body.gold.light .of5 .hovered, body.gold.light .of6 .hovered {
-  background-color: #2a2717;
-  color: #f7d00e;
+  text-shadow: 0.5px 0 0 #2a2717, -0.5px 0 0 #2a2717;
 }
 body.gold.light #scroll-together-label span, body.gold.light #scroll-together-label span::before, body.gold.light #scroll-together-label span::after {
   border-color: rgba(0, 0, 0, 0.5);
@@ -4390,8 +4390,7 @@ body.purple.dark #loading, body.purple.dark .sidebarLoad {
   background-color: rgba(225, 215, 224, 0.7);
 }
 body.purple.dark .of2 .hovered, body.purple.dark .of3 .hovered, body.purple.dark .of4 .hovered, body.purple.dark .of5 .hovered, body.purple.dark .of6 .hovered {
-  background-color: #e1d7e0;
-  color: #481946;
+  text-shadow: 0.5px 0 0 #e1d7e0, -0.5px 0 0 #e1d7e0;
 }
 body.purple.dark #scroll-together-label span, body.purple.dark #scroll-together-label span::before, body.purple.dark #scroll-together-label span::after {
   border-color: rgba(255, 255, 255, 0.5);
@@ -4512,8 +4511,7 @@ body.purple.light #loading, body.purple.light .sidebarLoad {
   background-color: rgba(62, 24, 60, 0.7);
 }
 body.purple.light .of2 .hovered, body.purple.light .of3 .hovered, body.purple.light .of4 .hovered, body.purple.light .of5 .hovered, body.purple.light .of6 .hovered {
-  background-color: #3e183c;
-  color: #dccfdb;
+  text-shadow: 0.5px 0 0 #3e183c, -0.5px 0 0 #3e183c;
 }
 body.purple.light #scroll-together-label span, body.purple.light #scroll-together-label span::before, body.purple.light #scroll-together-label span::after {
   border-color: rgba(0, 0, 0, 0.5);

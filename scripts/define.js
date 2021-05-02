@@ -59,32 +59,32 @@ async function define(ev) {
     let crossRefsDiv = document.getElementById('crossref');
     emptyBox(crossRefsDiv);
 
-    let wordSetup = fetch('/Hexapla/word-setup.php', { // RELATIVE-URL
+    let wordSetup = fetch(INTERNAL_API_PATH + 'word-setup.php', { // RELATIVE-URL
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
         body: form
     });
-    wordSetup.then(wordResult => wordResult.json().then(async wordData => {
+    wordSetup.then(wordResult => wordResult.text().then(wordTextData => tryParseJson(wordTextData)).then(async wordData => {
         let newForm = new FormData();
         newForm.append('sourceWords', JSON.stringify(wordData['sourceWords']));
         newForm.append('tid', wordData['tid']);
         newForm.append('literalWords', JSON.stringify(wordData['literalWords']));
         newForm.append('langId', wordData['langId']);
-        let definitions = await fetch('/Hexapla/define.php', { // RELATIVE-URL
+        let definitions = await fetch(INTERNAL_API_PATH + 'define.php', { // RELATIVE-URL
             method: 'POST',
             mode: 'same-origin',
             redirect: 'error',
             body: newForm
         });
-        let crossRefs = fetch('/Hexapla/cross-refs.php', { // RELATIVE-URL
+        let crossRefs = fetch(INTERNAL_API_PATH + 'cross-refs.php', { // RELATIVE-URL
             method: 'POST',
             mode: 'same-origin',
             redirect: 'error',
             body: newForm
         });
         sidebarLoading('crossref');
-        definitions.json().then(defnData => { // text().then(defnData => console.log(defnData));/*
+        definitions.text().then(defnTextData => tryParseJson(defnTextData)).then(defnData => { // text().then(defnData => console.log(defnData));/*
             if (defnData['literalLang'] !== null) { // TODO: handle Oxford API data
                 if (defnData['literalLang']['dir'] === 'rtl') {
                     curDefns.classList.add('rtl');
@@ -107,9 +107,7 @@ async function define(ev) {
             showSidebar('dictionary');
         });
         crossRefs.then(crResult => {
-            crResult.text().then(txt => {
-                console.log(txt)
-                let crData = JSON.parse(txt);
+            crResult.text().then(txt => tryParseJson(txt)).then(crData => {
                 // FIXME: exclude current verse(s)
                 // TODO: add links to other verses
                 if (crData['source'].length > 0) {

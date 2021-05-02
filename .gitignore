@@ -1,8 +1,6 @@
 dbconnect.php
 /xml/
 infoprinter.php
-.idea/encodings.xml
-.idea/codeStyles/codeStyleConfig.xml
 importers/developer-functions.php
 oldcode/strongs-greek-spellings.dic
 oldcode/strongs-hebrew-spellings.dic
@@ -13,9 +11,7 @@ number-system-identifier.php
 /oldcode/
 /styles/mainstyle.css
 /style/*.map
-.idea/*
-.idea/Hexapla.iml
-.idea/watcherTasks.xml
+.idea/
 /styles/icofont.min.css
 /styles/fonts/
 /bench.php
@@ -24,5 +20,3 @@ number-system-identifier.php
 test.html
 /test.php
 /styles/skintool_json/
-.idea/inspectionProfiles/Project_Default.xml
-.idea/inspectionProfiles/Project_Default.xml

@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let d = 0; d < diffPickers.length; d++) {
         diffPickers[d].addEventListener('change', function() {
             if (this.checked) {
-                fetch('/Hexapla/cookies.php?set&name=hexaplaWord&value=' + (this.value === 'word-diff')).then( () => { // RELATIVE-URL
+                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaWord&value=' + (this.value === 'word-diff')).then( () => { // RELATIVE-URL
                     getDiffCookies().then(cookies => diffCtrl.updateCookies(cookies));
                 });
             }
@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.body.classList.add('themeChange');
                 document.body.classList.remove(...shadeList);
                 document.body.classList.add(this.value);
-                fetch('/Hexapla/cookies.php?name=hexaplaTheme').then(data => data.text().then(doShadeSwap.bind(null, this.value))); // RELATIVE-URL
-                fetch('/Hexapla/cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then( // RELATIVE-URL
+                fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaTheme').then(data => data.text().then(doShadeSwap.bind(null, this.value))); // RELATIVE-URL
+                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then( // RELATIVE-URL
                     () => setTimeout(() => document.body.classList.remove('themeChange'), 100));
             }
         });
@@ -93,8 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('theme-selection').addEventListener('change', function() {
         document.body.classList.add('themeChange');
         document.getElementById('themeCss').href = "styles/" + this.value + ".css";
-        fetch('/Hexapla/cookies.php?name=hexaplaShade').then(data => data.text().then(doThemeSwap.bind(null, this.value))); // RELATIVE-URL
-        fetch('/Hexapla/cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then( // RELATIVE-URL
+        fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaShade').then(data => data.text().then(doThemeSwap.bind(null, this.value))); // RELATIVE-URL
+        fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then( // RELATIVE-URL
             () => {
                 if (this.value === 'liturgical') {
                     fetchLiturgicalColor()

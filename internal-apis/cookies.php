@@ -1,8 +1,7 @@
 <?php
-
 namespace Hexapla;
 
-require_once "cookie-functions.php";
+require_once "../cookie-functions.php";
 
 if (count($_POST) > 0) {
     // secret cookies!

@@ -32,7 +32,7 @@ body {
             'menuColor': $dark2, 'menuBorderColor': $dark15, 'menuFontColor': $dark15,
             'menuButtonHoverColor': $dark3, 'translationBorder': $dark10, 'translationBg': $dark2,
             'modalBg': $dark3, 'modalBorder': $dark15, 'fontColor': $dark15, 'buttonFontColor': $dark1-5,
-            'loadBg': rgba($dark15, 0.7), 'links': $darkLinks, 'sameHover': $dark15, 'sameHoverFont': $dark1-5,
+            'loadBg': rgba($dark15, 0.7), 'links': $darkLinks,
             'animationBorders': $brightSideBorder, 'resultBackground': $dark1-5);
     @include colors($colorMap);
 
@@ -50,7 +50,7 @@ body {
             'menuColor': $light2, 'menuBorderColor': $light15, 'menuFontColor': $light15,
             'menuButtonHoverColor': $light3, 'translationBorder': $light10, 'translationBg': $light2,
             'modalBg': $light3, 'modalBorder': $light15, 'fontColor': $light15, 'buttonFontColor': $light15,
-            'loadBg': rgba($light15, 0.7), 'links': $lightLinks, 'sameHover': $light15, 'sameHoverFont': $light1-5,
+            'loadBg': rgba($light15, 0.7), 'links': $lightLinks,
             'animationBorders': $darkSideBorder, 'resultBackground': $light1-5);
     @include colors($colorMap);
 

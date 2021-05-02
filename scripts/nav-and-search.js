@@ -1,9 +1,9 @@
-async function doSearch(event) {
+async function doSearch(event, onpopstate) {
     if (event) {
         event.preventDefault();
     }
     killTheTinyMouse();
-    autosave(true);
+    await autosave(true);
     let formData = new FormData(document.getElementById('searchform'));
     let translations, currentSearch, newSearch;
     for (let dataPair of formData.entries()) {
@@ -50,7 +50,7 @@ async function doSearch(event) {
     }
     // TODO: handle when we have more translation boxes than requested translations
     if (!hasAllTranslations) {
-        let newParents = await fetch('results.php?translations=' + translations, {
+        let newParents = await fetch(INTERNAL_API_PATH + 'results.php?translations=' + translations, {
             method: 'POST',
             mode: 'same-origin',
             redirect: 'error',
@@ -78,16 +78,19 @@ async function doSearch(event) {
         await completeSearch(formData);
     }
     document.getElementById('currentSearch').value = newSearch + '|' + translations;
+    if (!onpopstate) {
+        addSearch(newSearch, translations);
+    }
 }
 
 async function completeSearch(formData) {
-    let searchResults = await fetch('search.php', {
+    let searchResults = await fetch(INTERNAL_API_PATH + 'search.php', {
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
         body: formData
     });
-    searchResults.json().then(data => {
+    searchResults.text().then(textData => tryParseJson(textData)).then(data => {
         let results = data;
         for (let i = 0; i < Object.keys(results).length - 4; i++) { // leave room for 'alts' and 'title' and 'myNotes' and 'loc_id'
             let parent = document.getElementById(results[i]['parent']).getElementsByClassName('textArea')[0];
@@ -113,7 +116,10 @@ async function completeSearch(formData) {
             disambig.classList.add('hidden');
         }
 
-        document.getElementById('title').innerText = results['title'];
+        let title = document.getElementById('title');
+        title.innerText = results['title'];
+        title.classList.remove('hidden');
+        document.title = 'Modern Hexapla — ' + results['title'];
 
         let hasMultiTransl = false;
         for (let dataPair of formData.entries()) {

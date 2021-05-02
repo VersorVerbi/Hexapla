@@ -15,6 +15,7 @@
   }
 }
 $effectivelyMaxInt: 2147483647;
+$a-tags: 'a, a:hover, a:visited, a:active, a:focus';
 
 //#region Theme Establishment
 $borderColor: black;
@@ -130,8 +131,7 @@ $shadowColor: rgba(0, 0, 0, 0.1);
   }
 
   .of2 .hovered, .of3 .hovered, .of4 .hovered, .of5 .hovered, .of6 .hovered {
-    background-color: map.get($colorMap, 'sameHover');
-    color: map.get($colorMap, 'sameHoverFont');
+    text-shadow: 0.5px 0 0 map.get($colorMap, 'fontColor'), -0.5px 0 0 map.get($colorMap, 'fontColor');
   }
 
   #scroll-together-label {
@@ -527,6 +527,15 @@ h4 {
 
 #header {
   height: $headerHeight;
+
+  #{$a-tags} {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .onHome {
+    cursor: default;
+  }
 }
 
 #tlConHeader {
@@ -542,11 +551,15 @@ h4 {
 
   #title {
     width: 40%;
+
+    &:before {
+      content: '\2014\00A0'; // em-dash
+    }
   }
 }
 
 #headerSpace {
-  position:relative;
+  position: relative;
   margin-top: -30px;
   margin-bottom: 5px;
   width: 100%;

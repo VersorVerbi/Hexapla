@@ -2,8 +2,8 @@
 
 namespace Hexapla;
 
-require_once "dbconnect.php";
-require_once "sql-functions.php";
+require_once "../dbconnect.php";
+require_once "../sql-functions.php";
 /** @var $currentUser UserSettings */
 
 $notes = getData($db,

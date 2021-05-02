@@ -38,10 +38,10 @@ function getIdRows(&$pgConnection, string $tableName, array $searchCriteria = []
  * @param array $joinData
  * @param bool $stringsUseLike
  * @param bool $allOr
- * @return false|resource Results of the SQL query; use pg_fetch functions to get individual rows
+ * @return mixed (false|resource) Results of the SQL query; use pg_fetch functions to get individual rows
  * @uses checkPgConnection(), is_null(), strlen(), pg_query_params()
  */
-function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = [], array $joinData = [], $stringsUseLike = false, $allOr = false)
+function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = [], array $joinData = [], bool $stringsUseLike = false, bool $allOr = false): mixed
 {
     checkPgConnection($pgConnection);
     if (is_null($tableName) || strlen($tableName) === 0) {
@@ -131,7 +131,7 @@ function buildSearch($pgConnection, array $searchCriteria, bool $allOr, bool $st
     return $sql;
 }
 
-function pg_escape_identifier($pgConnection, $coln): string {
+function pg_escape_identifier($pgConnection, string $coln): string {
     $colTbl = '';
     if (str_contains($coln, '.')) {
         $split = explode('.', $coln);
@@ -153,11 +153,11 @@ function checkPgConnection(&$pgConnection) {
 
 /**
  * @param $pgConnection
- * @param $tableName
+ * @param string $tableName
  * @param array $searchCriteria
  * @return int
  */
-function getCount(&$pgConnection, $tableName, $searchCriteria = [], $escapedCriteria = false): int {
+function getCount(&$pgConnection, string $tableName, array $searchCriteria = [], bool $escapedCriteria = false): int {
     checkPgConnection($pgConnection);
     $sql = "SELECT COUNT(*) AS num_found FROM public." . pg_escape_identifier($pgConnection, $tableName);
     if (count($searchCriteria) > 0) {
@@ -169,16 +169,17 @@ function getCount(&$pgConnection, $tableName, $searchCriteria = [], $escapedCrit
 }
 
 /**
- * @param resource $db
+ * @param resource $pgConnection
  * @param string $tableName
  * @param array $insertArray
  * @param string|null $idColumn
- * @return bool|resource
+ * @param bool $escaped
+ * @return bool|string
  */
-function putData(&$db, string $tableName, array $insertArray, string|null $idColumn = HexaplaStandardColumns::ID, $escaped = false): bool|string
+function putData(&$pgConnection, string $tableName, array $insertArray, string|null $idColumn = HexaplaStandardColumns::ID, bool $escaped = false): bool|string
 {
-    checkPgConnection($db);
-    $sql = 'INSERT INTO public.' . pg_escape_identifier($db, $tableName) . ' ';
+    checkPgConnection($pgConnection);
+    $sql = 'INSERT INTO public.' . pg_escape_identifier($pgConnection, $tableName) . ' ';
     $columns = '';
     $values = '';
     $columnArray = [];
@@ -187,7 +188,7 @@ function putData(&$db, string $tableName, array $insertArray, string|null $idCol
             if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
             $columnArray[] = $column;
         }
-        $columns = '(' . pg_implode(',', $columnArray, $db) . ')';
+        $columns = '(' . pg_implode(',', $columnArray, $pgConnection) . ')';
         foreach ($insertArray as $row) {
             $valueChunk = '';
             foreach ($columnArray as $column) {
@@ -203,8 +204,8 @@ function putData(&$db, string $tableName, array $insertArray, string|null $idCol
     } else {
         foreach ($insertArray as $column => $value) {
             if ($tableName === HexaplaTables::TEXT_VALUE && $column === HexaplaTextStrongs::STRONG_ID) continue;
-            $columns .= ',' . pg_escape_identifier($db, $column);
-            $values .= ',' . ($escaped ? $value : pg_escape_literal($db, $value));
+            $columns .= ',' . pg_escape_identifier($pgConnection, $column);
+            $values .= ',' . ($escaped ? $value : pg_escape_literal($pgConnection, $value));
         }
         $columns = '(' . substr($columns, 1) . ')';
         $values = '(' . substr($values, 1) . ')';
@@ -215,11 +216,11 @@ function putData(&$db, string $tableName, array $insertArray, string|null $idCol
     if ($tableName === HexaplaTables::TEXT_STRONGS) {
         $sql .= ' ON CONFLICT DO NOTHING';
     } elseif ($tableName === HexaplaTables::USER_SETTINGS) {
-        $sql .= ' ON CONFLICT user_setting_pkey UPDATE SET ' . pg_escape_literal($db,HexaplaUserSettings::VALUE);
-        $sql .= ' = ' . ($escaped ? $insertArray[HexaplaUserSettings::VALUE] : pg_escape_literal($db, $insertArray[HexaplaUserSettings::VALUE]));
+        $sql .= ' ON CONFLICT user_setting_pkey UPDATE SET ' . pg_escape_literal($pgConnection,HexaplaUserSettings::VALUE);
+        $sql .= ' = ' . ($escaped ? $insertArray[HexaplaUserSettings::VALUE] : pg_escape_literal($pgConnection, $insertArray[HexaplaUserSettings::VALUE]));
     }
     if (!is_null($idColumn)) {
-        $sql .= ' RETURNING ' . pg_escape_identifier($db, $idColumn) . ';';
+        $sql .= ' RETURNING ' . pg_escape_identifier($pgConnection, $idColumn) . ';';
     } else {
         $sql .= ';';
     }
@@ -245,7 +246,7 @@ function putData(&$db, string $tableName, array $insertArray, string|null $idCol
  * @param string $idColumn
  * @return mixed (bool|mixed)
  */
-function update(&$db, string $tableName, array $updates, $criteria = [], $idColumn = HexaplaStandardColumns::ID): mixed
+function update(&$db, string $tableName, array $updates, array $criteria = [], string $idColumn = HexaplaStandardColumns::ID): mixed
 {
     // TODO: handle situation where targeted record does not exist
     checkPgConnection($db);
@@ -288,7 +289,7 @@ function update(&$db, string $tableName, array $updates, $criteria = [], $idColu
  * @param string $idColumn
  * @param bool $insert
  */
-function updateStrongs(array $insertArray, $insertUpdateResult, string $idColumn, $insert = true) {
+function updateStrongs(array $insertArray, $insertUpdateResult, string $idColumn, bool $insert = true) {
     $strongInserts = [];
     if (isset($insertArray[HexaplaTextStrongs::STRONG_ID]) && strlen($insertArray[HexaplaTextStrongs::STRONG_ID]) > 0) {
         $wordId = pg_fetch_assoc($insertUpdateResult)[$idColumn];
@@ -303,7 +304,7 @@ function updateStrongs(array $insertArray, $insertUpdateResult, string $idColumn
             $strongInserts[HexaplaTextStrongs::TEXT_ID] = $wordId;
             $strongInserts[HexaplaTextStrongs::STRONG_ID] = $strongId;
         }
-    } elseif (is_array($starter= reset($insertArray))) {
+    } elseif (is_array($starter = reset($insertArray))) {
         foreach ($insertArray as $row) {
             $wordId = pg_fetch_assoc($insertUpdateResult)[$idColumn];
             if (isset($row[HexaplaTextStrongs::STRONG_ID]) && strlen($row[HexaplaTextStrongs::STRONG_ID]) > 0) {

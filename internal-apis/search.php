@@ -2,8 +2,8 @@
 
 namespace Hexapla;
 session_start();
-require_once "sql-functions.php";
-require_once "dbconnect.php";
+require_once "../sql-functions.php";
+require_once "../dbconnect.php";
 /**
  * @var UserSettings $currentUser
  * @var resource $db

@@ -1,8 +1,8 @@
 <?php
 namespace Hexapla;
 
-require_once "sql-functions.php";
-require_once "general-functions.php";
+require_once "../sql-functions.php";
+require_once "../general-functions.php";
 /**
  * @var UserSettings $currentUser
  * @var resource $db

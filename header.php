@@ -2,15 +2,15 @@
 
 namespace Hexapla;
 /** @var string $title */
+$extendedTitle = (strlen($title) > 0);
 ?>
 
 
 <div id="header">
-    <?php if ($title === 'Modern Hexapla') { ?>
-        <h3 id="title"><?php echo $title; ?></h3>
-    <?php } else {
-        // TODO: make a link back to the home/about page, then the regular title?
-    } ?>
+    <h3>
+        <a href="?page=home"<?php echo ($extendedTitle ? '' : ' class="onHome"'); ?>>Modern Hexapla</a>
+        <span id="title"<?php echo ($extendedTitle ? '' : ' class="hidden"'); ?>><?php echo ($extendedTitle ? $title : ''); ?></span>
+    </h3>
     <?php include "nav.php"; ?>
     <?php include "search-box.html"; ?>
 </div>

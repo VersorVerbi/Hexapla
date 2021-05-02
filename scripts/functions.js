@@ -1,3 +1,5 @@
+const INTERNAL_API_PATH = '/Hexapla/internal-apis/'; // RELATIVE-URL
+
 function substr_count(haystack, needle) {
     let re = new RegExp(needle, 'g');
     return (haystack.match(re) || []).length;
@@ -120,7 +122,7 @@ function toggleClass(element, className) {
 }
 
 function fetchLiturgicalColor() {
-    let target = '/Hexapla/liturgical-color.php?date='; // RELATIVE-URL
+    let target = INTERNAL_API_PATH + 'liturgical-color.php?date='; // RELATIVE-URL
     let date = new Date();
     target = target + date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
     return fetch(target).then(result => result.text());
@@ -159,21 +161,21 @@ async function saveNote(locIds, noteText, noteId = null, lastSaveElement) {
     if (noteId !== null) {
         frm.append('note_id', noteId);
     }
-    let saveOperation = await fetch('/Hexapla/save-notes.php', { // RELATIVE-URL
+    let saveOperation = await fetch(INTERNAL_API_PATH + 'save-notes.php', { // RELATIVE-URL
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
         body: frm
     });
     if (waitForIt) {
-        let data = await saveOperation.json();
+        let data = await saveOperation.text().then(data => tryParseJson(data));
         if (!data) {
             showAutosaveError();
         } else {
             document.getElementById('currentNoteId').value = data;
         }
     } else {
-        saveOperation.json().then(data => {
+        saveOperation.text().then(txtData => tryParseJson(txtData)).then(data => {
             if (data) {
                 lastSaveElement.innerText = new Date().toTimeString();
                 lastSaveElement.id = 'autosave_time';
@@ -228,4 +230,12 @@ function numbersOnly(str) {
         output += char;
     }
     return parseInt(output);
+}
+
+function tryParseJson(jsonStr) {
+    return new Promise((resolve) => resolve(JSON.parse(jsonStr))).catch(e => {
+        console.log(jsonStr);
+        console.error(e);
+        throw e;
+    });
 }
