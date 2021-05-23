@@ -1,11 +1,30 @@
 <div id="loginPopup" class="popup hidden userPopup">
   <form id="login" class="userForm">
     <h2>Login</h2>
-    <div><label for="loginEmail">Email: </label><input id="loginEmail" name="loginEmail" type="email" /></div>
-    <div>
-      <label for="loginPassword">Password: </label>
-      <input id="loginPassword" name="loginPassword" type="password" />
+    <button type="button" id="closeLogin" class="miniButton  closeButton" title="Close" onclick="cancelLogin()">
+      <span class="icofont-close"></span>
+    </button>
+    <div class="inputs">
+      <div>
+        <label for="loginEmail">Email: </label>
+        <input id="loginEmail" name="loginEmail" type="email" />
+        <label for="loginEmail" class="errorLabel hidden">You must enter an email address.</label>
+      </div>
+      <div>
+        <label for="loginPassword">Password: </label>
+        <input id="loginPassword" name="loginPassword" type="password" />
+        <label for="loginPassword" class="errorLabel hidden">You must enter a password.</label>
+      </div>
     </div>
-    <input type="submit" value="Login" />
+    <div class="radios">
+      <div><input type="radio" name="loginLength" id="l30days" value="30" /><label for="l30days">Stay logged in for 30 days</label></div>
+      <div><input type="radio" name="loginLength" id="lInf" value="inf" /><label for="lInf">Stay logged in forever</label></div>
+      <div><input type="radio" name="loginLength" id="lNow" value="now" checked="checked" /><label for="lNow">Stay logged in until I close my browser</label></div>
+    </div>
+    <div>
+      <label for="loginSubmit" class="errorLabel hidden">That email address/password combination is not valid.</label>
+      <input type="submit" value="Login" id="loginSubmit" />
+    </div>
   </form>
+  <span class="alternateLink">Not a member? <a href="">Register</a> instead!</span>
 </div>

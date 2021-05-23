@@ -6,7 +6,7 @@ $extendedTitle = (strlen($title) > 0);
 ?>
 
 
-<div id="header">
+<div id="header" class="headerRow">
     <h3>
         <a href="?page=home"<?php echo ($extendedTitle ? '' : ' class="onHome"'); ?>>Modern Hexapla</a>
         <span id="title"<?php echo ($extendedTitle ? '' : ' class="hidden"'); ?>><?php echo ($extendedTitle ? $title : ''); ?></span>

@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let d = 0; d < diffPickers.length; d++) {
         diffPickers[d].addEventListener('change', function() {
             if (this.checked) {
-                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaWord&value=' + (this.value === 'word-diff')).then( () => { // RELATIVE-URL
+                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaWord&value=' + (this.value === 'word-diff')).then( () => {
                     getDiffCookies().then(cookies => diffCtrl.updateCookies(cookies));
                 });
             }
@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.body.classList.add('themeChange');
                 document.body.classList.remove(...shadeList);
                 document.body.classList.add(this.value);
-                fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaTheme').then(data => data.text().then(doShadeSwap.bind(null, this.value))); // RELATIVE-URL
-                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then( // RELATIVE-URL
+                fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaTheme').then(data => data.text().then(doShadeSwap.bind(null, this.value)));
+                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then(
                     () => setTimeout(() => document.body.classList.remove('themeChange'), 100));
             }
         });
@@ -93,8 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('theme-selection').addEventListener('change', function() {
         document.body.classList.add('themeChange');
         document.getElementById('themeCss').href = "styles/" + this.value + ".css";
-        fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaShade').then(data => data.text().then(doThemeSwap.bind(null, this.value))); // RELATIVE-URL
-        fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then( // RELATIVE-URL
+        fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaShade').then(data => data.text().then(doThemeSwap.bind(null, this.value)));
+        fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then(
             () => {
                 if (this.value === 'liturgical') {
                     fetchLiturgicalColor()
@@ -107,12 +107,13 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('do-login').addEventListener('click', (ev) => {
         ev.currentTarget.classList.add('clicked');
         document.getElementById('loginPopup').classList.remove('hidden');
-        setTimeout(function (target) { return () => target.classList.remove('clicked'); }(ev.currentTarget), 50);
+        setTimeout(function (target) { hideMenu(); return () => target.classList.remove('clicked'); }(ev.currentTarget), 50);
     });
 
     document.getElementById('reg').addEventListener('click', (ev) => {
         ev.preventDefault();
         document.getElementById('registrationPopup').classList.remove('hidden');
+        hideMenu();
     });
 });
 

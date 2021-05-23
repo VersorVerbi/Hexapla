@@ -362,3 +362,23 @@ function toTitleCase($str): string {
 function json_decode(string $json, bool|null $associative = true, int $depth = 512, int $flags = 0): mixed {
     return \json_decode($json, $associative, $depth, $flags);
 }
+
+function multiarray_key_exists($arr, ...$keys): bool {
+    if (!isset($arr[$keys[0]])) {
+        return false;
+    } elseif (count($keys) === 1) {
+        return true;
+    } else {
+        return multiarray_key_exists($arr[$keys[0]], ...array_slice($keys, 1));
+    }
+}
+
+function in_array_r(mixed $needle, array $haystack): bool {
+    if (in_array($needle, $haystack)) return true;
+    foreach ($haystack as $straw) {
+        if (is_array($straw)) {
+            if (in_array_r($needle, $straw)) return true;
+        }
+    }
+    return false;
+}

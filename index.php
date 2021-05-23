@@ -118,6 +118,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     <script type="text/javascript" src="scripts/diff.js"></script>
     <script type="text/javascript" src="scripts/sidebar.js"></script>
     <script type="text/javascript" src="scripts/history.js"></script>
+    <script type="text/javascript" src="scripts/user.js"></script>
     <script src="https://cdn.tiny.cloud/1/ptcuvqtdffo2fe0pjk54wmk1wa867jqad8psipzfqv6wvvtm/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <noscript>
         <link type="text/css" rel="stylesheet" href="styles/nojs.min.css" />
@@ -163,6 +164,9 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
         init_tinymce('#my-notes', <?php echo json_encode($tinySkin); ?>);
 
         document.getElementById('currentTinyMCETheme').value = <?php echo json_encode($tinySkin); ?>;
+
+        // FIXME: testing code
+        console.log(<?php json_encode($currentUser); ?>);
     </script>
 </body>
 </html>
@@ -174,6 +178,9 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - add diff --> add button and code to run diff code | add way to turn OFF diffing
     - add sidebar --> enable all functionality
     - add click->dictionary+toggle for words --> finish getting data from all sources
+        -> switch to WordReference.com? Needs HTML parsing, maybe API from GitHub -- consistently better at catching lemma -- https://github.com/fega/wordreference-api
+            --> still doesn't have lemma->inflections
+        -> wordnik can also get lemma via wiktionary, but not easily parsed in the JSON
     - reload, add more translations
     - handle commentary text --> display it too
     - add user functionality
@@ -192,4 +199,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - disable buttons that don't do anything on the current screen + change button font color when disabled
     - make sure language codes are in the database -- base lang code for all record in public."language", but dialect codes for each version?
     - populate translationList in header
+    - problem on import: sometimes we get multiple verses with the same loc_id, but all start position @ 0
+        -> causes downstream problems with text display, cross-references, and probably a lot more
+        -> clear out text_value, add unique constraint on loc_id/version_id/position, and force "second" verse to be added onto the end during import
 */

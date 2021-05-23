@@ -27,21 +27,34 @@ function getDefinitionAPI($word, $langId) {
         $lemmaResult = curl_exec($curl);
         if ($lemmaResult === false) return false;
         $lemmaResult = json_decode($lemmaResult);
+        if (!multiarray_key_exists($lemmaResult, 'results', 0, 'lexicalEntries', 0, 'inflectionOf', 0, 'id')) {
+            return false;
+        }
         $lemma = $lemmaResult['results'][0]['lexicalEntries'][0]['inflectionOf'][0]['id'];
         curl_setopt($curl, CURLOPT_URL, $oxfordBaseUrl . '/entries/en-us/' . $lemma);
         $result = curl_exec($curl);
         if ($result === false) return false;
         $result = json_decode($result);
         $output['lemma'] = $lemma;
-        $result = $result['results'][0]['lexicalEntries'][0]['entries'][0];
-        $output['etymology'] = $result['etymologies'];
+        if (multiarray_key_exists($result, 'results', 0, 'lexicalEntries', 0, 'entries', 0)) {
+            $result = $result['results'][0]['lexicalEntries'][0]['entries'][0];
+        } else {
+            return false;
+        }
+        if (multiarray_key_exists($result, 'etymologies')) {
+            $output['etymology'] = $result['etymologies'];
+        }
         foreach($result['pronunciations'] as $pronunciation) {
             if (isset($pronunciation['audioFile'])) {
                 $output['pronunciation'][] = ['phonetic' => $pronunciation['phoneticSpelling'], 'link' => $pronunciation['audioFile']];
             }
         }
         foreach($result['senses'] as $sense) {
-            $output['definition'][] = $sense['definitions'];
+            if (isset($sense['definitions'])) {
+                $output['definition'][] = $sense['definitions'];
+            } elseif (isset($sense['shortDefinitions'])) {
+                $output['definition'][] = $sense['shortDefinitions'];
+            }
         }
         curl_close($curl);
         return $output;
@@ -77,8 +90,10 @@ function getInflectionsAPI($word, $langId) {
         $inflectionResult = curl_exec($curl);
         if ($inflectionResult === false) return false;
         $inflectionResult = json_decode($inflectionResult);
-        foreach ($inflectionResult['results'][0]['lexicalEntries'][0]['inflections'] as $inflection) {
-            $results[] = $inflection['inflectedForm'];
+        if (multiarray_key_exists($inflectionResult, 'results', 0, 'lexicalEntries', 0, 'inflections')) {
+            foreach ($inflectionResult['results'][0]['lexicalEntries'][0]['inflections'] as $inflection) {
+                $results[] = $inflection['inflectedForm'];
+            }
         }
         curl_close($curl);
     }

@@ -241,7 +241,7 @@ $shadowColor: rgba(0, 0, 0, 0.1);
   width: 300px;
   height: 250px;
   position: absolute;
-  right: $regFormPadding;
+  left: 400px;
   background-color: $infoColor;
   border: 1px solid $borderColor;
   z-index: $effectivelyMaxInt;
@@ -372,8 +372,8 @@ $tlPopupHeight: 425px;
 $popupBorderRadius: 10px;
 $tboxGridBoxPadding: 10px;
 $regFormPadding: 30px;
-$regPopupHeight: 350px;
-$loginPopupHeight: 300px;
+$regPopupHeight: 400px;
+$loginPopupHeight: 400px;
 //#endregion
 
 //#region Body variables
@@ -542,20 +542,20 @@ h4 {
   height: 40px;
 }
 
-#header, #tlConHeader {
+#title {
+  width: 40%;
+
+  &:before {
+    content: '\2014\00A0'; // em-dash
+  }
+}
+
+.headerRow {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-
-  #title {
-    width: 40%;
-
-    &:before {
-      content: '\2014\00A0'; // em-dash
-    }
-  }
 }
 
 #headerSpace {
@@ -1488,7 +1488,7 @@ body.themeChange {
     display: table;
 
     &#login {
-      width: 425px;
+      width: 600px;
       margin: auto;
     }
 
@@ -1496,39 +1496,83 @@ body.themeChange {
       display: table-caption;
     }
 
-    div {
-      display: table-row;
-      height: 3em;
+    .inputs {
+      display: table-row-group;
+      position: relative;
 
-      label, input {
-        display: table-cell;
+      div {
+        display: table-row;
+        height: 4em;
+
+        label, input {
+          display: table-cell;
+        }
+
+        label {
+          padding-right: 5px;
+        }
+
+        .errorLabel {
+          left: 0;
+          margin-top: 5px;
+        }
+
+        // TODO: position submit errors
+
+        input {
+          width: 100%;
+          box-sizing: border-box;
+          font-size: 14pt;
+          line-height: 2em;
+          padding: 0 5px;
+        }
+
+        #pwInstructions {
+          @include info-popup();
+        }
       }
+    }
 
-      label {
-        padding-right: 5px;
-      }
+    .radios {
+      position: absolute;
+      height: 4em;
+    }
 
-      input {
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 14pt;
-        line-height: 2em;
-        padding: 0 5px;
-      }
-
-      #pwInstructions {
-        @include info-popup();
+    :not(.inputs) {
+      .errorLabel {
+        transform: translateY(-30%);
       }
     }
 
     input[type='submit'] {
-      width: 200px;
+      width: 200px !important;
       height: 2em;
       position: absolute;
-      transform: translateX(50%);
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 10px;
       font-size: 14pt;
     }
   }
+
+  .closeButton {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+  }
+}
+
+.errorLabel {
+  display: block;
+  position: absolute;
+  color: red;
+}
+
+.alternateLink {
+  font-size: 11pt;
+  display: block;
+  position: absolute;
+  bottom: 18px;
 }
 
 // FIXME: long version names wrap and look bad

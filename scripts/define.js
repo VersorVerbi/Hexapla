@@ -59,7 +59,7 @@ async function define(ev) {
     let crossRefsDiv = document.getElementById('crossref');
     emptyBox(crossRefsDiv);
 
-    let wordSetup = fetch(INTERNAL_API_PATH + 'word-setup.php', { // RELATIVE-URL
+    let wordSetup = fetch(INTERNAL_API_PATH + 'word-setup.php', {
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
@@ -71,13 +71,13 @@ async function define(ev) {
         newForm.append('tid', wordData['tid']);
         newForm.append('literalWords', JSON.stringify(wordData['literalWords']));
         newForm.append('langId', wordData['langId']);
-        let definitions = await fetch(INTERNAL_API_PATH + 'define.php', { // RELATIVE-URL
+        let definitions = await fetch(INTERNAL_API_PATH + 'define.php', {
             method: 'POST',
             mode: 'same-origin',
             redirect: 'error',
             body: newForm
         });
-        let crossRefs = fetch(INTERNAL_API_PATH + 'cross-refs.php', { // RELATIVE-URL
+        let crossRefs = fetch(INTERNAL_API_PATH + 'cross-refs.php', {
             method: 'POST',
             mode: 'same-origin',
             redirect: 'error',

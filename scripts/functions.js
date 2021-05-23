@@ -122,7 +122,7 @@ function toggleClass(element, className) {
 }
 
 function fetchLiturgicalColor() {
-    let target = INTERNAL_API_PATH + 'liturgical-color.php?date='; // RELATIVE-URL
+    let target = INTERNAL_API_PATH + 'liturgical-color.php?date=';
     let date = new Date();
     target = target + date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
     return fetch(target).then(result => result.text());
@@ -161,7 +161,7 @@ async function saveNote(locIds, noteText, noteId = null, lastSaveElement) {
     if (noteId !== null) {
         frm.append('note_id', noteId);
     }
-    let saveOperation = await fetch(INTERNAL_API_PATH + 'save-notes.php', { // RELATIVE-URL
+    let saveOperation = await fetch(INTERNAL_API_PATH + 'save-notes.php', {
         method: 'POST',
         mode: 'same-origin',
         redirect: 'error',
@@ -238,4 +238,26 @@ function tryParseJson(jsonStr) {
         console.error(e);
         throw e;
     });
+}
+
+function getSibling(el, selector) {
+    let originalEl = el;
+    if (selector.length === 0) return el.nextElementSibling;
+    while (el.nextElementSibling) {
+        if (el.nextElementSibling.matches(selector)) return el.nextElementSibling;
+        el = el.nextElementSibling;
+    }
+    el = originalEl;
+    while (el.previousElementSibling) {
+        if (el.previousElementSibling.matches(selector)) return el.previousElementSibling;
+        el = el.previousElementSibling;
+    }
+    return null;
+}
+
+function clearForm(frm) {
+    let inputs = frm.querySelectorAll('input[type=text], input[type=password], textarea');
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = '';
+    }
 }

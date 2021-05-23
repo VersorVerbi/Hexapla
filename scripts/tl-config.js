@@ -100,7 +100,7 @@ function closeTlConfig() {
     document.getElementById('translations').value = translationArray.join('^');
     // TODO: handle refresh? re-search?
 
-    fetch('/Hexapla/cookies.php?set&name=hexaplaTls&value=' + translationArray.join('^'));
+    fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaTls&value=' + translationArray.join('^'));
 }
 
 function dropZoneSetup(zone, onEnter, onExit, onDrop, onOver) {
@@ -116,5 +116,62 @@ function draggableStart(ev) {
     ev.dataTransfer.dropEffect = 'move';
     ev.target.classList.add('pickedUp');
 }
+
+function addRemoveNotes() {
+    let label = document.getElementById('show-notes-label');
+    if (this.checked) {
+        let targetSpot = document.getElementById('tl6');
+        if (targetSpot.classList.contains('occupied')) {
+            let blocker = targetSpot.getElementsByClassName('transl')[0];
+            let langTarget = blocker.dataset.lang;
+            returnVersion(blocker, langTarget);
+            blocker.removeEventListener('dragstart', draggableStart);
+            blocker.addEventListener('dragstart', draggableStart);
+        } else {
+            targetSpot.classList.add('occupied');
+        }
+        let notesBox = document.createElement('div');
+        notesBox.classList.add('transl');
+        notesBox.draggable = true;
+        notesBox.id = 'notes';
+        notesBox.innerText = 'My Notes';
+        notesBox.addEventListener('dragstart', draggableStart);
+        targetSpot.appendChild(notesBox);
+        label.title = "Stop showing my notes";
+    } else {
+        let notesBox = document.getElementById('notes');
+        if (notesBox) {
+            notesBox.parentElement.classList.remove('occupied');
+            notesBox.parentElement.removeChild(notesBox);
+            notesBox.removeEventListener('dragstart', draggableStart);
+        }
+        label.title = "Use one of the version spaces to enter my own notes on each passage";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    let draggables = document.querySelectorAll('[draggable="true"]');
+    for (let d = 0; d < draggables.length; d++) {
+        draggables[d].addEventListener('dragstart', draggableStart);
+    }
+    dropZoneSetup(document.getElementById('translGrid'), potentialTl, nomoreTl, addTl, ev => {
+        ev.preventDefault();
+    });
+    dropZoneSetup(document.getElementById('translList'), potentialRemoveTl, keepTl, removeTl, ev => {
+        ev.preventDefault();
+    });
+
+
+    let notesLabel = document.getElementById('show-notes-label');
+    let notes = document.getElementById('show-notes');
+    if (notes.checked) {
+        notesLabel.title = "Stop showing my notes";
+        notesLabel.classList.add('clicked');
+        addRemoveNotes.call(notes);
+    } else {
+        notesLabel.title = "Use one of the version spaces to enter my own notes on each passage";
+    }
+    notes.addEventListener('change', addRemoveNotes.bind(notes));
+});
 
 //TODO: otherwise handle the translation list

@@ -9,7 +9,7 @@ require_once "../sql-functions.php";
  */
 
 $sourceWords = json_decode($_POST['sourceWords']);
-$translationId = $_POST['tid'];
+// $translationId = $_POST['tid']; // unused - will we need this at any point?
 $literalWords = json_decode($_POST['literalWords']);
 $langId = $_POST['langId'];
 

@@ -128,18 +128,19 @@ h4 {
   height: 40px;
 }
 
-#header, #tlConHeader {
+#title {
+  width: 40%;
+}
+#title:before {
+  content: "— ";
+}
+
+.headerRow {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-}
-#header #title, #tlConHeader #title {
-  width: 40%;
-}
-#header #title:before, #tlConHeader #title:before {
-  content: "— ";
 }
 
 #headerSpace {
@@ -763,12 +764,12 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   top: calc(50% - 212px);
 }
 .popup#registrationPopup {
-  height: 350px;
-  top: calc(50% - 175px);
+  height: 400px;
+  top: calc(50% - 200px);
 }
 .popup#loginPopup {
-  height: 300px;
-  top: calc(50% - 150px);
+  height: 400px;
+  top: calc(50% - 200px);
 }
 
 #translationController {
@@ -1089,35 +1090,43 @@ body.themeChange #scroll-together-label span, body.themeChange #scroll-together-
   display: table;
 }
 .userPopup .userForm#login {
-  width: 425px;
+  width: 600px;
   margin: auto;
 }
 .userPopup .userForm h2 {
   display: table-caption;
 }
-.userPopup .userForm div {
-  display: table-row;
-  height: 3em;
+.userPopup .userForm .inputs {
+  display: table-row-group;
+  position: relative;
 }
-.userPopup .userForm div label, .userPopup .userForm div input {
+.userPopup .userForm .inputs div {
+  display: table-row;
+  height: 4em;
+}
+.userPopup .userForm .inputs div label, .userPopup .userForm .inputs div input {
   display: table-cell;
 }
-.userPopup .userForm div label {
+.userPopup .userForm .inputs div label {
   padding-right: 5px;
 }
-.userPopup .userForm div input {
+.userPopup .userForm .inputs div .errorLabel {
+  left: 0;
+  margin-top: 5px;
+}
+.userPopup .userForm .inputs div input {
   width: 100%;
   box-sizing: border-box;
   font-size: 14pt;
   line-height: 2em;
   padding: 0 5px;
 }
-.userPopup .userForm div #pwInstructions {
+.userPopup .userForm .inputs div #pwInstructions {
   display: block;
   width: 300px;
   height: 250px;
   position: absolute;
-  right: 30px;
+  left: 400px;
   background-color: white;
   border: 1px solid black;
   z-index: 2147483647;
@@ -1125,13 +1134,13 @@ body.themeChange #scroll-together-label span, body.themeChange #scroll-together-
   font-size: 10pt;
   transform: translateY(-60%);
 }
-.userPopup .userForm div #pwInstructions ol {
+.userPopup .userForm .inputs div #pwInstructions ol {
   margin-top: 7px;
 }
-.userPopup .userForm div #pwInstructions li {
+.userPopup .userForm .inputs div #pwInstructions li {
   margin-bottom: 7px;
 }
-.userPopup .userForm div #pwInstructions div {
+.userPopup .userForm .inputs div #pwInstructions div {
   overflow: auto;
   width: 100%;
   height: 100%;
@@ -1139,13 +1148,13 @@ body.themeChange #scroll-together-label span, body.themeChange #scroll-together-
   box-sizing: border-box;
   display: block;
 }
-.userPopup .userForm div #pwInstructions div:after {
+.userPopup .userForm .inputs div #pwInstructions div:after {
   content: "";
   width: 100%;
   height: 10px;
   display: block;
 }
-.userPopup .userForm div #pwInstructions:before, .userPopup .userForm div #pwInstructions:after {
+.userPopup .userForm .inputs div #pwInstructions:before, .userPopup .userForm .inputs div #pwInstructions:after {
   content: "";
   display: block;
   width: 0;
@@ -1156,7 +1165,7 @@ body.themeChange #scroll-together-label span, body.themeChange #scroll-together-
   border-bottom-color: transparent;
   border-left: 0;
 }
-.userPopup .userForm div #pwInstructions::before {
+.userPopup .userForm .inputs div #pwInstructions::before {
   border-top-width: 8px;
   border-bottom-width: 8px;
   border-right-width: 8px;
@@ -1165,7 +1174,7 @@ body.themeChange #scroll-together-label span, body.themeChange #scroll-together-
   border-right-color: black;
   z-index: 1;
 }
-.userPopup .userForm div #pwInstructions::after {
+.userPopup .userForm .inputs div #pwInstructions::after {
   border-top-width: 7px;
   border-bottom-width: 7px;
   border-right-width: 7px;
@@ -1174,12 +1183,39 @@ body.themeChange #scroll-together-label span, body.themeChange #scroll-together-
   border-right-color: white;
   z-index: 2;
 }
+.userPopup .userForm .radios {
+  position: absolute;
+  height: 4em;
+}
+.userPopup .userForm :not(.inputs) .errorLabel {
+  transform: translateY(-30%);
+}
 .userPopup .userForm input[type=submit] {
-  width: 200px;
+  width: 200px !important;
   height: 2em;
   position: absolute;
-  transform: translateX(50%);
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10px;
   font-size: 14pt;
+}
+.userPopup .closeButton {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}
+
+.errorLabel {
+  display: block;
+  position: absolute;
+  color: red;
+}
+
+.alternateLink {
+  font-size: 11pt;
+  display: block;
+  position: absolute;
+  bottom: 18px;
 }
 
 body.dark {

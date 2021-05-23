@@ -8,8 +8,15 @@ function getCookie($name) {
     return "";
 }
 
-function setHexCookie($name, $value) {
-    $expires = time() + (30 * 24 * 60 * 60); // 30 days
+function setHexCookie($name, $value, $length = 30) {
+    if ($length === 'now') {
+        $expires = 0;
+    } elseif ($length === 'inf') {
+        $expires = time() + (100 * 365 * 24 * 60 * 60); // 100 years is close enough to infinity, right?
+    } else {
+        if (!is_nan($length)) $length = 30;
+        $expires = time() + ($length * 24 * 60 * 60);
+    }
     $path = '/';
     $secure = true; // TODO: true?
     $samesite = 'Strict';

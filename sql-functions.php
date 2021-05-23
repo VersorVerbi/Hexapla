@@ -2,9 +2,13 @@
 
 namespace Hexapla;
 
+use DateInterval;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use JetBrains\PhpStorm\Pure;
-use ArrayObject;
 
+require_once "sql-classes.php";
 require_once "dbconnect.php";
 require_once "general-functions.php";
 require_once "lib/portable-utf8.php";
@@ -38,10 +42,11 @@ function getIdRows(&$pgConnection, string $tableName, array $searchCriteria = []
  * @param array $joinData
  * @param bool $stringsUseLike
  * @param bool $allOr
+ * @param bool $valuesEscaped
  * @return mixed (false|resource) Results of the SQL query; use pg_fetch functions to get individual rows
  * @uses checkPgConnection(), is_null(), strlen(), pg_query_params()
  */
-function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = [], array $joinData = [], bool $stringsUseLike = false, bool $allOr = false): mixed
+function getData(&$pgConnection, string $tableName, array $columns = [], array $searchCriteria = [], array $sortColumns = [], array $joinData = [], bool $stringsUseLike = false, bool $allOr = false, bool $valuesEscaped = false): mixed
 {
     checkPgConnection($pgConnection);
     if (is_null($tableName) || strlen($tableName) === 0) {
@@ -63,7 +68,7 @@ function getData(&$pgConnection, string $tableName, array $columns = [], array $
         }
     }
     if (count($searchCriteria) > 0) {
-        $sql .= buildSearch($pgConnection, $searchCriteria, $allOr, $stringsUseLike);
+        $sql .= buildSearch($pgConnection, $searchCriteria, $allOr, $stringsUseLike, $valuesEscaped);
     }
     if (count($sortColumns) > 0) {
         $i = 1;
@@ -121,11 +126,10 @@ function buildSearch($pgConnection, array $searchCriteria, bool $allOr, bool $st
         } else {
             if (!$stringsUseLike || numericOnly($value)) {
                 $sql .= '=';
-                $sql .= ($valuesEscaped ? $value : pg_escape_literal($pgConnection, $value));
             } else {
                 $sql .= ' LIKE ';
-                $sql .= ($valuesEscaped ? $value : pg_escape_literal($pgConnection, $value));
             }
+            $sql .= ($valuesEscaped ? $value : pg_escape_literal($pgConnection, $value));
         }
     }
     return $sql;
@@ -141,8 +145,15 @@ function pg_escape_identifier($pgConnection, string $coln): string {
     return (strlen($colTbl) > 0 ? \pg_escape_identifier($pgConnection, $colTbl) . '.' : '') . \pg_escape_identifier($pgConnection, $coln);
 }
 
+function pg_escape_literal($pgConnection, string $value): string {
+    if (DateTime::createFromFormat('Y-m-d\TH:i', $value)) {
+        return 'to_timestamp(' . \pg_escape_literal($pgConnection, $value) . ', \'YYYY-MM-DD\THH24:MI\')';
+    }
+    return \pg_escape_literal($pgConnection, $value);
+}
+
 /**
- * @uses is_null(), getDbConnection()
+ * @uses getDbConnection()
  * @param resource|null $pgConnection Either the connection to the PostgreSQL database or null; if null, gets set to that connection
  */
 function checkPgConnection(&$pgConnection) {
@@ -155,6 +166,7 @@ function checkPgConnection(&$pgConnection) {
  * @param $pgConnection
  * @param string $tableName
  * @param array $searchCriteria
+ * @param bool $escapedCriteria
  * @return int
  */
 function getCount(&$pgConnection, string $tableName, array $searchCriteria = [], bool $escapedCriteria = false): int {
@@ -213,11 +225,15 @@ function putData(&$pgConnection, string $tableName, array $insertArray, string|n
     $sql .= $columns;
     $sql .= ' VALUES ';
     $sql .= $values;
-    if ($tableName === HexaplaTables::TEXT_STRONGS) {
+    if (in_array($tableName, [HexaplaTables::TEXT_STRONGS, HexaplaTables::USER])) {
         $sql .= ' ON CONFLICT DO NOTHING';
     } elseif ($tableName === HexaplaTables::USER_SETTINGS) {
-        $sql .= ' ON CONFLICT user_setting_pkey UPDATE SET ' . pg_escape_literal($pgConnection,HexaplaUserSettings::VALUE);
+        $sql .= ' ON CONFLICT (' . pg_escape_identifier($pgConnection, HexaplaUserSettings::USER_ID) . ',' . pg_escape_identifier($pgConnection, HexaplaUserSettings::SETTING) . ') DO UPDATE SET ' . pg_escape_identifier($pgConnection,HexaplaUserSettings::VALUE);
         $sql .= ' = ' . ($escaped ? $insertArray[HexaplaUserSettings::VALUE] : pg_escape_literal($pgConnection, $insertArray[HexaplaUserSettings::VALUE]));
+    } elseif ($tableName === HexaplaTables::USER_LOGIN_COOKIES) {
+        $sql .= ' ON CONFLICT (' . pg_escape_identifier($pgConnection, HexaplaUserLoginCookies::USER_ID) . ') DO UPDATE SET ' . pg_escape_identifier($pgConnection, HexaplaUserLoginCookies::COOKIE);
+        $sql .= ' = ' . ($escaped ? $insertArray[HexaplaUserLoginCookies::COOKIE] : pg_escape_literal($pgConnection, $insertArray[HexaplaUserLoginCookies::COOKIE])) . ', ';
+        $sql .= pg_escape_identifier($pgConnection, HexaplaUserLoginCookies::EXPIRES) . ' = ' . ($escaped ? $insertArray[HexaplaUserLoginCookies::EXPIRES] : pg_escape_literal($pgConnection, $insertArray[HexaplaUserLoginCookies::EXPIRES]));
     }
     if (!is_null($idColumn)) {
         $sql .= ' RETURNING ' . pg_escape_identifier($pgConnection, $idColumn) . ';';
@@ -232,7 +248,13 @@ function putData(&$pgConnection, string $tableName, array $insertArray, string|n
             updateStrongs($insertArray, $result, $idColumn);
         }
         pg_result_seek($result, 0);
-        return pg_fetch_assoc($result)[$idColumn];
+        $resultData = pg_fetch_assoc($result);
+        /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
+        if ($resultData !== false) {
+            return pg_fetch_assoc($result)[$idColumn];
+        } else {
+            return false;
+        }
     } else {
         return true;
     }
@@ -277,6 +299,7 @@ function update(&$db, string $tableName, array $updates, array $criteria = [], s
             updateStrongs($updates, $result, $idColumn);
         }
         $resultRow = pg_fetch_assoc($result);
+        /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
         return ($resultRow !== false ? $resultRow[$idColumn] : true); // "true" in this case means the update was successful but unnecessary
     } else {
         return true;
@@ -304,7 +327,7 @@ function updateStrongs(array $insertArray, $insertUpdateResult, string $idColumn
             $strongInserts[HexaplaTextStrongs::TEXT_ID] = $wordId;
             $strongInserts[HexaplaTextStrongs::STRONG_ID] = $strongId;
         }
-    } elseif (is_array($starter = reset($insertArray))) {
+    } elseif (is_array(reset($insertArray))) {
         foreach ($insertArray as $row) {
             $wordId = pg_fetch_assoc($insertUpdateResult)[$idColumn];
             if (isset($row[HexaplaTextStrongs::STRONG_ID]) && strlen($row[HexaplaTextStrongs::STRONG_ID]) > 0) {
@@ -349,6 +372,7 @@ function fullSearch(&$db, $reference, $translations, &$alternatives, &$title): m
     $title = '';
     $resolutionSql = "SELECT public.resolve_reference('$reference');";
     $resolutionResult = pg_query($db, $resolutionSql);
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
     if (($resolRow = pg_fetch_assoc($resolutionResult)) !== false) {
         $data = resolveMore($resolRow['resolve_reference']);
         // [0: book_id, 1: chapter_start, 2: chapter_end, 3: verse_start, 4: verse_end, 5: display_start, 6: display_end, 7: priority]
@@ -367,6 +391,7 @@ function fullSearch(&$db, $reference, $translations, &$alternatives, &$title): m
     } else {
         return null;
     }
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
     while (($resolRow = pg_fetch_assoc($resolutionResult)) !== false) {
         $alternatives[] = resolveMore($resolRow['resolve_reference']);
     }
@@ -397,6 +422,7 @@ function getVersions(&$db): array
         return [];
     }
     $translations = [];
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
     while (($row = pg_fetch_assoc($result)) !== false) {
         $row['terms'] = terms_array($row['terms']);
         $translations[] = $row;
@@ -404,13 +430,19 @@ function getVersions(&$db): array
     return $translations;
 }
 
-function getVersionData(&$db, $tList) {
+/**
+ * @param $db
+ * @param $tList
+ * @return array
+ */
+function getVersionData(&$db, $tList): array {
     checkPgConnection($db);
     $results = [];
     $termResource = getData($db,
         HexaplaTables::SOURCE_VERSION_TERM,
         [HexaplaSourceVersionTerm::VERSION_ID, HexaplaSourceVersionTerm::TERM],
         [HexaplaSourceVersionTerm::VERSION_ID => $tList, HexaplaSourceVersionTerm::FLAG => HexaplaTermFlag::PRIMARY]);
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
     while (($row = pg_fetch_assoc($termResource)) !== false) {
         $results[$row[HexaplaSourceVersionTerm::VERSION_ID]]['term'] = $row[HexaplaSourceVersionTerm::TERM];
     }
@@ -421,6 +453,7 @@ function getVersionData(&$db, $tList) {
         [new HexaplaJoin(HexaplaTables::LANGUAGE,
             HexaplaTables::LANGUAGE, HexaplaLanguage::ID,
             HexaplaTables::SOURCE_VERSION, HexaplaSourceVersion::LANGUAGE_ID)]);
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
     while (($row = pg_fetch_assoc($dataResource)) !== false) {
         $results[$row[HexaplaSourceVersion::ID]]['perm'] = $row[HexaplaSourceVersion::ALLOWS_ACTIONS];
         $results[$row[HexaplaSourceVersion::ID]]['lang'] = $row[HexaplaSourceVersion::LANGUAGE_ID];
@@ -429,7 +462,12 @@ function getVersionData(&$db, $tList) {
     return $results;
 }
 
-function getLanguageOfVersion(&$db, $versionId) {
+/**
+ * @param $db
+ * @param $versionId
+ * @return mixed
+ */
+function getLanguageOfVersion(&$db, $versionId): mixed {
     checkPgConnection($db);
     $langResource = getData($db, HexaplaTables::SOURCE_VERSION, [HexaplaSourceVersion::LANGUAGE_ID], [HexaplaSourceVersion::ID => $versionId]);
     $langRow = pg_fetch_assoc($langResource);
@@ -449,6 +487,7 @@ function getStrongsDefinition(&$db, $strongArray): array {
         [new HexaplaJoin(HexaplaTables::LANG_LEMMA,
             HexaplaTables::LANG_DEFINITION, HexaplaLangDefinition::LEMMA_ID,
             HexaplaTables::LANG_LEMMA, HexaplaLangLemma::ID)]);
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
     while (($row = pg_fetch_assoc($result)) !== false) {
         $definitions[$row[HexaplaLangLemma::STRONG_ID]]['lemma'] = $row[HexaplaLangLemma::UNICODE_VALUE];
         $definitions[$row[HexaplaLangLemma::STRONG_ID]]['defn'] = $row[HexaplaLangDefinition::DEFINITION];
@@ -529,6 +568,7 @@ function getStrongsCrossRefs(&$db, $strongData, $translId): array {
     $query = "SELECT get_strong_cross_refs(" . pg_implode(',', $strongArray, $db, true) . "," . pg_escape_literal($db, $translId) . ");";
     $results = pg_query($db, $query);
     // structure: [text_id, text_position, text_value, location_id, punctuation, strongs_list, reference]
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
     while (($row = pg_fetch_row($results)) !== false) {
         $result = resolveMore($row[0]);
         $verses[$result[6]][$result[1]] = [$result[2], $result[4], $result[5]];
@@ -539,30 +579,48 @@ function getStrongsCrossRefs(&$db, $strongData, $translId): array {
     return verseListToCrossRefs($verses);
 }
 
-function getLemmaDB(&$db, $form, $langId) {
+/**
+ * @param $db
+ * @param $form
+ * @param $langId
+ * @return mixed (false|resource)
+ */
+function getLemmaDB(&$db, $form, $langId): mixed {
+    checkPgConnection($db);
     $sql = "SELECT " . pg_escape_identifier($db, HexaplaLangParse::LEMMA_ID) . " FROM " .
         "public." . pg_escape_identifier($db, HexaplaTables::LANG_PARSE) . " JOIN " .
         "public." . pg_escape_identifier($db, HexaplaTables::LANG_LEMMA) . " ON " .
         pg_escape_identifier($db, HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::ID) . " = " .
         pg_escape_identifier($db, HexaplaTables::LANG_PARSE . "." . HexaplaLangParse::LEMMA_ID) . " WHERE " .
-        "(" . pg_escape_identifier($db, HexaplaLangParse::EXPANDED_FORM) . " ILIKE " . pg_escape_literal($form) . " OR " .
-        pg_escape_identifier($db, HexaplaLangParse::FORM) . " ILIKE " . pg_escape_literal($form) . " OR " .
-        pg_escape_identifier($db, HexaplaLangParse::BARE_FORM) . " ILIKE " . pg_escape_literal($form) . ") AND " .
+        "(" . pg_escape_identifier($db, HexaplaLangParse::EXPANDED_FORM) . " ILIKE " . pg_escape_literal($db, $form) . " OR " .
+        pg_escape_identifier($db, HexaplaLangParse::FORM) . " ILIKE " . pg_escape_literal($db, $form) . " OR " .
+        pg_escape_identifier($db, HexaplaLangParse::BARE_FORM) . " ILIKE " . pg_escape_literal($db, $form) . ") AND " .
         pg_escape_identifier($db, HexaplaTables::LANG_LEMMA . "." . HexaplaLangLemma::LANGUAGE_ID) . " = " .
-        pg_escape_literal($langId) . " ORDER BY " . pg_escape_identifier($db, HexaplaLangLemma::MAX_OCCURRENCES) . " DESC, " .
+        pg_escape_literal($db, $langId) . " ORDER BY " . pg_escape_identifier($db, HexaplaLangLemma::MAX_OCCURRENCES) . " DESC, " .
         pg_escape_identifier($db, HexaplaLangLemma::DOCUMENT_COUNT) . " DESC, " .
         pg_escape_identifier($db, HexaplaLangParse::LEMMA_ID) . " ASC LIMIT 1;";
     return pg_query($db, $sql);
 }
 
+/**
+ * @param $db
+ * @param $wordArray
+ * @param $langId
+ * @param $translId
+ * @return array
+ * @throws HexaplaException
+ */
 function getLiteralCrossRefs(&$db, $wordArray, $langId, $translId): array {
-    $crossRefs = $lemmas = $variants = $results = [];
+    $crossRefs = $lemmas = $variants = [];
     $res = null;
     checkPgConnection($db);
     if ($langId == '1') { // English
         foreach($wordArray as $word) {
             $lemmas[$word] = getLemmaAPI($word, $langId);
             $variants[$word] = getInflectionsAPI($lemmas[$word], $langId);
+            if (count($variants[$word]) === 0) {
+                $variants[$word] = [$word];
+            }
             $variantList = implode(';', $variants[$word]);
             $sql = "SELECT get_literal_cross_refs(" . pg_escape_literal($db, $word) . "," .
                 pg_escape_literal($db, $translId) . "," . pg_escape_literal($db, $langId) . "," .
@@ -582,6 +640,7 @@ function getLiteralCrossRefs(&$db, $wordArray, $langId, $translId): array {
             $variantResult = getData($db, HexaplaTables::LANG_PARSE,
                 [HexaplaLangParse::FORM],
                 [HexaplaLangParse::LEMMA_ID => $lemmas[$word]]);
+            /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
             while (($variantRow = pg_fetch_assoc($variantResult)) !== false) {
                 $variants[$word][] = betaString2Unicode($variantRow[HexaplaLangParse::FORM]);
             }
@@ -600,10 +659,12 @@ function getLiteralCrossRefs(&$db, $wordArray, $langId, $translId): array {
     }
     if (!is_null($res)) {
         // structure: [text_id, text_position, text_value, location_id, punctuation, lemma_id | null, reference]
+        $verses = [];
+        /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
         while (($row = pg_fetch_row($res)) !== false) {
             $result = resolveMore($row[0]);
             $verses[$result[6]][$result[1]] = [$result[2], $result[4], $result[5]];
-            if (utf8_strlen($result[5]) > 0) {
+            if (utf8_strlen($result[5]) > 0 || in_array_r(utf8_strtolower($result[2]), $variants)) {
                 $verses[$result[6]]['target'][] = $result[1];
             }
         }
@@ -618,7 +679,6 @@ function getLiteralCrossRefs(&$db, $wordArray, $langId, $translId): array {
 
 /**
  * @param array $verses
- * @param array $crossRefs
  * @return array
  */
 function verseListToCrossRefs(array $verses): array
@@ -684,7 +744,7 @@ function commit($db) {
  * @param boolean $literal
  * @return string
  */
-function pg_implode(string $glue, array $array, $db, $literal = false): string
+function pg_implode(string $glue, array $array, $db, bool $literal = false): string
 {
     checkPgConnection($db);
     if ($literal) {
@@ -760,21 +820,78 @@ function terms_array(string $aggregateString): array
  * @param $db
  * @param string $email
  * @param string $password
- * @return bool
+ * @param string $loginLength
+ * @return int
+ * @noinspection PhpUndefinedVariableInspection
+ * @throws Exception
  */
-function login($db, string $email, string $password): bool {
+function login($db, string $email, string $password, string $loginLength): int {
     checkPgConnection($db);
-    // TODO: reimplement after adding (1) checkbox to stay logged in, (2) complete login_cookie system
-    $result = getCount($db,
-        HexaplaTables::USER,
-        [HexaplaUser::EMAIL => pg_escape_literal($email),
-            HexaplaUser::PASSWORD => "crypt(" . pg_escape_literal($password) . ")"],
-        true);
-    // TODO: put id, login byte string into login_cookie  $token = bin2hex(random_bytes(20));
-    return $result > 0;
+    $result = getData($db,
+        HexaplaTables::USER, [HexaplaUser::ID],
+        [HexaplaUser::EMAIL => pg_escape_literal($db, $email),
+            HexaplaUser::PASSWORD => "crypt(" . pg_escape_literal($db, $password) . ", " . pg_escape_identifier($db, HexaplaUser::PASSWORD) . ")"], [], [], false, false, true);
+    if ($result === false) return false;
+    $row = pg_fetch_assoc($result);
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
+    if ($row === false) return false;
+    $userId = $row[HexaplaUser::ID];
+    $tries = 0;
+    while ($tries < 10) {
+        try {
+            $token = bin2hex(random_bytes(20));
+            break;
+        } catch (Exception $e) {
+            $tries++;
+            if ($tries >= 10) throw $e;
+        }
+    }
+    setHexCookie(HexaplaCookies::LOGIN_HASH, $token, $loginLength);
+    $inputData = [HexaplaUserLoginCookies::USER_ID => $userId, HexaplaUserLoginCookies::COOKIE => $token];
+    if ($loginLength !== 'now') {
+        $expiry = new DateTime();
+        $expiry->add(new DateInterval('P' . ($loginLength === 'inf' ? '100Y' : (is_numeric($loginLength) ? $loginLength . 'D' : '30D'))));
+        $inputData[HexaplaUserLoginCookies::EXPIRES] = $expiry->format('Y-m-d\TH:i');//'Y-m-d H:i:s');
+    }
+    putData($db, HexaplaTables::USER_LOGIN_COOKIES, $inputData, null);
+    return $userId;
 }
 
-// TODO: forgot login => bin2hex(random_bytes(10)) => update password w/ crypt, update "list of generated pws" w/ crypt, force reset when logging in with generated password
+function loginByCookie($db, $hash) {
+    checkPgConnection($db);
+    $result = getData($db, HexaplaTables::USER_LOGIN_COOKIES, [HexaplaUserLoginCookies::USER_ID, HexaplaUserLoginCookies::EXPIRES], [HexaplaUserLoginCookies::COOKIE => $hash]);
+    $row = pg_parse($result);
+    if ($row === false) return false;
+    if (!is_null($row[HexaplaUserLoginCookies::EXPIRES])) {
+        $pgDate = $row[HexaplaUserLoginCookies::EXPIRES];
+        $tz = new DateTimeZone(extract_timezone($pgDate));
+        $phpDate = new DateTime($pgDate, $tz);
+        $now = new DateTime('now', $tz);
+        if ($now->diff($phpDate)->invert) { // expired in the past
+            return false;
+        }
+    }
+    return $row[HexaplaUserLoginCookies::USER_ID];
+}
+
+/**
+ * @param string $pgDate
+ * @return string
+ */
+function extract_timezone(string &$pgDate): string
+{
+    $pos = strrpos($pgDate, '-') or strrpos($pgDate, '+');
+    $tz = substr($pgDate, $pos);
+    if (strlen($tz) === 3) {
+        $tz .= '00';
+    } else {
+        $tz = substr($tz, 0, 1) . '0' . substr($tz, 1, 1) . '00';
+    }
+    $pgDate = substr($pgDate, 0, $pos);
+    return $tz;
+}
+
+// TODO: forgot login => bin2hex(random_bytes(10)) => update password w/ crypt, set flag in UserSettings object, force reset when flag is set
 
 /**
  * @param $db
@@ -787,304 +904,19 @@ function register($db, $email, $password): int {
     return putData($db,
         HexaplaTables::USER,
         [HexaplaUser::EMAIL => pg_escape_literal($db, $email),
-            HexaplaUser::PASSWORD => "crypt(" . pg_escape_literal($db, $password) . ", gen_salt('bf'))"],
-            //HexaplaUser::GROUP_ID => ???]);
+            HexaplaUser::PASSWORD => "crypt(" . pg_escape_literal($db, $password) . ", gen_salt('bf'))",
+            HexaplaUser::GROUP_ID => 1],
         HexaplaUser::ID, true);
 }
 
-#region Database Table & Enum Classes
-class HexaplaJoin extends ArrayObject {
-    const JOIN_TO = 'table';
-    const ON_LEFT_TABLE = 'leftTbl';
-    const ON_LEFT = 'left';
-    const ON_RIGHT_TABLE = 'rightTbl';
-    const ON_RIGHT = 'right';
-
-    function __construct($joinTo, $leftTable, $onLeft, $rightTable, $onRight)
-    {
-        $array = [self::JOIN_TO => $joinTo,
-            self::ON_LEFT_TABLE => $leftTable, self::ON_LEFT => $onLeft,
-            self::ON_RIGHT_TABLE => $rightTable, self::ON_RIGHT => $onRight];
-        $flags = 0;
-        $iteratorClass = "ArrayIterator";
-        parent::__construct($array, $flags, $iteratorClass);
-    }
+/**
+ * @param resource $resource
+ * @return array|false
+ */
+function pg_parse($resource) {
+    if ($resource === false) return false;
+    $row = pg_fetch_assoc($resource);
+    /** @noinspection PhpStrictComparisonWithOperandsOfDifferentTypesInspection */
+    if ($row === false) return false;
+    return $row;
 }
-
-class HexaplaTables {
-    const TEXT_VALUE = 'text_value';
-    const TEXT_STRONGS = 'text_strongs';
-    const LANG_DEFINITION = 'lang_definition';
-    const LANG_DICTIONARY = 'lang_dictionary';
-    const LANG_LEMMA = 'lang_lemma';
-    const LANG_PARSE = 'lang_parse';
-    const LANGUAGE = 'language';
-    const LOC_TEST = 'loc_conv_test';
-    const LOC_CONV_USES_TEST = 'loc_conv_uses_test';
-    const LOC_CONVERSION = 'loc_conversion';
-    const LOC_NUMSYS_USES_CONV = 'loc_ns_uses_conv';
-    const LOC_NUMBER_SYSTEM = 'loc_number_system';
-    const LOC_SECTION = 'loc_section';
-    const LOC_SECTION_TERM = 'loc_section_term';
-    const LOC_SUBSECTION = 'loc_subsection';
-    const LOC_SUBSECTION_TERM = 'loc_subsection_term';
-    const LOCATION = 'location';
-    const SOURCE_METADATA = 'source_metadata';
-    const SOURCE_TERM = 'source_term';
-    const SOURCE_PUBLISHER = 'source_publisher';
-    const SOURCE_VERSION = 'source_version';
-    const SOURCE_VERSION_SEQUENCE = 'source_version_sequence';
-    const SOURCE_VERSION_TERM = 'source_version_term';
-    const USER = 'user';
-    const USER_CREDENTIAL = 'user_credential';
-    const USER_GROUP = 'user_group';
-    const USER_LOGIN_COOKIES = 'user_login_cookies';
-    const USER_NOTES = 'user_notes';
-    const USER_NOTES_LOCATION = 'user_notes_on_loc';
-    const USER_SETTINGS = 'user_settings';
-    const NOTE_TEXT = 'note_text';
-    const NOTE_CROSSREF = 'note_reference';
-}
-
-class HexaplaTests {
-    const LAST = 'Last';
-    const NOT_EXIST = 'NotExist';
-    const EXIST = 'Exist';
-    const LESS_THAN = 'LessThan';
-    const GREATER_THAN = 'GreaterThan';
-
-    /**
-     * @param $testType
-     * @return string
-     * @throws NoOppositeTypeException
-     */
-    static public function opposite($testType): string
-    {
-        switch($testType) {
-            case HexaplaTests::LAST:
-                throw new NoOppositeTypeException("", 0, null, get_defined_vars());
-            case HexaplaTests::NOT_EXIST:
-                return HexaplaTests::EXIST;
-            case HexaplaTests::EXIST:
-                return HexaplaTests::NOT_EXIST;
-            case HexaplaTests::GREATER_THAN:
-                return HexaplaTests::LESS_THAN;
-            case HexaplaTests::LESS_THAN:
-                return HexaplaTests::GREATER_THAN;
-            default:
-                throw new NoOppositeTypeException("", 0, null, get_defined_vars());
-        }
-    }
-}
-class HexaplaPunctuation {
-    const CLOSING = 'Closing';
-    const OPENING = 'Opening';
-    const NOT = 'NotPunctuation';
-}
-
-class HexaplaSettings {
-    const DEFAULT_LOAD = 'DefaultLoad';
-    const SAVED_TLS = 'SavedTranslations';
-    const DIFF_BY_WORD = 'DiffByWord';
-    const CASE_SENS_DIFF = 'CaseSensitive';
-    const SCROLL_TOGETHER = 'ScrollTogether';
-    const PIN_SIDEBAR = 'PinSidebar';
-}
-
-class HexaplaTermFlag {
-    const NONE = 'NoFlag';
-    const PRIMARY = 'Primary';
-    const ABBREVIATION = 'Abbreviation';
-}
-
-class SortDirection {
-    const ASCENDING = 'ASC';
-    const DESCENDING = 'DESC';
-}
-
-class NoOppositeTypeException extends HexaplaException {
-}
-
-class LangDirection {
-    const LTR = 'ltr';
-    const RTL = 'rtl';
-}
-
-class HexaplaPermissions {
-    const NOTE = 1;
-    const DIFF = 2;
-    const FOCUS = 4;
-    const UPLOAD = 8;
-    const PARSE = 16;
-}
-#endregion
-
-#region Database Column Classes
-interface HexaplaStandardColumns {
-    const ID = 'id';
-}
-interface HexaplaLangColumns {
-    const LANGUAGE_ID = 'lang_id';
-}
-interface HexaplaDefiningColumns {
-    const DEFINITION = 'definition';
-}
-interface HexaplaValueColumns {
-    const VALUE = 'value';
-}
-interface HexaplaStrongColumns {
-    const STRONG_ID = 'strong_id';
-}
-interface HexaplaLemmaColumns {
-    const LEMMA_ID = 'lemma_id';
-}
-interface HexaplaNameColumns {
-    const NAME = 'name';
-}
-interface HexaplaTestColumns {
-    const TEST_ID = 'test_id';
-}
-interface HexaplaConversionColumns {
-    const CONVERSION_ID = 'conversion_id';
-}
-interface HexaplaLocationColumns {
-    const LOCATION_ID = 'loc_id';
-}
-interface HexaplaNumberSystemColumns {
-    const NUMBER_SYSTEM_ID = 'ns_id';
-}
-interface HexaplaPositionColumns {
-    const POSITION = 'position';
-}
-interface HexaplaSourceColumns {
-    const SOURCE_ID = 'source_id';
-}
-interface HexaplaSectionColumns {
-    const SECTION_ID = 'section_id';
-}
-interface HexaplaTermColumns {
-    const TERM = 'term';
-}
-interface HexaplaSubsectionColumns {
-    const SUBSECTION_ID = 'subsection_id';
-}
-interface HexaplaVersionColumns {
-    const VERSION_ID = 'version_id';
-}
-interface HexaplaUserColumns {
-    const USER_ID = 'user_id';
-}
-
-interface HexaplaActionColumns {
-    const ALLOWS_ACTIONS = 'allows_actions';
-}
-
-class HexaplaTextStrongs implements HexaplaStrongColumns {
-    const TEXT_ID = 'text_id';
-}
-
-class HexaplaTextValue implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaPositionColumns, HexaplaVersionColumns, HexaplaLocationColumns {
-    const PUNCTUATION = 'punctuation';
-}
-class HexaplaLangDefinition implements HexaplaStandardColumns, HexaplaLangColumns, HexaplaDefiningColumns, HexaplaLemmaColumns {
-    const DICTIONARY_ID = 'dict_id';
-}
-class HexaplaLangDictionary implements HexaplaStandardColumns, HexaplaLangColumns, HexaplaNameColumns {}
-class HexaplaLangLemma implements HexaplaStandardColumns, HexaplaValueColumns, HexaplaDefiningColumns, HexaplaStrongColumns, HexaplaLangColumns {
-    const UNMARKED_VALUE = 'unmarked_value';
-    const UNICODE_VALUE = 'unicode_value';
-    const UNMARKED_UNICODE_VALUE = 'unmarked_unicode';
-    const MAX_OCCURRENCES = 'max_occ';
-    const DOCUMENT_COUNT = 'doc_count';
-    const IDF = 'idf';
-}
-class HexaplaLangParse implements HexaplaStandardColumns, HexaplaLemmaColumns {
-    const MORPH_CODE = 'morph_code';
-    const EXPANDED_FORM = 'expanded_form';
-    const FORM = 'form';
-    const BARE_FORM = 'bare_form';
-    const DIALECTS = 'dialects';
-    const MISC_FEATURES = 'misc_features';
-}
-class HexaplaLangStrongs implements HexaplaStandardColumns, HexaplaLemmaColumns {}
-class HexaplaLanguage implements  HexaplaStandardColumns, HexaplaNameColumns {
-    const DIRECTION = 'direction';
-}
-class HexaplaLocTest implements HexaplaStandardColumns {
-    const BOOK_1_NAME = 'book1name';
-    const CHAPTER_1_NUM = 'chapter1num';
-    const VERSE_1_NUM = 'verse1num';
-    const MULTIPLIER_1 = 'multiplier1';
-    const TEST_TYPE = 'testtype';
-    const BOOK_2_NAME = 'book2name';
-    const CHAPTER_2_NUM = 'chapter2num';
-    const VERSE_2_NUM = 'verse2num';
-    const MULTIPLIER_2 = 'multiplier2';
-}
-class HexaplaLocConvUsesTest implements HexaplaConversionColumns, HexaplaTestColumns {
-    const REVERSED = 'reversed';
-}
-class HexaplaConversion implements HexaplaStandardColumns, HexaplaLocationColumns {
-    const DISPLAY_NAME = 'display_name';
-}
-class HexaplaNumSysUsesConv implements HexaplaConversionColumns, HexaplaNumberSystemColumns {}
-class HexaplaNumberSystem implements HexaplaStandardColumns, HexaplaNameColumns {}
-class HexaplaLocSection implements HexaplaStandardColumns, HexaplaPositionColumns, HexaplaSourceColumns {
-    const PRIMARY_TERM_ID = 'primary_term_id';
-}
-class HexaplaLocSectionTerm implements HexaplaStandardColumns, HexaplaSectionColumns, HexaplaTermColumns {
-    const IS_PRIMARY = 'is_primary';
-}
-class HexaplaLocSubsection implements HexaplaStandardColumns, HexaplaPositionColumns, HexaplaSectionColumns {}
-class HexaplaLocSubsectionTerm implements HexaplaStandardColumns, HexaplaTermColumns, HexaplaSubsectionColumns {}
-class HexaplaLocation implements HexaplaStandardColumns, HexaplaPositionColumns, HexaplaSubsectionColumns {}
-class HexaplaNoteCrossRef implements HexaplaStandardColumns, HexaplaLocationColumns, HexaplaVersionColumns {
-    const REFERENCE_ID = 'ref_id';
-}
-class HexaplaNoteText implements HexaplaStandardColumns, HexaplaLocationColumns, HexaplaVersionColumns {
-    const VALUE = 'note'; // TODO: Standardize this
-}
-class HexaplaSourceMetadata implements HexaplaStandardColumns {
-    const DATE = 'date';
-    const AUTHOR = 'author';
-    const TITLE = 'title';
-}
-class HexaplaSourcePublisher implements HexaplaStandardColumns, HexaplaNameColumns {}
-class HexaplaSourceTerm implements HexaplaStandardColumns, HexaplaTermColumns, HexaplaSourceColumns {}
-class HexaplaSourceVersion implements HexaplaStandardColumns, HexaplaUserColumns, HexaplaLangColumns, HexaplaActionColumns, HexaplaSourceColumns, HexaplaNumberSystemColumns {
-    const PUBLISHER_ID = 'publisher_id';
-    const COPYRIGHT = 'copyright';
-}
-class HexaplaSourceVersionSequence implements HexaplaSectionColumns {
-    const SEQUENCE_ORDER = 'sequence_order';
-}
-class HexaplaSourceVersionTerm implements HexaplaStandardColumns, HexaplaVersionColumns, HexaplaTermColumns {
-    const FLAG = 'flag';
-}
-class HexaplaUser implements HexaplaStandardColumns {
-    const EMAIL = 'email';
-    const PASSWORD = 'password';
-    const GROUP_ID = 'group_id';
-}
-class HexaplaUserCredential implements HexaplaStandardColumns, HexaplaUserColumns {
-    const INFO = 'info';
-    const DATA = 'data';
-}
-class HexaplaUserGroup implements HexaplaStandardColumns, HexaplaNameColumns {
-    const ALLOWS_ACTIONS = 'allowsBehavior';
-}
-class HexaplaUserLoginCookies implements HexaplaUserColumns {
-    const COOKIE = 'cookie_string';
-}
-class HexaplaUserNotes implements HexaplaStandardColumns, HexaplaUserColumns {
-    const VALUE = 'note_text'; // TODO: Standardize?
-}
-class HexaplaUserNotesLocation implements HexaplaLocationColumns {
-    const NOTE_ID = 'note_id';
-}
-class HexaplaUserSettings implements HexaplaUserColumns, HexaplaValueColumns {
-    const SETTING = 'setting';
-
-    const PKEY = [self::USER_ID, self::SETTING];
-}
-#endregion

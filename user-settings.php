@@ -4,6 +4,7 @@ namespace Hexapla;
 
 require_once "sql-functions.php";
 require_once "cookie-functions.php";
+$db = $db ?? null;
 
 class UserSettings
 {
@@ -15,6 +16,12 @@ class UserSettings
         HexaplaSettings::CASE_SENS_DIFF => 'caseSensitiveDiff',
         HexaplaSettings::SCROLL_TOGETHER => 'scrollTogether',
         HexaplaSettings::PIN_SIDEBAR => 'pinSidebar'];
+    const SETTINGS_DEFAULTS = [HexaplaSettings::DEFAULT_LOAD => self::USE_LAST_TRANSLATIONS,
+        HexaplaSettings::SAVED_TLS => 1,
+        HexaplaSettings::DIFF_BY_WORD => true,
+        HexaplaSettings::CASE_SENS_DIFF => false,
+        HexaplaSettings::SCROLL_TOGETHER => false,
+        HexaplaSettings::PIN_SIDEBAR => false];
 
     private string $tlSetting;
     private string $tlList;
@@ -25,11 +32,30 @@ class UserSettings
     private bool $scrollTogether;
     private bool $pinSidebar;
 
-    public function __construct($userId, $settingsList, $permissions) {
-        $this->allowsBehavior = $permissions;
+    public function __construct($userId, $settingsList = [], $permissions = -1) {
         $this->id = $userId;
+        if ($permissions === -1) {
+            $permResult = getData($db,
+                HexaplaTables::USER_GROUP,
+                [HexaplaUserGroup::ALLOWS_ACTIONS],
+                [HexaplaTables::USER . "." . HexaplaUser::ID => $userId], [],
+                [new HexaplaJoin(HexaplaTables::USER,
+                    HexaplaTables::USER_GROUP,HexaplaUserGroup::ID,
+                    HexaplaTables::USER, HexaplaUser::GROUP_ID)]);
+            $permData = pg_fetch_assoc($permResult);
+            $permissions = bindec($permData[HexaplaUserGroup::ALLOWS_ACTIONS]);
+        }
+        $this->allowsBehavior = $permissions;
+        if (count($settingsList) === 0) {
+            $setResult = getData($db, HexaplaTables::USER_SETTINGS, [], [HexaplaUserSettings::USER_ID => $userId]);
+            while (($row = pg_fetch_assoc($setResult)) !== false) {
+                $settingsList[$row[HexaplaUserSettings::SETTING]] = $row[HexaplaUserSettings::VALUE];
+            }
+        }
         foreach(self::SETTINGS_SETUP as $sqlSetting => $objSetting) {
-            $value = ($settingsList[$sqlSetting] === 'false' ? false : $settingsList[$sqlSetting]);
+            if (!isset($settingsList[$sqlSetting])) $settingsList[$sqlSetting] = self::SETTINGS_DEFAULTS[$sqlSetting];
+            if (in_array($settingsList[$sqlSetting], ['false', 'f'])) $settingsList[$sqlSetting] = false;
+            $value = $settingsList[$sqlSetting];
             $this->$objSetting = $value;
             $cookie = HexaplaCookies::cookieFromSetting($sqlSetting);
             if ($cookie !== '') {

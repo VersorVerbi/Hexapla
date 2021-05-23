@@ -18,3 +18,7 @@ window.addEventListener('popstate', handleMovement);
 function addSearch(searchTerm, searchTranslations) {
     history.pushState({ srch: {term: searchTerm, tls: searchTranslations } }, '', '/Hexapla/'); // RELATIVE-URL
 }
+
+function refreshCurrentPage() {
+    history.go(0);
+}
