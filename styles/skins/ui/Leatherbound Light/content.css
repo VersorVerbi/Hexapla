@@ -176,7 +176,6 @@ pre[class*="language-"] {
   word-wrap: break-word;
 }
 .mce-content-body .mce-visual-caret {
-  background-color: black;
   background-color: currentColor;
   position: absolute;
 }

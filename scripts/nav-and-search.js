@@ -90,28 +90,35 @@ async function completeSearch(formData) {
         redirect: 'error',
         body: formData
     });
-    searchResults.text().then(textData => tryParseJson(textData)).then(data => {
-        let results = data;
-        for (let i = 0; i < Object.keys(results).length - 4; i++) { // leave room for 'alts' and 'title' and 'myNotes' and 'loc_id'
-            let parent = document.getElementById(results[i]['parent']).getElementsByClassName('textArea')[0];
-            if (results[i]['rtl'] && !parent.classList.contains('rtl')) {
+    searchResults.text().then(textData => tryParseJson(textData)).then(results => {
+        let textResults = results.text;
+        for (let i = 0; i < Object.keys(textResults).length; i++) {
+            hideNotice(textResults[i]['parent']);
+            let parent = document.getElementById(textResults[i]['parent']).getElementsByClassName('textArea')[0];
+            if (textResults[i]['rtl'] && !parent.classList.contains('rtl')) {
                 parent.classList.add('rtl');
             }
             let span = document.createElement('span');
-            if (results[i]['class'].length > 0) span.classList.add(results[i]['class']);
-            if (results[i]['space-before']) {
+            if (textResults[i]['class'].length > 0) span.classList.add(textResults[i]['class']);
+            if (textResults[i]['space-before']) {
                 let space = document.createTextNode(' ');
                 parent.appendChild(space);
             }
-            span.innerText = results[i]['val'];
+            span.innerText = textResults[i]['val'];
             parent.appendChild(span);
         }
+        let allTexts = document.getElementsByClassName('textArea');
+        for (let i = 0; i < allTexts.length; i++) {
+            if (allTexts[i].childNodes.length === 0) {
+                let parent = allTexts[i].closest('.version');
+                showNotice(parent.id, 'This text does not include the requested passage.', 3);
+            }
+        }
+        let disambig = document.getElementById('disambiguation');
         if (results['alts'] !== null) {
-            let disambig = document.getElementById('disambiguation');
             disambig.classList.remove('hidden');
             disambig.innerHTML = results['alts'];
         } else {
-            let disambig = document.getElementById('disambiguation');
             disambig.innerHTML = '';
             disambig.classList.add('hidden');
         }
@@ -170,6 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let curSearch = document.getElementById('currentSearch').value.split('|');
         window.location.search = 'page=search&search=' + curSearch[0] + '&vers=' + curSearch[1];
     });
+    document.getElementById('searchform').addEventListener('submit', doSearch);
 });
 
 function resetWordHovers() {

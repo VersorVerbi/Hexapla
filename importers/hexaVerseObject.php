@@ -30,7 +30,6 @@ class hexaVerseObject {
     /**
      * @param array $criteria SQL criteria array with column names as keys and values as values
      * @param bool $forSearch True if only returning SEARCH criteria, not ALL -- but we don't use that here
-     * @noinspection PhpUnusedParameterInspection
      */
     public function toCriteria(array &$criteria, $forSearch = false): void {
         if (isset($this->locationId)) $criteria[HexaplaLocationColumns::LOCATION_ID] = $this->locationId;

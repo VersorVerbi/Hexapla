@@ -55,7 +55,9 @@ document.addEventListener("DOMContentLoaded", function() {
         let label = document.getElementById('case-sensitive-diff-label');
         if (this.checked) {
             // TODO: do the thing
-            // TODO: add user setting API that sets cookies and updates database for these settings?
+            fetch(INTERNAL_API_PATH + 'update-user.php?setting=' + settings.CASE_SENS_DIFF + '&value=1').then( () => {
+                getDiffCookies().then(cookies => diffCtrl.updateCookies(cookies));
+            });
             label.title = "Ignore case when showing differences between versions";
         } else {
             // TODO: undo the thing
@@ -67,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let d = 0; d < diffPickers.length; d++) {
         diffPickers[d].addEventListener('change', function() {
             if (this.checked) {
-                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaWord&value=' + (this.value === 'word-diff')).then( () => {
+                fetch(INTERNAL_API_PATH + 'update-user.php?setting=' + settings.DIFF_BY_WORD + '&value=' + (this.value === 'word-diff')).then( () => {
                     getDiffCookies().then(cookies => diffCtrl.updateCookies(cookies));
                 });
             }
@@ -81,8 +83,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.body.classList.add('themeChange');
                 document.body.classList.remove(...shadeList);
                 document.body.classList.add(this.value);
-                fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaTheme').then(data => data.text().then(doShadeSwap.bind(null, this.value)));
-                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaShade&value=' + shadeList.indexOf(this.value)).then(
+                fetch(INTERNAL_API_PATH + 'cookies.php?name=' + cookies.THEME).then(data => data.text().then(doShadeSwap.bind(null, this.value)));
+                fetch(INTERNAL_API_PATH + 'cookies.php?set&name=' + cookies.SHADE + '&value=' + shadeList.indexOf(this.value)).then(
                     () => setTimeout(() => document.body.classList.remove('themeChange'), 100));
             }
         });
@@ -93,8 +95,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('theme-selection').addEventListener('change', function() {
         document.body.classList.add('themeChange');
         document.getElementById('themeCss').href = "styles/" + this.value + ".css";
-        fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaShade').then(data => data.text().then(doThemeSwap.bind(null, this.value)));
-        fetch(INTERNAL_API_PATH + 'cookies.php?set&name=hexaplaTheme&value=' + themeList.indexOf(this.value)).then(
+        fetch(INTERNAL_API_PATH + 'cookies.php?name=' + cookies.SHADE).then(data => data.text().then(doThemeSwap.bind(null, this.value)));
+        fetch(INTERNAL_API_PATH + 'cookies.php?set&name=' + cookies.THEME + '&value=' + themeList.indexOf(this.value)).then(
             () => {
                 if (this.value === 'liturgical') {
                     fetchLiturgicalColor()

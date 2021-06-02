@@ -4,6 +4,7 @@ namespace Hexapla;
 require_once "sql-functions.php";
 require_once "cookie-functions.php";
 require_once "dbconnect.php";
+require_once "user-settings.php";
 /**
  * @var UserSettings $currentUser
  * @var resource $db
@@ -52,6 +53,7 @@ if ($page === 'search') {
             $tls[] = $tlRow[HexaplaSourceVersionTerm::VERSION_ID];
         }
         $tls = implode('^', $tls);
+        setHexCookie(HexaplaCookies::LAST_TRANSLATIONS, $tls);
     }
     // TODO: add GET diff option
     // TODO: (for nojs) add same-word highlight, show definition, cross-refs
@@ -64,8 +66,8 @@ if ($page === 'search') {
 $title = $titles[$page] ?? '';
 $browserTitle = 'Modern Hexapla' . (strlen($title) > 0 ? ' — ' . $title : '');
 
-$GLOBALS['themes'] = ['parchment', 'leather-bound', 'jonah', 'liturgical'];
-$GLOBALS['shades'] = ['light', 'dark'];
+$GLOBALS['themes'] = HexaplaThemes::ALL;
+$GLOBALS['shades'] = HexaplaShades::ALL;
 $preferredTheme = getCookie(HexaplaCookies::THEME);
 $preferredShade = getCookie(HexaplaCookies::SHADE);
 if (is_numeric($preferredTheme) && ($preferredTheme >= 0 || $preferredTheme < count($GLOBALS['themes']))) {
@@ -99,11 +101,12 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
 
     <link type="text/css" rel="stylesheet" href="styles/icofont.min.css" />
     <link id="themeCss" type="text/css" rel="stylesheet" href="styles/<?php echo $theme; ?>.min.css" />
+    <script type="text/javascript" src="scripts/constants.js"></script>
     <script type="text/javascript" src="scripts/functions.js"></script>
     <script type="text/javascript">
         const themeList = <?php echo json_encode($GLOBALS['themes']); ?>;
         const shadeList = <?php echo json_encode($GLOBALS['shades']); ?>;
-        let isLiturgicalTheme = <?php echo json_encode($theme === 'liturgical'); ?>;
+        let isLiturgicalTheme = <?php echo json_encode($theme === HexaplaThemes::LITURGICAL); ?>;
         if (isLiturgicalTheme) {
             fetchLiturgicalColor()
                 .then(className => document.body.classList.add(className))
@@ -124,7 +127,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
         <link type="text/css" rel="stylesheet" href="styles/nojs.min.css" />
     </noscript>
 </head>
-<body class="<?php echo $shade; ?> <?php echo ($theme === 'liturgical' ? 'themeChange' : ''); ?>">
+<body class="<?php echo $shade; ?> <?php echo ($theme === HexaplaThemes::LITURGICAL ? 'themeChange' : ''); ?>">
     <noscript>
         <div id="jsWarning">
             This website works better with JavaScript enabled. Instructions on how to enable JavaScript for your
@@ -151,8 +154,12 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
         let curSearchInput = document.getElementById('currentSearch');
         if (curSearchInput.value === '') {
             document.getElementById('currentSearch').value = <?php echo json_encode($search . "|" . $tls); ?>;
-            doSearch();
+            doSearch(null, true); // not actually onpopstate, but permalink shouldn't add an extra step to history
         }
+
+        init_tinymce('#my-notes', <?php echo json_encode($tinySkin); ?>);
+
+        document.getElementById('currentTinyMCETheme').value = <?php echo json_encode($tinySkin); ?>;
         <?php
         } else {
         ?>
@@ -160,21 +167,13 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
         <?php
         }
         ?>
-
-        init_tinymce('#my-notes', <?php echo json_encode($tinySkin); ?>);
-
-        document.getElementById('currentTinyMCETheme').value = <?php echo json_encode($tinySkin); ?>;
-
-        // FIXME: testing code
-        console.log(<?php json_encode($currentUser); ?>);
     </script>
 </body>
 </html>
 
 <?php
 /* TODO list
-    - add/remove notices with JS --> call JS functions when appropriate (when is it appropriate besides diffing?) [need to turn off notices when turning off diffing]
-        -> error messages for nonexistent/missing verses/books/chapters/etc.
+    - add/remove notices with JS --> call JS functions when appropriate [need to turn off notices when turning off diffing]
     - add diff --> add button and code to run diff code | add way to turn OFF diffing
     - add sidebar --> enable all functionality
     - add click->dictionary+toggle for words --> finish getting data from all sources
@@ -202,4 +201,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - problem on import: sometimes we get multiple verses with the same loc_id, but all start position @ 0
         -> causes downstream problems with text display, cross-references, and probably a lot more
         -> clear out text_value, add unique constraint on loc_id/version_id/position, and force "second" verse to be added onto the end during import
+    - diff all currently not working?
+    - remove translations when deselected
+    - add user settings for theme, shade --> update user-settings, SQL, constants.js, sidebar.js
 */

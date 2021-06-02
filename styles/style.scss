@@ -1041,8 +1041,9 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   justify-content: space-between;
 
   h4 {
-    height: $searchButtonWidth;
+    min-height: $searchButtonWidth;
     flex-shrink: 0;
+    margin-right: #{$searchButtonWidth + $searchButtonMargin};
   }
 
   .rtl {
@@ -1211,6 +1212,7 @@ $screenHeights: 480px, 600px, 768px, 800px, 900px, 1024px, 1050px, 1080px, 2000p
       text-align: center;
       box-sizing: border-box;
       padding: $tboxGridBoxPadding;
+      word-break: break-word;
 
       &.occupied {
         outline: aliceblue solid 1px;

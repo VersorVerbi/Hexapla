@@ -2289,7 +2289,6 @@ body.tox-dialog__disable-scroll {
       grid-row-start: 1;
   text-align: center;
   white-space: normal;
-  word-break: break-all;
   word-break: break-word;
 }
 .tox .tox-notification__body > * {

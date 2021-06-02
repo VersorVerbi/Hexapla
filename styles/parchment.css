@@ -603,8 +603,9 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   justify-content: space-between;
 }
 .version h4 {
-  height: 35px;
+  min-height: 35px;
   flex-shrink: 0;
+  margin-right: 40px;
 }
 .version .rtl {
   direction: rtl;
@@ -798,6 +799,7 @@ div.del:hover span, div.promote:hover span, #addtl:hover span, #prevPsg:hover sp
   text-align: center;
   box-sizing: border-box;
   padding: 10px;
+  word-break: break-word;
 }
 #translationController #translGrid .tlBox.occupied {
   outline: aliceblue solid 1px;

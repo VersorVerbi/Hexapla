@@ -139,4 +139,45 @@ class UserSettings
         }
         putData($db, HexaplaTables::USER_SETTINGS, $insertArray);
     }
+
+    public function set($setting, $value) {
+        switch($setting) {
+            case HexaplaSettings::DEFAULT_LOAD:
+                $this->set_tlSetting($value);
+                break;
+            case HexaplaSettings::PIN_SIDEBAR:
+                $this->set_pinSidebar($value);
+                break;
+            case HexaplaSettings::SCROLL_TOGETHER:
+                $this->set_scroll($value);
+                break;
+            case HexaplaSettings::CASE_SENS_DIFF:
+                $this->set_diffsCaseSens($value);
+                break;
+            case HexaplaSettings::DIFF_BY_WORD:
+                $this->set_diffsByWord($value);
+                break;
+            case HexaplaSettings::SAVED_TLS:
+                $this->set_tlList($value);
+                break;
+            default:
+                // FIXME: error
+        }
+    }
+}
+
+class HexaplaThemes {
+    const PARCHMENT = 'parchment';
+    const LEATHER_BOUND = 'leather-bound';
+    const JONAH = 'jonah';
+    const LITURGICAL = 'liturgical';
+
+    const ALL = [self::PARCHMENT, self::LEATHER_BOUND, self::JONAH, self::LITURGICAL];
+}
+
+class HexaplaShades {
+    const LIGHT = 'light';
+    const DARK = 'dark';
+
+    const ALL = [self::LIGHT, self::DARK];
 }

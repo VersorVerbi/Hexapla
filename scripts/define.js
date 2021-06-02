@@ -113,7 +113,7 @@ async function define(ev) {
                 if (crData['source'].length > 0) {
                     let sourceSection = document.createElement('div');
                     let sourceTitle = document.createElement('h3');
-                    sourceTitle.innerText = joinObj(sourceWords, true);
+                    sourceTitle.innerText = joinObj(wordData['sourceWords'], true);
                     sourceSection.appendChild(sourceTitle);
                     addReferences(crData['source'], sourceSection);
                     crossRefsDiv.appendChild(sourceSection);
@@ -140,8 +140,15 @@ function createDefinitionObjects(oList, dList) {
     for (let prop in oList) {
         if (oList.hasOwnProperty(prop)) {
             let item = document.createElement('dt');
-            item.innerText = prop + ': ' + oList[prop]['lemma'];
             let defn = document.createElement('dd');
+            if (oList[prop] === null || !oList[prop].hasOwnProperty('lemma')) {
+                item.innerText = prop + ':';
+                defn.innerText = 'Definition could not be found.';
+                dList.appendChild(item);
+                dList.appendChild(defn);
+                continue;
+            }
+            item.innerText = prop + ': ' + oList[prop]['lemma'];
             if (oList[prop].hasOwnProperty('etymology')) {
                 let eList = document.createElement('div');
                 eList.classList.add('etymology');

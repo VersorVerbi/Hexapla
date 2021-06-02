@@ -32,7 +32,7 @@ while (($row = pg_fetch_array($results, NULL, PGSQL_NUM)) !== false) {
     $chunk['val'] = $data[2];
     $chunk['space-before'] = ($data[4] !== HexaplaPunctuation::CLOSING);
     $chunk['rtl'] = ($data[7] === LangDirection::RTL);
-    $output[] = $chunk;
+    $output['text'][] = $chunk;
     $locationIds[] = $data[3];
 }
 

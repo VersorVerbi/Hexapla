@@ -539,6 +539,10 @@ function getLiteralDefinition(&$db, $wordArray, $langId): array {
     // FIXME: add lang id to parse table and filter by that
     $searchCriteria = [HexaplaLangParse::FORM => $betacode, HexaplaLangParse::BARE_FORM => $betacode, HexaplaLangParse::EXPANDED_FORM => $betacode];
     $result = getData($db, $targetTable, $targetColumns, $searchCriteria, $sortData, $joinData, true, true);
+    if ($result === false || is_null($result)) {
+        for($w = 0; $w < count($betacode); $w++) $definitions[$wordArray[$w]] = null;
+        return $definitions;
+    }
     while (($row = pg_fetch_assoc($result)) !== false) {
         // find key
         $lemma = ($itsRoman ? $row[HexaplaLangLemma::UNMARKED_VALUE] : $row[HexaplaLangLemma::UNICODE_VALUE]);

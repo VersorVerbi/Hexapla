@@ -1,13 +1,13 @@
 async function getDiffCookies() {
     let output = {};
-    return fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaWord')
+    return fetch(INTERNAL_API_PATH + 'cookies.php?name=' + cookies.DIFF_BY_WORD)
         .then(result => result.text().then(data1 => {
             if (isNaN(+data1)) data1 = (data1 === 'true' ? 1 : 0);
             output.word = +data1;
             return output;
         }))
         .then(() =>
-            fetch(INTERNAL_API_PATH + 'cookies.php?name=hexaplaCaseSens')
+            fetch(INTERNAL_API_PATH + 'cookies.php?name=' + cookies.DIFF_CASE_SENSITIVE)
                 .then(result => result.text().then(data2 => {
                     if (isNaN(+data2)) data2 = (data2 === 'true' ? 1 : 0);
                     output.case = +data2;

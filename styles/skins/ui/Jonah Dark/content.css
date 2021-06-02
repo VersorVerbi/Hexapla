@@ -175,6 +175,8 @@ pre[class*="language-"] {
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
+
+/*noinspection ALL*/
 .mce-content-body .mce-visual-caret {
   background-color: black;
   background-color: currentColor;

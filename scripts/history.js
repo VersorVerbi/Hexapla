@@ -9,6 +9,7 @@ function handleMovement(event) {
         let curSearchInput = document.getElementById('currentSearch');
         curSearchInput.value = s.srch.term + '|' + s.srch.tls;
         document.getElementById('searchbox').value = '';
+        // noinspection JSIgnoredPromiseFromCall
         doSearch(null, true);
     }
 }

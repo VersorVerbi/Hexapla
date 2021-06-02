@@ -1910,6 +1910,8 @@ body.tox-dialog__disable-scroll {
 .tox[dir=rtl] .tox-selectfield svg {
   left: 8px;
 }
+
+/*noinspection CssInvalidPropertyValue*/
 .tox .tox-textarea {
   -webkit-appearance: textarea;
      -moz-appearance: textarea;
@@ -2289,7 +2291,6 @@ body.tox-dialog__disable-scroll {
       grid-row-start: 1;
   text-align: center;
   white-space: normal;
-  word-break: break-all;
   word-break: break-word;
 }
 .tox .tox-notification__body > * {
