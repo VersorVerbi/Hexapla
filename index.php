@@ -185,7 +185,7 @@ $tinySkin = toTitleCase(preg_replace('/-/', '', $theme) . ' ' . $shade);
     - add user functionality
         -> user notes
             --> delete notes subsumed into new note
-            --> if save notes to 10 verses, then notes_on_loc lists all 10 for that verse ID and we just update the note once
+            --> if save notes to 10 verses, then notes_on_loc lists all 10 for that note ID and we just update the note once
             --> export functionality
         -> qualifications - contributions?
     - permalinks --> translation permalinks->tl-config screen | copy permalink to clipboard
